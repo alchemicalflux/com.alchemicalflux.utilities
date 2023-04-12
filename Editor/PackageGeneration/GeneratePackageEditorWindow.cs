@@ -17,8 +17,8 @@ namespace AlchemicalFlux.Utilities
         public const string TemplateProjectName = "package-template";
         public const string TemplatePackageName = TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
 
-        public const string TemplateCompanyFile = "AlchemicalFlux";
-        public const string TemplateProjectFile = "PackageTemplate";
+        public const string TemplateCompanyNamespace = "AlchemicalFlux";
+        public const string TemplateProjectNamespace = "PackageTemplate";
 
         public const string TestsFolderName = "Tests";
         public const string RuntimeFolderName = "Runtime";
@@ -34,6 +34,8 @@ namespace AlchemicalFlux.Utilities
         public const string DomainFieldName = "DomainField";
         public const string CompanyFieldName = "CompanyField";
         public const string ProjectFieldName = "ProjectField";
+        public const string CompanyNamespaceName = "CompanyNamespace";
+        public const string ProjectNamespaceName = "ProjectNamespace";
 
         public const string RuntimeToggleName = "RuntimeToggle";
         public const string EditorToggleName = "EditorToggle";
@@ -51,6 +53,8 @@ namespace AlchemicalFlux.Utilities
         private TextField domainField;
         private TextField companyField;
         private TextField projectField;
+        private TextField companyNamespace;
+        private TextField projectNamespace;
 
         private Toggle setupRuntimeToggle;
         private Toggle setupEditorToggle;
@@ -92,6 +96,8 @@ namespace AlchemicalFlux.Utilities
             domainField = rootVisualElement.Q<TextField>(DomainFieldName);
             companyField = rootVisualElement.Q<TextField>(CompanyFieldName);
             projectField = rootVisualElement.Q<TextField>(ProjectFieldName);
+            companyNamespace = rootVisualElement.Q<TextField>(CompanyNamespaceName);
+            projectNamespace = rootVisualElement.Q<TextField>(ProjectNamespaceName);
 
             setupRuntimeToggle = rootVisualElement.Q<Toggle>(RuntimeToggleName);
             setupEditorToggle = rootVisualElement.Q<Toggle>(EditorToggleName);
@@ -122,7 +128,7 @@ namespace AlchemicalFlux.Utilities
 
             RenameFiles(directoryInfo);
 
-            //OverwriteDirectory(tempPath, AssetsPath + PackageName);
+            OverwriteDirectory(tempPath, AssetsPath + PackageName);
 
             //Close();
         }
@@ -170,12 +176,18 @@ namespace AlchemicalFlux.Utilities
             {
                 var dir = file.Directory.FullName;
 
-                var fileName = file.Name.Replace(TemplateCompanyFile, companyField.text);
-                fileName = fileName.Replace(TemplateProjectFile, projectField.text);
+                var fileName = file.Name.Replace(TemplateCompanyNamespace, companyNamespace.text);
+                fileName = fileName.Replace(TemplateProjectNamespace, projectNamespace.text);
 
                 var text = File.ReadAllText(file.FullName);
-                text = text.Replace(TemplateCompanyFile, companyField.text);
-                text = text.Replace(TemplateProjectFile, projectField.text);
+                
+                text = text.Replace(TemplateCompanyNamespace, companyNamespace.text);
+                text = text.Replace(TemplateProjectNamespace, projectNamespace.text);
+
+                text = text.Replace(TemplateDomainName, domainField.text);
+                text = text.Replace(TemplateCompanyName, companyField.text);
+                text = text.Replace(TemplateProjectName, projectField.text);
+                
                 File.WriteAllText(file.FullName, text);
 
                 var newPath = Path.Combine(dir, fileName);

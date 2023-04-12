@@ -4,6 +4,8 @@
         <ui:TextField picking-mode="Ignore" label="Domain Name" value="com" text="com" name="DomainField" />
         <ui:TextField picking-mode="Ignore" label="Company Name" text="company-name" name="CompanyField" />
         <ui:TextField picking-mode="Ignore" label="Project Name" value="project-name" text="project-name" name="ProjectField" />
+        <ui:TextField picking-mode="Ignore" label="Company Namespace" value="CompanyNamespace" text="CompanyNamespace" name="CompanyNamespace" />
+        <ui:TextField picking-mode="Ignore" label="Project Namespace" value="ProjectNamespace" text="ProjectNamespace" name="ProjectNamespace" />
         <ui:Toggle label="Setup Runtime Layouts" name="RuntimeToggle" value="true" />
         <ui:Toggle label="Setup Editor Layouts" name="EditorToggle" value="true" />
         <ui:Toggle label="Include Tests" name="TestsToggle" value="true" />
