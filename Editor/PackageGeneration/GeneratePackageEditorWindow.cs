@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,8 +18,15 @@ namespace AlchemicalFlux.Utilities
         public const string TemplateProjectName = "package-template";
         public const string TemplatePackageName = TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
 
+        public const string TemplateDisplayName = "Package Template";
         public const string TemplateCompanyNamespace = "AlchemicalFlux";
         public const string TemplateProjectNamespace = "PackageTemplate";
+
+        public const string AuthorName = "Jeremy Miller";
+        public const string Email = "alchemicalflux@gmail.com";
+
+        public const string DevPackageVersion = "\"version\": \"0.0.0-development\"";
+        public const string VersionRegEx = "\"version\": \".*\"";
 
         public const string TestsFolderName = "Tests";
         public const string RuntimeFolderName = "Runtime";
@@ -180,13 +188,20 @@ namespace AlchemicalFlux.Utilities
                 fileName = fileName.Replace(TemplateProjectNamespace, projectNamespace.text);
 
                 var text = File.ReadAllText(file.FullName);
-                
+
+                text = text.Replace(TemplateDisplayName, displayField.text);
+
                 text = text.Replace(TemplateCompanyNamespace, companyNamespace.text);
                 text = text.Replace(TemplateProjectNamespace, projectNamespace.text);
 
                 text = text.Replace(TemplateDomainName, domainField.text);
                 text = text.Replace(TemplateCompanyName, companyField.text);
                 text = text.Replace(TemplateProjectName, projectField.text);
+
+                text = text.Replace(AuthorName, "");
+                text = text.Replace(Email, "");
+
+                text = Regex.Replace(text, VersionRegEx, DevPackageVersion);
                 
                 File.WriteAllText(file.FullName, text);
 
