@@ -17,8 +17,18 @@ namespace AlchemicalFlux.Utilities
         public const string TemplateProjectName = "package-template";
         public const string TemplatePackageName = TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
 
-        public const string TempPath = "Temp/" + TemplatePackageName;
+        public const string TemplateCompanyFile = "AlchemicalFlux";
+        public const string TemplateProjectFile = "PackageTemplate";
+
+        public const string TestsFolderName = "Tests";
+        public const string RuntimeFolderName = "Runtime";
+        public const string EditorFolderName = "Editor";
+        public const string DocumentationFolderName = "Documentation~";
+        public const string SamplesFolderName = "Samples~";
+
+        public const string TempPath = "Temp/";
         public const string PackagePath = "Packages/" + TemplatePackageName;
+        public const string AssetsPath = "Assets/";
 
         public const string DisplayFieldName = "DisplayField";
         public const string DomainFieldName = "DomainField";
@@ -52,6 +62,15 @@ namespace AlchemicalFlux.Utilities
 
         #endregion Members
 
+        #region Properties
+
+        string PackageName
+        {
+            get { return domainField.text + "." + companyField.text + "." + projectField.text; }
+        }
+
+        #endregion Properties
+
         #region Methods
 
         [MenuItem("Tools/Generate Package")]
@@ -70,6 +89,7 @@ namespace AlchemicalFlux.Utilities
         private void InitUIComponents()
         {
             displayField = rootVisualElement.Q<TextField>(DisplayFieldName);
+            domainField = rootVisualElement.Q<TextField>(DomainFieldName);
             companyField = rootVisualElement.Q<TextField>(CompanyFieldName);
             projectField = rootVisualElement.Q<TextField>(ProjectFieldName);
 
@@ -88,9 +108,23 @@ namespace AlchemicalFlux.Utilities
 
         private void SaveButtonPressed()
         {
-            var directoryInfo = OverwriteDirectory(PackagePath, TempPath);
+            var tempPath = TempPath + PackageName;
+            var directoryInfo = OverwriteDirectory(PackagePath, tempPath);
+
+            // Delete unwanted folders as necessary
+            RemoveUnwantedFolders(directoryInfo, TestsFolderName, !includeTestsToggle.value);
+            RemoveUnwantedFolders(directoryInfo, RuntimeFolderName, !setupRuntimeToggle.value);
+            RemoveUnwantedFolders(directoryInfo, EditorFolderName, !setupEditorToggle.value);
+            RemoveUnwantedFolders(directoryInfo, DocumentationFolderName, !documentationToggle.value);
+            RemoveUnwantedFolders(directoryInfo, SamplesFolderName, !includeSamplesToggle.value);
+
             PruneMetaFiles(directoryInfo);
+
             RenameFiles(directoryInfo);
+
+            //OverwriteDirectory(tempPath, AssetsPath + PackageName);
+
+            //Close();
         }
 
         private DirectoryInfo OverwriteDirectory(string source, string target)
@@ -106,6 +140,19 @@ namespace AlchemicalFlux.Utilities
             return directoryInfo;
         }
 
+        private void RemoveUnwantedFolders(DirectoryInfo directoryInfo, string folderName, bool deleteFolder)
+        {
+            if(deleteFolder)
+            {
+                var directories = directoryInfo.GetDirectories("*" + folderName + "*", SearchOption.AllDirectories);
+
+                foreach (var dir in directories)
+                {
+                    dir.Delete(true);
+                }
+            }
+        }
+
         private void PruneMetaFiles(DirectoryInfo directoryInfo)
         {
             var files = directoryInfo.GetFiles("*.meta", SearchOption.AllDirectories);
@@ -118,13 +165,20 @@ namespace AlchemicalFlux.Utilities
 
         private void RenameFiles(DirectoryInfo directoryInfo)
         {
-            var prefix = "abc_";
             var files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 var dir = file.Directory.FullName;
-                var fileName = file.Name;
-                var newPath = Path.Combine(dir, prefix + fileName);
+
+                var fileName = file.Name.Replace(TemplateCompanyFile, companyField.text);
+                fileName = fileName.Replace(TemplateProjectFile, projectField.text);
+
+                var text = File.ReadAllText(file.FullName);
+                text = text.Replace(TemplateCompanyFile, companyField.text);
+                text = text.Replace(TemplateProjectFile, projectField.text);
+                File.WriteAllText(file.FullName, text);
+
+                var newPath = Path.Combine(dir, fileName);
                 File.Move(file.FullName, newPath);
             }
         }
