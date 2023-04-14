@@ -1,10 +1,11 @@
+using AlchemicalFlux.Utilities.Helpers;
+using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace AlchemicalFlux.Utilities
+namespace AlchemicalFlux.Utilities.PackageGeneration
 {
     public class GeneratePackageEditorWindow : EditorWindow
     {
@@ -13,12 +14,14 @@ namespace AlchemicalFlux.Utilities
 
         #region Constants
 
+        // Values from the Package template
         public const string TemplateDomainName = "com";
         public const string TemplateCompanyName = "alchemicalflux";
         public const string TemplateProjectName = "package-template";
-        public const string TemplatePackageName = TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
+        public const string TemplatePackageName = 
+            TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
 
-        public const string TemplateDisplayName = "Package Template";
+        public const string TemplateDisplayName = "AlchemicalFlux Package Template";
         public const string TemplateCompanyNamespace = "AlchemicalFlux";
         public const string TemplateProjectNamespace = "PackageTemplate";
 
@@ -34,10 +37,12 @@ namespace AlchemicalFlux.Utilities
         public const string DocumentationFolderName = "Documentation~";
         public const string SamplesFolderName = "Samples~";
 
+        // Directory information
         public const string TempPath = "Temp/";
         public const string PackagePath = "Packages/" + TemplatePackageName;
         public const string AssetsPath = "Assets/";
 
+        // UI interface references
         public const string DisplayFieldName = "DisplayField";
         public const string DomainFieldName = "DomainField";
         public const string CompanyFieldName = "CompanyField";
@@ -76,6 +81,9 @@ namespace AlchemicalFlux.Utilities
 
         #region Properties
 
+        /// <summary>
+        /// Consolidation of the editor window supplied values.
+        /// </summary>
         string PackageName
         {
             get { return domainField.text + "." + companyField.text + "." + projectField.text; }
@@ -138,7 +146,7 @@ namespace AlchemicalFlux.Utilities
 
             OverwriteDirectory(tempPath, AssetsPath + PackageName);
 
-            //Close();
+            Close();
         }
 
         private DirectoryInfo OverwriteDirectory(string source, string target)
@@ -158,7 +166,8 @@ namespace AlchemicalFlux.Utilities
         {
             if(deleteFolder)
             {
-                var directories = directoryInfo.GetDirectories("*" + folderName + "*", SearchOption.AllDirectories);
+                var directories = 
+                    directoryInfo.GetDirectories("*" + folderName + "*", SearchOption.AllDirectories);
 
                 foreach (var dir in directories)
                 {
@@ -182,32 +191,40 @@ namespace AlchemicalFlux.Utilities
             var files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
-                var dir = file.Directory.FullName;
+                // Replace file text with supplied entries
+                ReplaceFileText(file.FullName);
 
-                var fileName = file.Name.Replace(TemplateCompanyNamespace, companyNamespace.text);
-                fileName = fileName.Replace(TemplateProjectNamespace, projectNamespace.text);
+                var replacements = new Dictionary<string, string>()
+                {
+                    { TemplateCompanyNamespace, companyNamespace.text },
+                    { TemplateProjectNamespace, projectNamespace.text },
+                };
+                var fileName = StringManipulation.MultipleReplace(file.Name, replacements);
 
-                var text = File.ReadAllText(file.FullName);
-
-                text = text.Replace(TemplateDisplayName, displayField.text);
-
-                text = text.Replace(TemplateCompanyNamespace, companyNamespace.text);
-                text = text.Replace(TemplateProjectNamespace, projectNamespace.text);
-
-                text = text.Replace(TemplateDomainName, domainField.text);
-                text = text.Replace(TemplateCompanyName, companyField.text);
-                text = text.Replace(TemplateProjectName, projectField.text);
-
-                text = text.Replace(AuthorName, "");
-                text = text.Replace(Email, "");
-
-                text = Regex.Replace(text, VersionRegEx, DevPackageVersion);
-                
-                File.WriteAllText(file.FullName, text);
-
-                var newPath = Path.Combine(dir, fileName);
+                var newPath = Path.Combine(file.Directory.FullName, fileName);
                 File.Move(file.FullName, newPath);
             }
+        }
+
+        private void ReplaceFileText(string fullFileName)
+        {
+            var text = File.ReadAllText(fullFileName);
+
+            var replacements = new Dictionary<string, string>()
+            {
+                { TemplateDisplayName, displayField.text },
+                { TemplateCompanyNamespace, companyNamespace.text },
+                { TemplateProjectNamespace, projectNamespace.text },
+                { TemplateDomainName, domainField.text },
+                { TemplateCompanyName, companyField.text },
+                { TemplateProjectName, projectField.text },
+                { AuthorName, "" },
+                { Email, "" },
+                { VersionRegEx, DevPackageVersion },
+            };
+            text = StringManipulation.RegexMultipleReplace(text, replacements);
+
+            File.WriteAllText(fullFileName, text);
         }
 
         #endregion Methods
