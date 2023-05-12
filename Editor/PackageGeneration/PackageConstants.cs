@@ -1,0 +1,50 @@
+namespace AlchemicalFlux.Utilities.PackageGeneration
+{
+    public static class PackageConstants
+    {
+        // Values from the Package template
+        public const string TemplateDomainName = "com";
+        public const string TemplateCompanyName = "alchemicalflux";
+        public const string TemplateProjectName = "package-template";
+        public const string TemplatePackageName =
+            TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
+
+        // Directory information
+        public const string TempPath = "Temp/";
+        public const string PackagePath = "Packages/" + TemplatePackageName;
+        public const string AssetsPath = "Assets/";
+
+        // UI interface references
+        public const string DisplayFieldName = "DisplayField";
+        public const string DomainFieldName = "DomainField";
+        public const string CompanyFieldName = "CompanyField";
+        public const string ProjectFieldName = "ProjectField";
+        public const string CompanyNamespaceName = "CompanyNamespace";
+        public const string ProjectNamespaceName = "ProjectNamespace";
+
+        public const string RuntimeToggleName = "RuntimeToggle";
+        public const string EditorToggleName = "EditorToggle";
+        public const string TestsToggleName = "TestsToggle";
+        public const string DocumentationToggleName = "DocumentationToggle";
+        public const string SamplesToggleName = "SamplesToggle";
+
+        public const string SaveButtonName = "SaveButton";
+
+        // Values from the Package template
+        public const string TemplateDisplayName = "AlchemicalFlux Package Template";
+        public const string TemplateCompanyNamespace = "AlchemicalFlux";
+        public const string TemplateProjectNamespace = "PackageTemplate";
+
+        public const string AuthorName = "Jeremy Miller";
+        public const string Email = "alchemicalflux@gmail.com";
+
+        public const string DevPackageVersion = "\"version\": \"0.0.0-development\"";
+        public const string VersionRegEx = "\"version\": \".*\"";
+
+        public const string TestsFolderName = "Tests";
+        public const string RuntimeFolderName = "Runtime";
+        public const string EditorFolderName = "Editor";
+        public const string DocumentationFolderName = "Documentation~";
+        public const string SamplesFolderName = "Samples~";
+    }
+}
