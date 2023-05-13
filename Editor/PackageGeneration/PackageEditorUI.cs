@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 
@@ -7,20 +8,20 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
     {
         private VisualElement rootVisualElement;
 
-        public TextField displayField;
-        public TextField domainField;
-        public TextField companyField;
-        public TextField projectField;
-        public TextField companyNamespace;
-        public TextField projectNamespace;
+        private TextField displayField;
+        private TextField domainField;
+        private TextField companyField;
+        private TextField projectField;
+        private TextField companyNamespace;
+        private TextField projectNamespace;
 
-        public Toggle setupRuntimeToggle;
-        public Toggle setupEditorToggle;
-        public Toggle includeTestsToggle;
-        public Toggle documentationToggle;
-        public Toggle includeSamplesToggle;
+        private Toggle setupRuntimeToggle;
+        private Toggle setupEditorToggle;
+        private Toggle includeTestsToggle;
+        private Toggle documentationToggle;
+        private Toggle includeSamplesToggle;
 
-        public Button saveButton;
+        private Button saveButton;
 
         public string PackageName => $"{domainField.text}.{companyField.text}.{projectField.text}";
 
@@ -40,11 +41,11 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public Dictionary<string, string> FileTextPlacements => new()
         {
             { PackageConstants.TemplateDisplayName, displayField.text },
-            { PackageConstants.TemplateCompanyNamespace, companyNamespace.text },
-            { PackageConstants.TemplateProjectNamespace, projectNamespace.text },
             { PackageConstants.TemplateDomainName, domainField.text },
             { PackageConstants.TemplateCompanyName, companyField.text },
             { PackageConstants.TemplateProjectName, projectField.text },
+            { PackageConstants.TemplateCompanyNamespace, companyNamespace.text },
+            { PackageConstants.TemplateProjectNamespace, projectNamespace.text },
             { PackageConstants.AuthorName, "" },
             { PackageConstants.Email, "" },
             { PackageConstants.VersionRegEx, PackageConstants.DevPackageVersion },
@@ -79,6 +80,11 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public void AddOnSaveAction(System.Action action)
         {
             saveButton.clicked += action;
+        }
+
+        public void RemoveOnSaveAction(Action action)
+        {
+            saveButton.clicked -= action;
         }
     }
 }

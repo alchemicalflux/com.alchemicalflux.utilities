@@ -30,7 +30,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
 
         public const string SaveButtonName = "SaveButton";
 
-        // Values from the Package template
+        // Values to replace in files from the Package template
         public const string TemplateDisplayName = "AlchemicalFlux Package Template";
         public const string TemplateCompanyNamespace = "AlchemicalFlux";
         public const string TemplateProjectNamespace = "PackageTemplate";
@@ -41,6 +41,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public const string DevPackageVersion = "\"version\": \"0.0.0-development\"";
         public const string VersionRegEx = "\"version\": \".*\"";
 
+        // File names that can be modified from the Package template
         public const string TestsFolderName = "Tests";
         public const string RuntimeFolderName = "Runtime";
         public const string EditorFolderName = "Editor";

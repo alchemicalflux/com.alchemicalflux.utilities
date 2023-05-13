@@ -18,6 +18,11 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
             ui.AddOnSaveAction(action);
         }
 
+        public void RemoveOnSaveAction(System.Action action)
+        {
+            ui.RemoveOnSaveAction(action);
+        }
+
         private void SaveButtonPressed()
         {
             var tempPath = PackageConstants.TempPath + ui.PackageName;

@@ -1,8 +1,10 @@
-using AlchemicalFlux.Utilities.Helpers;
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.TestTools;
+using UnityEngine.UIElements;
 
-namespace AlchemicalFlux.Tests
+namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
     public class StringManipulationTests
     {
