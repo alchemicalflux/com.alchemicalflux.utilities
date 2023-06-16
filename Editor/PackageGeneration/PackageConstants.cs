@@ -1,5 +1,8 @@
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {
+    /// <summary>
+    /// Stores useful values for package generation editing.
+    /// </summary>
     public static class PackageConstants
     {
         // Values from the Package template

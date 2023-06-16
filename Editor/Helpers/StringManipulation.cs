@@ -4,6 +4,9 @@ using System.Text.RegularExpressions;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
+    /// <summary>
+    /// Store helpful operations for string manipulation.
+    /// </summary>
     public static class StringManipulation
     {
         /// <summary>

@@ -1,11 +1,15 @@
 using NUnit.Framework;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
 {
-    public class PackageEditorUITests
+    public class PackageEditorUITests : ScriptableObject
     {
+        [SerializeField]
+        private VisualTreeAsset visualTreeAsset;
+
         private PackageEditorUI packageEditorUI;
         private VisualElement visualElement;
 
@@ -25,67 +29,78 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         [SetUp]
         public void Setup()
         {
+            // Arrange
             visualElement = new VisualElement();
-
-            visualElement.Add(new TextField() { name = PackageConstants.DisplayFieldName, value = displayName });
-            visualElement.Add(new TextField() { name = PackageConstants.DomainFieldName, value = domainName });
-            visualElement.Add(new TextField() { name = PackageConstants.CompanyFieldName, value = companyName });
-            visualElement.Add(new TextField() { name = PackageConstants.ProjectFieldName, value = projectName });
-            visualElement.Add(new TextField() { name = PackageConstants.CompanyNamespaceName, value = companyNamespace });
-            visualElement.Add(new TextField() { name = PackageConstants.ProjectNamespaceName, value = projectNamespace });
-
-            visualElement.Add(new Toggle() { name = PackageConstants.RuntimeToggleName, value = setupRuntime });
-            visualElement.Add(new Toggle() { name = PackageConstants.EditorToggleName, value = setupEditor });
-            visualElement.Add(new Toggle() { name = PackageConstants.TestsToggleName, value = setupTests });
-            visualElement.Add(new Toggle() { name = PackageConstants.DocumentationToggleName, value = setupDocumentation });
-            visualElement.Add(new Toggle() { name = PackageConstants.SamplesToggleName, value = setupSamples });
-
-            visualElement.Add(new Button() { name = PackageConstants.SaveButtonName });
-
+            visualTreeAsset.CloneTree(visualElement);
             packageEditorUI = new PackageEditorUI(visualElement);
         }
 
         [Test]
         public void PackageName_WithValidInputs_ReturnsExpectedPackageName()
         {
+            // Assert
             Assert.AreEqual(packageName, packageEditorUI.PackageName);
         }
 
         [Test]
         public void FolderConditions_WithValidInputs_ReturnsExpectedFolderConditions()
         {
-            Dictionary<string, bool> expectedFolderConditions = new Dictionary<string, bool>
+            // Arrange
+            var expectedFolderConditions = new Dictionary<string, bool>
             {
-                { PackageConstants.TestsFolderName, true },
-                { PackageConstants.RuntimeFolderName, true },
-                { PackageConstants.EditorFolderName, true },
-                { PackageConstants.DocumentationFolderName, false },
-                { PackageConstants.SamplesFolderName, false }
+                { PackageConstants.TestsFolderName, setupRuntime },
+                { PackageConstants.RuntimeFolderName, setupEditor },
+                { PackageConstants.EditorFolderName, setupTests },
+                { PackageConstants.DocumentationFolderName, setupDocumentation },
+                { PackageConstants.SamplesFolderName, setupSamples }
             };
 
+            // Act
             var folderConditions = packageEditorUI.FolderConditions;
 
+            // Assert
             CollectionAssert.AreEqual(expectedFolderConditions, folderConditions);
+        }
+
+        [Test]
+        public void FolderConditions_WithValidInputs_ReturnsExpectedFoldersToRemove()
+        {
+            // Arrange
+            var expectedFoldersToRemove = new List<string>
+            {
+                "*" + PackageConstants.DocumentationFolderName + "*",
+                "*" + PackageConstants.SamplesFolderName + "*",
+            };
+
+            // Act
+            var foldersToRemove = packageEditorUI.FoldersToRemove;
+
+            // Assert
+            CollectionAssert.AreEqual(expectedFoldersToRemove, foldersToRemove);
         }
 
         [Test]
         public void TemplateNamespaces_WithValidInputs_ReturnsExpectedTemplateNamespaces()
         {
-            Dictionary<string, string> expectedTemplateNamespaces = new Dictionary<string, string>
+            // Arrange
+            var expectedTemplateNamespaces = new Dictionary<string, string>
             {
                 { PackageConstants.TemplateCompanyNamespace, companyNamespace },
                 { PackageConstants.TemplateProjectNamespace, projectNamespace},
             };
 
+            // Act
             var templateNamespaces = packageEditorUI.TemplateNamespaces;
 
+            // Assert
             CollectionAssert.AreEqual(expectedTemplateNamespaces, templateNamespaces);
         }
 
         [Test]
         public void FileTextPlacements_WithValidInputs_ReturnsExpectedFileTextPlacements()
         {
-            Dictionary<string, string> expectedFileTextPlacements = new Dictionary<string, string>
+            // Arrange
+            var expectedFileTextPlacements = new Dictionary<string, string>
             {
                 { PackageConstants.TemplateDisplayName, displayName },
                 { PackageConstants.TemplateDomainName, domainName },
@@ -98,8 +113,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
                 { PackageConstants.VersionRegEx, PackageConstants.DevPackageVersion },
             };
 
+            // Act
             var fileTextPlacements = packageEditorUI.FileTextPlacements;
 
+            // Assert
             CollectionAssert.AreEqual(expectedFileTextPlacements, fileTextPlacements);
         }
     }
