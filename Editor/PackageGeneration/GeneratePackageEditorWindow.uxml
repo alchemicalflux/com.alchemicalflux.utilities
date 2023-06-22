@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
     <ui:VisualElement style="min-width: auto; min-height: auto;">
-        <ui:TextField picking-mode="Ignore" label="DisplayName" value="Project Name" text="Project Name" name="DisplayField" />
+        <ui:TextField picking-mode="Ignore" label="Display Name" value="Project Name" text="Project Name" name="DisplayField" />
         <ui:TextField picking-mode="Ignore" label="Domain Name" value="com" text="com" name="DomainField" />
         <ui:TextField picking-mode="Ignore" label="Company Name" text="company-name" name="CompanyField" />
         <ui:TextField picking-mode="Ignore" label="Project Name" value="project-name" text="project-name" name="ProjectField" />
