@@ -5,6 +5,7 @@
   "description": "Unity package containing cross-project functionality",
   "unity": "2021.3",
   "dependencies": {
+    "com.alchemicalflux.package-template": "1.0.0"
   },
   "keywords": [
   ],
