@@ -1,8 +1,14 @@
+/*------------------------------------------------------------------------------
+  File:           StringManipulationTests.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Unit tests for String Manipulation functions.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-08-22 09:50:51 
+------------------------------------------------------------------------------*/
 using NUnit.Framework;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.TestTools;
-using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {

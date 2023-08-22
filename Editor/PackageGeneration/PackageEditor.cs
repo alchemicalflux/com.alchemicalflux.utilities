@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------------
+  File:           PackageEditor.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Logic for handling Unity package generation.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-08-22 09:50:51 
+------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
 using UnityEditor;

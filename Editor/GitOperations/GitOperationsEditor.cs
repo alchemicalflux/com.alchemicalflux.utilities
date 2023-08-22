@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
   File:           GitOperationsEditor.cs 
-  Project:        YourProjectName  # You should replace this with your project name
-  Description:    YourDescription  # You should replace this with your description
-  Copyright:      ©2023 YourName/YourCompany. All rights reserved.  # You should replace this with your copyright details
+  Project:        AlchemicalFlux Utilities
+  Description:    Logic for handling Git Operations.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-22 09:21:25 
+  Last commit at: 2023-08-22 09:50:51 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 

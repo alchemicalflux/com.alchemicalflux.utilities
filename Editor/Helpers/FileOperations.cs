@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------------
+  File:           FileOperations.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Helper functions for common file operations.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-08-22 09:50:51 
+------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.IO;
