@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-  File:           GeneratePackageEditorWindow.cs 
+  File:           GitOperationsEditorWindow.cs 
   Project:        YourProjectName  # You should replace this with your project name
   Description:    YourDescription  # You should replace this with your description
   Copyright:      ©2023 YourName/YourCompany. All rights reserved.  # You should replace this with your copyright details
@@ -11,12 +11,12 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace AlchemicalFlux.Utilities.PackageGeneration
+namespace AlchemicalFlux.Utilities.GitOperations
 {
     /// <summary>
-    /// Editor window that handles the generation of a templatized package folder structure.
+    /// Editor window that handles various Git related functionality and file generation.
     /// </summary>
-    public class GeneratePackageEditorWindow : EditorWindow
+    public class GitOperationsEditorWindow : EditorWindow
     {
         #region Members
 
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         private VisualTreeAsset tree;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private PackageEditor packageEditor = new();
+        private GitOperationsEditor gitOperationsEditor = new();
 
         #endregion Members
 
@@ -34,11 +34,11 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// <summary>
         /// Handles the creation of the editor window.
         /// </summary>
-        [MenuItem("Tools/AlchemicalFlux Utilities/Generate Package")]
-        public static void ShowEditorWindow()
+        [MenuItem("Tools/AlchemicalFlux Utilities/Git Operations")]
+        public static void ShowExample()
         {
-            var wnd = GetWindow<GeneratePackageEditorWindow>();
-            wnd.titleContent = new GUIContent("Generate Package");
+            GitOperationsEditorWindow wnd = GetWindow<GitOperationsEditorWindow>();
+            wnd.titleContent = new GUIContent("Git Operations");
         }
 
         /// <summary>
@@ -47,8 +47,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public void CreateGUI()
         {
             tree.CloneTree(rootVisualElement);
-            packageEditor.InitUIComponents(rootVisualElement);
-            packageEditor.OnPackageCreation += Close;
+            gitOperationsEditor.InitUIComponents(rootVisualElement);
         }
 
         #endregion Methods
