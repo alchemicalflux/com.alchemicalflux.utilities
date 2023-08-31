@@ -1,3 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement />
+    <ui:VisualElement style="display: none;">
+        <ui:Button text="Install Git Pre-commit Hooks" display-tooltip-when-elided="true" name="InstallPreCommits" />
+        <ui:Button text="Install GitHub Semantic Workflow" display-tooltip-when-elided="true" name="InstallSemanticWorkflow" />
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+        <ui:VisualElement style="flex-grow: 1;">
+            <ui:TextField picking-mode="Ignore" label="Parent Folder Path" value="Select Folder..." text="Select Folder..." name="ParentFolderField" style="flex-grow: 1;" />
+        </ui:VisualElement>
+        <ui:Button text="..." display-tooltip-when-elided="true" name="ParentFolderSearchButton" style="flex-grow: 0; flex-shrink: 1;" />
+    </ui:VisualElement>
+    <ui:Button text="Search Parent for Git Folders" display-tooltip-when-elided="true" name="GatherFoldersButton" />
+    <ui:ListView focusable="true" name="ListView" />
 </ui:UXML>

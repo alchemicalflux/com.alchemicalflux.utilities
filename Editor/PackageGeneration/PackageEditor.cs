@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-22 09:50:51 
+  Last commit at: 2023-08-31 07:52:52 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -42,10 +42,6 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         {
             ui = new PackageEditorUI(rootVisualElement);
             ui.OnSavePressed += GeneratePackage;
-            ui.OnSavePressed += () =>
-            {
-                OnPackageCreation?.Invoke();
-            };
         }
 
         /// <summary>
@@ -66,6 +62,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
             // Move new package to the project Assests folder and refresh the interface.
             FileOperations.OverwriteDirectory(tempPath, PackageConstants.AssetsPath + ui.PackageName);
             AssetDatabase.Refresh();
+
+            OnPackageCreation?.Invoke();
         }
 
         #endregion Methods
