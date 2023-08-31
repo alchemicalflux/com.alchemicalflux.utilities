@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-22 09:50:51 
+  Last commit at: 2023-08-31 16:12:05 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -24,8 +24,14 @@ namespace AlchemicalFlux.Utilities.GitOperations
         [SerializeField]
         private VisualTreeAsset tree;
 
+        /// <summary>UI tree containing the template for the gathered folder list view.</summary>
+        [SerializeField]
+        private VisualTreeAsset listViewAsset;
+
         /// <summary>Handle to the editor logic is handled.</summary>
         private GitOperationsEditor gitOperationsEditor = new();
+
+        private GitOperationsEditorUI gitOperationsEditorUI;
 
         #endregion Members
 
@@ -47,7 +53,9 @@ namespace AlchemicalFlux.Utilities.GitOperations
         public void CreateGUI()
         {
             tree.CloneTree(rootVisualElement);
-            gitOperationsEditor.InitUIComponents(rootVisualElement);
+
+            gitOperationsEditorUI = new GitOperationsEditorUI(rootVisualElement, listViewAsset);
+            gitOperationsEditor.BindUIComponents(gitOperationsEditorUI);
         }
 
         #endregion Methods

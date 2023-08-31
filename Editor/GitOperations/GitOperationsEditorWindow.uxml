@@ -10,5 +10,7 @@
         <ui:Button text="..." display-tooltip-when-elided="true" name="ParentFolderSearchButton" style="flex-grow: 0; flex-shrink: 1;" />
     </ui:VisualElement>
     <ui:Button text="Search Parent for Git Folders" display-tooltip-when-elided="true" name="GatherFoldersButton" />
-    <ui:ListView focusable="true" name="ListView" />
+    <ui:VisualElement style="background-color: rgb(100, 100, 100); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; border-left-color: rgba(50, 50, 50, 255); border-right-color: rgba(50, 50, 50, 255); border-top-color: rgba(50, 50, 50, 255); border-bottom-color: rgba(50, 50, 50, 255); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
+        <ui:ListView focusable="false" name="GatheredFoldersList" virtualization-method="DynamicHeight" selection-type="None" show-foldout-header="true" header-title="Folders to Update:" style="flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" />
+    </ui:VisualElement>
 </ui:UXML>

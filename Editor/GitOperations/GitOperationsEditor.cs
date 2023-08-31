@@ -5,12 +5,11 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-31 07:52:52 
+  Last commit at: 2023-08-31 16:12:05 
 ------------------------------------------------------------------------------*/
 using System.IO;
+using System.Linq;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.GitOperations
 {
@@ -35,10 +34,9 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// Initializes the UI and binds file manipulation logic.
         /// </summary>
         /// <param name="rootVisualElement"></param>
-        public void InitUIComponents(VisualElement rootVisualElement)
+        public void BindUIComponents(GitOperationsEditorUI uiHandle)
         {
-            ui = new GitOperationsEditorUI(rootVisualElement);
-
+            ui = uiHandle;
             ui.SetParentFolder(Directory.GetCurrentDirectory());
 
             ui.OnSearchPressed += SelectParentFolder;
@@ -59,15 +57,18 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void GatherFolders()
         {
-            var directoryInfo = new DirectoryInfo(ui.ParentFolderPath);
+            // Gather all of the child Git folders.
+            var parentPathInfo = new DirectoryInfo(ui.ParentFolderPath);
+            var gitDirectories =
+                parentPathInfo.GetDirectories(gitFolderName, SearchOption.AllDirectories);
 
-            var directories =
-                directoryInfo.GetDirectories(gitFolderName, SearchOption.AllDirectories);
+            // Trim the folder names to reduce redundancy.
+            var directoryList = gitDirectories
+                .Select(directory => 
+                    new FolderData(directory.FullName.Replace(parentPathInfo.FullName,"")))
+                .ToList();
 
-            foreach(var dic in directories)
-            {
-                Debug.Log(dic.FullName);
-            }
+            ui.UpdateDirectories(directoryList);
         }
 
         #endregion Methods
