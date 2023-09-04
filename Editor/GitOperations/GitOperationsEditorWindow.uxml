@@ -1,16 +1,14 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement style="display: none;">
-        <ui:Button text="Install Git Pre-commit Hooks" display-tooltip-when-elided="true" name="InstallPreCommits" />
-        <ui:Button text="Install GitHub Semantic Workflow" display-tooltip-when-elided="true" name="InstallSemanticWorkflow" />
-    </ui:VisualElement>
-    <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
-        <ui:VisualElement style="flex-grow: 1;">
-            <ui:TextField picking-mode="Ignore" label="Parent Folder Path" value="Select Folder..." text="Select Folder..." name="ParentFolderField" style="flex-grow: 1;" />
+    <ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; flex-shrink: 0;">
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:TextField picking-mode="Ignore" label="Parent Folder Path" value="Select Folder..." text="Select Folder..." name="ParentFolderField" style="flex-grow: 1;" />
+            </ui:VisualElement>
+            <ui:Button text="..." display-tooltip-when-elided="true" name="ParentFolderSearchButton" style="flex-grow: 0; flex-shrink: 1;" />
         </ui:VisualElement>
-        <ui:Button text="..." display-tooltip-when-elided="true" name="ParentFolderSearchButton" style="flex-grow: 0; flex-shrink: 1;" />
-    </ui:VisualElement>
-    <ui:Button text="Search Parent for Git Folders" display-tooltip-when-elided="true" name="GatherFoldersButton" />
-    <ui:VisualElement style="background-color: rgb(100, 100, 100); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; border-left-color: rgba(50, 50, 50, 255); border-right-color: rgba(50, 50, 50, 255); border-top-color: rgba(50, 50, 50, 255); border-bottom-color: rgba(50, 50, 50, 255); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px;">
-        <ui:ListView focusable="false" name="GatheredFoldersList" virtualization-method="DynamicHeight" selection-type="None" show-foldout-header="true" header-title="Folders to Update:" style="flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" />
+        <ui:VisualElement style="background-color: rgb(100, 100, 100); margin-left: 4px; margin-right: 4px; margin-top: 4px; margin-bottom: 4px; border-left-color: rgb(50, 50, 50); border-right-color: rgb(50, 50, 50); border-top-color: rgb(50, 50, 50); border-bottom-color: rgb(50, 50, 50); border-top-left-radius: 3px; border-bottom-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; flex-grow: 1;">
+            <ui:ListView name="GatheredFoldersList" virtualization-method="DynamicHeight" reorderable="true" show-foldout-header="true" selection-type="None" show-bound-collection-size="false" focusable="false" reorder-mode="Animated" style="flex-grow: 1; padding-left: 5px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px;" />
+        </ui:VisualElement>
+        <ui:Button text="Install Selections" parse-escape-sequences="true" display-tooltip-when-elided="true" name="InstallButton" />
     </ui:VisualElement>
 </ui:UXML>

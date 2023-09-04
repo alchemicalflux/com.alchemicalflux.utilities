@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-31 16:12:05 
+  Last commit at: 2023-09-04 14:46:24 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.GitOperations
 {
@@ -17,7 +17,6 @@ namespace AlchemicalFlux.Utilities.GitOperations
         // UI interface references
         public const string ParentFolderFieldName = "ParentFolderField";
         public const string FolderSearchButtonName = "ParentFolderSearchButton";
-        public const string GatherFoldersButtonName = "GatherFoldersButton";
         public const string GatheredFoldersListName = "GatheredFoldersList";
 
         // GatheredFolders List View interface references

@@ -5,11 +5,12 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-31 16:12:05 
+  Last commit at: 2023-09-04 14:46:24 
 ------------------------------------------------------------------------------*/
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.GitOperations
 {
@@ -37,10 +38,10 @@ namespace AlchemicalFlux.Utilities.GitOperations
         public void BindUIComponents(GitOperationsEditorUI uiHandle)
         {
             ui = uiHandle;
-            ui.SetParentFolder(Directory.GetCurrentDirectory());
+            ui.ParentFolderPath = Directory.GetCurrentDirectory();
+            GatherFolders();
 
             ui.OnSearchPressed += SelectParentFolder;
-            ui.OnGatherPressed += GatherFolders;
         }
 
         /// <summary>
@@ -48,8 +49,9 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void SelectParentFolder()
         {
-            string directory = EditorUtility.OpenFolderPanel("Select Directory", "", "");
-            ui.SetParentFolder(directory);
+            var directory = EditorUtility.OpenFolderPanel("Select Directory", "", "");
+            ui.ParentFolderPath = directory;
+            GatherFolders();
         }
 
         /// <summary>
@@ -62,11 +64,15 @@ namespace AlchemicalFlux.Utilities.GitOperations
             var gitDirectories =
                 parentPathInfo.GetDirectories(gitFolderName, SearchOption.AllDirectories);
 
-            // Trim the folder names to reduce redundancy.
-            var directoryList = gitDirectories
-                .Select(directory => 
-                    new FolderData(directory.FullName.Replace(parentPathInfo.FullName,"")))
-                .ToList();
+            // Create a list of folder data that will be bound to the UI elements of the list.
+            var directoryList = new List<FolderData>();
+            foreach (var directory in gitDirectories)
+            {
+                // Trim the folder names to reduce redundancy.
+                var data = ScriptableObject.CreateInstance<FolderData>();
+                data.FolderPath = directory.FullName.Replace(parentPathInfo.FullName, "");
+                directoryList.Add(data);
+            }
 
             ui.UpdateDirectories(directoryList);
         }

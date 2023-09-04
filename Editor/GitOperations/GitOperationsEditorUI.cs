@@ -5,11 +5,13 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-31 16:12:05 
+  Last commit at: 2023-09-04 14:46:24 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.GitOperations
@@ -26,25 +28,25 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         /// <summary>UI button that triggers the parent folder path search functionality.</summary>
         private Button folderSearchButton;
-        /// <summary>UI button that triggers the gathering of all Git folder paths.</summary>
-        private Button gatherFoldersButton;
 
         /// <summary>UI list view interface for accessing and modifying which folders will be processed.</summary>
         private ListView gatheredFoldersList;
 
         /// <summary>Callbacks triggered on the folder search button press.</summary>
         public Action OnSearchPressed;
-        /// <summary>Callbacks triggered on the gather folder button press.</summary>
-        public Action OnGatherPressed;
 
         #endregion Members
 
         #region Properties
 
         /// <summary>
-        /// Current parent folder path.
+        /// Accessor for the current parent folder path.
         /// </summary>
-        public string ParentFolderPath => parentFolderTextField.text;
+        public string ParentFolderPath
+        {
+            get { return parentFolderTextField.text; }
+            set { parentFolderTextField.SetValueWithoutNotify(value); }
+        }
 
         #endregion Properties
 
@@ -59,49 +61,55 @@ namespace AlchemicalFlux.Utilities.GitOperations
             // Gather the associated UI references.
             rootVisualElement.Q(ref parentFolderTextField, GitConstants.ParentFolderFieldName);
             rootVisualElement.Q(ref folderSearchButton, GitConstants.FolderSearchButtonName);
-            rootVisualElement.Q(ref gatherFoldersButton, GitConstants.GatherFoldersButtonName);
             rootVisualElement.Q(ref gatheredFoldersList, GitConstants.GatheredFoldersListName);
 
             // Bind the UI events with a callback handler.
             folderSearchButton.clicked += () => OnSearchPressed?.Invoke();
-            gatherFoldersButton.clicked += () => OnGatherPressed?.Invoke();
 
             // Handle the making, binding, and unbinding of the list view items.
             gatheredFoldersList.makeItem = () => listViewAsset.Instantiate();
-
-            gatheredFoldersList.bindItem = (elem, index) =>
-            {
-                // Gather the associated UI references.
-                var data = gatheredFoldersList.itemsSource[index] as FolderData;
-
-                elem.Q(ref data.FolderPathLabel, GitConstants.FolderPathName);
-                elem.Q(ref data.PreCommitToggle, GitConstants.PreCommitName);
-                elem.Q(ref data.WorkflowsToggle, GitConstants.GitHubWorkflowName);
-
-                // Set the values based on the provided data.
-                data.FolderPathLabel.text = data.FolderPath;
-                data.PreCommitToggle.SetValueWithoutNotify(data.IncludePreCommits);
-                data.WorkflowsToggle.SetValueWithoutNotify(data.IncludeWorkflows);
-
-                data.RegisterCallbacks();
-            };
-
-            gatheredFoldersList.unbindItem = (elem, index) =>
-            {
-                // Gather the associated UI references.
-                var data = gatheredFoldersList.itemsSource[index] as FolderData;
-
-                data.UnregisterCallbacks();
-            };
+            gatheredFoldersList.bindItem = BindItem;
+            gatheredFoldersList.unbindItem = UnbindItem;
         }
 
         /// <summary>
-        /// Sets the parent folder path without notifications.
+        /// Handles the binding of data to UI.
         /// </summary>
-        /// <param name="path">Value to be displayed in the parent folder text field.</param>
-        public void SetParentFolder(string path)
+        /// <param name="elem">Element that is being bound.</param>
+        /// <param name="index">Index for accessing the data associated with the element.</param>
+        private void BindItem(VisualElement elem, int index)
         {
-            parentFolderTextField.SetValueWithoutNotify(path);
+            // Gather the associated UI references.
+            var data = gatheredFoldersList.itemsSource[index] as FolderData;
+
+            var folderPathLabel = elem.Q<Label>(GitConstants.FolderPathName);
+            var preCommitToggle = elem.Q<Toggle>(GitConstants.PreCommitName);
+            var workflowsToggle = elem.Q<Toggle>(GitConstants.GitHubWorkflowName);
+
+            // Set the values based on the provided data.
+            folderPathLabel.text = data.FolderPath;
+            preCommitToggle.SetValueWithoutNotify(data.IncludePreCommits);
+            workflowsToggle.SetValueWithoutNotify(data.IncludeWorkflows);
+
+            preCommitToggle.bindingPath = nameof(FolderData.IncludePreCommits);
+            preCommitToggle.Bind(new SerializedObject(data));
+
+            workflowsToggle.bindingPath = nameof(FolderData.IncludeWorkflows);
+            workflowsToggle.Bind(new SerializedObject(data));
+        }
+
+        /// <summary>
+        /// Handles the unbinding of data to UI.
+        /// </summary>
+        /// <param name="elem">Element that is being unbound.</param>
+        /// <param name="index">Index for accessing the data associated with the element.</param>
+        private void UnbindItem(VisualElement elem, int index)
+        {
+            var preCommitToggle = elem.Q<Toggle>(GitConstants.PreCommitName);
+            var workflowsToggle = elem.Q<Toggle>(GitConstants.GitHubWorkflowName);
+
+            preCommitToggle.Unbind();
+            workflowsToggle.Unbind();
         }
 
         /// <summary>
