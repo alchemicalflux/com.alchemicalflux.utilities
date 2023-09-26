@@ -10,8 +10,6 @@
 using AlchemicalFlux.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.GitOperations
@@ -31,6 +29,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         /// <summary>UI list view interface for accessing and modifying which folders will be processed.</summary>
         private ListView gatheredFoldersList;
+
+        private VisualTreeAsset listViewTemplate;
 
         /// <summary>Callbacks triggered on the folder search button press.</summary>
         public Action OnSearchPressed;
@@ -67,9 +67,34 @@ namespace AlchemicalFlux.Utilities.GitOperations
             folderSearchButton.clicked += () => OnSearchPressed?.Invoke();
 
             // Handle the making, binding, and unbinding of the list view items.
-            gatheredFoldersList.makeItem = () => listViewAsset.Instantiate();
+            listViewTemplate = listViewAsset;
+            gatheredFoldersList.makeItem = MakeItem;
             gatheredFoldersList.bindItem = BindItem;
             gatheredFoldersList.unbindItem = UnbindItem;
+        }
+
+        /// <summary>
+        /// Handles the creation and initialization of a reusable list entry template.
+        /// </summary>
+        /// <returns>Handle to the created list entry.</returns>
+        private VisualElement MakeItem()
+        {
+            // Create and gather the UI entry and its children.
+            var newListEntry = listViewTemplate.Instantiate();
+
+            var folderPathLabel = newListEntry.Q<Label>(GitConstants.FolderPathName);
+            var preCommitToggle = newListEntry.Q<Toggle>(GitConstants.PreCommitName);
+            var workflowsToggle = newListEntry.Q<Toggle>(GitConstants.GitHubWorkflowName);
+
+            // Initialize the controller that stores related handles and information.
+            newListEntry.userData = new FolderDataController()
+            {
+                FolderPathLabel = folderPathLabel,
+                IncludePreCommitsToggle = preCommitToggle,
+                IncludeWorkflowsToggle = workflowsToggle,
+            };
+
+            return newListEntry;
         }
 
         /// <summary>
@@ -82,20 +107,17 @@ namespace AlchemicalFlux.Utilities.GitOperations
             // Gather the associated UI references.
             var data = gatheredFoldersList.itemsSource[index] as FolderData;
 
-            var folderPathLabel = elem.Q<Label>(GitConstants.FolderPathName);
-            var preCommitToggle = elem.Q<Toggle>(GitConstants.PreCommitName);
-            var workflowsToggle = elem.Q<Toggle>(GitConstants.GitHubWorkflowName);
+            var controller = (elem.userData) as FolderDataController;
 
             // Set the values based on the provided data.
-            folderPathLabel.text = data.FolderPath;
-            preCommitToggle.SetValueWithoutNotify(data.IncludePreCommits);
-            workflowsToggle.SetValueWithoutNotify(data.IncludeWorkflows);
+            controller.Data = data;
+            controller.FolderPathLabel.text = data.FolderPath;
+            controller.IncludePreCommitsToggle.SetValueWithoutNotify(data.IncludePreCommits);
+            controller.IncludeWorkflowsToggle.SetValueWithoutNotify(data.IncludeWorkflows);
 
-            preCommitToggle.bindingPath = nameof(FolderData.IncludePreCommits);
-            preCommitToggle.Bind(new SerializedObject(data));
-
-            workflowsToggle.bindingPath = nameof(FolderData.IncludeWorkflows);
-            workflowsToggle.Bind(new SerializedObject(data));
+            // Register the callbacks for UI functionality.
+            controller.IncludePreCommitsToggle.RegisterValueChangedCallback(controller.OnPreCommitChange);
+            controller.IncludeWorkflowsToggle.RegisterValueChangedCallback(controller.OnWorkflowChange);
         }
 
         /// <summary>
@@ -105,11 +127,13 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <param name="index">Index for accessing the data associated with the element.</param>
         private void UnbindItem(VisualElement elem, int index)
         {
-            var preCommitToggle = elem.Q<Toggle>(GitConstants.PreCommitName);
-            var workflowsToggle = elem.Q<Toggle>(GitConstants.GitHubWorkflowName);
+            // Unegister the callbacks for UI functionality.
+            var controller = (elem.userData) as FolderDataController;
 
-            preCommitToggle.Unbind();
-            workflowsToggle.Unbind();
+            controller.IncludePreCommitsToggle.UnregisterValueChangedCallback(controller.OnPreCommitChange);
+            controller.IncludeWorkflowsToggle.UnregisterValueChangedCallback(controller.OnWorkflowChange);
+
+            controller.Data = null;
         }
 
         /// <summary>
