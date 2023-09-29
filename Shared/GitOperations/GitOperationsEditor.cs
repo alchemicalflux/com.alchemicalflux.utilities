@@ -5,11 +5,11 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-04 14:46:24 
+  Last commit at: 2023-09-28 20:08:06 
 ------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.GitOperations
@@ -26,6 +26,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         /// <summary>UI functionality that will be bound to file logic.</summary>
         private GitOperationsEditorUI ui;
+
+        public Func<string> GetDirectory;
 
         #endregion Members
 
@@ -49,7 +51,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void SelectParentFolder()
         {
-            var directory = EditorUtility.OpenFolderPanel("Select Directory", "", "");
+            var directory = GetDirectory.Invoke();
             ui.ParentFolderPath = directory;
             GatherFolders();
         }

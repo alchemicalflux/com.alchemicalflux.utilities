@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-09-28 20:08:06 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -35,7 +35,6 @@ namespace AlchemicalFlux.Utilities.Helpers
             }
 
             CopyDirectory(new DirectoryInfo(source), new DirectoryInfo(target));
-            //FileUtil.CopyFileOrDirectory(source, target);
 
             return directoryInfo;
         }

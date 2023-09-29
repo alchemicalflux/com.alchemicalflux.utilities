@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-31 16:12:05 
+  Last commit at: 2023-09-28 20:08:06 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -55,9 +55,19 @@ namespace AlchemicalFlux.Utilities.GitOperations
             tree.CloneTree(rootVisualElement);
 
             gitOperationsEditorUI = new GitOperationsEditorUI(rootVisualElement, listViewAsset);
+            gitOperationsEditor.GetDirectory = GetDirectory;
             gitOperationsEditor.BindUIComponents(gitOperationsEditorUI);
         }
 
-        #endregion Methods
-    }
+        /// <summary>
+        /// Gathers the directory to be processed for git operations.
+        /// </summary>
+        /// <returns>Path of the selected folder.</returns>
+        private string GetDirectory()
+        {
+            return EditorUtility.OpenFolderPanel("Select Directory", "", "");
+        }
+
+    #endregion Methods
+}
 }
