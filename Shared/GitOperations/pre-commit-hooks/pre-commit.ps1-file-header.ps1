@@ -1,11 +1,11 @@
 #-------------------------------------------------------------------------------
-#  File:           pre-commit.bash-file-header.ps1 
+#  File:           pre-commit.ps1-file-header.ps1 
 #  Project:        AlchemicalFlux Utilities
-#  Description:    Git hook for pre-commit processing of bash file headers.
+#  Description:    Git hook for pre-commit processing of .ps1 file headers.
 #  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 #
 #  Last commit by: alchemicalflux 
-#  Last commit at: 2023-07-09 00:12:42 
+#  Last commit at: 2023-09-28 17:52:53 
 #-------------------------------------------------------------------------------
 
 # Requires -Version 3.0
@@ -37,15 +37,13 @@ $copyrightPostfix =   "YourName/YourCompany. All rights reserved.  # You should 
 
 
 # Gather all files to be updated and adjust as necessary
-$stagedFiles = Get-BashFiles
+$stagedFiles = Get-Files "ps1"
 foreach ($file in $stagedFiles) {
+
 	# Full path to the file
 	$filePath = Join-Path -Path (Get-Location) -ChildPath $file
 	$fileName = Split-Path -Path $filePath -Leaf
 	$content = Get-Content -Path $filePath -Raw
-	
-	# Bash files require a unique first line of code that must occur before any header
-	$firstLine = Get-Content -Path $filePath -First 1
 
 	# Assign values with any modifications if necessary
 	$fileValue = "$fileName "
@@ -64,7 +62,6 @@ foreach ($file in $stagedFiles) {
 
 		$newHeader =
 @"
-$firstLine
 $headerStart
 #  $fileHeader
 #  $projectHeader
@@ -77,7 +74,7 @@ $headerEnd
 
 "@
 
-		$content = $content.Replace($firstLine, $newHeader)
+		$content = $newHeader + $content
 	}
 
 	# Gather the header section by pattern

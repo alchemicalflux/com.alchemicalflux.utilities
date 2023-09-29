@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-22 09:50:51 
+  Last commit at: 2023-09-28 17:52:52 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         private VisualTreeAsset tree;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private PackageEditor packageEditor = new();
+        private GeneratePackageEditor packageEditor = new();
 
         #endregion Members
 
@@ -49,6 +49,27 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
             tree.CloneTree(rootVisualElement);
             packageEditor.InitUIComponents(rootVisualElement);
             packageEditor.OnPackageCreation += Close;
+            packageEditor.OnPackageCreation += PostCreationProcessing;
+        }
+
+        /// <summary>
+        /// Handles the uninitialization of the UI and interface actions.
+        /// </summary>
+        public void OnDestroy()
+        {
+            if(packageEditor != null)
+            {
+                packageEditor.OnPackageCreation -= Close;
+                packageEditor.OnPackageCreation -= PostCreationProcessing;
+            }
+        }
+
+        /// <summary>
+        /// Handles any remaining actions that are required after package creation.
+        /// </summary>
+        private void PostCreationProcessing()
+        {
+            AssetDatabase.Refresh();
         }
 
         #endregion Methods

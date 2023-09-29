@@ -5,7 +5,7 @@
 #  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 #
 #  Last commit by: alchemicalflux 
-#  Last commit at: 2023-07-09 00:12:42 
+#  Last commit at: 2023-09-28 17:52:53 
 #-------------------------------------------------------------------------------
 
 function Get-BashFiles {
@@ -34,7 +34,7 @@ function Get-BashFiles {
 }
 
 function Get-Files ($extention) {
-    $gitStaged = git diff --cached --name-only --diff-filter=AM
+    $gitStaged = git diff --cached --name-only --diff-filter=AMR
     $stagedFiles = $gitStaged -split "`n"
 
     # Create an empty array to hold our final list of files
