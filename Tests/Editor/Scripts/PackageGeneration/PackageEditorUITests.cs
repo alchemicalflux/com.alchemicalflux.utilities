@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-08-22 09:50:51 
+  Last commit at: 2023-10-01 22:20:10 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;
@@ -14,11 +14,8 @@ using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
 {
-    public class PackageEditorUITests : ScriptableObject
+    public class PackageEditorUITests
     {
-        [SerializeField]
-        private VisualTreeAsset visualTreeAsset;
-
         private PackageEditorUI packageEditorUI;
         private VisualElement visualElement;
 
@@ -26,7 +23,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         private const string domainName = "com";
         private const string companyName = "company-name";
         private const string projectName = "project-name";
-        private const string packageName = domainName+"."+companyName+"."+projectName;
+        private const string packageName = domainName + "." + companyName + "." + projectName;
         private const string companyNamespace = "CompanyNamespace";
         private const string projectNamespace = "ProjectNamespace";
         private const bool setupRuntime = true;
@@ -35,10 +32,13 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         private const bool setupDocumentation = false;
         private const bool setupSamples = false;
 
+        private const string visualAssetTreeResourcePath = "PackageGenerationVisualTreeAsset";
+
         [SetUp]
         public void Setup()
         {
             // Arrange
+            var visualTreeAsset = Resources.Load<VisualTreeAssetSO>(visualAssetTreeResourcePath).value;
             visualElement = new VisualElement();
             visualTreeAsset.CloneTree(visualElement);
             packageEditorUI = new PackageEditorUI(visualElement);
