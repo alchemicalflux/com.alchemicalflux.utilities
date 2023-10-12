@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-01 22:20:10 
+  Last commit at: 2023-10-12 01:13:52 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;
@@ -16,6 +16,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
 {
     public class PackageEditorUITests
     {
+        #region Members
+
         private PackageEditorUI packageEditorUI;
         private VisualElement visualElement;
 
@@ -33,6 +35,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         private const bool setupSamples = false;
 
         private const string visualAssetTreeResourcePath = "PackageGenerationVisualTreeAsset";
+
+        #endregion Members
+
+        #region Methods
 
         [SetUp]
         public void Setup()
@@ -128,5 +134,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Assert
             CollectionAssert.AreEqual(expectedFileTextPlacements, fileTextPlacements);
         }
+
+        #endregion Methods
     }
 }

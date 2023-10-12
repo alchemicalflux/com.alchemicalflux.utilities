@@ -5,11 +5,12 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 20:08:06 
+  Last commit at: 2023-10-13 01:50:32 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.GitOperations
@@ -29,6 +30,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         public Func<string> GetDirectory;
 
+        private List<FolderData> directoryList = new List<FolderData>();
+
         #endregion Members
 
         #region Methods
@@ -44,6 +47,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
             GatherFolders();
 
             ui.OnSearchPressed += SelectParentFolder;
+            ui.OnInstallPressed += InstallSelections;
         }
 
         /// <summary>
@@ -59,7 +63,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <summary>
         /// Gathers a list of all ".git" folders that exist under the parent folder.
         /// </summary>
-        public void GatherFolders()
+        private void GatherFolders()
         {
             // Gather all of the child Git folders.
             var parentPathInfo = new DirectoryInfo(ui.ParentFolderPath);
@@ -67,7 +71,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 parentPathInfo.GetDirectories(gitFolderName, SearchOption.AllDirectories);
 
             // Create a list of folder data that will be bound to the UI elements of the list.
-            var directoryList = new List<FolderData>();
+            directoryList = new List<FolderData>();
             foreach (var directory in gitDirectories)
             {
                 // Trim the folder names to reduce redundancy.
@@ -77,6 +81,30 @@ namespace AlchemicalFlux.Utilities.GitOperations
             }
 
             ui.UpdateDirectories(directoryList);
+        }
+
+        private void InstallSelections()
+        {
+            InstallPreCommits();
+            InstallWorkflows();
+        }
+
+        private void InstallPreCommits()
+        {
+            var preCommitFolders = directoryList.Where(data => data.IncludePreCommits)
+                .Select(data => data.FolderPath);
+
+            var output = string.Join("\n", preCommitFolders);
+            Debug.Log(output);
+        }
+
+        private void InstallWorkflows()
+        {
+            var preCommitFolders = directoryList.Where(data => data.IncludeWorkflows)
+                .Select(data => data.FolderPath);
+
+            var output = string.Join("\n", preCommitFolders);
+            Debug.Log(output);
         }
 
         #endregion Methods

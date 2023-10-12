@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-10-13 01:50:32 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -32,8 +32,14 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         private VisualTreeAsset listViewTemplate;
 
+        /// <summary></summary>
+        private Button installButton;
+
         /// <summary>Callbacks triggered on the folder search button press.</summary>
         public Action OnSearchPressed;
+
+        /// <summary></summary>
+        public Action OnInstallPressed;
 
         #endregion Members
 
@@ -62,9 +68,11 @@ namespace AlchemicalFlux.Utilities.GitOperations
             rootVisualElement.Q(ref parentFolderTextField, GitConstants.ParentFolderFieldName);
             rootVisualElement.Q(ref folderSearchButton, GitConstants.FolderSearchButtonName);
             rootVisualElement.Q(ref gatheredFoldersList, GitConstants.GatheredFoldersListName);
+            rootVisualElement.Q(ref installButton, GitConstants.InstallButtonName);
 
             // Bind the UI events with a callback handler.
             folderSearchButton.clicked += () => OnSearchPressed?.Invoke();
+            installButton.clicked += () => OnInstallPressed?.Invoke();
 
             // Handle the making, binding, and unbinding of the list view items.
             listViewTemplate = listViewAsset;
