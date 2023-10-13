@@ -1,0 +1,19 @@
+#!/bin/sh
+#-------------------------------------------------------------------------------
+#  File:           pre-commit 
+#  Project:        AlchemicalFlux Utilities
+#  Description:    Git hook for pre-commit processing of various file headers.
+#  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+#
+#  Last commit by: alchemicalflux 
+#  Last commit at: 2023-07-09 00:12:41 
+#-------------------------------------------------------------------------------
+
+repositoryRoot=$(git rev-parse --show-toplevel)
+
+# Adjust these paths if necessary
+pathToScripts="$repositoryRoot/.git/hooks/pre-commit-hooks"
+
+powershell  -ExecutionPolicy bypass -File $pathToScripts/pre-commit.bash-file-header.ps1
+powershell  -ExecutionPolicy bypass -File $pathToScripts/pre-commit.cs-file-header.ps1
+powershell  -ExecutionPolicy bypass -File $pathToScripts/pre-commit.ps1-file-header.ps1

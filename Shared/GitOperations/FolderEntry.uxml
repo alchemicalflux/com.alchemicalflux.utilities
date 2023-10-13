@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="background-color: rgb(100, 100, 100);">
+        <ui:VisualElement style="background-color: rgb(80, 80, 80);">
+            <ui:Label text="Folder Path" display-tooltip-when-elided="true" name="FolderPath" />
+        </ui:VisualElement>
+        <ui:Toggle name="PreCommit" text="Include Git Pre-commits" />
+        <ui:Toggle name="GitHubWorkflow" text="Include GitHub Workflow" />
+    </ui:VisualElement>
+</ui:UXML>
