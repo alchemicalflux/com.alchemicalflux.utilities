@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.0.0...v1.1.0) (2023-10-13)
+
+
+### Features
+
+* Add GitOperationsEditorWindow ([#8](https://github.com/alchemicalflux/com.alchemicalflux.utilities/issues/8)) ([a7ed63e](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/a7ed63edc2ecd2dab3c9ed61cc869de654b2046c)), closes [#6](https://github.com/alchemicalflux/com.alchemicalflux.utilities/issues/6) [#1](https://github.com/alchemicalflux/com.alchemicalflux.utilities/issues/1) [#7](https://github.com/alchemicalflux/com.alchemicalflux.utilities/issues/7) [#1](https://github.com/alchemicalflux/com.alchemicalflux.utilities/issues/1)
+
 # 1.0.0 (2023-06-22)
 
 
