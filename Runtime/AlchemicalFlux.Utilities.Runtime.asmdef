@@ -1,7 +1,9 @@
 {
     "name": "AlchemicalFlux.Utilities.Runtime",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "AlchemicalFlux.Utilities.Shared"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
