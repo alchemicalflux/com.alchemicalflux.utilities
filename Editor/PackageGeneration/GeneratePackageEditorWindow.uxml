@@ -1,0 +1,16 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement style="min-width: auto; min-height: auto;">
+        <ui:TextField picking-mode="Ignore" label="Display Name" value="Project Name" text="Project Name" name="DisplayField" />
+        <ui:TextField picking-mode="Ignore" label="Domain Name" value="com" text="com" name="DomainField" />
+        <ui:TextField picking-mode="Ignore" label="Company Name" text="company-name" name="CompanyField" />
+        <ui:TextField picking-mode="Ignore" label="Project Name" value="project-name" text="project-name" name="ProjectField" />
+        <ui:TextField picking-mode="Ignore" label="Company Namespace" value="CompanyNamespace" text="CompanyNamespace" name="CompanyNamespace" />
+        <ui:TextField picking-mode="Ignore" label="Project Namespace" value="ProjectNamespace" text="ProjectNamespace" name="ProjectNamespace" />
+        <ui:Toggle label="Setup Runtime Layouts" name="RuntimeToggle" value="true" />
+        <ui:Toggle label="Setup Editor Layouts" name="EditorToggle" value="true" />
+        <ui:Toggle label="Include Tests" name="TestsToggle" value="true" />
+        <ui:Toggle label="Include ~Documentation" name="DocumentationToggle" />
+        <ui:Toggle label="Include ~Samples" name="SamplesToggle" />
+        <ui:Button text="Save" display-tooltip-when-elided="true" name="SaveButton" style="-unity-text-align: middle-center; min-width: auto; margin-left: 10px; margin-right: 10px; margin-top: 5px;" />
+    </ui:VisualElement>
+</ui:UXML>
