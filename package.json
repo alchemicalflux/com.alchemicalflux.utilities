@@ -12,5 +12,8 @@
     "name": "Jeremy Miller",
     "email": "alchemicalflux@gmail.com",
     "url": ""
-  }
+  },
+  "git-dependencies": [
+    "https://github.com/alchemicalflux/com.alchemicalflux.package-template.git"
+  ]
 }

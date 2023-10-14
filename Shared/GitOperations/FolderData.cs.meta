@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Editor/PackageGeneration/PackageEditorUI.cs.meta
+guid: 1806865e09add90419eea63889277ba2
+========
+guid: 802a6fd327369af48a8f432069765213
+>>>>>>>> feature/GitOperationsEditorWindow:Shared/GitOperations/FolderData.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

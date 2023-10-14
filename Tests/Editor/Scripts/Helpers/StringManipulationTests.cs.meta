@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Editor/PackageGeneration/PackageConstants.cs.meta
+guid: 9aeda39a904d14b488d472d028ccf13b
+========
 guid: e7ef2ebbbed0ceb47befc735bc2b21ce
+>>>>>>>> feature/GitOperationsEditorWindow:Tests/Editor/Scripts/Helpers/StringManipulationTests.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

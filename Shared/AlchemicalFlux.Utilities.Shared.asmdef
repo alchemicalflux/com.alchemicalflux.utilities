@@ -1,12 +1,8 @@
 {
-    "name": "AlchemicalFlux.Utilities.Editor",
+    "name": "AlchemicalFlux.Utilities.Shared",
     "rootNamespace": "",
-    "references": [
-        "AlchemicalFlux.Utilities.Shared"
-    ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "references": [],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

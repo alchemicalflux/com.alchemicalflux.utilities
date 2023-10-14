@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------------
+  File:           PackageEditorUITests.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Unit tests for UI portion of Unity package generation.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-10-13 19:00:09 
+------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
@@ -5,10 +14,9 @@ using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
 {
-    public class PackageEditorUITests : ScriptableObject
+    public class PackageEditorUITests
     {
-        [SerializeField]
-        private VisualTreeAsset visualTreeAsset;
+        #region Members
 
         private PackageEditorUI packageEditorUI;
         private VisualElement visualElement;
@@ -17,7 +25,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         private const string domainName = "com";
         private const string companyName = "company-name";
         private const string projectName = "project-name";
-        private const string packageName = domainName+"."+companyName+"."+projectName;
+        private const string packageName = domainName + "." + companyName + "." + projectName;
         private const string companyNamespace = "CompanyNamespace";
         private const string projectNamespace = "ProjectNamespace";
         private const bool setupRuntime = true;
@@ -26,10 +34,17 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         private const bool setupDocumentation = false;
         private const bool setupSamples = false;
 
+        private const string visualAssetTreeResourcePath = "PackageGenerationVisualTreeAsset";
+
+        #endregion Members
+
+        #region Methods
+
         [SetUp]
         public void Setup()
         {
             // Arrange
+            var visualTreeAsset = Resources.Load<VisualTreeAssetSO>(visualAssetTreeResourcePath).value;
             visualElement = new VisualElement();
             visualTreeAsset.CloneTree(visualElement);
             packageEditorUI = new PackageEditorUI(visualElement);
@@ -119,5 +134,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Assert
             CollectionAssert.AreEqual(expectedFileTextPlacements, fileTextPlacements);
         }
+
+        #endregion Methods
     }
 }

@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - visualTreeAsset: {fileID: 9197481963319205126, guid: 909c13fa6995841479269737591e2e98, type: 3}
+  - visualTreeAssetSO: {fileID: 11400000, guid: aaeb5541972f91042b3ee2fce5e24c8c, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

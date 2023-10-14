@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Tests/Editor/Helpers/StringManipulationTests.cs.meta
+guid: f9c6d9d8911962c46a6d7a6db1682568
+========
+guid: 0c379bf2931ca9a4391d0bd36eb5ad3e
+>>>>>>>> feature/GitOperationsEditorWindow:Shared/GitOperations/FolderDataController.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
