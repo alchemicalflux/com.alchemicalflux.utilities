@@ -1,10 +1,11 @@
 {
-    "name": "AlchemicalFlux.UnityPackageTemplate.Tests",
+    "name": "AlchemicalFlux.Utilities.Tests",
     "rootNamespace": "",
     "references": [
         "UnityEditor.TestRunner",
         "UnityEngine.TestRunner",
-        "AlchemicalFlux.Utilities.Runtime"
+        "AlchemicalFlux.Utilities.Runtime",
+        "AlchemicalFlux.Utilities.Shared"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

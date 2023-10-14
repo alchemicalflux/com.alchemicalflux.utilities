@@ -1,6 +1,14 @@
+/*------------------------------------------------------------------------------
+  File:           GeneratePackageEditor.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Logic for handling Unity package generation.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-09-28 17:52:52 
+------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
-using UnityEditor;
 using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.PackageGeneration
@@ -8,7 +16,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
     /// <summary>
     /// Handles the logic of binding of UI elements and file manipulation for package generation.
     /// </summary>
-    public class PackageEditor
+    public class GeneratePackageEditor
     {
         #region Members
 
@@ -33,10 +41,6 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         {
             ui = new PackageEditorUI(rootVisualElement);
             ui.OnSavePressed += GeneratePackage;
-            ui.OnSavePressed += () =>
-            {
-                OnPackageCreation?.Invoke();
-            };
         }
 
         /// <summary>
@@ -56,7 +60,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
 
             // Move new package to the project Assests folder and refresh the interface.
             FileOperations.OverwriteDirectory(tempPath, PackageConstants.AssetsPath + ui.PackageName);
-            AssetDatabase.Refresh();
+
+            OnPackageCreation?.Invoke();
         }
 
         #endregion Methods

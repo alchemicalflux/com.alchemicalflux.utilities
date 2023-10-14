@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------------
+  File:           VisualElementExtensions.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Helper functions to extend the VisualElement class.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-09-28 17:52:52 
+------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.Helpers

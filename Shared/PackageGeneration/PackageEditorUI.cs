@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------------
+  File:           PackageEditorUI.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    UI encapsulation for handling Unity package generation.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-09-28 17:52:52 
+------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
 using System.Collections.Generic;

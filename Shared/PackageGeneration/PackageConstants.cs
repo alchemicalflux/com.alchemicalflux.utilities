@@ -1,3 +1,12 @@
+/*------------------------------------------------------------------------------
+  File:           PackageConstants.cs 
+  Project:        AlchemicalFlux Utilities
+  Description:    Centralized location for Unity package generation constants.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+
+  Last commit by: alchemicalflux 
+  Last commit at: 2023-09-28 17:52:52 
+------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {
     /// <summary>
