@@ -1,24 +1,34 @@
 /*------------------------------------------------------------------------------
-  File:           StringManipulationTests.cs 
+  File:           IStringManipulator_MultipleReplaceTests.cs 
   Project:        AlchemicalFlux Utilities
-  Description:    Unit tests for String Manipulation functions.
+  Description:    Unit tests for IStringManipulator MultiplerReplace function.
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-12 01:13:52 
+  Last commit at: 2023-10-17 13:43:08 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
-    public class StringManipulationTests
+    /// <summary>
+    /// Contains the unit tests regarding the IStringManipulator MultipleReplace.
+    /// </summary>
+    public class IStringManipulator_MultipleReplaceTests
     {
         #region Members
 
+        #region Test Class Names
+
+        private const string basicManip = "BasicStringManipulator";
+        private const string regexManip = "RegexStringManipulator";
+
+        #endregion Test Class Names
+
         #region Test Values
+
         // Null and Empty Test values
         private const string defaultText = "default text";
 
@@ -102,151 +112,130 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public static IEnumerable<TestCaseData> InvalidScenerios()
         {
             // Null Initial Text
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     null,
                     standardReplacements
-                ).SetName("MultipleReplace_InitialTextIsNull_ThrowArguementNullException");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_InitialTextIsNull_ThrowArguementNullException");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     null,
                     standardReplacements
-                ).SetName("RegexMultipleReplace_InitialTextIsNull_ThrowArguementNullException");
+                ).SetName(regexManip + "_InitialTextIsNull_ThrowArguementNullException");
 
             // Null Replacements
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     defaultText,
                     null
-                ).SetName("MultipleReplace_ReplacementsIsNull_ThrowArguementNullException");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_ReplacementsIsNull_ThrowArguementNullException");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     defaultText,
                     null
-                ).SetName("RegexMultipleReplace_ReplacementsIsNull_ThrowArguementNullException");
+                ).SetName(regexManip + "_ReplacementsIsNull_ThrowArguementNullException");
         }
 
         public static IEnumerable<TestCaseData> ReplacementScenerios()
         {
             // Empty Initial String
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     string.Empty,
                     standardReplacements,
                     string.Empty
-                ).SetName("MultipleReplace_EmptyInitialString_ReturnEmptyString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_EmptyInitialString_ReturnEmptyString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     string.Empty,
                     standardReplacements,
                     string.Empty
-                ).SetName("RegexMultipleReplace_EmptyInitialString_ReturnEmptyString");
+                ).SetName(regexManip + "_EmptyInitialString_ReturnEmptyString");
 
             // Empty Replacements
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     defaultText,
                     new Dictionary<string, string> { },
                     defaultText
-                ).SetName("MultipleReplace_EmptyReplacements_ReturnSameString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_EmptyReplacements_ReturnSameString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     defaultText,
                     new Dictionary<string, string> { },
                     defaultText
-                ).SetName("RegexMultipleReplace_EmptyReplacements_ReturnSameString");
+                ).SetName(regexManip + "_EmptyReplacements_ReturnSameString");
 
             // Replace All Values
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     standardText,
                     standardReplacements,
                     standardResult
-                ).SetName("MultipleReplace_SimpleReplacements_ReturnModifiedString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_SimpleReplacements_ReturnModifiedString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     standardText,
                     standardReplacements,
                     standardResult
-                ).SetName("RegexMultipleReplace_SimpleReplacements_ReturnModifiedString");
+                ).SetName(regexManip + "_SimpleReplacements_ReturnModifiedString");
 
-            // Lower Case Values
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            // Do Not Replace Lower Case Values
+            yield return new TestCaseData(new BasicStringManipulator(),
                     lowerCaseText,
                     standardReplacements,
                     lowerCaseResult
-                ).SetName("MultipleReplace_LowerCaseSensitivity_ReturnSameString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_LowerCaseSensitivity_ReturnSameString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     lowerCaseText,
                     standardReplacements,
                     lowerCaseResult
-                ).SetName("RegexMultipleReplace_LowerCaseSensitivity_ReturnSameString");
+                ).SetName(regexManip + "_LowerCaseSensitivity_ReturnSameString");
 
-            // Upper Case Values
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            // Do Not Replace Upper Case Values
+            yield return new TestCaseData(new BasicStringManipulator(),
                     upperCaseText,
                     standardReplacements,
                     upperCaseResult
-                ).SetName("MultipleReplace_UpperCaseSensitivity_ReturnSameString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_UpperCaseSensitivity_ReturnSameString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     upperCaseText,
                     standardReplacements,
                     upperCaseResult
-                ).SetName("RegexMultipleReplace_UpperCaseSensitivity_ReturnSameString");
+                ).SetName(regexManip + "_UpperCaseSensitivity_ReturnSameString");
 
             // Replace Longest Keys First
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     longestKeyFirstText,
                     longestKeyFirstReplacements,
                     longestKeyFirstResult
-                ).SetName("MultipleReplace_OverlappingReplacements_ReturnStringModifiedByLongestFirst");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_OverlappingReplacements_ReturnStringModifiedByLongestFirst");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     longestKeyFirstText,
                     longestKeyFirstReplacements,
                     longestKeyFirstResult
-                ).SetName("RegexMultipleReplace_OverlappingReplacements_ReturnStringModifiedByLongestFirst");
+                ).SetName(regexManip + "_OverlappingReplacements_ReturnStringModifiedByLongestFirst");
 
             // Replace Escape Characters
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            yield return new TestCaseData(new BasicStringManipulator(),
                     escapeCharactersText,
                     escapeCharactersReplacements,
                     escapeCharactersResult
-                ).SetName("MultipleReplace_EscapeCharacterReplacements_ReturnModifiedString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_EscapeCharacterReplacements_ReturnModifiedString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     escapeCharactersText,
                     escapeCharactersReplacements,
                     escapeCharactersResult
-                ).SetName("RegexMultipleReplace_EscapeCharacterReplacements_ReturnModifiedString");
+                ).SetName(regexManip + "_EscapeCharacterReplacements_ReturnModifiedString");
 
-            // Special Characters
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.MultipleReplace,
+            // Replace Special Characters
+            yield return new TestCaseData(new BasicStringManipulator(),
                     specialCharactersText,
                     specialCharactersReplacements,
                     specialCharactersResult
-                ).SetName("MultipleReplace_SpecialCharacterReplacements_ReturnModifiedString");
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+                ).SetName(basicManip + "_SpecialCharacterReplacements_ReturnModifiedString");
+            yield return new TestCaseData(new RegexStringManipulator(),
                     specialCharactersText,
                     regexSpecialCharactersReplacements,
                     specialCharactersResult
-                ).SetName("RegexMultipleReplace_SpecialCharacterReplacements_ReturnModifiedString");
+                ).SetName(regexManip + "_SpecialCharacterReplacements_ReturnModifiedString");
 
-            // Regex Replacement Test
-            yield return new TestCaseData(
-                    (Func<string, Dictionary<string, string>, string>)StringManipulation.RegexMultipleReplace,
+            // Replace with Regex Formatting
+            yield return new TestCaseData(new RegexStringManipulator(),
                     regexText,
                     regexReplacements,
                     regexResults
-                ).SetName("RegexMultipleReplace_RegexReplacements_ReturnModifiedString");
+                ).SetName(regexManip + "_RegexReplacements_ReturnModifiedString");
         }
 
         #endregion Test Scenerios
@@ -257,22 +246,23 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [Test]
         [TestCaseSource(nameof(InvalidScenerios))]
-        public void InvalidParameterTests(Func<string, 
-            Dictionary<string, string>, string> stringReplaceMethod, string input, 
+        public void InvalidParameterTests(IStringManipulator stringManipulator, 
+            string input, 
             Dictionary<string, string> replacements)
         {
             // Assert
-            Assert.That(() => stringReplaceMethod(input, replacements), Throws.ArgumentNullException);
+            Assert.That(() => stringManipulator.MultipleReplace(input, replacements), Throws.ArgumentNullException);
         }
 
         [Test]
         [TestCaseSource(nameof(ReplacementScenerios))]
-        public void StringReplacementTests(Func<string, 
-            Dictionary<string, string>, string> stringReplaceMethod, string input, 
-            Dictionary<string, string> replacements, string expectedResult)
+        public void StringReplacementTests(IStringManipulator stringManipulator,
+            string input, 
+            Dictionary<string, string> replacements, 
+            string expectedResult)
         {
             // Act
-            string result = stringReplaceMethod(input, replacements);
+            string result = stringManipulator.MultipleReplace(input, replacements);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedResult));

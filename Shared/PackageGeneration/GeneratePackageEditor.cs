@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-10-17 13:57:45 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -55,8 +55,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
             // Remove unwanted files and update file names and contents.
             FileOperations.ProcessUnwantedFolders(directoryInfo, ui.FoldersToRemove);
             FileOperations.RemoveFilesContaining(directoryInfo, metaFileExtension);
-            FileOperations.RenameFiles(directoryInfo, ui.TemplateNamespaces,
-                filePath => FileOperations.ReplaceFileText(filePath.FullName, ui.FileTextPlacements));
+
+            var regexStringManipulator = new RegexStringManipulator();
+            FileOperations.RenameFiles(directoryInfo, regexStringManipulator, ui.TemplateNamespaces,
+                filePath => FileOperations.ReplaceFileText(filePath.FullName, regexStringManipulator, ui.FileTextPlacements));
 
             // Move new package to the project Assests folder and refresh the interface.
             FileOperations.OverwriteDirectory(tempPath, PackageConstants.AssetsPath + ui.PackageName);
