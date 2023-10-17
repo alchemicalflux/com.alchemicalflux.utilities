@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 20:08:06 
+  Last commit at: 2023-10-17 13:57:45 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -80,8 +80,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="directoryInfo">Directory to be searched.</param>
         /// <param name="replacements">String replacement pairings.</param>
         /// <param name="processFile">Potential actions that can process the file before replacements occur.</param>
-        public static void RenameFiles(DirectoryInfo directoryInfo, 
-            Dictionary<string, string> replacements, 
+        public static void RenameFiles(DirectoryInfo directoryInfo,
+            IStringManipulator stringManipulator,
+            Dictionary<string, string> replacements,
             Action<FileInfo> processFile = null)
         {
             var files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
@@ -90,7 +91,7 @@ namespace AlchemicalFlux.Utilities.Helpers
                 // If processFile is provided, use it for additional processing.
                 processFile?.Invoke(file);
 
-                var fileName = StringManipulation.MultipleReplace(file.Name, replacements);
+                var fileName = stringManipulator.MultipleReplace(file.Name, replacements);
                 var newPath = Path.Combine(file.Directory.FullName, fileName);
                 File.Move(file.FullName, newPath);
             }
@@ -101,10 +102,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         /// <param name="fullFileName">Full name of the file to be processed.</param>
         /// <param name="replacements">Replacement text pairings.</param>
-        public static void ReplaceFileText(string fullFileName, Dictionary<string, string> replacements)
+        public static void ReplaceFileText(string fullFileName, 
+            IStringManipulator stringManipulator,
+            Dictionary<string, string> replacements)
         {
             var text = File.ReadAllText(fullFileName);
-            text = StringManipulation.RegexMultipleReplace(text, replacements);
+            text = stringManipulator.MultipleReplace(text, replacements);
             File.WriteAllText(fullFileName, text);
         }
 
