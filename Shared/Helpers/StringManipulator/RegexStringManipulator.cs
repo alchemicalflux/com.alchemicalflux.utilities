@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-17 13:42:06 
+  Last commit at: 2023-10-20 07:36:29 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +16,18 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// <summary>
     /// String manipulation that can handle regex modifiers within parameters.
     /// </summary>
-    public class RegexStringManipulator : IStringManipulator
+    public class RegexStringManipulator : BaseStringManipulator
     {
         /// <inheritdoc />
         /// <remarks>
         /// This method will perform a search and replace on the text using the 
         /// supplied replacements. Can process regex compatable strings.
         /// </remarks>
-        public override string MultipleReplace(string text, Dictionary<string, string> replacements)
+        public override string MultipleReplace(string originalText, Dictionary<string, string> replacements)
         {
-            if (AreParametersInvalid(text, replacements))
+            if (AreParametersInvalid(originalText, replacements))
             {
-                return text;
+                return originalText;
             }
 
             // Create a regex pattern that matches any of the keys and orders by length of the match.
@@ -39,7 +39,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Concatenates all keys to a searchable pattern.
             // Upon finding an entry to replace, it matches it with all keys that qualify,
             //     picking the first from the returned list.
-            return Regex.Replace(text, pattern,
+            return Regex.Replace(originalText, pattern,
                 delegate (Match m)
                 {
                     // Find the longest matching key
