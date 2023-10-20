@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           FileOperations.cs 
+  File:           IOFileSystemService.cs 
   Project:        AlchemicalFlux Utilities
-  Description:    Helper functions for common file operations.
+  Description:    Contains System.IO implementation of IFileOperations.
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-17 13:57:45 
+  Last commit at: 2023-10-20 07:31:05 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -14,58 +14,79 @@ using System.IO;
 namespace AlchemicalFlux.Utilities.Helpers
 {
     /// <summary>
-    /// Stores helpful operations for file manipulation.
+    /// File opertaions that use System.IO functionality.
     /// </summary>
-    public static class FileOperations
+    public class IOFileSystemService : IFileSystemService
     {
-        #region Methods
+        #region Members
 
         /// <summary>
-        /// Destroys all files under the target directory and copies the source files to it.
+        /// Handle to manipulator used to process string replacements.
         /// </summary>
-        /// <param name="source">Path for the directory to be copied.</param>
-        /// <param name="target">Path to directory that will be cleared and filled with the source copy.</param>
-        /// <returns>DirectoryInfo of the target directory.</returns>
-        public static DirectoryInfo OverwriteDirectory(string source, string target)
+        private IStringManipulator _stringManipulator;
+
+        #endregion
+
+        #region Members
+
+        #region Constructors
+
+        /// <summary>
+        /// Prevent empty constructors from being called.
+        /// </summary>
+        private IOFileSystemService() { }
+
+        /// <summary>
+        /// Initializes class.
+        /// </summary>
+        /// <param name="stringManipulator">Handles all string replacements.</param>
+        public IOFileSystemService(IStringManipulator stringManipulator)
         {
-            var directoryInfo = new DirectoryInfo(target);
+            if(stringManipulator == null)
+            {
+                throw new ArgumentNullException(nameof(stringManipulator));
+            }
+
+            _stringManipulator = stringManipulator;
+        }
+
+        #endregion Constructors
+
+        #region Interface Methods
+
+        /// <inheritdoc />
+        public void OverwriteDirectory(string sourcePath, string targetPath)
+        {
+            var directoryInfo = new DirectoryInfo(targetPath);
             if (directoryInfo.Exists)
             {
                 directoryInfo.Delete(true);
             }
 
-            CopyDirectory(new DirectoryInfo(source), new DirectoryInfo(target));
-
-            return directoryInfo;
+            CopyDirectory(new DirectoryInfo(sourcePath), directoryInfo);
         }
 
-        /// <summary>
-        /// Removes unwanted folders from a directory based on the supplied folderConditions.
-        /// </summary>
-        /// <param name="directoryInfo">Directory to be modified.</param>
-        /// <param name="foldersToDelete">List of names that will be that will be searched and removed.</param>
-        public static void ProcessUnwantedFolders(DirectoryInfo directoryInfo, List<string> foldersToDelete)
+        /// <inheritdoc />
+        public void RemoveFoldersByName(string sourcePath, List<string> filters)
         {
-            foreach (var folderName in foldersToDelete)
+            var directoryInfo = new DirectoryInfo(sourcePath);
+            foreach (var filter in filters)
             {
                 var directories =
-                    directoryInfo.GetDirectories(folderName, SearchOption.AllDirectories);
+                    directoryInfo.GetDirectories(filter, SearchOption.AllDirectories);
 
-                foreach (var dir in directories)
+                foreach (var directory in directories)
                 {
-                    dir.Delete(true);
+                    directory.Delete(true);
                 }
             }
         }
 
-        /// <summary>
-        /// Removes all files from a directory that contain a given string value.
-        /// </summary>
-        /// <param name="directoryInfo">Directory to be searched.</param>
-        /// <param name="fileString">String value that deleted files will contain.</param>
-        public static void RemoveFilesContaining(DirectoryInfo directoryInfo, string fileString)
+        /// <inheritdoc />
+        public void RemoveFilesByName(string sourcePath, string filter)
         {
-            var files = directoryInfo.GetFiles(fileString, SearchOption.AllDirectories);
+            var directoryInfo = new DirectoryInfo(sourcePath);
+            var files = directoryInfo.GetFiles(filter, SearchOption.AllDirectories);
 
             foreach (var file in files)
             {
@@ -73,50 +94,43 @@ namespace AlchemicalFlux.Utilities.Helpers
             }
         }
 
-        /// <summary>
-        /// Renames all files from a directory based on a dictionary of replacement values.
-        /// Allows for processing of files before replacement occurs.
-        /// </summary>
-        /// <param name="directoryInfo">Directory to be searched.</param>
-        /// <param name="replacements">String replacement pairings.</param>
-        /// <param name="processFile">Potential actions that can process the file before replacements occur.</param>
-        public static void RenameFiles(DirectoryInfo directoryInfo,
-            IStringManipulator stringManipulator,
+        /// <inheritdoc />
+        public void RenameFiles(string sourcePath,
             Dictionary<string, string> replacements,
-            Action<FileInfo> processFile = null)
+            Action<string> processFile = null)
         {
+            var directoryInfo = new DirectoryInfo(sourcePath);
             var files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 // If processFile is provided, use it for additional processing.
-                processFile?.Invoke(file);
+                processFile?.Invoke(file.FullName);
 
-                var fileName = stringManipulator.MultipleReplace(file.Name, replacements);
+                var fileName = _stringManipulator.MultipleReplace(file.Name, replacements);
                 var newPath = Path.Combine(file.Directory.FullName, fileName);
                 File.Move(file.FullName, newPath);
             }
         }
 
-        /// <summary>
-        /// Replaces all text within file based on a dictionary of replacement values.
-        /// </summary>
-        /// <param name="fullFileName">Full name of the file to be processed.</param>
-        /// <param name="replacements">Replacement text pairings.</param>
-        public static void ReplaceFileText(string fullFileName, 
-            IStringManipulator stringManipulator,
+        /// <inheritdoc />
+        public void ReplaceFileText(string filePath,
             Dictionary<string, string> replacements)
         {
-            var text = File.ReadAllText(fullFileName);
-            text = stringManipulator.MultipleReplace(text, replacements);
-            File.WriteAllText(fullFileName, text);
+            var text = File.ReadAllText(filePath);
+            text = _stringManipulator.MultipleReplace(text, replacements);
+            File.WriteAllText(filePath, text);
         }
+
+        #endregion Interface Methods
+
+        #region Internal Methods
 
         /// <summary>
         /// Fully copies a source directory to the target directory.
         /// </summary>
         /// <param name="source">Source path to be copied.</param>
         /// <param name="target">Target path to be copied to.</param>
-        public static void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
+        private void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
         {
             // Create top folder and initialize snapshot stack for child processing.
             var snapshotStack = new Stack<CopySnapshot>();
@@ -167,13 +181,19 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         /// <param name="source">Source path to be copied.</param>
         /// <param name="target">Target path to be copied to.</param>
-        public static void CopyFiles(DirectoryInfo source, DirectoryInfo target)
+        private void CopyFiles(DirectoryInfo source, DirectoryInfo target)
         {
             foreach (var file in source.GetFiles())
             {
                 file.CopyTo(Path.Combine(target.FullName, file.Name), true);
             }
         }
+
+        #endregion Internal Methods
+
+        #endregion Members
+
+        #region Internal Classes
 
         /// <summary>
         /// Helper class that stores related data for the deep copying of directories.
@@ -182,7 +202,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             /// <summary>Source information to be copied.</summary>
             public DirectoryInfo Source;
-            
+
             /// <summary>Target information for copy.</summary>
             public DirectoryInfo Target;
 
@@ -190,6 +210,6 @@ namespace AlchemicalFlux.Utilities.Helpers
             public uint CurrentIndex;
         }
 
-        #endregion Methods
+        #endregion Internal Classes
     }
 }
