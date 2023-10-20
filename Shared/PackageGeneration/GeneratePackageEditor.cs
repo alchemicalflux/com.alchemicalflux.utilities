@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-17 13:57:45 
+  Last commit at: 2023-10-20 07:48:44 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -48,20 +48,22 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         private void GeneratePackage()
         {
+            var fileOperations = new IOFileSystemService(new RegexStringManipulator());
+
             // Copy the template to a temp location.
             var tempPath = PackageConstants.TempPath + ui.PackageName;
-            var directoryInfo = FileOperations.OverwriteDirectory(PackageConstants.PackagePath, tempPath);
+            fileOperations.OverwriteDirectory(PackageConstants.PackagePath, tempPath);
 
             // Remove unwanted files and update file names and contents.
-            FileOperations.ProcessUnwantedFolders(directoryInfo, ui.FoldersToRemove);
-            FileOperations.RemoveFilesContaining(directoryInfo, metaFileExtension);
+            fileOperations.RemoveFoldersByName(tempPath, ui.FoldersToRemove);
+            fileOperations.RemoveFilesByName(tempPath, metaFileExtension);
 
             var regexStringManipulator = new RegexStringManipulator();
-            FileOperations.RenameFiles(directoryInfo, regexStringManipulator, ui.TemplateNamespaces,
-                filePath => FileOperations.ReplaceFileText(filePath.FullName, regexStringManipulator, ui.FileTextPlacements));
+            fileOperations.RenameFiles(tempPath, ui.TemplateNamespaces,
+                filePath => fileOperations.ReplaceFileText(filePath, ui.FileTextPlacements));
 
             // Move new package to the project Assests folder and refresh the interface.
-            FileOperations.OverwriteDirectory(tempPath, PackageConstants.AssetsPath + ui.PackageName);
+            fileOperations.OverwriteDirectory(tempPath, PackageConstants.AssetsPath + ui.PackageName);
 
             OnPackageCreation?.Invoke();
         }
