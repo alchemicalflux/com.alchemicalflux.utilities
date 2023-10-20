@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-17 13:42:06 
+  Last commit at: 2023-10-20 07:36:29 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +16,18 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// <summary>
     /// Contains string manipulations that work on plain string parameters.
     /// </summary>
-    public class BasicStringManipulator : IStringManipulator
+    public class BasicStringManipulator : BaseStringManipulator
     {
         /// <inheritdoc />
         /// <remarks>
         /// This method will perform a simple search and replace on the text
         /// using the supplied replacements.
         /// </remarks>   
-        public override string MultipleReplace(string text, Dictionary<string, string> replacements)
+        public override string MultipleReplace(string originalText, Dictionary<string, string> replacements)
         {
-            if (AreParametersInvalid(text, replacements))
+            if (AreParametersInvalid(originalText, replacements))
             {
-                return text;
+                return originalText;
             }
 
             // Escape any special characters in the dictionary keys and order by longest, then alphabetical.
@@ -37,7 +37,7 @@ namespace AlchemicalFlux.Utilities.Helpers
 
             // Concatenates all keys to a searchable pattern.
             // Upon finding an entry to replace, it attempts to match with key / value in the replacements.
-            return Regex.Replace(text,
+            return Regex.Replace(originalText,
                 "(" + string.Join("|", escapedKeys) + ")",
                 delegate (Match m)
                 {
