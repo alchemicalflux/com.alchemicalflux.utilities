@@ -1,18 +1,21 @@
 /*------------------------------------------------------------------------------
-  File:           DictionaryExtensions.cs 
+  File:           IDictionaryExtensions.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Helper functions to extend the IDictionary class.
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 10:51:04 
+  Last commit at: 2023-10-24 12:16:39 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
-    public static class DictionaryExtensions
+    /// <summary>
+    /// Stores extensions for the <see cref="IDictionary{,}"/> class.
+    /// </summary>
+    public static class IDictionaryExtensions
     {
         /// <summary>
         /// Merges two dictionaries, preserving unique key/value pairs from the invoking dictionary and including 
