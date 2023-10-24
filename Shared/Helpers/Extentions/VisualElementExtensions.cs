@@ -5,14 +5,14 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-10-24 10:51:53 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
     /// <summary>
-    /// Stores extensions for the VisualElement class.
+    /// Stores extensions for the <see cref="VisualElement"/> class.
     /// </summary>
     public static class VisualElementExtensions
     {
