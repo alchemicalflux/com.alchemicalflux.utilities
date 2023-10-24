@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-20 07:36:29 
+  Last commit at: 2023-10-24 12:34:07 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -26,15 +26,18 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         /// <param name="text">Entry to be parsed for replacement.</param>
         /// <param name="replacements">Terms to be searched(keys) and replaced(values).</param>
+        /// <param name="textName">Name of the text parameter being tested.</param>
+        /// <param name="replacementsName">Name of the replacements parameter being tested.</param>
         /// <returns>Determines if either of the parameters are empty.</returns>
-        protected bool AreParametersInvalid(string text, Dictionary<string, string> replacements)
+        protected bool AreParametersInvalid(string text, Dictionary<string, string> replacements,
+             string textName, string replacementsName)
         {
             // Handle parameter checks and short circuts.
             if (text == null || replacements == null)
             {
-                var paramName = (text == null) ? nameof(text) : string.Empty;
+                var paramName = (text == null) ? textName : string.Empty;
                 paramName += (paramName != string.Empty && replacements == null) ? " and " : string.Empty;
-                paramName += (replacements == null) ? nameof(replacements) : string.Empty;
+                paramName += (replacements == null) ? replacementsName : string.Empty;
 
                 var message = "The '" + paramName + "' parameter(s) cannot be null.";
 

@@ -5,12 +5,12 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:20:04 
+  Last commit at: 2023-10-24 12:35:55 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace AlchemicalFlux.Utilities.Helpers
+namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
     /// <summary>
     /// Stores extensions for the <see cref="IDictionary{,}"/> class.

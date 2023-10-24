@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-20 07:36:29 
+  Last commit at: 2023-10-24 12:34:07 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </remarks>   
         public override string MultipleReplace(string originalText, Dictionary<string, string> replacements)
         {
-            if (AreParametersInvalid(originalText, replacements))
+            if (AreParametersInvalid(originalText, replacements, nameof(originalText), nameof(replacements)))
             {
                 return originalText;
             }
