@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-20 07:31:05 
+  Last commit at: 2023-10-24 12:32:35 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -132,84 +132,39 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="target">Target path to be copied to.</param>
         private void CopyDirectory(DirectoryInfo source, DirectoryInfo target)
         {
-            // Create top folder and initialize snapshot stack for child processing.
-            var snapshotStack = new Stack<CopySnapshot>();
-            var currentSnapshot = new CopySnapshot()
-            {
-                Source = source,
-                Target = target,
-                CurrentIndex = 0
-            };
-            snapshotStack.Push(currentSnapshot);
-            Directory.CreateDirectory(currentSnapshot.Target.FullName);
+            // Create and copy the top level folders and files.
+            CreateFolderAndCopyFiles(source, target.FullName);
 
-            // Loop to process all the child directories and their children.
-            do
+            var directories = source.GetDirectories("*", SearchOption.AllDirectories);
+            foreach (var directory in directories)
             {
-                // Determine if there are any directories left for current snapshot.
-                var directories = currentSnapshot.Source.GetDirectories();
-                if (directories.Length > 0 && currentSnapshot.CurrentIndex < directories.Length)
-                {
-                    // Save snapshot with index of the new directory.
-                    var currentDirectory = directories[currentSnapshot.CurrentIndex];
-                    ++currentSnapshot.CurrentIndex;
-                    snapshotStack.Push(currentSnapshot);
+                // Calculate the relative path between source and current directory.
+                string relativePath = Path.GetRelativePath(source.FullName, directory.FullName);
 
-                    // Create new snapshot and folder for new directory processing.
-                    var newSource = new DirectoryInfo(currentDirectory.FullName);
-                    var newTargetPath = Path.Combine(currentSnapshot.Target.FullName, newSource.Name);
-                    var newTarget = new DirectoryInfo(newTargetPath);
-                    currentSnapshot = new CopySnapshot()
-                    {
-                        Source = newSource,
-                        Target = newTarget,
-                        CurrentIndex = 0,
-                    };
-                    Directory.CreateDirectory(currentSnapshot.Target.FullName);
-                }
-                else
-                {
-                    // Copy current directory files and switch reference to parent folder snapshot.
-                    CopyFiles(currentSnapshot.Source, currentSnapshot.Target);
-                    currentSnapshot = snapshotStack.Pop();
-                }
-            } while (snapshotStack.Count > 0);
+                // Create the target directory path by combining target path and relative path.
+                string targetDirPath = Path.Combine(target.FullName, relativePath);
+
+                // Create the target directory if it doesn't exist.
+                CreateFolderAndCopyFiles(directory, targetDirPath);
+            }
         }
 
         /// <summary>
-        /// Copies the files from one directory to another.
+        /// Creates a top level folder and copies the files the files in it.
         /// </summary>
         /// <param name="source">Source path to be copied.</param>
         /// <param name="target">Target path to be copied to.</param>
-        private void CopyFiles(DirectoryInfo source, DirectoryInfo target)
+        private void CreateFolderAndCopyFiles(DirectoryInfo source, string targetPath)
         {
+            Directory.CreateDirectory(targetPath);
             foreach (var file in source.GetFiles())
             {
-                file.CopyTo(Path.Combine(target.FullName, file.Name), true);
+                file.CopyTo(Path.Combine(targetPath, file.Name), true);
             }
         }
 
         #endregion Internal Methods
 
         #endregion Members
-
-        #region Internal Classes
-
-        /// <summary>
-        /// Helper class that stores related data for the deep copying of directories.
-        /// </summary>
-        private struct CopySnapshot
-        {
-            /// <summary>Source information to be copied.</summary>
-            public DirectoryInfo Source;
-
-            /// <summary>Target information for copy.</summary>
-            public DirectoryInfo Target;
-
-            /// <summary>Current index of the source directory being copied.</summary>
-            public uint CurrentIndex;
-        }
-
-        #endregion Internal Classes
     }
 }
