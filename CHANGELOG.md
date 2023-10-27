@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.1.0...v1.2.0) (2023-10-27)
+
+
+### Bug Fixes
+
+* Add unit test to Helper's Test namespace ([d5665f2](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/d5665f26fc2df97aad54e2a3be689ad62b0d4173))
+* Match file name with the class being extended ([f77dff3](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/f77dff3a596b0a3f756033e823cf9e1c65e76e99))
+
+
+### Features
+
+* Add extension to merge to IDictionary into single enumerable collection ([e8f78c5](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/e8f78c5124a3bd7024346cd97648149d56d7a360))
+
 # [1.1.0](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.0.0...v1.1.0) (2023-10-14)
 
 
