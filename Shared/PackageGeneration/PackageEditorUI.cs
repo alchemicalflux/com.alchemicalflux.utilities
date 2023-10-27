@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-10-27 05:34:56 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -86,6 +86,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public Dictionary<string, string> TemplateNamespaces => new() {
             { PackageConstants.TemplateCompanyNamespace, companyNamespace.text },
             { PackageConstants.TemplateProjectNamespace, projectNamespace.text },
+            { PackageConstants.TemplateProjectName, projectField.text },
         };
 
         /// <summary>

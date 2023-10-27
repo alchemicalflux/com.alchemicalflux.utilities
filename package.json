@@ -4,7 +4,9 @@
   "displayName": "AlchemicalFlux Unity Utilities",
   "description": "Unity package containing cross-project functionality",
   "unity": "2021.3",
-  "dependencies": {},
+  "dependencies": {
+    "nuget.moq": "1.0.0"
+  },
   "keywords": [],
   "author": {
     "name": "Jeremy Miller",
@@ -12,6 +14,7 @@
     "url": ""
   },
   "git-dependencies": [
-    "https://github.com/alchemicalflux/com.alchemicalflux.package-template.git"
+    "https://github.com/alchemicalflux/com.alchemicalflux.package-template.git#v1.0.0",
+    "https://github.com/alchemicalflux/com.alchemicalflux.git-utilities.git#v1.0.0"
   ]
 }
