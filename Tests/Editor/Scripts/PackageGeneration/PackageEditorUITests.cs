@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-12 01:13:52 
+  Last commit at: 2023-10-27 05:34:56 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;
@@ -102,6 +102,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             {
                 { PackageConstants.TemplateCompanyNamespace, companyNamespace },
                 { PackageConstants.TemplateProjectNamespace, projectNamespace},
+                { PackageConstants.TemplateProjectName, projectName },
             };
 
             // Act
