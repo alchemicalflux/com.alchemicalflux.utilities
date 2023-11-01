@@ -3,7 +3,7 @@
         <ui:VisualElement style="background-color: rgb(80, 80, 80);">
             <ui:Label text="Folder Path" display-tooltip-when-elided="true" name="FolderPath" />
         </ui:VisualElement>
-        <ui:Toggle name="PreCommit" text="Include Git Pre-commits" />
-        <ui:Toggle name="GitHubWorkflow" text="Include GitHub Workflow" />
+        <ui:Toggle name="PreCommit" text="Include Header Pre-commits" />
+        <ui:Toggle name="SemanticRelease" text="Include Semantic Release" />
     </ui:VisualElement>
 </ui:UXML>
