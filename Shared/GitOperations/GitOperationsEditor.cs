@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-11-01 16:01:14 
+  Last commit at: 2023-11-01 16:59:19 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -139,7 +139,6 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 foreach (var folder in semanticReleaseFolders)
                 {
                     var targetPath = Path.Join(ui.ParentFolderPath, folder);
-                    Debug.Log($"{tempPath}, {targetPath}");
                     fileOperations.CopyDirectory(tempPath, targetPath);
                 }
 
