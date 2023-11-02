@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:32:35 
+  Last commit at: 2023-11-01 15:59:50 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -55,15 +55,27 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Interface Methods
 
         /// <inheritdoc />
+        public void CopyDirectory(string sourcePath, string targetPath)
+        {
+            var directoryInfo = new DirectoryInfo(targetPath);
+            CopyDirectory(new DirectoryInfo(sourcePath), directoryInfo);
+        }
+
+        /// <inheritdoc />
         public void OverwriteDirectory(string sourcePath, string targetPath)
+        {
+            DeleteDirectory(targetPath);
+            CopyDirectory(sourcePath, targetPath);
+        }
+
+        /// <inheritdoc />
+        public void DeleteDirectory(string targetPath)
         {
             var directoryInfo = new DirectoryInfo(targetPath);
             if (directoryInfo.Exists)
             {
                 directoryInfo.Delete(true);
             }
-
-            CopyDirectory(new DirectoryInfo(sourcePath), directoryInfo);
         }
 
         /// <inheritdoc />

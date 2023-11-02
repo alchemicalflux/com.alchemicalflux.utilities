@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-20 07:31:05 
+  Last commit at: 2023-11-01 15:59:50 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -18,11 +18,25 @@ namespace AlchemicalFlux.Utilities.Helpers
     public interface IFileSystemService
     {
         /// <summary>
+        /// Copies all files under the source directory to the target directory.
+        /// </summary>
+        /// <param name="sourcePath">Directory to be copied.</param>
+        /// <param name="targetPath">Directory that will be filled with the source copy.</param>
+        public void CopyDirectory(string sourcePath, string targetPath);
+
+
+        /// <summary>
         /// Destroys all files under the target directory and copies the source files to it.
         /// </summary>
         /// <param name="sourcePath">Directory to be copied.</param>
         /// <param name="targetPath">Directory that will be cleared and filled with the source copy.</param>
         public void OverwriteDirectory(string sourcePath, string targetPath);
+
+        /// <summary>
+        /// Destroys all files under the target directory.
+        /// </summary>
+        /// <param name="targetPath">Directory that will be cleared.</param>
+        public void DeleteDirectory(string targetPath);
 
         /// <summary>
         /// Removes unwanted folders from a directory based on the supplied filters.

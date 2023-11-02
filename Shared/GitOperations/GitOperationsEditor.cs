@@ -5,8 +5,9 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-13 01:50:32 
+  Last commit at: 2023-11-01 16:59:19 
 ------------------------------------------------------------------------------*/
+using AlchemicalFlux.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,9 @@ namespace AlchemicalFlux.Utilities.GitOperations
     public class GitOperationsEditor
     {
         #region Members
+
+        /// <summary>File types to be removed from copy.</summary>
+        private const string metaFileExtension = "*.meta";
 
         /// <summary>Name of top level folders associated with Git.</summary>
         private const string gitFolderName = ".git";
@@ -55,8 +59,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void SelectParentFolder()
         {
-            var directory = GetDirectory.Invoke();
-            ui.ParentFolderPath = directory;
+            ui.ParentFolderPath = GetDirectory?.Invoke();
             GatherFolders();
         }
 
@@ -76,7 +79,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
             {
                 // Trim the folder names to reduce redundancy.
                 var data = ScriptableObject.CreateInstance<FolderData>();
-                data.FolderPath = directory.FullName.Replace(parentPathInfo.FullName, "");
+                data.FolderPath = directory.Parent.FullName.Replace(parentPathInfo.FullName, "");
                 directoryList.Add(data);
             }
 
@@ -86,7 +89,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         private void InstallSelections()
         {
             InstallPreCommits();
-            InstallWorkflows();
+            InstallSemanticRelease();
         }
 
         private void InstallPreCommits()
@@ -94,17 +97,54 @@ namespace AlchemicalFlux.Utilities.GitOperations
             var preCommitFolders = directoryList.Where(data => data.IncludePreCommits)
                 .Select(data => data.FolderPath);
 
-            var output = string.Join("\n", preCommitFolders);
-            Debug.Log(output);
+            if(preCommitFolders.Any())
+            {
+                var fileOperations = new IOFileSystemService(new RegexStringManipulator());
+
+                // Copy the template to a temp location.
+                var tempPath = Path.Join(GitConstants.TempPath, GitConstants.PreCommitName);
+                fileOperations.CopyDirectory(GitConstants.PreCommitPath, tempPath);
+
+                // Remove unwanted files.
+                fileOperations.RemoveFilesByName(tempPath, metaFileExtension);
+
+                foreach (var folder in preCommitFolders)
+                {
+                    var targetPath = Path.Join(ui.ParentFolderPath, folder); 
+                    targetPath = Path.Join(targetPath, gitFolderName, GitConstants.PreCommitTargetPath);
+                    fileOperations.CopyDirectory(tempPath, targetPath);
+                }
+
+                // Remove the temporary files.
+                fileOperations.DeleteDirectory(tempPath);
+            }
         }
 
-        private void InstallWorkflows()
+        private void InstallSemanticRelease()
         {
-            var preCommitFolders = directoryList.Where(data => data.IncludeWorkflows)
+            var semanticReleaseFolders = directoryList.Where(data => data.IncludeSemanticRelease)
                 .Select(data => data.FolderPath);
 
-            var output = string.Join("\n", preCommitFolders);
-            Debug.Log(output);
+            if (semanticReleaseFolders.Any())
+            {
+                var fileOperations = new IOFileSystemService(new RegexStringManipulator());
+
+                // Copy the template to a temp location.
+                var tempPath = Path.Join(GitConstants.TempPath, GitConstants.SemanticReleaseName);
+                fileOperations.CopyDirectory(GitConstants.SemanticReleasePath, tempPath);
+
+                // Remove unwanted files.
+                fileOperations.RemoveFilesByName(tempPath, metaFileExtension);
+
+                foreach (var folder in semanticReleaseFolders)
+                {
+                    var targetPath = Path.Join(ui.ParentFolderPath, folder);
+                    fileOperations.CopyDirectory(tempPath, targetPath);
+                }
+
+                // Remove the temporary files.
+                fileOperations.DeleteDirectory(tempPath);
+            }
         }
 
         #endregion Methods
