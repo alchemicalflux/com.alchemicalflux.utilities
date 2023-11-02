@@ -1,6 +1,6 @@
 {
   "name": "com.alchemicalflux.utilities",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "AlchemicalFlux Unity Utilities",
   "description": "Unity package containing cross-project functionality",
   "unity": "2021.3",
@@ -14,6 +14,7 @@
     "url": ""
   },
   "git-dependencies": [
-    "https://github.com/alchemicalflux/com.alchemicalflux.package-template.git"
+    "https://github.com/alchemicalflux/com.alchemicalflux.package-template.git#v1.0.0",
+    "https://github.com/alchemicalflux/com.alchemicalflux.git-utilities.git#v1.0.0"
   ]
 }
