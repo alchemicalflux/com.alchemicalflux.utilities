@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.2.0...v1.3.0) (2023-11-02)
+
+
+### Bug Fixes
+
+* Destroy temporary files from copy process ([6f6e91a](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/6f6e91a7ad7d845a738513e04fa3e7b373f68003))
+
+
+### Features
+
+* Add CopyDirectory and DeleteDirectory to IFileSystemService ([406c757](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/406c757787e31417a4780f7b76437c72906bf31c))
+* Implement file copying for precommits and semantic release operations ([ef0888f](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/ef0888f433e7222ed4313eb70dc6d188899acf24))
+
 # [1.2.0](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.1.0...v1.2.0) (2023-10-27)
 
 
