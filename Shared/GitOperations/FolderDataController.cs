@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-11-01 16:01:14 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 
@@ -27,8 +27,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <summary>Handle to the UI element for the precommit toggle.</summary>
         public Toggle IncludePreCommitsToggle;
 
-        /// <summary>Handle to the UI element for the workflow toggle.</summary>
-        public Toggle IncludeWorkflowsToggle;
+        /// <summary>Handle to the UI element for the semantic release toggle.</summary>
+        public Toggle IncludeSemanticReleaseToggle;
 
         #endregion Members
 
@@ -44,12 +44,12 @@ namespace AlchemicalFlux.Utilities.GitOperations
         }
 
         /// <summary>
-        /// Callback for updating the workflow flag on UI change.
+        /// Callback for updating the semantic release flag on UI change.
         /// </summary>
         /// <param name="evt">Event information regarding UI change.</param>
-        public void OnWorkflowChange(ChangeEvent<bool> evt)
+        public void OnSemanticReleaseChange(ChangeEvent<bool> evt)
         {
-            Data.IncludeWorkflows = evt.newValue;
+            Data.IncludeSemanticRelease = evt.newValue;
         }
 
         #endregion Methods

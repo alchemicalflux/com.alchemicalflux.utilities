@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-11-01 16:01:14 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -24,8 +24,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <summary>Flag indicating if the PreCommits should be processed.</summary>
         public bool IncludePreCommits;
 
-        /// <summary>Flag indicating if the Workflows should be processed.</summary>
-        public bool IncludeWorkflows;
+        /// <summary>Flag indicating if the Semantic Release should be processed.</summary>
+        public bool IncludeSemanticRelease;
 
         #endregion Members
 
@@ -39,7 +39,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         {
             FolderPath = path;
             IncludePreCommits = false;
-            IncludeWorkflows = false;
+            IncludeSemanticRelease = false;
         }
 
         #endregion Methods

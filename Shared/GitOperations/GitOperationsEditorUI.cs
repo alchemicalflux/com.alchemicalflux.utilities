@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-13 01:50:32 
+  Last commit at: 2023-11-01 16:01:14 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -92,14 +92,14 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
             var folderPathLabel = newListEntry.Q<Label>(GitConstants.FolderPathName);
             var preCommitToggle = newListEntry.Q<Toggle>(GitConstants.PreCommitName);
-            var workflowsToggle = newListEntry.Q<Toggle>(GitConstants.GitHubWorkflowName);
+            var workflowsToggle = newListEntry.Q<Toggle>(GitConstants.SemanticReleaseName);
 
             // Initialize the controller that stores related handles and information.
             newListEntry.userData = new FolderDataController()
             {
                 FolderPathLabel = folderPathLabel,
                 IncludePreCommitsToggle = preCommitToggle,
-                IncludeWorkflowsToggle = workflowsToggle,
+                IncludeSemanticReleaseToggle = workflowsToggle,
             };
 
             return newListEntry;
@@ -121,11 +121,11 @@ namespace AlchemicalFlux.Utilities.GitOperations
             controller.Data = data;
             controller.FolderPathLabel.text = data.FolderPath;
             controller.IncludePreCommitsToggle.SetValueWithoutNotify(data.IncludePreCommits);
-            controller.IncludeWorkflowsToggle.SetValueWithoutNotify(data.IncludeWorkflows);
+            controller.IncludeSemanticReleaseToggle.SetValueWithoutNotify(data.IncludeSemanticRelease);
 
             // Register the callbacks for UI functionality.
             controller.IncludePreCommitsToggle.RegisterValueChangedCallback(controller.OnPreCommitChange);
-            controller.IncludeWorkflowsToggle.RegisterValueChangedCallback(controller.OnWorkflowChange);
+            controller.IncludeSemanticReleaseToggle.RegisterValueChangedCallback(controller.OnSemanticReleaseChange);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
             var controller = (elem.userData) as FolderDataController;
 
             controller.IncludePreCommitsToggle.UnregisterValueChangedCallback(controller.OnPreCommitChange);
-            controller.IncludeWorkflowsToggle.UnregisterValueChangedCallback(controller.OnWorkflowChange);
+            controller.IncludeSemanticReleaseToggle.UnregisterValueChangedCallback(controller.OnSemanticReleaseChange);
 
             controller.Data = null;
         }

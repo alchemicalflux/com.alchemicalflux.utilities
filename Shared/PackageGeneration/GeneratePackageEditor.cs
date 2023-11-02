@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-20 07:48:44 
+  Last commit at: 2023-11-01 16:02:13 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -64,6 +64,9 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
 
             // Move new package to the project Assests folder and refresh the interface.
             fileOperations.OverwriteDirectory(tempPath, PackageConstants.AssetsPath + ui.PackageName);
+
+            // Remove the temporary files.
+            fileOperations.DeleteDirectory(tempPath);
 
             OnPackageCreation?.Invoke();
         }
