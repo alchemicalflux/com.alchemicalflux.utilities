@@ -47,3 +47,7 @@ https://github.com/alchemicalflux/com.alchemicalflux.utilities.git
     - The search will scan all folders under the selection  
 3) Select which utilities to be installed for any found git folder(s)  
 4) Press "Install Selections" and wait for files to be copied  
+- Addtional steps required for Semantic Release option  
+  + Create access token (such as using npmjs.com)
+  + Assign token to repository secrets as NPM_TOKEN
+  + Verify that package.json contains "version": "0.0.0-development"
