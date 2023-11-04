@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-11-01 16:59:19 
+  Last commit at: 2023-11-04 11:20:10 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -86,12 +86,18 @@ namespace AlchemicalFlux.Utilities.GitOperations
             ui.UpdateDirectories(directoryList);
         }
 
+        /// <summary>
+        /// Handles the installation of all the various git operations.
+        /// </summary>
         private void InstallSelections()
         {
             InstallPreCommits();
             InstallSemanticRelease();
         }
 
+        /// <summary>
+        /// Handles the processing of all folders installing the pre-commit files.
+        /// </summary>
         private void InstallPreCommits()
         {
             var preCommitFolders = directoryList.Where(data => data.IncludePreCommits)
@@ -120,6 +126,9 @@ namespace AlchemicalFlux.Utilities.GitOperations
             }
         }
 
+        /// <summary>
+        /// Handles the processing of all folders installing the semantic release files.
+        /// </summary>
         private void InstallSemanticRelease()
         {
             var semanticReleaseFolders = directoryList.Where(data => data.IncludeSemanticRelease)

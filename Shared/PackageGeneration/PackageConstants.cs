@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+  Last commit at: 2023-11-04 12:49:02 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {
@@ -23,7 +23,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
 
         // Directory information
         public const string TempPath = "Temp/";
-        public const string PackagePath = "Packages/" + TemplatePackageName;
+        public const string PackagePath = "Packages/" + TemplatePackageName + "/Documents";
         public const string AssetsPath = "Assets/";
 
         // UI interface references

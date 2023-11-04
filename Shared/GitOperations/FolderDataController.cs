@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-11-01 16:01:14 
+  Last commit at: 2023-11-04 11:20:10 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 
@@ -24,7 +24,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <summary>Handle to the UI element for the folder path.</summary>
         public Label FolderPathLabel;
 
-        /// <summary>Handle to the UI element for the precommit toggle.</summary>
+        /// <summary>Handle to the UI element for the pre-commit toggle.</summary>
         public Toggle IncludePreCommitsToggle;
 
         /// <summary>Handle to the UI element for the semantic release toggle.</summary>
@@ -35,7 +35,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         #region Methods
 
         /// <summary>
-        /// Callback for updating the precommit flag on UI change.
+        /// Callback for updating the pre-commit flag on UI change.
         /// </summary>
         /// <param name="evt">Event information regarding UI change.</param>
         public void OnPreCommitChange(ChangeEvent<bool> evt)
