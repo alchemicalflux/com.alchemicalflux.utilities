@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-07 06:40:08 
+  Last commit at: 2024-02-10 11:12:07 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;
@@ -19,7 +19,6 @@ namespace AlchemicalFlux.Utilities.Helpers
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
     public class NullCheck : PropertyAttribute 
     {
-
         /// <summary>Indicates if the NullCheck should be ignored when assoiated with prefabs.</summary>
         public bool IgnorePrefab { get; set; }
     }
