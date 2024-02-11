@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-11 04:10:06 
+  Last commit at: 2024-02-11 06:09:36 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 
@@ -27,8 +27,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process All")]
         public static void ProcessAllScenes()
         {
-            NullCheckFinder.ProcessGameObjectsInAssetDatabase(string.Empty);
-            NullCheckFinder.ProcessAllScenes();
+            NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            NullCheckProcessing.ProcessAllScenes();
         }
 
         /// <summary>
@@ -37,8 +37,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process Current Scene")]
         public static void ProcessCurrentScene()
         {
-            NullCheckFinder.ProcessGameObjectsInAssetDatabase(string.Empty);
-            NullCheckFinder.ProcessGameObjectsInScene();
+            NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            NullCheckProcessing.ProcessGameObjectsInScene();
         }
 
         #endregion Methods

@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-11 04:10:06 
+  Last commit at: 2024-02-11 06:09:36 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -21,13 +21,6 @@ namespace AlchemicalFlux.Utilities.Helpers
     [InitializeOnLoad]
     public class FindNullChecksOnLoad
     {
-        #region Members
-
-        /// <summary>Location of unit test assets.</summary>
-        private const string _unitTestLocation = "NullCheck/Tests";
-
-        #endregion Members
-
         #region Methods
 
         /// <summary>
@@ -53,8 +46,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             EditorApplication.update -= CheckOnStart;
 
             // Being in play mode means only the assets and current scene can be proecessed.
-            var foundErrors = NullCheckFinder.ProcessGameObjectsInAssetDatabase(_unitTestLocation);
-            foundErrors |= NullCheckFinder.ProcessGameObjectsInScene();
+            var foundErrors = NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            foundErrors |= NullCheckProcessing.ProcessGameObjectsInScene();
 
             // If null check violations are found, stop play mode in the editor.
             if (foundErrors)
@@ -70,8 +63,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             if(stateChange != PlayModeStateChange.ExitingEditMode) { return; }
 
             // Unity is still in edit mode, so assets and all scenes can be processed.
-            var foundErrors = NullCheckFinder.ProcessGameObjectsInAssetDatabase(_unitTestLocation);
-            foundErrors |= NullCheckFinder.ProcessAllScenes();
+            var foundErrors = NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            foundErrors |= NullCheckProcessing.ProcessAllScenes();
 
             // If null check violations are found, stop play mode in the editor.
             if (foundErrors)
