@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-10 22:52:43 
+  Last commit at: 2024-02-11 04:10:06 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 
@@ -22,11 +22,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Methods
 
         /// <summary>
-        /// Menu item to process all scenes in the project, searching for null check violations.
+        /// Menu item to process assets and all scenes in the project, searching for null check violations.
         /// </summary>
-        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process Scenes")]
+        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process All")]
         public static void ProcessAllScenes()
         {
+            NullCheckFinder.ProcessGameObjectsInAssetDatabase(string.Empty);
             NullCheckFinder.ProcessAllScenes();
         }
 
