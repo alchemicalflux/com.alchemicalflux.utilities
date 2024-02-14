@@ -10,7 +10,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-11 06:09:36 
+  Last commit at: 2024-02-13 18:35:48 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEditor;
@@ -27,7 +27,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private const string DefaultSceneOutputText = "In current scene.";
 
         /// <summary>Location of unit test assets.</summary>
-        private const string UnitTestLocation = "Tests/Editor/Resources/Helpers/NullCheck";
+        private const string UnitTestLocation = "Tests/Runtime/Resources/Helpers/NullCheck";
 
         #endregion Members
 
