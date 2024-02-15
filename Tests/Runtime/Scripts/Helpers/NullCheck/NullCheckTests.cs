@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 03:17:33 
+  Last commit at: 2024-02-15 04:50:47 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -23,6 +23,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         private const string _emptyGameObjectPrefabTestName = "EmptyObject_ReturnsNoErrors";
         private const string _emptyScriptPrefabTestName = "EmptyScript_ReturnsNoErrors";
+        private const string _valueFieldsPrefabTestName = "ValueFields_ReturnsTwelveErrors";
         private const string _nullCheckPrefabTestName = "NullCheck_ReturnsOneError";
         private const string _prefabNullCheckPrefabTestName = "PrefabNullCheck_ReturnsNoErrors";
         private const string _linkedNullCheckPrefabTestName = "LinkedNullCheck_ReturnsNoErrors";
@@ -45,6 +46,10 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 {
                     _emptyScriptPrefabTestName,
                     new TestCaseData(NullCheckTestType.EmptyScript, 0)
+                },
+                {
+                    _valueFieldsPrefabTestName,
+                    new TestCaseData(NullCheckTestType.ValueFields, 12)
                 },
                 {
                     _nullCheckPrefabTestName,
@@ -91,6 +96,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         // Instantiate Scenario Tests
         private const string _emptyGameObjectTestName = "EmptyObject_ReturnsNoErrors";
         private const string _emptyScriptTestName = "EmptyScript_ReturnsNoErrors";
+        private const string _valueFieldsTestName = "ValueFields_ReturnsTwelveErrors";
         private const string _nullCheckTestName = "NullCheck_ReturnsOneError";
         private const string _prefabNullCheckTestName = "PrefabNullCheck_ReturnsOneError";
         private const string _linkedNullCheckTestName = "LinkedNullCheck_ReturnsNoError";
@@ -112,6 +118,10 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 {
                     _emptyScriptTestName,
                     new TestCaseData(NullCheckTestType.EmptyScript, 0)
+                },
+                {
+                    _valueFieldsTestName,
+                    new TestCaseData(NullCheckTestType.ValueFields, 12)
                 },
                 {
                     _nullCheckTestName,

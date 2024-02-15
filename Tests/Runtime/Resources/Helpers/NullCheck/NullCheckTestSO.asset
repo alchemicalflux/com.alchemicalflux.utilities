@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EmptyObjectTest: {fileID: 3775557320029778550, guid: 7c41c228315e6314fa9fff86d7753337, type: 3}
   EmptyScriptTest: {fileID: 2822206410349895949, guid: e31921d3933ca8346a3dd4f363fe0c03, type: 3}
+  ValueFieldsTest: {fileID: 8851368286816986647, guid: f085853ddd4197344aaa1e539420909f, type: 3}
   NullCheckTest: {fileID: 4860204927875121576, guid: 8163762d7695f184b999a59e2eec7342, type: 3}
   PrefabNullCheckTest: {fileID: 7361987172068883704, guid: 90d2376bc2144084bb708c5dc207c4c3, type: 3}
   LinkedNullCheckTest: {fileID: 8849696284845899109, guid: 5a630e76a834d1e428f477214810495c, type: 3}

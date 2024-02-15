@@ -6,10 +6,12 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 03:17:33 
+  Last commit at: 2024-02-15 04:50:47 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
+    #region Definitions
+
     /// <summary>
     /// Enumeration used for GameObject accessing during NullCheck unit tests.
     /// </summary>
@@ -17,6 +19,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
     {
         EmptyObject,
         EmptyScript,
+        ValueFields,
         NullCheck,
         PrefabNullCheck,
         LinkedNullCheck,
@@ -28,4 +31,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         MultiNullCheck,
         LinkedMultiNullCheck,
     }
+
+    #endregion Definitions
 }
