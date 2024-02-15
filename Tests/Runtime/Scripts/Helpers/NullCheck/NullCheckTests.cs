@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-13 18:35:48 
+  Last commit at: 2024-02-15 02:52:43 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -25,6 +25,12 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _emptyScriptPrefabTestName = "EmptyScript_ReturnsNoErrors";
         private const string _nullCheckPrefabTestName = "NullCheck_ReturnsOneError";
         private const string _prefabNullCheckPrefabTestName = "PrefabNullCheck_ReturnsNoErrors";
+        private const string _linkedNullCheckPrefabTestName = "LinkedNullCheck_ReturnsNoErrors";
+        private const string _linkedPrefabNullCheckPrefabTestName = "LinkedPrefabNullCheck_ReturnsNoErrors";
+        private const string _childNullCheckPrefabTestName = "ChildNullCheck_ReturnsOneError";
+        private const string _childPrefabNullCheckPrefabTestName = "ChildPrefabNullCheck_ReturnsNoErrors";
+        private const string _linkedChildNullCheckPrefabTestName = "LinkedChildNullCheck_ReturnsNoErrors";
+        private const string _linkedChildPrefabNullCheckPrefabTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
 
         // Prefab Scenerio Tests
         private static readonly Dictionary<string, TestCaseData> PrefabScenarioData =
@@ -46,6 +52,30 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                     _prefabNullCheckPrefabTestName,
                     new TestCaseData(NullCheckTestType.PrefabNullCheck, 0)
                 },
+                {
+                    _linkedNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.LinkedNullCheck, 0)
+                },
+                {
+                    _linkedPrefabNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
+                },
+                {
+                    _childNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.ChildNullCheck, 1)
+                },
+                {
+                    _childPrefabNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.ChildPrefabNullCheck, 0)
+                },
+                {
+                    _linkedChildNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.LinkedChildNullCheck, 0)
+                },
+                {
+                    _linkedChildPrefabNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
+                },
              };
 
         // Instantiate Scenario Tests
@@ -53,6 +83,12 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _emptyScriptTestName = "EmptyScript_ReturnsNoErrors";
         private const string _nullCheckTestName = "NullCheck_ReturnsOneError";
         private const string _prefabNullCheckTestName = "PrefabNullCheck_ReturnsOneError";
+        private const string _linkedNullCheckTestName = "LinkedNullCheck_ReturnsNoError";
+        private const string _linkedPrefabNullCheckTestName = "LinkedPrefabNullCheck_ReturnsNoErrors";
+        private const string _childNullCheckTestName = "ChildNullCheck_ReturnsOneError";
+        private const string _childPrefabNullCheckTestName = "ChildPrefabNullCheck_ReturnsNoErrors";
+        private const string _linkedChildNullCheckTestName = "LinkedChildNullCheck_ReturnsNoErrors";
+        private const string _linkedChildPrefabNullCheckTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
 
         private static readonly Dictionary<string, TestCaseData> InstantiatedScenarioData =
             new Dictionary<string, TestCaseData>()
@@ -72,6 +108,30 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 {
                     _prefabNullCheckTestName,
                     new TestCaseData(NullCheckTestType.PrefabNullCheck, 1)
+                },
+                {
+                    _linkedNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.LinkedNullCheck, 0)
+                },
+                {
+                    _linkedPrefabNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
+                },
+                {
+                    _childNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.ChildNullCheck, 1)
+                },
+                {
+                    _childPrefabNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.ChildPrefabNullCheck, 1)
+                },
+                {
+                    _linkedChildNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.LinkedChildNullCheck, 0)
+                },
+                {
+                    _linkedChildPrefabNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
                 },
             };
 
