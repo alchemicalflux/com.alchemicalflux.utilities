@@ -8,9 +8,10 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-11 06:09:36 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
+using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
@@ -19,16 +20,45 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// </summary>
     public static class NullCheckMenuItems
     {
+        #region
+
+        private const string _noErrorsMessage = "No NullCheck violations found.";
+
+        #endregion
+
         #region Methods
+
 
         /// <summary>
         /// Menu item to process assets and all scenes in the project, searching for null check violations.
         /// </summary>
         [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process All")]
+        public static void ProcessAll()
+        {
+            var errorsFound = false;
+            errorsFound |= NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            errorsFound |= NullCheckProcessing.ProcessGameObjectsInAllScenes();
+            DisplayNoErrorMessage(errorsFound);
+        }
+
+        /// <summary>
+        /// Menu item to process assets in the project, searching for null check violations.
+        /// </summary>
+        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process Asset Database")]
+        public static void ProcessAssetDatabase()
+        {
+            var errorsFound = NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            DisplayNoErrorMessage(errorsFound);
+        }
+
+        /// <summary>
+        /// Menu item to process all scenes in the project, searching for null check violations.
+        /// </summary>
+        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process All Scenes")]
         public static void ProcessAllScenes()
         {
-            NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
-            NullCheckProcessing.ProcessAllScenes();
+            var errorsFound = NullCheckProcessing.ProcessGameObjectsInAllScenes();
+            DisplayNoErrorMessage(errorsFound);
         }
 
         /// <summary>
@@ -37,8 +67,16 @@ namespace AlchemicalFlux.Utilities.Helpers
         [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process Current Scene")]
         public static void ProcessCurrentScene()
         {
-            NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
-            NullCheckProcessing.ProcessGameObjectsInScene();
+            var errorsFound = NullCheckProcessing.ProcessGameObjectsInScene();
+            DisplayNoErrorMessage(errorsFound);
+        }
+
+        private static void DisplayNoErrorMessage(bool errorsFound)
+        {
+            if (!errorsFound)
+            {
+                Debug.Log(_noErrorsMessage);
+            }
         }
 
         #endregion Methods

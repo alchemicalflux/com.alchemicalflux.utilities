@@ -7,7 +7,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:50:47 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -19,6 +19,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
     [CreateAssetMenu(menuName = "AlchemicalFlux/Tests/NullCheckTestSO")]
     public class NullCheckTestSO : ScriptableObject
     {
+        #region Members
+
         public GameObject EmptyObjectTest;
         public GameObject EmptyScriptTest;
         public GameObject ValueFieldsTest;
@@ -33,6 +35,15 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public GameObject MultiNullCheckTest;
         public GameObject LinkedMultiNullCheckTest;
 
+        #endregion Members
+
+        #region Methods
+
+        /// <summary>
+        /// Resturns the apporiate prefab reference based on the requested type.
+        /// </summary>
+        /// <param name="type">Requesting game object type.</param>
+        /// <returns>Reference to a GameObject.</returns>
         public GameObject Get(NullCheckTestType type)
         {
             switch (type)
@@ -53,5 +64,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             }
             return null;
         }
+
+        #endregion Methods
     }
 }

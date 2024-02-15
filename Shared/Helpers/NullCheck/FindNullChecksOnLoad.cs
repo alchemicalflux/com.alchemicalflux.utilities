@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-11 06:09:36 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -64,7 +64,7 @@ namespace AlchemicalFlux.Utilities.Helpers
 
             // Unity is still in edit mode, so assets and all scenes can be processed.
             var foundErrors = NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
-            foundErrors |= NullCheckProcessing.ProcessAllScenes();
+            foundErrors |= NullCheckProcessing.ProcessGameObjectsInAllScenes();
 
             // If null check violations are found, stop play mode in the editor.
             if (foundErrors)

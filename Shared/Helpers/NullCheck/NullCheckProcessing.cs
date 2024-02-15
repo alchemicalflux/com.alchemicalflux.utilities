@@ -10,7 +10,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 02:50:28 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEditor;
@@ -24,10 +24,10 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Members
 
         /// <summary>Output for objects loaded in the current scene.</summary>
-        private const string DefaultSceneOutputText = "In current scene.";
+        private const string _defaultSceneOutputText = "In current scene.";
 
         /// <summary>Location of unit test assets.</summary>
-        private const string UnitTestLocation = "Tests/Runtime/Resources/Helpers/NullCheck";
+        private const string _unitTestLocation = "Tests/Runtime/Resources/Helpers/NullCheck";
 
         #endregion Members
 
@@ -37,7 +37,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// Processes all scenes in the project, checking for null check violations.
         /// </summary>
         /// <returns>True if any violations are found; otherwise, false.</returns>
-        public static bool ProcessAllScenes()
+        public static bool ProcessGameObjectsInAllScenes()
         {
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return false; }
 
@@ -62,7 +62,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         /// <param name="pathToAsset">Path to the asset.</param>
         /// <returns>True if any violations are found; otherwise, false.</returns>
-        public static bool ProcessGameObjectsInScene(string pathToAsset = DefaultSceneOutputText)
+        public static bool ProcessGameObjectsInScene(string pathToAsset = _defaultSceneOutputText)
         {
             var sceneGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             var foundErrors = false;
@@ -87,7 +87,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 var pathToGameObject = AssetDatabase.GUIDToAssetPath(guid);
 
-                if (pathToGameObject.Contains(UnitTestLocation)) { continue; }
+                if (pathToGameObject.Contains(_unitTestLocation)) { continue; }
 
                 var gameObject = (GameObject)AssetDatabase.LoadAssetAtPath(pathToGameObject,
                     typeof(GameObject));

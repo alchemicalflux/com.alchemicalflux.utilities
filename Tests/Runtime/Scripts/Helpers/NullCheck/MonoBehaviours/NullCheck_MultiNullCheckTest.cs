@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:42:09 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -22,11 +22,11 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             [NullCheck]
             [SerializeField]
-            private GameObject Object;
+            private GameObject _object;
 
             [NullCheck(IgnorePrefab = true)]
             [SerializeField]
-            private GameObject Prefab;
+            private GameObject _prefab;
         }
 
         #endregion Definitions
@@ -35,14 +35,14 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [NullCheck]
         [SerializeField]
-        private GameObject Object;
+        private GameObject _object;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private GameObject Prefab;
+        private GameObject _prefab;
 
         [SerializeField]
-        private List<ListType> List;
+        private List<ListType> _list;
 
         #endregion Members
     }

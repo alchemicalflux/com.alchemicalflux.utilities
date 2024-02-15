@@ -44,11 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123645b1ccd2209499f48f9f5d1d2014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object: {fileID: 7712831671393386521}
-  Prefab: {fileID: 7712831671393386521}
-  List:
-  - Object: {fileID: 7712831671393386521}
-    Prefab: {fileID: 7712831671393386521}
+  _object: {fileID: 1372814226439846569}
+  _prefab: {fileID: 1372814226439846569}
+  _list: []
 --- !u!1 &7712831671393386521
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,8 +92,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 123645b1ccd2209499f48f9f5d1d2014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Object: {fileID: 7712831671393386521}
-  Prefab: {fileID: 7712831671393386521}
-  List:
-  - Object: {fileID: 7712831671393386521}
-    Prefab: {fileID: 7712831671393386521}
+  _object: {fileID: 7712831671393386521}
+  _prefab: {fileID: 7712831671393386521}
+  _list: []

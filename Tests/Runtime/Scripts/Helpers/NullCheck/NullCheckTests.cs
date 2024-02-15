@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:50:47 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -17,7 +17,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
     {
         #region Members
 
-        private NullCheckTestSO testObjects;
+        /// <summary>Handle used to access GameObjects for testing purposes.</summary>
+        private NullCheckTestSO _testObjects;
 
         #region Test Scenerios
 
@@ -36,7 +37,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _linkedChildPrefabNullCheckPrefabTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
 
         // Prefab Scenerio Tests
-        private static readonly Dictionary<string, TestCaseData> PrefabScenarioData =
+        private static readonly Dictionary<string, TestCaseData> _prefabScenarioData =
              new Dictionary<string, TestCaseData>()
              {
                 {
@@ -108,7 +109,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _linkedChildNullCheckTestName = "LinkedChildNullCheck_ReturnsNoErrors";
         private const string _linkedChildPrefabNullCheckTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
 
-        private static readonly Dictionary<string, TestCaseData> InstantiatedScenarioData =
+        private static readonly Dictionary<string, TestCaseData> _instantiatedScenarioData =
             new Dictionary<string, TestCaseData>()
             {
                 {
@@ -171,17 +172,17 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         private static IEnumerable<TestCaseData> PrefabGameObjectTests()
         {
-            foreach (var scenario in PrefabScenarioData)
+            foreach (var scenario in _prefabScenarioData)
             {
-                yield return SetTestName(scenario.Value, scenario.Key);
+                yield return scenario.Value.SetName(scenario.Key);
             }
         }
 
         private static IEnumerable<TestCaseData> InstantiateGameObjectTests()
         {
-            foreach (var scenario in InstantiatedScenarioData)
+            foreach (var scenario in _instantiatedScenarioData)
             {
-                yield return SetTestName(scenario.Value, scenario.Key);
+                yield return scenario.Value.SetName(scenario.Key);
             }
         }
 
@@ -195,7 +196,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void Setup()
         {
             // Arrange
-            testObjects = Resources.Load<NullCheckTestSO>("Helpers/NullCheck/NullCheckTestSO");
+            _testObjects = Resources.Load<NullCheckTestSO>("Helpers/NullCheck/NullCheckTestSO");
         }
 
         [Test]
@@ -203,7 +204,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void PrefabGameObject(NullCheckTestType type, int expectedResult)
         {
             // Act
-            var result = NullCheckFinder.RetrieveErrors(testObjects.Get(type));
+            var result = NullCheckFinder.RetrieveErrors(_testObjects.Get(type));
 
             // Assert
             Assert.That(result.Count, Is.EqualTo(expectedResult));
@@ -214,7 +215,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void InstantiateGameObject(NullCheckTestType type, int expectedResult)
         {
             // Assemble
-            var copy = Object.Instantiate(testObjects.Get(type));
+            var copy = Object.Instantiate(_testObjects.Get(type));
 
             // Act
             var result = NullCheckFinder.RetrieveErrors(copy);
@@ -225,21 +226,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             // Cleanup
             Object.Destroy(copy);
         }
-
-        #region Helpers
-
-        /// <summary>
-        /// A central location for the setting of the name for generated tests.
-        /// </summary>
-        /// <param name="data">Data whose name will be set.</param>
-        /// <param name="name">Value that will be displayed in the test suite.</param>
-        /// <returns>Reference to the passed in data.</returns>
-        private static TestCaseData SetTestName(TestCaseData data, string name)
-        {
-            return data.SetName(name);
-        }
-
-        #endregion Helpers
 
         #endregion Methods
     }

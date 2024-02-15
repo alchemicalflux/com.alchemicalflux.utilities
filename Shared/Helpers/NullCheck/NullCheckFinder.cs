@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:42:09 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -23,7 +23,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Members
 
         /// <summary>Binding pattern to find fields that use NullCheck attribute.</summary>
-        private const BindingFlags DefaultSearchFlags =
+        private const BindingFlags _defaultSearchFlags =
             BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
 
         #endregion Members
@@ -46,7 +46,7 @@ namespace AlchemicalFlux.Utilities.Helpers
                 var obj = processing.Pop();
 
                 var results = AttributeFieldFinder.FindFieldsWithAttribute<NullCheck>(obj,
-                    DefaultSearchFlags, IsPrefab, NoViolation);
+                    _defaultSearchFlags, IsPrefab, NoViolation);
                 errorsOnGameObject.AddRange(results);
 
                 foreach (Transform child in obj.transform)

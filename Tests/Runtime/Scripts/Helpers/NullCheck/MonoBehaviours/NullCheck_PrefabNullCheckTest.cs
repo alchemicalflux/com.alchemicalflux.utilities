@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:42:09 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -17,7 +17,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private GameObject Object;
+        private GameObject _object;
 
         #endregion Members
     }

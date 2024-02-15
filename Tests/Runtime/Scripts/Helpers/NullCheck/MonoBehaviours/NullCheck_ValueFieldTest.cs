@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:50:47 
+  Last commit at: 2024-02-15 08:00:02 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;
@@ -24,11 +24,11 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             [NullCheck]
             [SerializeField]
-            public int Int;
+            private int _int;
 
             [NullCheck(IgnorePrefab = true)]
             [SerializeField]
-            public int PrefabInt;
+            private int _prefabInt;
         };
 
         #endregion Definitions
@@ -37,51 +37,51 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [NullCheck]
         [SerializeField]
-        private EnumTest Enum;
+        private EnumTest _enum;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private EnumTest PrefabEnum;
+        private EnumTest _prefabEnum;
 
         [NullCheck]
         [SerializeField]
-        private bool Bool;
+        private bool _bool;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private bool PrefabBool;
+        private bool _prefabBool;
 
         [NullCheck]
         [SerializeField]
-        private int Int;
+        private int _int;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private int PrefabInt;
+        private int _prefabInt;
 
         [NullCheck]
         [SerializeField]
-        private float Float;
+        private float _float;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private float PrefabFloat;
+        private float _prefabFloat;
 
         [NullCheck]
         [SerializeField]
-        private double Double;
+        private double _double;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private double PrefabDouble;
+        private double _prefabDouble;
 
         [NullCheck]
         [SerializeField]
-        private StructTest Struct;
+        private StructTest _struct;
 
         [NullCheck(IgnorePrefab = true)]
         [SerializeField]
-        private StructTest PrefabStruct;
+        private StructTest _prefabStruct;
 
         #endregion Members
     }
