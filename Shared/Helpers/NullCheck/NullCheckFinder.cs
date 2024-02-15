@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-11 06:09:36 
+  Last commit at: 2024-02-15 02:50:28 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -37,8 +37,24 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <returns>List of null check violations.</returns>
         public static List<FieldAssociation> RetrieveErrors(GameObject gameObject)
         {
-            return AttributeFieldFinder.FindFieldsWithAttribute<NullCheck>(gameObject, 
-                DefaultSearchFlags, IsPrefab, NoViolation);
+            var processing = new Stack<GameObject>();
+            processing.Push(gameObject);
+
+            var errorsOnGameObject = new List<FieldAssociation>();
+            while (processing.Count > 0)
+            {
+                var obj = processing.Pop();
+
+                var results = AttributeFieldFinder.FindFieldsWithAttribute<NullCheck>(obj,
+                    DefaultSearchFlags, IsPrefab, NoViolation);
+                errorsOnGameObject.AddRange(results);
+
+                foreach (Transform child in obj.transform)
+                {
+                    processing.Push(child.gameObject);
+                }
+            }
+            return errorsOnGameObject;
         }
 
         /// <summary>

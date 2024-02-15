@@ -10,7 +10,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-13 18:35:48 
+  Last commit at: 2024-02-15 02:50:28 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEditor;
@@ -105,27 +105,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <returns>True if any violations are found; otherwise, false.</returns>
         private static bool ProcessErrorsForObject(GameObject gameObject, string pathToAsset)
         {
-            var processing = new Stack<GameObject>();
-            processing.Push(gameObject);
-
-            var foundErrors = false;
-            while (processing.Count > 0)
+            var errorsOnGameObject = NullCheckFinder.RetrieveErrors(gameObject);
+            foreach (var violation in errorsOnGameObject)
             {
-                var obj = processing.Pop();
-
-                var errorsOnGameObject = NullCheckFinder.RetrieveErrors(gameObject);
-                foreach (var violation in errorsOnGameObject)
-                {
-                    Debug.LogError($"{violation}\nPath: {pathToAsset}", violation.GameObject);
-                    foundErrors = true;
-                }
-
-                foreach (Transform child in obj.transform)
-                {
-                    processing.Push(child.gameObject);
-                }
+                Debug.LogError($"{violation}\nPath: {pathToAsset}", violation.GameObject);
             }
-            return foundErrors;
+            return errorsOnGameObject.Count > 0;
         }
 
         #endregion Methods
