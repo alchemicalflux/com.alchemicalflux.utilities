@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:39:09 
+  Last commit at: 2024-02-15 08:41:19 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -172,7 +172,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             foreach (var scenario in InvalidScenariosData)
             {
-                yield return SetTestName(scenario.Value, scenario.Key);
+                yield return scenario.Value.SetName(scenario.Key);
             }
         }
 
@@ -180,7 +180,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             foreach (var scenario in ReplacementScenariosData)
             {
-                yield return SetTestName(scenario.Value, scenario.Key);
+                yield return scenario.Value.SetName(scenario.Key);
             }
         }
 
@@ -214,21 +214,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         #endregion Unit Tests
-
-        #region Helpers
-
-        /// <summary>
-        /// A central location for the setting of the name for generated tests.
-        /// </summary>
-        /// <param name="data">Data whose name will be set.</param>
-        /// <param name="name">Value that will be displayed in the test suite.</param>
-        /// <returns>Reference to the passed in data.</returns>
-        protected static TestCaseData SetTestName(TestCaseData data, string name)
-        {
-            return data.SetName(name);
-        }
-
-        #endregion Helpers
 
         #endregion Methods
     }

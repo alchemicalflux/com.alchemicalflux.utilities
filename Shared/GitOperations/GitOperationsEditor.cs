@@ -2,10 +2,10 @@
   File:           GitOperationsEditor.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Logic for handling Git Operations.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-11-04 11:20:10 
+  Last commit at: 2024-02-15 08:41:19 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -24,17 +24,17 @@ namespace AlchemicalFlux.Utilities.GitOperations
         #region Members
 
         /// <summary>File types to be removed from copy.</summary>
-        private const string metaFileExtension = "*.meta";
+        private const string _metaFileExtension = "*.meta";
 
         /// <summary>Name of top level folders associated with Git.</summary>
-        private const string gitFolderName = ".git";
+        private const string _gitFolderName = ".git";
 
         /// <summary>UI functionality that will be bound to file logic.</summary>
-        private GitOperationsEditorUI ui;
+        private GitOperationsEditorUI _ui;
 
         public Func<string> GetDirectory;
 
-        private List<FolderData> directoryList = new List<FolderData>();
+        private List<FolderData> _directoryList = new List<FolderData>();
 
         #endregion Members
 
@@ -46,12 +46,12 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <param name="rootVisualElement"></param>
         public void BindUIComponents(GitOperationsEditorUI uiHandle)
         {
-            ui = uiHandle;
-            ui.ParentFolderPath = Directory.GetCurrentDirectory();
+            _ui = uiHandle;
+            _ui.ParentFolderPath = Directory.GetCurrentDirectory();
             GatherFolders();
 
-            ui.OnSearchPressed += SelectParentFolder;
-            ui.OnInstallPressed += InstallSelections;
+            _ui.OnSearchPressed += SelectParentFolder;
+            _ui.OnInstallPressed += InstallSelections;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void SelectParentFolder()
         {
-            ui.ParentFolderPath = GetDirectory?.Invoke();
+            _ui.ParentFolderPath = GetDirectory?.Invoke();
             GatherFolders();
         }
 
@@ -69,21 +69,21 @@ namespace AlchemicalFlux.Utilities.GitOperations
         private void GatherFolders()
         {
             // Gather all of the child Git folders.
-            var parentPathInfo = new DirectoryInfo(ui.ParentFolderPath);
+            var parentPathInfo = new DirectoryInfo(_ui.ParentFolderPath);
             var gitDirectories =
-                parentPathInfo.GetDirectories(gitFolderName, SearchOption.AllDirectories);
+                parentPathInfo.GetDirectories(_gitFolderName, SearchOption.AllDirectories);
 
             // Create a list of folder data that will be bound to the UI elements of the list.
-            directoryList = new List<FolderData>();
+            _directoryList = new List<FolderData>();
             foreach (var directory in gitDirectories)
             {
                 // Trim the folder names to reduce redundancy.
                 var data = ScriptableObject.CreateInstance<FolderData>();
                 data.FolderPath = directory.Parent.FullName.Replace(parentPathInfo.FullName, "");
-                directoryList.Add(data);
+                _directoryList.Add(data);
             }
 
-            ui.UpdateDirectories(directoryList);
+            _ui.UpdateDirectories(_directoryList);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         private void InstallPreCommits()
         {
-            var preCommitFolders = directoryList.Where(data => data.IncludePreCommits)
+            var preCommitFolders = _directoryList.Where(data => data.IncludePreCommits)
                 .Select(data => data.FolderPath);
 
             if(preCommitFolders.Any())
@@ -112,12 +112,13 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 fileOperations.CopyDirectory(GitConstants.PreCommitPath, tempPath);
 
                 // Remove unwanted files.
-                fileOperations.RemoveFilesByName(tempPath, metaFileExtension);
+                fileOperations.RemoveFilesByName(tempPath, _metaFileExtension);
 
+                // Copy all remaining temp folders to target location.
                 foreach (var folder in preCommitFolders)
                 {
-                    var targetPath = Path.Join(ui.ParentFolderPath, folder); 
-                    targetPath = Path.Join(targetPath, gitFolderName, GitConstants.PreCommitTargetPath);
+                    var targetPath = Path.Join(_ui.ParentFolderPath, folder); 
+                    targetPath = Path.Join(targetPath, _gitFolderName, GitConstants.PreCommitTargetPath);
                     fileOperations.CopyDirectory(tempPath, targetPath);
                 }
 
@@ -131,7 +132,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         private void InstallSemanticRelease()
         {
-            var semanticReleaseFolders = directoryList.Where(data => data.IncludeSemanticRelease)
+            var semanticReleaseFolders = _directoryList.Where(data => data.IncludeSemanticRelease)
                 .Select(data => data.FolderPath);
 
             if (semanticReleaseFolders.Any())
@@ -143,11 +144,12 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 fileOperations.CopyDirectory(GitConstants.SemanticReleasePath, tempPath);
 
                 // Remove unwanted files.
-                fileOperations.RemoveFilesByName(tempPath, metaFileExtension);
+                fileOperations.RemoveFilesByName(tempPath, _metaFileExtension);
 
+                // Copy remaining temp folders to the target location.
                 foreach (var folder in semanticReleaseFolders)
                 {
-                    var targetPath = Path.Join(ui.ParentFolderPath, folder);
+                    var targetPath = Path.Join(_ui.ParentFolderPath, folder);
                     fileOperations.CopyDirectory(tempPath, targetPath);
                 }
 
