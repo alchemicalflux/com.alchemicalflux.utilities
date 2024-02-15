@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 02:52:43 
+  Last commit at: 2024-02-15 03:17:33 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
@@ -25,5 +25,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         ChildPrefabNullCheck,
         LinkedChildNullCheck,
         LinkedChildPrefabNullCheck,
+        MultiNullCheck,
+        LinkedMultiNullCheck,
     }
 }

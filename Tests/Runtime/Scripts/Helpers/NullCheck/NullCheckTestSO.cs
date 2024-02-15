@@ -7,7 +7,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 02:52:43 
+  Last commit at: 2024-02-15 03:17:33 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -29,6 +29,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public GameObject ChildPrefabNullCheckTest;
         public GameObject LinkedChildNullCheckTest;
         public GameObject LinkedChildPrefabNullCheckTest;
+        public GameObject MultiNullCheckTest;
+        public GameObject LinkedMultiNullCheckTest;
 
         public GameObject Get(NullCheckTestType type)
         {
@@ -44,6 +46,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 case NullCheckTestType.ChildPrefabNullCheck: return ChildPrefabNullCheckTest;
                 case NullCheckTestType.LinkedChildNullCheck: return LinkedChildNullCheckTest;
                 case NullCheckTestType.LinkedChildPrefabNullCheck: return LinkedChildPrefabNullCheckTest;
+                case NullCheckTestType.MultiNullCheck: return MultiNullCheckTest;
+                case NullCheckTestType.LinkedMultiNullCheck: return LinkedMultiNullCheckTest;
             }
             return null;
         }

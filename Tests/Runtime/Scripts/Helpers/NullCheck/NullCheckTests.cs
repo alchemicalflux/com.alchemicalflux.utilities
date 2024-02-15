@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 02:52:43 
+  Last commit at: 2024-02-15 03:17:33 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -27,6 +27,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _prefabNullCheckPrefabTestName = "PrefabNullCheck_ReturnsNoErrors";
         private const string _linkedNullCheckPrefabTestName = "LinkedNullCheck_ReturnsNoErrors";
         private const string _linkedPrefabNullCheckPrefabTestName = "LinkedPrefabNullCheck_ReturnsNoErrors";
+        private const string _multiNullCheckPrefabTestName = "MultiNullCheck_ReturnsFourErrors";
+        private const string _linkedMultiNullCheckPrefabTestName = "LinkedMultiNullCheck_ReturnsNoErrors";
         private const string _childNullCheckPrefabTestName = "ChildNullCheck_ReturnsOneError";
         private const string _childPrefabNullCheckPrefabTestName = "ChildPrefabNullCheck_ReturnsNoErrors";
         private const string _linkedChildNullCheckPrefabTestName = "LinkedChildNullCheck_ReturnsNoErrors";
@@ -61,6 +63,14 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                     new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
                 },
                 {
+                    _multiNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.MultiNullCheck, 4)
+                },
+                {
+                    _linkedMultiNullCheckPrefabTestName,
+                    new TestCaseData(NullCheckTestType.LinkedMultiNullCheck, 0)
+                },
+                {
                     _childNullCheckPrefabTestName,
                     new TestCaseData(NullCheckTestType.ChildNullCheck, 1)
                 },
@@ -85,6 +95,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _prefabNullCheckTestName = "PrefabNullCheck_ReturnsOneError";
         private const string _linkedNullCheckTestName = "LinkedNullCheck_ReturnsNoError";
         private const string _linkedPrefabNullCheckTestName = "LinkedPrefabNullCheck_ReturnsNoErrors";
+        private const string _multiNullCheckTestName = "MultiNullCheck_ReturnsEightErrors";
+        private const string _linkedMultiNullCheckTestName = "LinkedMultiNullCheck_ReturnsNoErrors";
         private const string _childNullCheckTestName = "ChildNullCheck_ReturnsOneError";
         private const string _childPrefabNullCheckTestName = "ChildPrefabNullCheck_ReturnsNoErrors";
         private const string _linkedChildNullCheckTestName = "LinkedChildNullCheck_ReturnsNoErrors";
@@ -116,6 +128,14 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 {
                     _linkedPrefabNullCheckTestName,
                     new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
+                },
+                {
+                    _multiNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.MultiNullCheck, 8)
+                },
+                {
+                    _linkedMultiNullCheckTestName,
+                    new TestCaseData(NullCheckTestType.LinkedMultiNullCheck, 0)
                 },
                 {
                     _childNullCheckTestName,

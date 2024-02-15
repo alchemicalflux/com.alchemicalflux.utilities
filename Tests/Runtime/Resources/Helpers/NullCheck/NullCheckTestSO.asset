@@ -22,3 +22,5 @@ MonoBehaviour:
   ChildPrefabNullCheckTest: {fileID: 6138447222502297845, guid: e175dbad375df114fad201e301327041, type: 3}
   LinkedChildNullCheckTest: {fileID: 6138447222502297845, guid: 02aae671315b424468455246ef2c910a, type: 3}
   LinkedChildPrefabNullCheckTest: {fileID: 6138447222502297845, guid: 07d2187d9c2c76c43a18fe932f175fdf, type: 3}
+  MultiNullCheckTest: {fileID: 1454882354750014313, guid: b6ab7b13d6de8b54f904534db53563cb, type: 3}
+  LinkedMultiNullCheckTest: {fileID: 7712831671393386521, guid: 02168505f8ad70444a0b5354696566f6, type: 3}
