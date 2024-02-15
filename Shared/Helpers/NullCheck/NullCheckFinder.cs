@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 02:50:28 
+  Last commit at: 2024-02-15 04:42:09 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -60,8 +60,11 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Checks if a field is attached to a prefab and should be ignored.
         /// </summary>
-        private static bool IsPrefab(MonoBehaviour monoBehaviour, FieldInfo field, NullCheck att)
+        private static bool IsPrefab(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, NullCheck att)
         {
+            // Value type fields should be processed.
+            if (fieldInfo.FieldType.IsValueType) { return false; }
+
             // Prefabs can be ignored if the flag is set.
             var prefabType = PrefabUtility.GetPrefabAssetType(monoBehaviour.gameObject);
             return prefabType != PrefabAssetType.NotAPrefab && att.IgnorePrefab;
@@ -73,7 +76,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private static bool NoViolation(FieldInfo fieldInfo, object obj, NullCheck att)
         {
             // Being attahed to Non-object references is considered a violation.
-            if(fieldInfo.FieldType.IsValueType || fieldInfo.FieldType.IsEnum) { return false; }
+            if(fieldInfo.FieldType.IsValueType) { return false; }
 
             // Check that the object reference is not null.
             var fieldObj = fieldInfo.GetValue(obj);

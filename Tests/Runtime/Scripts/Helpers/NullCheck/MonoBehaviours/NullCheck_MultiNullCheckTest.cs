@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
   File:           NullCheck_MultiNullCheckTest.cs 
   Project:        AlchemicalFlux Utilities
-  Description:    NullCheck unit test script for testing a typical NullCheck.
+  Description:    NullCheck unit test script for testing Multiple NullChecks.
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 03:17:33 
+  Last commit at: 2024-02-15 04:42:09 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -15,6 +15,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
     public class NullCheck_MultiNullCheckTest : MonoBehaviour
     {
+        #region Definitions
+
         [Serializable]
         private class ListType
         {
@@ -27,6 +29,10 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             private GameObject Prefab;
         }
 
+        #endregion Definitions
+
+        #region Members
+
         [NullCheck]
         [SerializeField]
         private GameObject Object;
@@ -37,5 +43,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [SerializeField]
         private List<ListType> List;
+
+        #endregion Members
     }
 }
