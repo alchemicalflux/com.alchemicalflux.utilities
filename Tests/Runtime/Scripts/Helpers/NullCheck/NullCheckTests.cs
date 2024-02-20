@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-02-20 10:32:48 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -13,86 +13,11 @@ using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
-    public class NullCheckTests
+    public partial class NullCheckTests
     {
         #region Members
 
-        /// <summary>Handle used to access GameObjects for testing purposes.</summary>
-        private NullCheckTestSO _testObjects;
-
         #region Test Scenerios
-
-        private const string _emptyGameObjectPrefabTestName = "EmptyObject_ReturnsNoErrors";
-        private const string _emptyScriptPrefabTestName = "EmptyScript_ReturnsNoErrors";
-        private const string _valueFieldsPrefabTestName = "ValueFields_ReturnsTwelveErrors";
-        private const string _nullCheckPrefabTestName = "NullCheck_ReturnsOneError";
-        private const string _prefabNullCheckPrefabTestName = "PrefabNullCheck_ReturnsNoErrors";
-        private const string _linkedNullCheckPrefabTestName = "LinkedNullCheck_ReturnsNoErrors";
-        private const string _linkedPrefabNullCheckPrefabTestName = "LinkedPrefabNullCheck_ReturnsNoErrors";
-        private const string _multiNullCheckPrefabTestName = "MultiNullCheck_ReturnsFourErrors";
-        private const string _linkedMultiNullCheckPrefabTestName = "LinkedMultiNullCheck_ReturnsNoErrors";
-        private const string _childNullCheckPrefabTestName = "ChildNullCheck_ReturnsOneError";
-        private const string _childPrefabNullCheckPrefabTestName = "ChildPrefabNullCheck_ReturnsNoErrors";
-        private const string _linkedChildNullCheckPrefabTestName = "LinkedChildNullCheck_ReturnsNoErrors";
-        private const string _linkedChildPrefabNullCheckPrefabTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
-
-        // Prefab Scenerio Tests
-        private static readonly Dictionary<string, TestCaseData> _prefabScenarioData =
-             new Dictionary<string, TestCaseData>()
-             {
-                {
-                    _emptyGameObjectPrefabTestName,
-                    new TestCaseData(NullCheckTestType.EmptyObject, 0)
-                },
-                {
-                    _emptyScriptPrefabTestName,
-                    new TestCaseData(NullCheckTestType.EmptyScript, 0)
-                },
-                {
-                    _valueFieldsPrefabTestName,
-                    new TestCaseData(NullCheckTestType.ValueFields, 12)
-                },
-                {
-                    _nullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.NullCheck, 1)
-                },
-                {
-                    _prefabNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.PrefabNullCheck, 0)
-                },
-                {
-                    _linkedNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.LinkedNullCheck, 0)
-                },
-                {
-                    _linkedPrefabNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
-                },
-                {
-                    _multiNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.MultiNullCheck, 4)
-                },
-                {
-                    _linkedMultiNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.LinkedMultiNullCheck, 0)
-                },
-                {
-                    _childNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.ChildNullCheck, 1)
-                },
-                {
-                    _childPrefabNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.ChildPrefabNullCheck, 0)
-                },
-                {
-                    _linkedChildNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.LinkedChildNullCheck, 0)
-                },
-                {
-                    _linkedChildPrefabNullCheckPrefabTestName,
-                    new TestCaseData(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
-                },
-             };
 
         // Instantiate Scenario Tests
         private const string _emptyGameObjectTestName = "EmptyObject_ReturnsNoErrors";
@@ -170,14 +95,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         #region Test Case Sources
 
-        private static IEnumerable<TestCaseData> PrefabGameObjectTests()
-        {
-            foreach (var scenario in _prefabScenarioData)
-            {
-                yield return scenario.Value.SetName(scenario.Key);
-            }
-        }
-
         private static IEnumerable<TestCaseData> InstantiateGameObjectTests()
         {
             foreach (var scenario in _instantiatedScenarioData)
@@ -191,24 +108,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         #endregion Members
 
         #region Methods
-
-        [SetUp]
-        public void Setup()
-        {
-            // Arrange
-            _testObjects = Resources.Load<NullCheckTestSO>("Helpers/NullCheck/NullCheckTestSO");
-        }
-
-        [Test]
-        [TestCaseSource(nameof(PrefabGameObjectTests))]
-        public void PrefabGameObject(NullCheckTestType type, int expectedResult)
-        {
-            // Act
-            var result = NullCheckFinder.RetrieveErrors(_testObjects.Get(type));
-
-            // Assert
-            Assert.That(result.Count, Is.EqualTo(expectedResult));
-        }
 
         [Test]
         [TestCaseSource(nameof(InstantiateGameObjectTests))]
