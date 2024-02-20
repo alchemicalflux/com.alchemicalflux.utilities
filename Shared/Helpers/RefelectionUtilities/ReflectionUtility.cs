@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-10 11:12:07 
+  Last commit at: 2024-02-20 10:29:21 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -27,7 +27,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <typeparam name="T">The type of attribute to search for.</typeparam>
         /// <param name="source">The object to inspect.</param>
         /// <param name="reflectionFlags">Optional BindingFlags to control the scope of reflection.</param>
-        /// <param name="attributeIgnoreCheck">Optional function to determine whether a field with the specified attribute should be ignored.</param>
+        /// <param name="attributeIgnoreCheck">Optional function to determine whether a field with the specified 
+        ///     attribute should be ignored.</param>
         /// <returns>A list of tuples containing the fields and their corresponding attribute instances.</returns>
         public static List<(FieldInfo field, T attribute)> GetFieldsWithAttribute<T>(
             object source,
@@ -53,24 +54,46 @@ namespace AlchemicalFlux.Utilities.Helpers
                 var fields = GetFields(obj.GetType(), reflectionFlags);
                 foreach (var field in fields)
                 {
-                    if (enumerable.IsAssignableFrom(field.FieldType))
-                    {
-                        var group = (IEnumerable)field.GetValue(obj);
-                        foreach (var iter in group)
-                        {
-                            processing.Push(iter);
-                        }
-                    }
-                    else
-                    {
-                        var attribute = (T)Attribute.GetCustomAttribute(field, typeOfT);
-                        if (attribute == null || attributeIgnoreCheck(field, obj, attribute)) { continue; }
-
-                        fieldsWithAttributes.Add((field, attribute));
-                    }
+                    ProcessField(obj, field);
                 }
             }
             return fieldsWithAttributes;
+
+            #region Local Helpers
+
+            // Helper method to process a field
+            void ProcessField(object obj, FieldInfo field)
+            {
+                if (enumerable.IsAssignableFrom(field.FieldType))
+                {
+                    AddEnumerableChildrenForProcessing(obj, field);
+                }   
+                else
+                {
+                    ProcessNonEnumerableField(obj, field);
+                }
+            }
+
+            // Helper method to process enumerable fields
+            void AddEnumerableChildrenForProcessing(object obj, FieldInfo field)
+            {
+                var group = (IEnumerable)field.GetValue(obj);
+                foreach (var iter in group)
+                {
+                    processing.Push(iter);
+                }
+            }
+
+            // Helper method to process non-enumerable fields
+            void ProcessNonEnumerableField(object obj, FieldInfo field)
+            {
+                var attribute = (T)Attribute.GetCustomAttribute(field, typeOfT);
+                if (attribute == null || attributeIgnoreCheck(field, obj, attribute)) { return; }
+
+                fieldsWithAttributes.Add((field, attribute));
+            }
+
+            #endregion Local Helpers
         }
 
         /// <summary>

@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-10 11:12:07 
+  Last commit at: 2024-02-20 10:29:21 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -43,17 +43,25 @@ namespace AlchemicalFlux.Utilities.Helpers
             foreach (var monoBehavior in monobehaviours)
             {
                 if (monoBehavior == null) { continue; }
+                ProcessMonoBehaviour(monoBehavior);
+            }
+            return fieldAssociations;
 
-                var fields = ReflectionUtility.GetFieldsWithAttribute(monoBehavior, 
+            #region Local Helpers
+
+            // Helper method to process a MonoBehaviour
+            void ProcessMonoBehaviour(MonoBehaviour monoBehavior)
+            {
+                var fields = ReflectionUtility.GetFieldsWithAttribute(monoBehavior,
                     reflectionFlags, attributeIgnoreCheck);
-                foreach(var (field, attribute) in fields)
+                foreach (var (field, attribute) in fields)
                 {
-                    if(monoBehaviourIgnoreCheck(monoBehavior, field, attribute)) { continue; }
-
+                    if (monoBehaviourIgnoreCheck(monoBehavior, field, attribute)) { continue; }
                     fieldAssociations.Add(new FieldAssociation(field, monoBehavior));
                 }
             }
-            return fieldAssociations;
+
+            #endregion Local Helpers
         }
 
         #endregion Methods

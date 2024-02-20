@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-02-20 10:29:21 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -44,17 +44,31 @@ namespace AlchemicalFlux.Utilities.Helpers
             while (processing.Count > 0)
             {
                 var obj = processing.Pop();
+                CollectNullCheckViolations(obj);
+                AddChildrenForProcessing(obj);
+            }
+            return errorsOnGameObject;
 
+            #region Local Helpers
+
+            // Helper method to collect NullCheck violations within the specified GameObject.
+            void CollectNullCheckViolations(GameObject obj)
+            {
                 var results = AttributeFieldFinder.FindFieldsWithAttribute<NullCheck>(obj,
                     _defaultSearchFlags, IsPrefab, NoViolation);
                 errorsOnGameObject.AddRange(results);
+            }
 
+            // Helper method to add a GameObject's children for processing.
+            void AddChildrenForProcessing(GameObject obj)
+            {
                 foreach (Transform child in obj.transform)
                 {
                     processing.Push(child.gameObject);
                 }
             }
-            return errorsOnGameObject;
+
+            #endregion Local Helpers
         }
 
         /// <summary>
@@ -65,9 +79,17 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Value type fields should be processed.
             if (fieldInfo.FieldType.IsValueType) { return false; }
 
+            var result = false;
+
+            #if UNITY_EDITOR
+
             // Prefabs can be ignored if the flag is set.
             var prefabType = PrefabUtility.GetPrefabAssetType(monoBehaviour.gameObject);
-            return prefabType != PrefabAssetType.NotAPrefab && att.IgnorePrefab;
+            result = prefabType != PrefabAssetType.NotAPrefab && att.IgnorePrefab;
+
+            #endif
+
+            return result;
         }
 
         /// <summary>
@@ -75,7 +97,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         private static bool NoViolation(FieldInfo fieldInfo, object obj, NullCheck att)
         {
-            // Being attahed to Non-object references is considered a violation.
+            // Being attahed to non-object references is considered a violation.
             if(fieldInfo.FieldType.IsValueType) { return false; }
 
             // Check that the object reference is not null.
