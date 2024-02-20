@@ -10,9 +10,10 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-02-20 10:30:36 
 ------------------------------------------------------------------------------*/
-using System.Collections.Generic;
+#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -39,12 +40,13 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <returns>True if any violations are found; otherwise, false.</returns>
         public static bool ProcessGameObjectsInAllScenes()
         {
+            var foundErrors = false;
+
             if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return false; }
 
             var originalSceneSetup = EditorSceneManager.GetSceneManagerSetup();
 
             var scenePaths = AssetDatabase.FindAssets("t:Scene", new[] { "Assets" });
-            var foundErrors = false;
             foreach (var scenePath in scenePaths)
             {
                 string sceneName = AssetDatabase.GUIDToAssetPath(scenePath);
@@ -116,3 +118,5 @@ namespace AlchemicalFlux.Utilities.Helpers
         #endregion Methods
     }
 }
+
+#endif

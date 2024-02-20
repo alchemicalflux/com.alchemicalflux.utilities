@@ -8,13 +8,16 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-02-20 10:30:36 
 ------------------------------------------------------------------------------*/
+#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
+
     /// <summary>
     /// Initializes and executes a search for null check violations upon the launch of the Unity Editor.
     /// </summary>
@@ -32,9 +35,9 @@ namespace AlchemicalFlux.Utilities.Helpers
             if (!Debug.isDebugBuild) { return; }
 
             // Schedule a one-time search for null check violations upon the first launch of the editor.
-            //EditorApplication.update += CheckOnStart;
+            EditorApplication.update += CheckOnStart;
 
-            EditorApplication.playModeStateChanged += CheckOnExitingEditMode;
+            //EditorApplication.playModeStateChanged += CheckOnExitingEditMode;
         }
 
         /// <summary>
@@ -52,12 +55,14 @@ namespace AlchemicalFlux.Utilities.Helpers
             // If null check violations are found, stop play mode in the editor.
             if (foundErrors)
             {
-                #if UNITY_EDITOR
                 EditorApplication.isPlaying = false;
-                #endif
             }
         }
 
+        /// <summary>
+        /// Checks for null check violations upon exiting edit mode and stops play mode if any are found.
+        /// </summary>
+        /// <param name="stateChange">The state change event triggered upon exiting edit mode.</param>
         private static void CheckOnExitingEditMode(PlayModeStateChange stateChange)
         {
             if(stateChange != PlayModeStateChange.ExitingEditMode) { return; }
@@ -69,12 +74,11 @@ namespace AlchemicalFlux.Utilities.Helpers
             // If null check violations are found, stop play mode in the editor.
             if (foundErrors)
             {
-                #if UNITY_EDITOR
                 EditorApplication.isPlaying = false;
-                #endif
             }
         }
 
         #endregion Methods
     }
 }
+#endif

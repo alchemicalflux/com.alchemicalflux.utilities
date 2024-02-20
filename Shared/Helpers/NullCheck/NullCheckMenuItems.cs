@@ -8,8 +8,10 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-02-20 10:30:36 
 ------------------------------------------------------------------------------*/
+#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEngine;
 
@@ -27,7 +29,6 @@ namespace AlchemicalFlux.Utilities.Helpers
         #endregion
 
         #region Methods
-
 
         /// <summary>
         /// Menu item to process assets and all scenes in the project, searching for null check violations.
@@ -71,6 +72,10 @@ namespace AlchemicalFlux.Utilities.Helpers
             DisplayNoErrorMessage(errorsFound);
         }
 
+        /// <summary>
+        /// Displays a message indicating the absence of null check violations.
+        /// </summary>
+        /// <param name="errorsFound">Flag indicating whether any errors were found.</param>
         private static void DisplayNoErrorMessage(bool errorsFound)
         {
             if (!errorsFound)
@@ -82,3 +87,5 @@ namespace AlchemicalFlux.Utilities.Helpers
         #endregion Methods
     }
 }
+
+#endif
