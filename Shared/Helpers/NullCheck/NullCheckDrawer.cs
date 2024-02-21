@@ -6,13 +6,16 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-07 06:40:08 
+  Last commit at: 2024-02-20 10:30:36 
 ------------------------------------------------------------------------------*/
+#if UNITY_EDITOR
+
 using UnityEditor;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
+
     /// <summary>
     /// Custom property drawer for the NullCheck attribute, ensuring object reference fields are 
     ///   not null.
@@ -171,4 +174,7 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #endregion Methods
     }
+
 }
+
+#endif
