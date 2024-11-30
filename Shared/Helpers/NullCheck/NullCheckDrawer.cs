@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:30:36 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -52,7 +52,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var calculatedHeight = base.GetPropertyHeight(property, label); ;
-            if (IsNotObjectRef(property) || ObjectRefNotSet(property))
+            if(IsNotObjectRef(property) || ObjectRefNotSet(property))
             {
                 calculatedHeight += _alertHeight;
             }
@@ -88,19 +88,21 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="label">Label for the property.</param>
         private void BuildField(Rect drawArea, SerializedProperty property, GUIContent label)
         {
-            if (IsNotObjectRef(property)) // Non-object fields should be rendered normally.
+            var prevColor = GUI.color; // Maintain previous GUI color.
+
+            if(IsNotObjectRef(property)) // Non-object fields should be rendered normally.
             {
                 EditorGUI.PropertyField(drawArea, property, label);
                 return;
             }
 
-            if (ObjectRefNotSet(property)) // Make null references easy to see.
+            if(ObjectRefNotSet(property)) // Make null references easy to see.
             {
                 GUI.color = _alertColor;
-                label.text = "!!! " + label.text;
+                label.text = $"!!! {label.text}";
             }
 
-            if (IsPropertyNotNullInSceneAndPrefab(property))
+            if(IsPropertyNotNullInSceneAndPrefab(property))
             {
                 EditorGUI.BeginDisabledGroup(true);
                 EditorGUI.ObjectField(drawArea, property, label);
@@ -111,7 +113,7 @@ namespace AlchemicalFlux.Utilities.Helpers
                 EditorGUI.ObjectField(drawArea, property, label);
             }
 
-            GUI.color = Color.white; // Reset the GUI color.
+            GUI.color = prevColor; // Reset the GUI color.
         }
 
         /// <summary>
@@ -121,11 +123,11 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="property">Serialized property.</param>
         private void BuildMessageBox(Rect drawArea, SerializedProperty property)
         {
-            if (IsNotObjectRef(property))
+            if(IsNotObjectRef(property))
             {
                 EditorGUI.HelpBox(drawArea, _warningMessage, MessageType.Warning);
             }
-            else if (ObjectRefNotSet(property))
+            else if(ObjectRefNotSet(property))
             {
                 EditorGUI.HelpBox(drawArea, _errorMessage, MessageType.Error);
             }

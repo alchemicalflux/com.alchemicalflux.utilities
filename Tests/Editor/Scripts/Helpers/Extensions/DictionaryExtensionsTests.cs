@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:56:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -22,27 +22,25 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         #region Test Values
 
         // Simple value
-
-        private static Dictionary<string, int> _oneElement =
-            new Dictionary<string, int>()
-            {
-                { "A", 1 },
-            };
+        private static readonly Dictionary<string, int> _oneElement = new()
+        {
+            { "A", 1 },
+        };
 
         // No Conflict values
-        private static Dictionary<string, int> _noConflictA = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _noConflictA = new()
         {
             { "A1", 1 },
             { "A2", 2 },
         };
 
-        private static Dictionary<string, int> _noConflictB = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _noConflictB = new()
         {
             { "B1", 1 },
             { "B2", 2 },
         };
 
-        private static Dictionary<string, int> _noConflictResult = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _noConflictResult = new()
         {
             { "A1", 1 },
             { "A2", 2 },
@@ -51,26 +49,26 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         };
 
         // Conflict values
-        private static Dictionary<string, int> _conflictA = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _conflictA = new()
         {
             { "A", 1 },
             { "B", 1 },
         };
 
-        private static readonly Dictionary<string, int> _conflictB = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _conflictB = new()
         {
             { "B", 2 },
             { "C", 1 },
         };
 
-        private static readonly Dictionary<string, int> _conflictResult = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _conflictResult = new()
         {
             { "A", 1 },
             { "B", 1 },
             { "C", 1 },
         };
 
-        private static readonly Dictionary<string, int> _conflictReversedResult = new Dictionary<string, int>()
+        private static readonly Dictionary<string, int> _conflictReversedResult = new()
         {
             { "A", 1 },
             { "B", 2 },
@@ -86,18 +84,17 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _selfIsNullTestName = "SelfIsNull_ThrowArgumentNullException";
         private const string _otherIsNullTestName = "OtherIsNull_ThrowArgumentNullException";
 
-        private static readonly Dictionary<string, TestCaseData> _invalidScenariosData =
-            new Dictionary<string, TestCaseData>()
+        private static readonly Dictionary<string, TestCaseData> _invalidScenariosData = new()
+        {
             {
-                {
-                    _selfIsNullTestName,
-                    new TestCaseData(null, new Dictionary<string, int>())
-                },
-                {
-                    _otherIsNullTestName,
-                    new TestCaseData(new Dictionary<string, int>(), null)
-                },
-            };
+                _selfIsNullTestName,
+                new(null, new Dictionary<string, int>())
+            },
+            {
+                _otherIsNullTestName,
+                new(new Dictionary<string, int>(), null)
+            },
+        };
 
         // Merging Scenario Tests
         private const string _selfIsEmptyTestName = "SelfIsEmpty_ResultMatchesOther";
@@ -106,30 +103,29 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _dictionariesWithConflictKeysTestName = "DictionariesWithConflictKeys_ResultContainsSelfKeys";
         private const string _reverseDictionaryOrderTestName = "ReverseDictionaryOrder_ConflictKeyHasDifferentValue";
 
-        private static readonly Dictionary<string, TestCaseData> _mergingScenariosData =
-            new Dictionary<string, TestCaseData>()
+        private static readonly Dictionary<string, TestCaseData> _mergingScenariosData = new()
+        {
             {
-                {
-                    _selfIsEmptyTestName,
-                    new TestCaseData(new Dictionary<string, int>(), _oneElement, _oneElement)
-                },
-                {
-                    _otherIsEmptyTestName,
-                    new TestCaseData(_oneElement, new Dictionary<string, int>(), _oneElement)
-                },
-                {
-                    _noConflictKeysTestName,
-                    new TestCaseData(_noConflictA, _noConflictB, _noConflictResult)
-                },
-                {
-                    _dictionariesWithConflictKeysTestName,
-                    new TestCaseData(_conflictA, _conflictB, _conflictResult)
-                },
-                {
-                    _reverseDictionaryOrderTestName,
-                    new TestCaseData(_conflictB, _conflictA, _conflictReversedResult)
-                },
-            };
+                _selfIsEmptyTestName,
+                new(new Dictionary<string, int>(), _oneElement, _oneElement)
+            },
+            {
+                _otherIsEmptyTestName,
+                new(_oneElement, new Dictionary<string, int>(), _oneElement)
+            },
+            {
+                _noConflictKeysTestName,
+                new(_noConflictA, _noConflictB, _noConflictResult)
+            },
+            {
+                _dictionariesWithConflictKeysTestName,
+                new(_conflictA, _conflictB, _conflictResult)
+            },
+            {
+                _reverseDictionaryOrderTestName,
+                new(_conflictB, _conflictA, _conflictReversedResult)
+            },
+        };
 
         #endregion Test Scenarios
 
@@ -141,7 +137,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         private static IEnumerable<TestCaseData> InvalidParameterScenarios()
         {
-            foreach (var scenario in _invalidScenariosData)
+            foreach(var scenario in _invalidScenariosData)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }
@@ -149,7 +145,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         private static IEnumerable<TestCaseData> MergingScenarios()
         {
-            foreach (var scenario in _mergingScenariosData)
+            foreach(var scenario in _mergingScenariosData)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }
@@ -164,7 +160,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void Merge_InvalidParameterTests(Dictionary<string, int> self,
             Dictionary<string, int> other)
         {
-            // Assert
+            // Act and Assert - Functor must be called due to expected exception throw check.
             Assert.That(() => self.Merge(other), Throws.ArgumentNullException);
         }
 

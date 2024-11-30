@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:29:21 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -45,14 +45,14 @@ namespace AlchemicalFlux.Utilities.Helpers
             processing.Push(source);
 
             var fieldsWithAttributes = new List<(FieldInfo field, T attribute)>();
-            while (processing.Count > 0)
+            while(processing.Count > 0)
             {
                 // Process an object, adding it to the outcome if it has the requested attribute.
                 // The attributeIgnoreCheck functor can filter out objects from the final outcome.
                 // If the object is an enumerable container, add its contents to be processed.
                 var obj = processing.Pop();
                 var fields = GetFields(obj.GetType(), reflectionFlags);
-                foreach (var field in fields)
+                foreach(var field in fields)
                 {
                     ProcessField(obj, field);
                 }
@@ -64,7 +64,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Helper method to process a field
             void ProcessField(object obj, FieldInfo field)
             {
-                if (enumerable.IsAssignableFrom(field.FieldType))
+                if(enumerable.IsAssignableFrom(field.FieldType))
                 {
                     AddEnumerableChildrenForProcessing(obj, field);
                 }   
@@ -78,7 +78,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             void AddEnumerableChildrenForProcessing(object obj, FieldInfo field)
             {
                 var group = (IEnumerable)field.GetValue(obj);
-                foreach (var iter in group)
+                foreach(var iter in group)
                 {
                     processing.Push(iter);
                 }
@@ -88,7 +88,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             void ProcessNonEnumerableField(object obj, FieldInfo field)
             {
                 var attribute = (T)Attribute.GetCustomAttribute(field, typeOfT);
-                if (attribute == null || attributeIgnoreCheck(field, obj, attribute)) { return; }
+                if(attribute == null || attributeIgnoreCheck(field, obj, attribute)) { return; }
 
                 fieldsWithAttributes.Add((field, attribute));
             }

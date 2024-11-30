@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:29:21 
+  Last commit at: 2024-11-29 21:19:43 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -36,15 +36,22 @@ namespace AlchemicalFlux.Utilities.Helpers
             Func<MonoBehaviour, FieldInfo, T, bool> monoBehaviourIgnoreCheck = null,
             Func<FieldInfo, object, T, bool> attributeIgnoreCheck = null) where T : Attribute
         {
-            monoBehaviourIgnoreCheck ??= (_, _, _) => false; // Functor false if the original is null.
+            monoBehaviourIgnoreCheck ??= (_, _, _) => false; // Ensure functor has valid function call.
 
             var fieldAssociations = new List<FieldAssociation>();
             var monobehaviours = obj.GetComponents<MonoBehaviour>();
-            foreach (var monoBehavior in monobehaviours)
+            foreach(var monoBehaviour in monobehaviours)
             {
-                if (monoBehavior == null) { continue; }
-                ProcessMonoBehaviour(monoBehavior);
+                if(monoBehaviour == null) { continue; }
+                ProcessMonoBehaviour(monoBehaviour);
             }
+            /*
+            Parallel.ForEach(monobehaviours, monoBehavior =>
+            {
+                if(monoBehavior == null) { return; }
+                ProcessMonoBehaviour(monoBehavior);
+            });
+            */
             return fieldAssociations;
 
             #region Local Helpers
@@ -54,9 +61,9 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 var fields = ReflectionUtility.GetFieldsWithAttribute(monoBehavior,
                     reflectionFlags, attributeIgnoreCheck);
-                foreach (var (field, attribute) in fields)
+                foreach(var (field, attribute) in fields)
                 {
-                    if (monoBehaviourIgnoreCheck(monoBehavior, field, attribute)) { continue; }
+                    if(monoBehaviourIgnoreCheck(monoBehavior, field, attribute)) { continue; }
                     fieldAssociations.Add(new FieldAssociation(field, monoBehavior));
                 }
             }

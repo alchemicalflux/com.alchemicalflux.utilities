@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 21:18:21 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -23,31 +23,31 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         #region Members
 
         /// <summary>UI text entry for package display name in Package folder.</summary>
-        private TextField _displayField;
+        private readonly TextField _displayField;
         /// <summary>UI text entry for domain portion of package name.</summary>
-        private TextField _domainField;
+        private readonly TextField _domainField;
         /// <summary>UI text entry for company portion of package name.</summary>
-        private TextField _companyField;
+        private readonly TextField _companyField;
         /// <summary>UI text entry for project portion of package name.</summary>
-        private TextField _projectField;
+        private readonly TextField _projectField;
         /// <summary>UI text entry for company portion of folder and file names.</summary>
-        private TextField _companyNamespace;
+        private readonly TextField _companyNamespace;
         /// <summary>UI text entry for project portion of folder and file names.</summary>
-        private TextField _projectNamespace;
+        private readonly TextField _projectNamespace;
 
         /// <summary>UI flag for creating runtime related folders/files.</summary>
-        private Toggle _setupRuntimeToggle;
+        private readonly Toggle _setupRuntimeToggle;
         /// <summary>UI flag for creating editor related folders/files.</summary>
-        private Toggle _setupEditorToggle;
+        private readonly Toggle _setupEditorToggle;
         /// <summary>UI flag indicating if test structures should be included.</summary>
-        private Toggle _includeTestsToggle;
+        private readonly Toggle _includeTestsToggle;
         /// <summary>UI flag indicating if documentation structures should be included.</summary>
-        private Toggle _documentationToggle;
+        private readonly Toggle _documentationToggle;
         /// <summary>UI flag indicating if sample structures should be included.</summary>
-        private Toggle _includeSamplesToggle;
+        private readonly Toggle _includeSamplesToggle;
 
         /// <summary>UI button that triggers save feature.</summary>
-        private Button _saveButton;
+        private readonly Button _saveButton;
 
         /// <summary>Callbacks triggered on save button press.</summary>
         public Action OnSavePressed;
@@ -65,8 +65,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// The deletion status of various folders.
         /// </summary>
         public Dictionary<string, bool> FolderConditions => new() {
-            { PackageConstants.TestsFolderName, _includeTestsToggle.value},
-            { PackageConstants.RuntimeFolderName, _setupRuntimeToggle.value},
+            { PackageConstants.TestsFolderName, _includeTestsToggle.value },
+            { PackageConstants.RuntimeFolderName, _setupRuntimeToggle.value },
             { PackageConstants.EditorFolderName, _setupEditorToggle.value },
             { PackageConstants.DocumentationFolderName, _documentationToggle.value },
             { PackageConstants.SamplesFolderName, _includeSamplesToggle.value },
@@ -77,7 +77,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         public List<string> FoldersToRemove => FolderConditions
             .Where(folderCondition => !folderCondition.Value)
-            .Select(folderCondition => "*" + folderCondition.Key + "*")
+            .Select(folderCondition => $"*{folderCondition.Key}*")
             .ToList();
 
         /// <summary>

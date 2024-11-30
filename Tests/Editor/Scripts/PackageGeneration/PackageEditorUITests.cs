@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;
@@ -83,8 +83,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Arrange
             var expectedFoldersToRemove = new List<string>
             {
-                "*" + PackageConstants.DocumentationFolderName + "*",
-                "*" + PackageConstants.SamplesFolderName + "*",
+                $"*{PackageConstants.DocumentationFolderName}*",
+                $"*{PackageConstants.SamplesFolderName}*",
             };
 
             // Act

@@ -5,7 +5,7 @@
   Copyright:      ©2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:48:48 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         private VisualTreeAsset _tree;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private GeneratePackageEditor _packageEditor = new();
+        private readonly GeneratePackageEditor _packageEditor = new();
 
         #endregion Members
 

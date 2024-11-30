@@ -5,7 +5,7 @@
   Copyright:      ©2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -34,7 +34,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         public Func<string> GetDirectory;
 
-        private List<FolderData> _directoryList = new List<FolderData>();
+        private List<FolderData> _directoryList = new();
 
         #endregion Members
 
@@ -75,7 +75,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
             // Create a list of folder data that will be bound to the UI elements of the list.
             _directoryList = new List<FolderData>();
-            foreach (var directory in gitDirectories)
+            foreach(var directory in gitDirectories)
             {
                 // Trim the folder names to reduce redundancy.
                 var data = ScriptableObject.CreateInstance<FolderData>();
@@ -115,7 +115,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 fileOperations.RemoveFilesByName(tempPath, _metaFileExtension);
 
                 // Copy all remaining temp folders to target location.
-                foreach (var folder in preCommitFolders)
+                foreach(var folder in preCommitFolders)
                 {
                     var targetPath = Path.Join(_ui.ParentFolderPath, folder); 
                     targetPath = Path.Join(targetPath, _gitFolderName, GitConstants.PreCommitTargetPath);
@@ -135,7 +135,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
             var semanticReleaseFolders = _directoryList.Where(data => data.IncludeSemanticRelease)
                 .Select(data => data.FolderPath);
 
-            if (semanticReleaseFolders.Any())
+            if(semanticReleaseFolders.Any())
             {
                 var fileOperations = new IOFileSystemService(new RegexStringManipulator());
 
@@ -147,7 +147,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 fileOperations.RemoveFilesByName(tempPath, _metaFileExtension);
 
                 // Copy remaining temp folders to the target location.
-                foreach (var folder in semanticReleaseFolders)
+                foreach(var folder in semanticReleaseFolders)
                 {
                     var targetPath = Path.Join(_ui.ParentFolderPath, folder);
                     fileOperations.CopyDirectory(tempPath, targetPath);

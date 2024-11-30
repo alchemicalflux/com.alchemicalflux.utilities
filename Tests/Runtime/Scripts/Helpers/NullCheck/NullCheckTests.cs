@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:32:48 
+  Last commit at: 2024-11-29 20:56:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -34,62 +34,61 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _linkedChildNullCheckTestName = "LinkedChildNullCheck_ReturnsNoErrors";
         private const string _linkedChildPrefabNullCheckTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
 
-        private static readonly Dictionary<string, TestCaseData> _instantiatedScenarioData =
-            new Dictionary<string, TestCaseData>()
+        private static readonly Dictionary<string, TestCaseData> _instantiatedScenarioData = new()
+        {
             {
-                {
-                    _emptyGameObjectTestName,
-                    new TestCaseData(NullCheckTestType.EmptyObject, 0)
-                },
-                {
-                    _emptyScriptTestName,
-                    new TestCaseData(NullCheckTestType.EmptyScript, 0)
-                },
-                {
-                    _valueFieldsTestName,
-                    new TestCaseData(NullCheckTestType.ValueFields, 12)
-                },
-                {
-                    _nullCheckTestName,
-                    new TestCaseData(NullCheckTestType.NullCheck, 1)
-                },
-                {
-                    _prefabNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.PrefabNullCheck, 1)
-                },
-                {
-                    _linkedNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.LinkedNullCheck, 0)
-                },
-                {
-                    _linkedPrefabNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
-                },
-                {
-                    _multiNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.MultiNullCheck, 8)
-                },
-                {
-                    _linkedMultiNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.LinkedMultiNullCheck, 0)
-                },
-                {
-                    _childNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.ChildNullCheck, 1)
-                },
-                {
-                    _childPrefabNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.ChildPrefabNullCheck, 1)
-                },
-                {
-                    _linkedChildNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.LinkedChildNullCheck, 0)
-                },
-                {
-                    _linkedChildPrefabNullCheckTestName,
-                    new TestCaseData(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
-                },
-            };
+                _emptyGameObjectTestName,
+                new(NullCheckTestType.EmptyObject, 0)
+            },
+            {
+                _emptyScriptTestName,
+                new(NullCheckTestType.EmptyScript, 0)
+            },
+            {
+                _valueFieldsTestName,
+                new(NullCheckTestType.ValueFields, 12)
+            },
+            {
+                _nullCheckTestName,
+                new(NullCheckTestType.NullCheck, 1)
+            },
+            {
+                _prefabNullCheckTestName,
+                new(NullCheckTestType.PrefabNullCheck, 1)
+            },
+            {
+                _linkedNullCheckTestName,
+                new(NullCheckTestType.LinkedNullCheck, 0)
+            },
+            {
+                _linkedPrefabNullCheckTestName,
+                new(NullCheckTestType.LinkedPrefabNullCheck, 0)
+            },
+            {
+                _multiNullCheckTestName,
+                new(NullCheckTestType.MultiNullCheck, 8)
+            },
+            {
+                _linkedMultiNullCheckTestName,
+                new(NullCheckTestType.LinkedMultiNullCheck, 0)
+            },
+            {
+                _childNullCheckTestName,
+                new(NullCheckTestType.ChildNullCheck, 1)
+            },
+            {
+                _childPrefabNullCheckTestName,
+                new(NullCheckTestType.ChildPrefabNullCheck, 1)
+            },
+            {
+                _linkedChildNullCheckTestName,
+                new(NullCheckTestType.LinkedChildNullCheck, 0)
+            },
+            {
+                _linkedChildPrefabNullCheckTestName,
+                new(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
+            },
+        };
 
         #endregion Test Scenerios
 
@@ -97,7 +96,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         private static IEnumerable<TestCaseData> InstantiateGameObjectTests()
         {
-            foreach (var scenario in _instantiatedScenarioData)
+            foreach(var scenario in _instantiatedScenarioData)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }

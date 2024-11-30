@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:30:36 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -78,7 +78,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="errorsFound">Flag indicating whether any errors were found.</param>
         private static void DisplayNoErrorMessage(bool errorsFound)
         {
-            if (!errorsFound)
+            if(!errorsFound)
             {
                 Debug.Log(_noErrorsMessage);
             }

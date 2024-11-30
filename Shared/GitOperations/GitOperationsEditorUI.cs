@@ -5,7 +5,7 @@
   Copyright:      ©2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:48:48 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -22,18 +22,18 @@ namespace AlchemicalFlux.Utilities.GitOperations
         #region Members
 
         /// <summary>UI text entry for the parent folder path.</summary>
-        private TextField _parentFolderTextField;
+        private readonly TextField _parentFolderTextField;
 
         /// <summary>UI button that triggers the parent folder path search functionality.</summary>
-        private Button _folderSearchButton;
+        private readonly Button _folderSearchButton;
 
         /// <summary>UI list view interface for accessing and modifying which folders will be processed.</summary>
-        private ListView _gatheredFoldersList;
+        private readonly ListView _gatheredFoldersList;
 
-        private VisualTreeAsset _listViewTemplate;
+        private readonly VisualTreeAsset _listViewTemplate;
 
         /// <summary></summary>
-        private Button _installButton;
+        private readonly Button _installButton;
 
         /// <summary>Callbacks triggered on the folder search button press.</summary>
         public Action OnSearchPressed;

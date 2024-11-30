@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 21:18:21 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -25,31 +25,28 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         #region Test Values
 
         // Escape Characters
-        protected static readonly Dictionary<string, string> RegexCharactersReplacements = 
-            new Dictionary<string, string>()
-            {
-                { Regex.Escape("\\n"), "\n" },
-                { Regex.Escape("\\t"), "\t" },
-                { Regex.Escape("\\\\"), "\\" },
-            };
+        protected static readonly Dictionary<string, string> RegexCharactersReplacements = new()
+        {
+            { Regex.Escape("\\n"), "\n" },
+            { Regex.Escape("\\t"), "\t" },
+            { Regex.Escape("\\\\"), "\\" },
+        };
 
         // Special Characters
-        protected static readonly Dictionary<string, string> RegexSpecialCharactersReplacements = 
-            new Dictionary<string, string>
-            {
-                { Regex.Escape("("), "[1]" },
-                { Regex.Escape(")"), "[2]" },
-                { Regex.Escape("{"), "[3]" },
-                { Regex.Escape("}"), "[4]" },
-            };
+        protected static readonly Dictionary<string, string> RegexSpecialCharactersReplacements = new()
+        {
+            { Regex.Escape("("), "[1]" },
+            { Regex.Escape(")"), "[2]" },
+            { Regex.Escape("{"), "[3]" },
+            { Regex.Escape("}"), "[4]" },
+        };
 
         // Regex Replacement values
         protected const string RegexText = "Valid \"version\": \"garbage\" Valid";
-        protected static readonly Dictionary<string, string> RegexReplacements = 
-            new Dictionary<string, string>()
-            {
-                { "\"version\": \".*\"", "\"version\": \"0.0.0-development\""},
-            };
+        protected static readonly Dictionary<string, string> RegexReplacements = new()
+        {
+            { "\"version\": \".*\"", "\"version\": \"0.0.0-development\""},
+        };
         protected const string RegexResults = "Valid \"version\": \"0.0.0-development\" Valid";
 
         #endregion Test Values
@@ -59,25 +56,24 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         // Test names
         protected const string RegexReplacementsTestName = "RegexReplacements_ReturnModifiedString";
 
-        protected static readonly Dictionary<string, TestCaseData> RegexReplacementScenariosData =
-            new Dictionary<string, TestCaseData>()
+        protected static readonly Dictionary<string, TestCaseData> RegexReplacementScenariosData = new()
+        {
             {
-                {
-                    EscapeCharacterReplacementTestName,
-                    new TestCaseData(new RegexStringManipulator(),
-                        EscapeCharactersText, RegexCharactersReplacements, EscapeCharactersResult)
-                },
-                {
-                    SpecialCharacterReplacementsTestName,
-                    new TestCaseData(new RegexStringManipulator(),
-                        SpecialCharactersText, RegexSpecialCharactersReplacements, SpecialCharactersResult)
-                },
-                {
-                    RegexReplacementsTestName,
-                    new TestCaseData(new RegexStringManipulator(),
-                        RegexText, RegexReplacements, RegexResults)
-                },
-            };
+                EscapeCharacterReplacementTestName,
+                new(new RegexStringManipulator(),
+                    EscapeCharactersText, RegexCharactersReplacements, EscapeCharactersResult)
+            },
+            {
+                SpecialCharacterReplacementsTestName,
+                new(new RegexStringManipulator(),
+                    SpecialCharactersText, RegexSpecialCharactersReplacements, SpecialCharactersResult)
+            },
+            {
+                RegexReplacementsTestName,
+                new(new RegexStringManipulator(),
+                    RegexText, RegexReplacements, RegexResults)
+            },
+        };
 
         #endregion Test Scenarios
 
@@ -90,7 +86,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public static IEnumerable<TestCaseData> RegexReplacementScenarios()
         {
             var merged = RegexReplacementScenariosData.Merge(ReplacementScenariosData);
-            foreach (var scenario in merged)
+            foreach(var scenario in merged)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }
