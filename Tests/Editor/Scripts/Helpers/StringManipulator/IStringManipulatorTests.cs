@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:46:10 
+  Last commit at: 2024-11-29 20:56:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -96,11 +96,11 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             {
                 {
                     InitialTextNullTestName,
-                    new TestCaseData(new TStringManipulator(), null, StandardReplacements)
+                    new(new TStringManipulator(), null, StandardReplacements)
                 },
                 {
                     ReplacementsIsNullTestName,
-                    new TestCaseData(new TStringManipulator(), DefaultText, null)
+                    new(new TStringManipulator(), DefaultText, null)
                 }
             };
 
@@ -120,42 +120,42 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             {
                 {
                     EmptyInitialStringTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         string.Empty, StandardReplacements, string.Empty)
                 },
                 {
                     EmptyReplacementsTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         DefaultText, new Dictionary<string, string>(), DefaultText)
                 },
                 {
                     SimpleReplacementsTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         StandardText, StandardReplacements, StandardResult)
                 },
                 {
                     LowerCaseSensitivityTestName,
-                    new TestCaseData(new TStringManipulator(),
+                    new(new TStringManipulator(),
                         LowerCaseText, StandardReplacements, LowerCaseResult)
                 },
                 {
                     UpperCaseSensitivityTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         UpperCaseText, StandardReplacements, UpperCaseResult)
                 },
                 {
                     OverlappingReplacementsTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         LongestKeyFirstText, LongestKeyFirstReplacements, LongestKeyFirstResult)
                 },
                 {
                     EscapeCharacterReplacementTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         EscapeCharactersText, EscapeCharactersReplacements, EscapeCharactersResult)
                 },
                 {
                     SpecialCharacterReplacementsTestName,
-                    new TestCaseData(new TStringManipulator(), 
+                    new(new TStringManipulator(), 
                         SpecialCharactersText, SpecialCharactersReplacements, SpecialCharactersResult)
                 },
             };

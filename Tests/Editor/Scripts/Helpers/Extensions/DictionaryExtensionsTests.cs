@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:48:48 
+  Last commit at: 2024-11-29 20:56:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -88,11 +88,11 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             {
                 _selfIsNullTestName,
-                new TestCaseData(null, new Dictionary<string, int>())
+                new(null, new Dictionary<string, int>())
             },
             {
                 _otherIsNullTestName,
-                new TestCaseData(new Dictionary<string, int>(), null)
+                new(new Dictionary<string, int>(), null)
             },
         };
 
@@ -107,23 +107,23 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             {
                 _selfIsEmptyTestName,
-                new TestCaseData(new Dictionary<string, int>(), _oneElement, _oneElement)
+                new(new Dictionary<string, int>(), _oneElement, _oneElement)
             },
             {
                 _otherIsEmptyTestName,
-                new TestCaseData(_oneElement, new Dictionary<string, int>(), _oneElement)
+                new(_oneElement, new Dictionary<string, int>(), _oneElement)
             },
             {
                 _noConflictKeysTestName,
-                new TestCaseData(_noConflictA, _noConflictB, _noConflictResult)
+                new(_noConflictA, _noConflictB, _noConflictResult)
             },
             {
                 _dictionariesWithConflictKeysTestName,
-                new TestCaseData(_conflictA, _conflictB, _conflictResult)
+                new(_conflictA, _conflictB, _conflictResult)
             },
             {
                 _reverseDictionaryOrderTestName,
-                new TestCaseData(_conflictB, _conflictA, _conflictReversedResult)
+                new(_conflictB, _conflictA, _conflictReversedResult)
             },
         };
 

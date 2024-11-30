@@ -5,7 +5,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:48:48 
+  Last commit at: 2024-11-29 20:56:00 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -40,55 +40,55 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             {
                 _emptyGameObjectPrefabTestName,
-                new TestCaseData(NullCheckTestType.EmptyObject, 0)
+                new(NullCheckTestType.EmptyObject, 0)
             },
             {
                 _emptyScriptPrefabTestName,
-                new TestCaseData(NullCheckTestType.EmptyScript, 0)
+                new(NullCheckTestType.EmptyScript, 0)
             },
             {
                 _valueFieldsPrefabTestName,
-                new TestCaseData(NullCheckTestType.ValueFields, 12)
+                new(NullCheckTestType.ValueFields, 12)
             },
             {
                 _nullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.NullCheck, 1)
+                new(NullCheckTestType.NullCheck, 1)
             },
             {
                 _prefabNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.PrefabNullCheck, 0)
+                new(NullCheckTestType.PrefabNullCheck, 0)
             },
             {
                 _linkedNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.LinkedNullCheck, 0)
+                new(NullCheckTestType.LinkedNullCheck, 0)
             },
             {
                 _linkedPrefabNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.LinkedPrefabNullCheck, 0)
+                new(NullCheckTestType.LinkedPrefabNullCheck, 0)
             },
             {
                 _multiNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.MultiNullCheck, 4)
+                new(NullCheckTestType.MultiNullCheck, 4)
             },
             {
                 _linkedMultiNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.LinkedMultiNullCheck, 0)
+                new(NullCheckTestType.LinkedMultiNullCheck, 0)
             },
             {
                 _childNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.ChildNullCheck, 1)
+                new(NullCheckTestType.ChildNullCheck, 1)
             },
             {
                 _childPrefabNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.ChildPrefabNullCheck, 0)
+                new(NullCheckTestType.ChildPrefabNullCheck, 0)
             },
             {
                 _linkedChildNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.LinkedChildNullCheck, 0)
+                new(NullCheckTestType.LinkedChildNullCheck, 0)
             },
             {
                 _linkedChildPrefabNullCheckPrefabTestName,
-                new TestCaseData(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
+                new(NullCheckTestType.LinkedChildPrefabNullCheck, 0)
             },
         };
 
