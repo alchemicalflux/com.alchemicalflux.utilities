@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:46:10 
+  Last commit at: 2024-11-29 21:18:21 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Handle to manipulator used to process string replacements.
         /// </summary>
-        private IStringManipulator _stringManipulator;
+        private readonly IStringManipulator _stringManipulator;
 
         #endregion
 
@@ -42,12 +42,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="stringManipulator">Handles all string replacements.</param>
         public IOFileSystemService(IStringManipulator stringManipulator)
         {
-            if(stringManipulator == null)
-            {
-                throw new ArgumentNullException(nameof(stringManipulator));
-            }
-
-            _stringManipulator = stringManipulator;
+            _stringManipulator = stringManipulator ?? throw new ArgumentNullException(nameof(stringManipulator));
         }
 
         #endregion Constructors

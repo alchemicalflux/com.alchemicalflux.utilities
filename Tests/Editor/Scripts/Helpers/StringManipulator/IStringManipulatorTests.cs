@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:56:00 
+  Last commit at: 2024-11-29 21:18:21 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -28,14 +28,13 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         // Standard Replacement values
         protected const string StandardText = "Hello {FirstName}, you are from {Country}.";
-        protected static readonly Dictionary<string, string> StandardReplacements = 
-            new Dictionary<string, string>()
-            {
-                { "{FirstName}", "John" },
-                { "{Country}", "USA" },
-                { "Garbage", "Should Not Replace" },
-                { "fasdf", null },
-            };
+        protected static readonly Dictionary<string, string> StandardReplacements = new()
+        {
+            { "{FirstName}", "John" },
+            { "{Country}", "USA" },
+            { "Garbage", "Should Not Replace" },
+            { "fasdf", null },
+        };
         protected const string StandardResult = "Hello John, you are from USA.";
 
         // Case Sensitivty
@@ -47,39 +46,36 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         // Longest Key First values
         protected const string LongestKeyFirstText = "The quick brown fox jumps over the lazy dog.";
-        protected static readonly Dictionary<string, string> LongestKeyFirstReplacements = 
-            new Dictionary<string, string>()
-            {
-                { "the lazy", "the energetic" },
-                { "the lazy ", "the scared " },
+        protected static readonly Dictionary<string, string> LongestKeyFirstReplacements = new()
+        {
+            { "the lazy", "the energetic" },
+            { "the lazy ", "the scared " },
 
-                { "fox jumps", "cat leaps"},
-                { "fox jumps over", "squirrel scampers above"},
-                { "jumps over", "hops across"},
-            };
+            { "fox jumps", "cat leaps"},
+            { "fox jumps over", "squirrel scampers above"},
+            { "jumps over", "hops across"},
+        };
         protected const string LongestKeyFirstResult = "The quick brown squirrel scampers above the scared dog.";
 
         // Escape Characters
         protected const string EscapeCharactersText = "Replace newline: \\n, tab: \\t, and backslash: \\\\";
-        protected static readonly Dictionary<string, string> EscapeCharactersReplacements = 
-            new Dictionary<string, string>()
-            {
-                { "\\n", "\n" },
-                { "\\t", "\t" },
-                { "\\\\", "\\" },
-            };
+        protected static readonly Dictionary<string, string> EscapeCharactersReplacements = new()
+        {
+            { "\\n", "\n" },
+            { "\\t", "\t" },
+            { "\\\\", "\\" },
+        };
         protected const string EscapeCharactersResult = "Replace newline: \n, tab: \t, and backslash: \\";
 
         // Special Characters
         protected const string SpecialCharactersText = "Replace ( { and } ) with special characters";
-        protected static readonly Dictionary<string, string> SpecialCharactersReplacements =
-            new Dictionary<string, string>
-            {
-                { "(", "[1]" },
-                { ")", "[2]" },
-                { "{", "[3]" },
-                { "}", "[4]" },
-            };
+        protected static readonly Dictionary<string, string> SpecialCharactersReplacements = new()
+        {
+            { "(", "[1]" },
+            { ")", "[2]" },
+            { "{", "[3]" },
+            { "}", "[4]" },
+        };
         protected const string SpecialCharactersResult = "Replace [1] [3] and [4] [2] with special characters";
 
         #endregion Test Values
@@ -91,18 +87,17 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         protected const string InitialTextNullTestName = "InitialTextIsNull_ThrowArguementNullException";
         protected const string ReplacementsIsNullTestName = "ReplacementsIsNull_ThrowArguementNullException";
 
-        protected static readonly Dictionary<string, TestCaseData> InvalidScenariosData =
-            new Dictionary<string, TestCaseData>()
+        protected static readonly Dictionary<string, TestCaseData> InvalidScenariosData = new()
+        {
             {
-                {
-                    InitialTextNullTestName,
-                    new(new TStringManipulator(), null, StandardReplacements)
-                },
-                {
-                    ReplacementsIsNullTestName,
-                    new(new TStringManipulator(), DefaultText, null)
-                }
-            };
+                InitialTextNullTestName,
+                new(new TStringManipulator(), null, StandardReplacements)
+            },
+            {
+                ReplacementsIsNullTestName,
+                new(new TStringManipulator(), DefaultText, null)
+            }
+        };
 
         // Replacement Scenario Tests
 
@@ -115,50 +110,49 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         protected const string EscapeCharacterReplacementTestName = "EscapeCharacterReplacements_ReturnModifiedString";
         protected const string SpecialCharacterReplacementsTestName = "SpecialCharacterReplacements_ReturnModifiedString";
 
-        protected static readonly Dictionary<string, TestCaseData> ReplacementScenariosData =
-            new Dictionary<string, TestCaseData>()
+        protected static readonly Dictionary<string, TestCaseData> ReplacementScenariosData = new()
+        {
             {
-                {
-                    EmptyInitialStringTestName,
-                    new(new TStringManipulator(), 
-                        string.Empty, StandardReplacements, string.Empty)
-                },
-                {
-                    EmptyReplacementsTestName,
-                    new(new TStringManipulator(), 
-                        DefaultText, new Dictionary<string, string>(), DefaultText)
-                },
-                {
-                    SimpleReplacementsTestName,
-                    new(new TStringManipulator(), 
-                        StandardText, StandardReplacements, StandardResult)
-                },
-                {
-                    LowerCaseSensitivityTestName,
-                    new(new TStringManipulator(),
-                        LowerCaseText, StandardReplacements, LowerCaseResult)
-                },
-                {
-                    UpperCaseSensitivityTestName,
-                    new(new TStringManipulator(), 
-                        UpperCaseText, StandardReplacements, UpperCaseResult)
-                },
-                {
-                    OverlappingReplacementsTestName,
-                    new(new TStringManipulator(), 
-                        LongestKeyFirstText, LongestKeyFirstReplacements, LongestKeyFirstResult)
-                },
-                {
-                    EscapeCharacterReplacementTestName,
-                    new(new TStringManipulator(), 
-                        EscapeCharactersText, EscapeCharactersReplacements, EscapeCharactersResult)
-                },
-                {
-                    SpecialCharacterReplacementsTestName,
-                    new(new TStringManipulator(), 
-                        SpecialCharactersText, SpecialCharactersReplacements, SpecialCharactersResult)
-                },
-            };
+                EmptyInitialStringTestName,
+                new(new TStringManipulator(), 
+                    string.Empty, StandardReplacements, string.Empty)
+            },
+            {
+                EmptyReplacementsTestName,
+                new(new TStringManipulator(), 
+                    DefaultText, new Dictionary<string, string>(), DefaultText)
+            },
+            {
+                SimpleReplacementsTestName,
+                new(new TStringManipulator(), 
+                    StandardText, StandardReplacements, StandardResult)
+            },
+            {
+                LowerCaseSensitivityTestName,
+                new(new TStringManipulator(),
+                    LowerCaseText, StandardReplacements, LowerCaseResult)
+            },
+            {
+                UpperCaseSensitivityTestName,
+                new(new TStringManipulator(), 
+                    UpperCaseText, StandardReplacements, UpperCaseResult)
+            },
+            {
+                OverlappingReplacementsTestName,
+                new(new TStringManipulator(), 
+                    LongestKeyFirstText, LongestKeyFirstReplacements, LongestKeyFirstResult)
+            },
+            {
+                EscapeCharacterReplacementTestName,
+                new(new TStringManipulator(), 
+                    EscapeCharactersText, EscapeCharactersReplacements, EscapeCharactersResult)
+            },
+            {
+                SpecialCharacterReplacementsTestName,
+                new(new TStringManipulator(), 
+                    SpecialCharactersText, SpecialCharactersReplacements, SpecialCharactersResult)
+            },
+        };
 
         #endregion Test Scenarios
 

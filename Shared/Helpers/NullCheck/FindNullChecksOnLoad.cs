@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:46:10 
+  Last commit at: 2024-11-29 21:18:21 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -63,6 +63,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// Checks for null check violations upon exiting edit mode and stops play mode if any are found.
         /// </summary>
         /// <param name="stateChange">The state change event triggered upon exiting edit mode.</param>
+        /*
         private static void CheckOnExitingEditMode(PlayModeStateChange stateChange)
         {
             if(stateChange != PlayModeStateChange.ExitingEditMode) { return; }
@@ -77,6 +78,7 @@ namespace AlchemicalFlux.Utilities.Helpers
                 EditorApplication.isPlaying = false;
             }
         }
+        */
 
         #endregion Methods
     }
