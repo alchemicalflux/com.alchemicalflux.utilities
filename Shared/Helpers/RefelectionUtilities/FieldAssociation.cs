@@ -6,9 +6,11 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-10 11:12:07 
+  Last commit at: 2024-11-29 21:19:43 
 ------------------------------------------------------------------------------*/
+using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
@@ -18,13 +20,6 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// </summary>
     public class FieldAssociation
     {
-        #region Members
-
-        /// <summary>Output format for the string representation of the FieldAssociation.</summary>
-        private const string _output = "[" + nameof(FieldAssociation) + ": Field = {0}, FullName = {1}]";
-
-        #endregion Members
-
         #region Properties
 
         /// <summary>Gets or sets the FieldInfo object representing the field.</summary>
@@ -35,6 +30,9 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         /// <summary>Gets or sets the MonoBehaviour associated with the field.</summary>
         public MonoBehaviour SourceMonoBehaviour { get; set; }
+
+        /// <summary>Used to build object heirarchy path, only if necessary.</summary>
+        private Stack<string> NameStack { get; set; }
 
         #endregion Properties
 
@@ -59,15 +57,19 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             get
             {
-                var currentParent = GameObject.transform.parent;
-                var fullName = GameObject.name;
-                while (currentParent != null)
+                NameStack ??= new(); // Only initialize once.
+                var length = GameObject.name.Length;
+                for(var parent = GameObject.transform.parent; parent != null; parent = parent.transform.parent) 
                 {
-                    fullName = currentParent.gameObject.name + "/" + fullName;
-                    currentParent = currentParent.transform.parent;
+                    NameStack.Push(parent.name);
+                    length += parent.name.Length;
+                    ++length; // Account for '/' symbol.
                 }
 
-                return fullName;
+                var builder = new StringBuilder(length + NameStack.Count);
+                for(; NameStack.Count > 0; ) { builder.Append(NameStack.Pop()).Append('/'); }
+                builder.Append(GameObject.name).Append('/').Append(SourceMonoBehaviour.GetType().Name);
+                return builder.ToString();
             }
         }
 
@@ -77,7 +79,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <returns>String containing the name of the field and its full GameObject hierarchy.</returns>
         public override string ToString()
         {
-            return string.Format(_output, FieldInfo.Name, FullName);
+            return $"[{nameof(FieldAssociation)}: Field = {FieldInfo.Name}, FullName = {FullName}]";
         }
 
         #endregion Methods
