@@ -5,10 +5,9 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:32:48 
+  Last commit at: 2024-11-29 20:48:48 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers.Tests
@@ -29,6 +28,12 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             // Arrange
             _testObjects = Resources.Load<NullCheckTestSO>("Helpers/NullCheck/NullCheckTestSO");
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            Resources.UnloadAsset(_testObjects);
         }
 
         #endregion Methods

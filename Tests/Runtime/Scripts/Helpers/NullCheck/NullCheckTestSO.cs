@@ -7,7 +7,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-11-29 20:48:48 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -46,23 +46,23 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         /// <returns>Reference to a GameObject.</returns>
         public GameObject Get(NullCheckTestType type)
         {
-            switch (type)
+            return type switch
             {
-                case NullCheckTestType.EmptyObject: return EmptyObjectTest;
-                case NullCheckTestType.EmptyScript: return EmptyScriptTest;
-                case NullCheckTestType.ValueFields: return ValueFieldsTest;
-                case NullCheckTestType.NullCheck: return NullCheckTest;
-                case NullCheckTestType.PrefabNullCheck: return PrefabNullCheckTest;
-                case NullCheckTestType.LinkedNullCheck: return LinkedNullCheckTest;
-                case NullCheckTestType.LinkedPrefabNullCheck: return LinkedPrefabNullCheckTest;
-                case NullCheckTestType.ChildNullCheck: return ChildNullCheckTest;
-                case NullCheckTestType.ChildPrefabNullCheck: return ChildPrefabNullCheckTest;
-                case NullCheckTestType.LinkedChildNullCheck: return LinkedChildNullCheckTest;
-                case NullCheckTestType.LinkedChildPrefabNullCheck: return LinkedChildPrefabNullCheckTest;
-                case NullCheckTestType.MultiNullCheck: return MultiNullCheckTest;
-                case NullCheckTestType.LinkedMultiNullCheck: return LinkedMultiNullCheckTest;
-            }
-            return null;
+                NullCheckTestType.EmptyObject => EmptyObjectTest,
+                NullCheckTestType.EmptyScript => EmptyScriptTest,
+                NullCheckTestType.ValueFields => ValueFieldsTest,
+                NullCheckTestType.NullCheck => NullCheckTest,
+                NullCheckTestType.PrefabNullCheck => PrefabNullCheckTest,
+                NullCheckTestType.LinkedNullCheck => LinkedNullCheckTest,
+                NullCheckTestType.LinkedPrefabNullCheck => LinkedPrefabNullCheckTest,
+                NullCheckTestType.ChildNullCheck => ChildNullCheckTest,
+                NullCheckTestType.ChildPrefabNullCheck => ChildPrefabNullCheckTest,
+                NullCheckTestType.LinkedChildNullCheck => LinkedChildNullCheckTest,
+                NullCheckTestType.LinkedChildPrefabNullCheck => LinkedChildPrefabNullCheckTest,
+                NullCheckTestType.MultiNullCheck => MultiNullCheckTest,
+                NullCheckTestType.LinkedMultiNullCheck => LinkedMultiNullCheckTest,
+                _ => null,
+            };
         }
 
         #endregion Methods

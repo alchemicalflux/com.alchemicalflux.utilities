@@ -5,7 +5,7 @@
   Copyright:      ©2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:48:48 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -29,7 +29,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         private VisualTreeAsset _listViewAsset;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private GitOperationsEditor _gitOperationsEditor = new();
+        private readonly GitOperationsEditor _gitOperationsEditor = new();
 
         private GitOperationsEditorUI _gitOperationsEditorUI;
 
