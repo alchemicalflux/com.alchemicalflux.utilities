@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:34:07 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </remarks>
         public override string MultipleReplace(string originalText, Dictionary<string, string> replacements)
         {
-            if (AreParametersInvalid(originalText, replacements, nameof(originalText), nameof(replacements)))
+            if(AreParametersInvalid(originalText, replacements, nameof(originalText), nameof(replacements)))
             {
                 return originalText;
             }
@@ -34,7 +34,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             var orderedList = replacements.Select(m => m.Key)
                 .OrderByDescending(key => key.Length)
                 .ThenBy(key => key);
-            var pattern = "(" + string.Join("|", orderedList) + ")";
+            var pattern = $"({string.Join("|", orderedList)})";
 
             // Concatenates all keys to a searchable pattern.
             // Upon finding an entry to replace, it matches it with all keys that qualify,

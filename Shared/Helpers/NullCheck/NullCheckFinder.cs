@@ -6,7 +6,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:29:21 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -41,7 +41,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             processing.Push(gameObject);
 
             var errorsOnGameObject = new List<FieldAssociation>();
-            while (processing.Count > 0)
+            while(processing.Count > 0)
             {
                 var obj = processing.Pop();
                 CollectNullCheckViolations(obj);
@@ -62,10 +62,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Helper method to add a GameObject's children for processing.
             void AddChildrenForProcessing(GameObject obj)
             {
-                foreach (Transform child in obj.transform)
-                {
-                    processing.Push(child.gameObject);
-                }
+                foreach(Transform child in obj.transform) { processing.Push(child.gameObject); }
             }
 
             #endregion Local Helpers
@@ -77,7 +74,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private static bool IsPrefab(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, NullCheck att)
         {
             // Value type fields should be processed.
-            if (fieldInfo.FieldType.IsValueType) { return false; }
+            if(fieldInfo.FieldType.IsValueType) { return false; }
 
             var result = false;
 
@@ -97,7 +94,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         private static bool NoViolation(FieldInfo fieldInfo, object obj, NullCheck att)
         {
-            // Being attahed to non-object references is considered a violation.
+            // Being attached to non-object references is considered a violation.
             if(fieldInfo.FieldType.IsValueType) { return false; }
 
             // Check that the object reference is not null.

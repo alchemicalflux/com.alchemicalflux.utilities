@@ -8,7 +8,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:30:36 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -32,7 +32,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         static FindNullChecksOnLoad()
         {
-            if (!Debug.isDebugBuild) { return; }
+            if(!Debug.isDebugBuild) { return; }
 
             // Schedule a one-time search for null check violations upon the first launch of the editor.
             EditorApplication.update += CheckOnStart;
@@ -53,7 +53,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             foundErrors |= NullCheckProcessing.ProcessGameObjectsInScene();
 
             // If null check violations are found, stop play mode in the editor.
-            if (foundErrors)
+            if(foundErrors)
             {
                 EditorApplication.isPlaying = false;
             }
@@ -72,7 +72,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             foundErrors |= NullCheckProcessing.ProcessGameObjectsInAllScenes();
 
             // If null check violations are found, stop play mode in the editor.
-            if (foundErrors)
+            if(foundErrors)
             {
                 EditorApplication.isPlaying = false;
             }

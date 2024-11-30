@@ -10,7 +10,7 @@
   Copyright:      ©2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-20 10:30:36 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -42,12 +42,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var foundErrors = false;
 
-            if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return false; }
+            if(!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) { return false; }
 
             var originalSceneSetup = EditorSceneManager.GetSceneManagerSetup();
 
             var scenePaths = AssetDatabase.FindAssets("t:Scene", new[] { "Assets" });
-            foreach (var scenePath in scenePaths)
+            foreach(var scenePath in scenePaths)
             {
                 string sceneName = AssetDatabase.GUIDToAssetPath(scenePath);
                 EditorSceneManager.OpenScene(sceneName, OpenSceneMode.Single);
@@ -68,9 +68,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var sceneGameObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             var foundErrors = false;
-            foreach (var sceneGameObject in sceneGameObjects)
+            foreach(var sceneGameObject in sceneGameObjects)
             {
-                if (sceneGameObject.transform.parent != null) { continue; }
+                if(sceneGameObject.transform.parent != null) { continue; }
 
                 foundErrors |= ProcessErrorsForObject(sceneGameObject, pathToAsset);
             }
@@ -85,11 +85,11 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var guidsForAllGameObjects = AssetDatabase.FindAssets("t:GameObject");
             var foundErrors = false;
-            foreach (var guid in guidsForAllGameObjects)
+            foreach(var guid in guidsForAllGameObjects)
             {
                 var pathToGameObject = AssetDatabase.GUIDToAssetPath(guid);
 
-                if (pathToGameObject.Contains(_unitTestLocation)) { continue; }
+                if(pathToGameObject.Contains(_unitTestLocation)) { continue; }
 
                 var gameObject = (GameObject)AssetDatabase.LoadAssetAtPath(pathToGameObject,
                     typeof(GameObject));
@@ -108,7 +108,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private static bool ProcessErrorsForObject(GameObject gameObject, string pathToAsset)
         {
             var errorsOnGameObject = NullCheckFinder.RetrieveErrors(gameObject);
-            foreach (var violation in errorsOnGameObject)
+            foreach(var violation in errorsOnGameObject)
             {
                 Debug.LogError($"{violation}\nPath: {pathToAsset}", violation.GameObject);
             }

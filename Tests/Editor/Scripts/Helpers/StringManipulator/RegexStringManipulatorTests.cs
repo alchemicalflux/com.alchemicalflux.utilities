@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -90,7 +90,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public static IEnumerable<TestCaseData> RegexReplacementScenarios()
         {
             var merged = RegexReplacementScenariosData.Merge(ReplacementScenariosData);
-            foreach (var scenario in merged)
+            foreach(var scenario in merged)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }

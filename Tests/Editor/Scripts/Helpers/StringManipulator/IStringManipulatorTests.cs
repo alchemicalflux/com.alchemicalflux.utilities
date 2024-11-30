@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -170,7 +170,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         public static IEnumerable<TestCaseData> InvalidScenarios()
         {
-            foreach (var scenario in InvalidScenariosData)
+            foreach(var scenario in InvalidScenariosData)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }
@@ -178,7 +178,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         public static IEnumerable<TestCaseData> ReplacementScenarios()
         {
-            foreach (var scenario in ReplacementScenariosData)
+            foreach(var scenario in ReplacementScenariosData)
             {
                 yield return scenario.Value.SetName(scenario.Key);
             }

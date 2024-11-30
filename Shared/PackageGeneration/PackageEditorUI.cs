@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:41:19 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -65,8 +65,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// The deletion status of various folders.
         /// </summary>
         public Dictionary<string, bool> FolderConditions => new() {
-            { PackageConstants.TestsFolderName, _includeTestsToggle.value},
-            { PackageConstants.RuntimeFolderName, _setupRuntimeToggle.value},
+            { PackageConstants.TestsFolderName, _includeTestsToggle.value },
+            { PackageConstants.RuntimeFolderName, _setupRuntimeToggle.value },
             { PackageConstants.EditorFolderName, _setupEditorToggle.value },
             { PackageConstants.DocumentationFolderName, _documentationToggle.value },
             { PackageConstants.SamplesFolderName, _includeSamplesToggle.value },
@@ -77,7 +77,7 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         public List<string> FoldersToRemove => FolderConditions
             .Where(folderCondition => !folderCondition.Value)
-            .Select(folderCondition => "*" + folderCondition.Key + "*")
+            .Select(folderCondition => $"*{folderCondition.Key}*")
             .ToList();
 
         /// <summary>

@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:34:07 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -33,13 +33,13 @@ namespace AlchemicalFlux.Utilities.Helpers
              string textName, string replacementsName)
         {
             // Handle parameter checks and short circuts.
-            if (text == null || replacements == null)
+            if(text == null || replacements == null)
             {
                 var paramName = (text == null) ? textName : string.Empty;
                 paramName += (paramName != string.Empty && replacements == null) ? " and " : string.Empty;
                 paramName += (replacements == null) ? replacementsName : string.Empty;
 
-                var message = "The '" + paramName + "' parameter(s) cannot be null.";
+                var message = $"The '{paramName}' parameter(s) cannot be null.";
 
                 throw new ArgumentNullException(paramName, message);
             }

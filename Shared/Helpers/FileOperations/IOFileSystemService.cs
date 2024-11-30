@@ -5,7 +5,7 @@
   Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-11-01 15:59:50 
+  Last commit at: 2024-11-29 20:46:10 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -72,7 +72,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         public void DeleteDirectory(string targetPath)
         {
             var directoryInfo = new DirectoryInfo(targetPath);
-            if (directoryInfo.Exists)
+            if(directoryInfo.Exists)
             {
                 directoryInfo.Delete(true);
             }
@@ -82,12 +82,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         public void RemoveFoldersByName(string sourcePath, List<string> filters)
         {
             var directoryInfo = new DirectoryInfo(sourcePath);
-            foreach (var filter in filters)
+            foreach(var filter in filters)
             {
                 var directories =
                     directoryInfo.GetDirectories(filter, SearchOption.AllDirectories);
 
-                foreach (var directory in directories)
+                foreach(var directory in directories)
                 {
                     directory.Delete(true);
                 }
@@ -100,7 +100,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             var directoryInfo = new DirectoryInfo(sourcePath);
             var files = directoryInfo.GetFiles(filter, SearchOption.AllDirectories);
 
-            foreach (var file in files)
+            foreach(var file in files)
             {
                 file.Delete();
             }
@@ -113,7 +113,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var directoryInfo = new DirectoryInfo(sourcePath);
             var files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
-            foreach (var file in files)
+            foreach(var file in files)
             {
                 // If processFile is provided, use it for additional processing.
                 processFile?.Invoke(file.FullName);
@@ -148,7 +148,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             CreateFolderAndCopyFiles(source, target.FullName);
 
             var directories = source.GetDirectories("*", SearchOption.AllDirectories);
-            foreach (var directory in directories)
+            foreach(var directory in directories)
             {
                 // Calculate the relative path between source and current directory.
                 string relativePath = Path.GetRelativePath(source.FullName, directory.FullName);
@@ -169,7 +169,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private void CreateFolderAndCopyFiles(DirectoryInfo source, string targetPath)
         {
             Directory.CreateDirectory(targetPath);
-            foreach (var file in source.GetFiles())
+            foreach(var file in source.GetFiles())
             {
                 file.CopyTo(Path.Combine(targetPath, file.Name), true);
             }
