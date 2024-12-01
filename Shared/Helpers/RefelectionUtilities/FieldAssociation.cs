@@ -3,10 +3,10 @@
   Project:        AlchemicalFlux Utilities
   Description:    Defines a class representing a field assignment within a 
                     MonoBehaviour.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 21:19:43 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;

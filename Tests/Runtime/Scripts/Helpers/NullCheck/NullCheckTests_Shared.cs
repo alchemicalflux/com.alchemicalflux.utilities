@@ -2,10 +2,10 @@
   File:           NullCheckTests_Shared.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Unit tests for the NullCheck attribute.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:48:48 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine;

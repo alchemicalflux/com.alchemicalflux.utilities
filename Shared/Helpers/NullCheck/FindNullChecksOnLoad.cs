@@ -5,10 +5,10 @@
                     violations  upon the launch of the Unity Editor. It performs
                     a search for null check violations within scene objects and 
                     assets upon the first launch of the editor.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 21:18:21 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 

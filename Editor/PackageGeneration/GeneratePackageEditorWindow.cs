@@ -2,10 +2,10 @@
   File:           GeneratePackageEditorWindow.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Editor Window construction for handling Unity package generation.
-  Copyright:      ©2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:48:48 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;

@@ -3,10 +3,10 @@
   Project:        AlchemicalFlux Utilities
   Description:    NullCheck unit test script for testing NullCheck on value 
                     fields.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 08:00:02 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;

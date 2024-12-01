@@ -2,10 +2,10 @@
   File:           RegexStringManipulator.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Contains string manipulators that can handle regex parameters.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:46:10 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
