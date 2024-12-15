@@ -6,7 +6,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-14 10:05:01 
+  Last commit at: 2024-12-15 15:25:27 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
@@ -118,10 +118,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var members = type
                 .GetMembers(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            UnityEngine.Debug.Log($"{type.Name}");
             foreach(var member in members)
             {
-                UnityEngine.Debug.Log($"  {member.Name} => {member.MemberType}");
                 ValidateProperty(member as PropertyInfo, type);
                 //ValidateMethod(member as MethodInfo, type);
                 //ValidateField(member as FieldInfo, type);
@@ -160,9 +158,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="type">The type to which the property belongs.</param>
         private static void ValidateProperty(PropertyInfo property, Type type)
         {
-            if(property == null) { return; }
-            UnityEngine.Debug.Log($"Prop: {property.Name} => {type.Name}");
-            if(property.PropertyType != type) { return; }
+            if(property == null || property.PropertyType != type) { return; }
 
             // Ensure no property getter or setter could return a new instance of the singleton.
             if (property.GetGetMethod() != null)
