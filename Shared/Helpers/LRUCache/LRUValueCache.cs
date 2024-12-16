@@ -1,18 +1,18 @@
 /*------------------------------------------------------------------------------
-  File:           LRUCacheValues.cs 
+  File:           LRUValueCache.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Implements a value based Least Recently Used container.
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-15 15:34:25 
+  Last commit at: 2024-12-15 23:41:15 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
-    public class LRUCacheValues<TKey, TValue> where TKey : struct where TValue : struct
+    public class LRUValueCache<TKey, TValue> where TKey : struct where TValue : struct
     {
         #region Constants
 
@@ -22,9 +22,9 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Classes
 
-        private struct Node
+        private struct CacheNode
         {
-            public Node(TKey key, TValue value)
+            public CacheNode(TKey key, TValue value)
             {
                 Key = key;
                 Value = value;
@@ -43,7 +43,7 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         private int _maxSize;
         private Dictionary<TKey, int> _mapping;
-        private Node[] _storage;
+        private CacheNode[] _storage;
 
         private Func<TKey, TValue> _onCreateValue;
 
@@ -55,16 +55,17 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Methods
 
-        public LRUCacheValues(Func<TKey, TValue> onCreateValue, int maxSize = _initialSize)
+        public LRUValueCache(Func<TKey, TValue> onCreateValue, int maxSize = _initialSize)
         {
             if(_initialSize <= 0) 
             { 
-                throw new ArgumentOutOfRangeException($"{nameof(maxSize)} must be greater than zero.)");
+                throw new ArgumentOutOfRangeException(nameof(maxSize),
+                    "Max size must be greater than zero.)");
             }
 
             _maxSize = maxSize;
             _mapping = new();
-            _storage = new Node[_maxSize];
+            _storage = new CacheNode[_maxSize];
             _onCreateValue = onCreateValue;
 
             _head = _tail = int.MinValue;
@@ -73,11 +74,17 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public TValue Get(TKey key)
         {
-            if(_mapping.ContainsKey(key) ) { return PullValueToFront(_mapping[key]); }
+            if(_mapping.TryGetValue(key, out var node)) { return MoveToFront(node); }
             return AssignNewValue(key);
         }
 
-        private TValue PullValueToFront(int toMove)
+        public void Clear()
+        {
+            _mapping.Clear();
+            _unused = 0;
+        }
+
+        private TValue MoveToFront(int toMove)
         {
             if(toMove == _head) { return _storage[toMove].Value; }
             RemoveNode(toMove);

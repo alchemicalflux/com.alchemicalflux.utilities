@@ -5,7 +5,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-15 19:06:40 
+  Last commit at: 2024-12-15 23:41:15 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -22,9 +22,9 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Classes
 
-        private class Node
+        private class CacheNode
         {
-            public Node(TKey key, TValue value)
+            public CacheNode(TKey key, TValue value)
             {
                 Key = key;
                 Value = value;
@@ -39,8 +39,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Members
 
         private int _maxSize;
-        private Dictionary<TKey, LinkedListNode<Node>> _mapping;
-        private LinkedList<Node> _nodes;
+        private Dictionary<TKey, LinkedListNode<CacheNode>> _mapping;
+        private LinkedList<CacheNode> _nodes;
         private Func<TKey, TValue> _onCreateValue;
 
         #endregion Members
@@ -51,7 +51,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             if(_initialSize <= 0)
             {
-                throw new ArgumentOutOfRangeException($"{nameof(maxSize)} must be greater than zero.)");
+                throw new ArgumentOutOfRangeException(nameof(maxSize), 
+                    "Max size must be greater than zero.)");
             }
 
             _maxSize = maxSize;
@@ -62,11 +63,17 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public TValue Get(TKey key)
         {
-            if(_mapping.ContainsKey(key) ) { return PullValueToFront(_mapping[key]); }
+            if(_mapping.TryGetValue(key, out var node)) { return MoveToFront(node); }
             return AssignNewValue(key);
         }
 
-        private TValue PullValueToFront(LinkedListNode<Node> toMove)
+        public void Clear()
+        {
+            _mapping.Clear();
+            _nodes.Clear();
+        }
+
+        private TValue MoveToFront(LinkedListNode<CacheNode> toMove)
         {
             if(toMove != _nodes.First)
             {
@@ -78,25 +85,30 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         private TValue AssignNewValue(TKey key)
         {
-            Node data;
-            LinkedListNode<Node> node;
+            CacheNode cacheNode;
+            LinkedListNode<CacheNode> node;
             if(_mapping.Count < _maxSize)
             {
-                data = new(key, _onCreateValue(key));
-                node = new(data);
+                cacheNode = new(key, _onCreateValue(key));
+                node = new(cacheNode);
             }
             else
             {
-                node = _nodes.Last;
-                data = node.Value;
-                _nodes.RemoveLast();
-                _mapping.Remove(data.Key);
-                data.Key = key;
-                data.Value = _onCreateValue(key);
+                RemoveLastNode(out cacheNode, out node);
+                cacheNode.Key = key;
+                cacheNode.Value = _onCreateValue(key);
             }
             _nodes.AddFirst(node);
             _mapping[key] = node;
-            return data.Value;
+            return cacheNode.Value;
+        }
+
+        private void RemoveLastNode(out CacheNode cacheNode, out LinkedListNode<CacheNode> node)
+        {
+            node = _nodes.Last;
+            cacheNode = node.Value;
+            _nodes.RemoveLast();
+            _mapping.Remove(cacheNode.Key);
         }
 
         #endregion Methods
