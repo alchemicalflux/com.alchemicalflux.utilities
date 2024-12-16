@@ -5,7 +5,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-15 15:34:25 
+  Last commit at: 2024-12-15 19:06:40 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -28,13 +28,10 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 Key = key;
                 Value = value;
-                Prev = Next = null;
             }
 
             public TKey Key;
             public TValue Value;
-            public Node Prev;
-            public Node Next;
         };
 
         #endregion Classes
@@ -42,11 +39,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Members
 
         private int _maxSize;
-        private Dictionary<TKey, Node> _mapping;
+        private Dictionary<TKey, LinkedListNode<Node>> _mapping;
+        private LinkedList<Node> _nodes;
         private Func<TKey, TValue> _onCreateValue;
-
-        private Node _head;
-        private Node _tail;
 
         #endregion Members
 
@@ -61,9 +56,8 @@ namespace AlchemicalFlux.Utilities.Helpers
 
             _maxSize = maxSize;
             _mapping = new();
+            _nodes = new();
             _onCreateValue = onCreateValue;
-
-            _head = _tail = null;
         }
 
         public TValue Get(TKey key)
@@ -72,110 +66,37 @@ namespace AlchemicalFlux.Utilities.Helpers
             return AssignNewValue(key);
         }
 
-        private TValue PullValueToFront(Node toMove)
+        private TValue PullValueToFront(LinkedListNode<Node> toMove)
         {
-            if(toMove == _head) { return toMove.Value; }
-            RemoveNode(toMove);
-            InsertAtFront(toMove);
-            return toMove.Value;
+            if(toMove != _nodes.First)
+            {
+                _nodes.Remove(toMove);
+                _nodes.AddFirst(toMove);
+            }
+            return toMove.Value.Value;
         }
 
         private TValue AssignNewValue(TKey key)
         {
-            Node node;
+            Node data;
+            LinkedListNode<Node> node;
             if(_mapping.Count < _maxSize)
             {
-                node = new(key, _onCreateValue(key));
-                _mapping[key] = node;
+                data = new(key, _onCreateValue(key));
+                node = new(data);
             }
             else
             {
-                node = RemoveTail();
-                _mapping.Remove(node.Key);
-                node.Key = key;
-                node.Value = _onCreateValue(key);
-                _mapping.Add(key, node);
+                node = _nodes.Last;
+                data = node.Value;
+                _nodes.RemoveLast();
+                _mapping.Remove(data.Key);
+                data.Key = key;
+                data.Value = _onCreateValue(key);
             }
-            InsertAtFront(node);
-            return node.Value;
-        }
-
-        private void InsertAtFront(Node node)
-        {
-            node.Prev = null;
-            if(_head == null)
-            {
-                _head = _tail = node;
-                node.Next = null;
-            }
-            else
-            {
-                node.Next = _head;
-                _head.Prev = node;
-                _head = node;
-            }
-        }
-
-        private void InsertAtEnd(Node node)
-        {
-            node.Next = null;
-            if(_head == null)
-            {
-                _head = _tail = node;
-                node.Prev = null;
-            }
-            else
-            {
-                node.Prev = _tail;
-                _tail.Next = node;
-                _tail = node;
-            }
-        }
-
-        private void RemoveNode(Node node)
-        {
-            if(_head == _tail) { _head = _tail = null; }
-            else if(node == _head)
-            {
-                _head = _head.Next;
-                if(_head != null) { _head.Prev = null; }
-            }
-            else if(node == _tail)
-            {
-                _tail = _tail.Prev;
-                if(_tail != null) { _tail.Next = null; }
-            }
-            else
-            {
-                node.Prev.Next = node.Next;
-                node.Next.Prev = node.Prev;
-            }
-        }
-
-        private Node RemoveHead()
-        {
-            var node = _head;
-            if(_head == _tail) { _head = _tail = null; }
-            else 
-            {
-                _head = _head.Next;
-                _head.Prev = null;
-            }
-            node.Prev = node.Next = null;
-            return node;
-        }
-
-        private Node RemoveTail()
-        {
-            var node = _tail;
-            if(_head == _tail) { _head = _tail = null; }
-            else 
-            {
-                _tail = _tail.Prev;
-                _tail.Next = null;
-            }
-            node.Prev = node.Next = null;
-            return node;
+            _nodes.AddFirst(node);
+            _mapping[key] = node;
+            return data.Value;
         }
 
         #endregion Methods
