@@ -6,7 +6,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-15 15:25:27 
+  Last commit at: 2024-12-16 20:17:12 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
@@ -120,9 +120,9 @@ namespace AlchemicalFlux.Utilities.Helpers
                 .GetMembers(BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             foreach(var member in members)
             {
+                ValidateMethod(member as MethodInfo, type);
                 ValidateProperty(member as PropertyInfo, type);
-                //ValidateMethod(member as MethodInfo, type);
-                //ValidateField(member as FieldInfo, type);
+                ValidateField(member as FieldInfo, type);
             }
         }
 
