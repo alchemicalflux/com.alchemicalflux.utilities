@@ -5,7 +5,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-15 23:41:15 
+  Last commit at: 2024-12-16 20:15:25 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ namespace AlchemicalFlux.Utilities.Helpers
     {
         #region Constants
 
-        private const int _initialSize = 500;
+        private const int _initialCapacity = 500;
 
         #endregion Constants
 
@@ -38,24 +38,31 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Members
 
-        private int _maxSize;
+        private int _capacity;
         private Dictionary<TKey, LinkedListNode<CacheNode>> _mapping;
         private LinkedList<CacheNode> _nodes;
         private Func<TKey, TValue> _onCreateValue;
 
         #endregion Members
 
+        #region Properties
+
+        public int Count { get { return _mapping.Count; } }
+        public int Capacity { get { return _capacity; } }
+
+        #endregion Properties
+
         #region Methods
 
-        public LRUCache(Func<TKey, TValue> onCreateValue, int maxSize = _initialSize)
+        public LRUCache(Func<TKey, TValue> onCreateValue, int capacity = _initialCapacity)
         {
-            if(_initialSize <= 0)
+            if(_initialCapacity <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(maxSize), 
-                    "Max size must be greater than zero.)");
+                throw new ArgumentOutOfRangeException(nameof(capacity), 
+                    "Capacity must be greater than zero.)");
             }
 
-            _maxSize = maxSize;
+            _capacity = capacity;
             _mapping = new();
             _nodes = new();
             _onCreateValue = onCreateValue;
@@ -87,7 +94,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             CacheNode cacheNode;
             LinkedListNode<CacheNode> node;
-            if(_mapping.Count < _maxSize)
+            if(_mapping.Count < _capacity)
             {
                 cacheNode = new(key, _onCreateValue(key));
                 node = new(cacheNode);
