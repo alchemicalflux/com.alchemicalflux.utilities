@@ -5,7 +5,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-31 07:38:46 
+  Last commit at: 2024-12-31 08:57:22 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -288,19 +288,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Resize_InvalidCapacity_ThrowsArguementOutOfRangeException()
-        {
-            // Arrange
-            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
-
-            // Assert
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-            {
-                cache.Resize(0);
-            });
-        }
-
-        [Test]
         public void Get_LeastRecentlyUsedRemoved_OnDestroyInvokedForAllExceptLast()
         {
             // Arrange
@@ -316,6 +303,71 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
             // Assert
             Assert.AreEqual(destroyed, _maxCapacity - 1);
+        }
+
+
+        [Test]
+        public void Resize_CapacitySetToZero_ThrowsArguementOutOfRangeException()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+
+            // Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            {
+                cache.Resize(0);
+            });
+        }
+
+        [Test]
+        public void Resize_CapacityDoubled_CapacityMatches()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+
+            // Act
+            cache.Resize(_maxCapacity * 2);
+
+            // Assert
+            Assert.AreEqual(cache.Capacity, _maxCapacity * 2);
+        }
+
+        [Test]
+        public void Resize_CapacityDoubled_CountMatches()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+
+            // Act
+            for(var index = 0; index < _maxCapacity; ++index)
+            {
+                cache.Get(index);
+            }
+            cache.Resize(_maxCapacity * 2);
+
+            // Assert
+            Assert.AreEqual(cache.Count, _maxCapacity);
+        }
+
+        [Test]
+        public void Resize_CapacityDoubled_ValuesMatch()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+            var tests = new object[_maxCapacity];
+
+            // Act
+            for(var index = 0; index < _maxCapacity; ++index)
+            {
+                tests[index] = cache.Get(index);
+            }
+            cache.Resize(_maxCapacity * 2);
+
+            // Assert
+            for(var index = 0; index < _maxCapacity; ++index)
+            {
+                Assert.AreEqual(tests[index], cache.Get(index), $"Object {index} does not match.");
+            }
         }
 
         [Test]
