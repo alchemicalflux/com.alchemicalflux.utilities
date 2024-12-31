@@ -6,10 +6,11 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-23 23:11:59 
+  Last commit at: 2024-12-31 07:02:46 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using static UnityEditor.Experimental.GraphView.Port;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
@@ -20,7 +21,7 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// </summary>
     /// <typeparam name="TKey">The type of the keys used to access cached values.</typeparam>
     /// <typeparam name="TValue">The type of the values stored in the cache.</typeparam>
-    public class LRUCache<TKey, TValue>
+    public sealed class LRUCache<TKey, TValue>
     {
         #region Constants
 
@@ -45,7 +46,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         private int _capacity;
         private Dictionary<TKey, LinkedListNode<CacheNode>> _mapping;
         private LinkedList<CacheNode> _nodes;
+
         private Func<TKey, TValue> _onCreateValue;
+        private Action<TValue> _onDestroyValue;
 
         #endregion Members
 
@@ -64,18 +67,29 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Initializes a new instance of the <see cref="LRUCache{TKey, TValue}"/> class.
         /// </summary>
-        /// <param name="onCreateValue">A function to create <typeparamref name="TValue"/> objects based on 
-        ///     <typeparamref name="TKey"/> values.</param>
-        /// <param name="capacity">The maximum capacity of the cache. Defaults to <c>_initialCapacity</c>. Must be 
-        ///     greater than zero.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="onCreateValue"/> is <c>null</c>.
-        ///     </exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="capacity"/> is less than or equal 
-        ///     to zero.</exception>
-        public LRUCache(Func<TKey, TValue> onCreateValue, int capacity = _initialCapacity)
+        /// <param name="onCreateValue">
+        ///     A function to create <typeparamref name="TValue"/> objects based on <typeparamref name="TKey"/> values.
+        /// </param>
+        /// <param name="capacity">
+        ///     The maximum capacity of the cache. Defaults to _initialCapacity. Must be greater than zero.
+        /// </param>
+        /// <param name="onDestroyValue">
+        ///     A function called when the least recently used object is removed from cache.
+        ///     Will recieve the reference to the least recently used object.
+        ///     Can be null, in which case no actions will be taken.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     Thrown if <paramref name="onCreateValue"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     Thrown if <paramref name="capacity"/> is less than or equal to zero.
+        /// </exception>
+        public LRUCache(Func<TKey, TValue> onCreateValue, Action<TValue> onDestroyValue,
+            int capacity = _initialCapacity)
         {
             _onCreateValue = onCreateValue ?? 
                 throw new ArgumentNullException(nameof(onCreateValue), "Value creation function cannot be null.");
+            _onDestroyValue = onDestroyValue;
 
             if(capacity <= 0)
             {
@@ -104,8 +118,18 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         public void Clear()
         {
-            _mapping.Clear();
-            _nodes.Clear();
+            DestroyLastNodes(Count);
+        }
+
+        public void Resize(int newCapacity)
+        {
+            if(newCapacity <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(newCapacity), "Capacity must be greater than zero.");
+            }
+
+            DestroyLastNodes(Capacity - newCapacity);
+            _capacity = newCapacity;
         }
 
         /// <summary>
@@ -125,7 +149,7 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         /// <summary>
         /// Creates a new key-value pair in the cache, either by adding a new entry or overwriting the least recently 
-        ///     used one.
+        /// used one.
         /// </summary>
         /// <param name="key">The key for the new value.</param>
         /// <returns>The newly created value.</returns>
@@ -143,6 +167,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 RemoveLastNode(out cacheNode, out node);
                 cacheNode.Key = key;
+                _onDestroyValue?.Invoke(cacheNode.Value);
                 cacheNode.Value = _onCreateValue(key);
             }
 
@@ -162,6 +187,15 @@ namespace AlchemicalFlux.Utilities.Helpers
             cacheNode = node.Value;
             _nodes.RemoveLast();
             _mapping.Remove(cacheNode.Key);
+        }
+
+        private void DestroyLastNodes(int count)
+        {
+            for(var iter = 0; iter < count; ++iter)
+            {
+                RemoveLastNode(out var cacheNode, out var node);
+                _onDestroyValue?.Invoke(cacheNode.Value);
+            }
         }
 
         #endregion Methods
