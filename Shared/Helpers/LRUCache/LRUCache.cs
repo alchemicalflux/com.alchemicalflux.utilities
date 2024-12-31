@@ -6,7 +6,7 @@
   Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-31 07:02:46 
+  Last commit at: 2024-12-31 08:56:31 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -167,7 +167,6 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 RemoveLastNode(out cacheNode, out node);
                 cacheNode.Key = key;
-                _onDestroyValue?.Invoke(cacheNode.Value);
                 cacheNode.Value = _onCreateValue(key);
             }
 
@@ -177,7 +176,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Removes the least recently used key-value pair from the cache.
+        /// Removes the least recently used key-value pair from the cache, destroying its value.
         /// </summary>
         /// <param name="cacheNode">Outputs the removed cache node for reuse.</param>
         /// <param name="node">Outputs the removed linked list node for reuse.</param>
@@ -185,16 +184,23 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             node = _nodes.Last;
             cacheNode = node.Value;
+            _onDestroyValue?.Invoke(cacheNode.Value);
             _nodes.RemoveLast();
             _mapping.Remove(cacheNode.Key);
         }
 
+        /// <summary>
+        /// Removes the last 'count' nodes from the the cache.
+        /// </summary>
+        /// <param name="count">
+        ///     Number of nodes to be removed.
+        ///     Must be less than or equal to current Count.
+        /// </param>
         private void DestroyLastNodes(int count)
         {
             for(var iter = 0; iter < count; ++iter)
             {
                 RemoveLastNode(out var cacheNode, out var node);
-                _onDestroyValue?.Invoke(cacheNode.Value);
             }
         }
 
