@@ -2,10 +2,10 @@
   File:           SingletonTests.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Test cases for the generic abstract Singleton class.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-14 11:48:55 
+  Last commit at: 2025-01-01 14:18:35 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 
@@ -18,7 +18,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         #region Test Cases
 
         [Test]
-        public void Singleton_LazyInitialization_WrappedReturnsSameInstance()
+        public void WrappedSingletonConstructor_LazyInitialization_ReturnsSameInstance()
         {
             // Act
             var instance1 = WrappedSingleton.Get;
@@ -29,7 +29,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_LazyInitialization_ReturnsSameInstance()
+        public void UnwrappedSingletonConstructor_LazyInitialization_ReturnsSameInstance()
         {
             // Act
             var instance1 = Singleton<UnwrappedSingleton>.Get;
@@ -40,7 +40,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfClassIsUnsealed()
+        public void Constructor_ClassIsUnsealed_ThrowsInvalidOperationException()
         {
             // Assemble
             var name = typeof(UnsealedSingleton).Name;
@@ -53,7 +53,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
 
         [Test]
-        public void Singleton_ThrowsException_IfMultipleConstructors()
+        public void Constructor_HasMultipleConstructors_ThrowsInvalidOperationException()
         {
             // Assemble
             var name = typeof(SingletonWithMultipleConstructors).Name;
@@ -66,7 +66,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfConstructorHasParameters()
+        public void Constructor_ConstructorHasParameters_ThrowsInvalidOperationException()
         {
             // Assemble
             var name = typeof(SingletonWithParameteredConstuctor).Name;
@@ -78,7 +78,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfConstructorIsNotPrivate()
+        public void Constructor_ConstructorIsNotPrivate_ThrowInvalidOperationException()
         {
             // Assemble
             var name = typeof(SingletonWithPublicConstructor).Name;
@@ -90,7 +90,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfMethodHasSingletonReturn()
+        public void Constructor_MethodReturnsSingleton_ThrowsArgumentException()
         {
             // Assemble
             var name = typeof(SingletonWithMethodReturningInstance).Name;
@@ -103,7 +103,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfMethodHasSingletonParameter()
+        public void Constructor_MethodHasSingletonParameter_ThrowsArgumentException()
         {
             // Assemble
             var name = typeof(SingletonWithMethodWithInstanceParameter).Name;
@@ -116,7 +116,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfGetterIsSingletonInstance()
+        public void Constructor_GetterIsSingletonInstance_ThrowsArgumentException()
         {
             // Assemble
             var name = typeof(SingletonWithGetterInstanceProperty).Name;
@@ -129,7 +129,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfSetterIsSingletonInstance()
+        public void Constructor_SetterIsSingletonInstance_ThrowsArgumentException()
         {
             // Assemble
             var name = typeof(SingletonWithSetterInstanceProperty).Name;
@@ -142,7 +142,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Singleton_ThrowsException_IfExpressionIsSingletonInstance()
+        public void Constructor_ExpressionIsSingletonInstance_ThrowsArgumentException()
         {
             // Assemble
             var name = typeof(SingletonWithExpressionInstanceProperty).Name;
@@ -155,7 +155,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
         
         [Test]
-        public void Singleton_ThrowsException_IfFieldIsSingletonInstance()
+        public void Constructor_FieldIsSingletonInstance_ThrowsArgumentException()
         {
             // Assemble
             var name = typeof(SingletonWithFieldInstance).Name;
