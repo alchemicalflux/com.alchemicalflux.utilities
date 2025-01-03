@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.3.0...v1.3.1) (2023-11-04)
+
+
+### Bug Fixes
+
+* Update package template version and adjust to its changes ([9274454](https://github.com/alchemicalflux/com.alchemicalflux.utilities/commit/9274454ca12033e266b9d75c5b5ca0b2b8c6035f))
+
 # [1.3.0](https://github.com/alchemicalflux/com.alchemicalflux.utilities/compare/v1.2.0...v1.3.0) (2023-11-02)
 
 

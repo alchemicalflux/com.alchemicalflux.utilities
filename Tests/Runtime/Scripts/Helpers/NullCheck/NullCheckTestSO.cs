@@ -4,10 +4,10 @@
   Description:    Scriptable Object used for NullCheck unit testing. Contains
                     references for GameObjecct prefabs that will be tested and
                     a function the unit testing can use for access.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:48:48 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 

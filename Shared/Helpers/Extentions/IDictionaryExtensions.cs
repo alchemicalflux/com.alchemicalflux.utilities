@@ -2,10 +2,10 @@
   File:           IDictionaryExtensions.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Helper functions to extend the IDictionary class.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:16:39 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;

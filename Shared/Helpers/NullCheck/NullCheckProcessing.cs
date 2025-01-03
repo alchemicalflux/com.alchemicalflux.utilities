@@ -7,10 +7,10 @@
                     with NullCheck violations. The class is designed to be used
                     within the Unity Editor environment to aid in debugging and
                     ensuring code quality.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:46:10 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
