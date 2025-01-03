@@ -2,10 +2,10 @@
   File:           IFileSystemService.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Interface for useful file operation functions.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-11-01 15:59:50 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;

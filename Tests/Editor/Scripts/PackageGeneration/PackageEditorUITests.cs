@@ -2,10 +2,10 @@
   File:           PackageEditorUITests.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Unit tests for UI portion of Unity package generation.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-10-27 05:34:56 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;
@@ -18,23 +18,23 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
     {
         #region Members
 
-        private PackageEditorUI _packageEditorUI;
-        private VisualElement _visualElement;
+        private PackageEditorUI packageEditorUI;
+        private VisualElement visualElement;
 
-        private const string _displayName = "Project Name";
-        private const string _domainName = "com";
-        private const string _companyName = "company-name";
-        private const string _projectName = "project-name";
-        private const string _packageName = _domainName + "." + _companyName + "." + _projectName;
-        private const string _companyNamespace = "CompanyNamespace";
-        private const string _projectNamespace = "ProjectNamespace";
-        private const bool _setupRuntime = true;
-        private const bool _setupEditor = true;
-        private const bool _setupTests = true;
-        private const bool _setupDocumentation = false;
-        private const bool _setupSamples = false;
+        private const string displayName = "Project Name";
+        private const string domainName = "com";
+        private const string companyName = "company-name";
+        private const string projectName = "project-name";
+        private const string packageName = domainName + "." + companyName + "." + projectName;
+        private const string companyNamespace = "CompanyNamespace";
+        private const string projectNamespace = "ProjectNamespace";
+        private const bool setupRuntime = true;
+        private const bool setupEditor = true;
+        private const bool setupTests = true;
+        private const bool setupDocumentation = false;
+        private const bool setupSamples = false;
 
-        private const string _visualAssetTreeResourcePath = "PackageGeneration/PackageGenerationVisualTreeAsset";
+        private const string visualAssetTreeResourcePath = "PackageGenerationVisualTreeAsset";
 
         #endregion Members
 
@@ -44,17 +44,17 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
         public void Setup()
         {
             // Arrange
-            var visualTreeAsset = Resources.Load<VisualTreeAssetSO>(_visualAssetTreeResourcePath).value;
-            _visualElement = new VisualElement();
-            visualTreeAsset.CloneTree(_visualElement);
-            _packageEditorUI = new PackageEditorUI(_visualElement);
+            var visualTreeAsset = Resources.Load<VisualTreeAssetSO>(visualAssetTreeResourcePath).value;
+            visualElement = new VisualElement();
+            visualTreeAsset.CloneTree(visualElement);
+            packageEditorUI = new PackageEditorUI(visualElement);
         }
 
         [Test]
         public void PackageName_WithValidInputs_ReturnsExpectedPackageName()
         {
             // Assert
-            Assert.AreEqual(_packageName, _packageEditorUI.PackageName);
+            Assert.AreEqual(packageName, packageEditorUI.PackageName);
         }
 
         [Test]
@@ -63,15 +63,15 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Arrange
             var expectedFolderConditions = new Dictionary<string, bool>
             {
-                { PackageConstants.TestsFolderName, _setupRuntime },
-                { PackageConstants.RuntimeFolderName, _setupEditor },
-                { PackageConstants.EditorFolderName, _setupTests },
-                { PackageConstants.DocumentationFolderName, _setupDocumentation },
-                { PackageConstants.SamplesFolderName, _setupSamples }
+                { PackageConstants.TestsFolderName, setupRuntime },
+                { PackageConstants.RuntimeFolderName, setupEditor },
+                { PackageConstants.EditorFolderName, setupTests },
+                { PackageConstants.DocumentationFolderName, setupDocumentation },
+                { PackageConstants.SamplesFolderName, setupSamples }
             };
 
             // Act
-            var folderConditions = _packageEditorUI.FolderConditions;
+            var folderConditions = packageEditorUI.FolderConditions;
 
             // Assert
             CollectionAssert.AreEqual(expectedFolderConditions, folderConditions);
@@ -83,12 +83,12 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Arrange
             var expectedFoldersToRemove = new List<string>
             {
-                $"*{PackageConstants.DocumentationFolderName}*",
-                $"*{PackageConstants.SamplesFolderName}*",
+                "*" + PackageConstants.DocumentationFolderName + "*",
+                "*" + PackageConstants.SamplesFolderName + "*",
             };
 
             // Act
-            var foldersToRemove = _packageEditorUI.FoldersToRemove;
+            var foldersToRemove = packageEditorUI.FoldersToRemove;
 
             // Assert
             CollectionAssert.AreEqual(expectedFoldersToRemove, foldersToRemove);
@@ -100,13 +100,13 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Arrange
             var expectedTemplateNamespaces = new Dictionary<string, string>
             {
-                { PackageConstants.TemplateCompanyNamespace, _companyNamespace },
-                { PackageConstants.TemplateProjectNamespace, _projectNamespace},
-                { PackageConstants.TemplateProjectName, _projectName },
+                { PackageConstants.TemplateCompanyNamespace, companyNamespace },
+                { PackageConstants.TemplateProjectNamespace, projectNamespace},
+                { PackageConstants.TemplateProjectName, projectName },
             };
 
             // Act
-            var templateNamespaces = _packageEditorUI.TemplateNamespaces;
+            var templateNamespaces = packageEditorUI.TemplateNamespaces;
 
             // Assert
             CollectionAssert.AreEqual(expectedTemplateNamespaces, templateNamespaces);
@@ -118,19 +118,19 @@ namespace AlchemicalFlux.Utilities.PackageGeneration.Tests
             // Arrange
             var expectedFileTextPlacements = new Dictionary<string, string>
             {
-                { PackageConstants.TemplateDisplayName, _displayName },
-                { PackageConstants.TemplateDomainName, _domainName },
-                { PackageConstants.TemplateCompanyName, _companyName },
-                { PackageConstants.TemplateProjectName, _projectName },
-                { PackageConstants.TemplateCompanyNamespace, _companyNamespace },
-                { PackageConstants.TemplateProjectNamespace, _projectNamespace },
+                { PackageConstants.TemplateDisplayName, displayName },
+                { PackageConstants.TemplateDomainName, domainName },
+                { PackageConstants.TemplateCompanyName, companyName },
+                { PackageConstants.TemplateProjectName, projectName },
+                { PackageConstants.TemplateCompanyNamespace, companyNamespace },
+                { PackageConstants.TemplateProjectNamespace, projectNamespace },
                 { PackageConstants.AuthorName, "" },
                 { PackageConstants.Email, "" },
                 { PackageConstants.VersionRegEx, PackageConstants.DevPackageVersion },
             };
 
             // Act
-            var fileTextPlacements = _packageEditorUI.FileTextPlacements;
+            var fileTextPlacements = packageEditorUI.FileTextPlacements;
 
             // Assert
             CollectionAssert.AreEqual(expectedFileTextPlacements, fileTextPlacements);

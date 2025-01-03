@@ -2,10 +2,10 @@
   File:           IStringManipulator.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Contains interface for string manipulating functionality.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-10-20 07:36:29 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 

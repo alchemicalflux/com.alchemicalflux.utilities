@@ -2,10 +2,10 @@
   File:           PackageConstants.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Centralized location for Unity package generation constants.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-11-04 12:49:02 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {

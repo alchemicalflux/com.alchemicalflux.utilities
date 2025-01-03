@@ -2,10 +2,10 @@
   File:           VisualTreeAssetSO.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Wrapper for decoupled asset references.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-10-01 22:20:10 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using UnityEngine;

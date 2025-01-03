@@ -2,10 +2,10 @@
   File:           GitOperationsEditorUI.cs 
   Project:        AlchemicalFlux Utilities
   Description:    UI encapsulation for handling Git Operations.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-11-01 16:01:14 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -22,18 +22,18 @@ namespace AlchemicalFlux.Utilities.GitOperations
         #region Members
 
         /// <summary>UI text entry for the parent folder path.</summary>
-        private readonly TextField _parentFolderTextField;
+        private TextField parentFolderTextField;
 
         /// <summary>UI button that triggers the parent folder path search functionality.</summary>
-        private readonly Button _folderSearchButton;
+        private Button folderSearchButton;
 
         /// <summary>UI list view interface for accessing and modifying which folders will be processed.</summary>
-        private readonly ListView _gatheredFoldersList;
+        private ListView gatheredFoldersList;
 
-        private readonly VisualTreeAsset _listViewTemplate;
+        private VisualTreeAsset listViewTemplate;
 
         /// <summary></summary>
-        private readonly Button _installButton;
+        private Button installButton;
 
         /// <summary>Callbacks triggered on the folder search button press.</summary>
         public Action OnSearchPressed;
@@ -50,8 +50,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public string ParentFolderPath
         {
-            get { return _parentFolderTextField.text; }
-            set { _parentFolderTextField.SetValueWithoutNotify(value); }
+            get { return parentFolderTextField.text; }
+            set { parentFolderTextField.SetValueWithoutNotify(value); }
         }
 
         #endregion Properties
@@ -65,20 +65,20 @@ namespace AlchemicalFlux.Utilities.GitOperations
         public GitOperationsEditorUI(VisualElement rootVisualElement, VisualTreeAsset listViewAsset)
         {
             // Gather the associated UI references.
-            rootVisualElement.Q(ref _parentFolderTextField, GitConstants.ParentFolderFieldName);
-            rootVisualElement.Q(ref _folderSearchButton, GitConstants.FolderSearchButtonName);
-            rootVisualElement.Q(ref _gatheredFoldersList, GitConstants.GatheredFoldersListName);
-            rootVisualElement.Q(ref _installButton, GitConstants.InstallButtonName);
+            rootVisualElement.Q(ref parentFolderTextField, GitConstants.ParentFolderFieldName);
+            rootVisualElement.Q(ref folderSearchButton, GitConstants.FolderSearchButtonName);
+            rootVisualElement.Q(ref gatheredFoldersList, GitConstants.GatheredFoldersListName);
+            rootVisualElement.Q(ref installButton, GitConstants.InstallButtonName);
 
             // Bind the UI events with a callback handler.
-            _folderSearchButton.clicked += () => OnSearchPressed?.Invoke();
-            _installButton.clicked += () => OnInstallPressed?.Invoke();
+            folderSearchButton.clicked += () => OnSearchPressed?.Invoke();
+            installButton.clicked += () => OnInstallPressed?.Invoke();
 
             // Handle the making, binding, and unbinding of the list view items.
-            _listViewTemplate = listViewAsset;
-            _gatheredFoldersList.makeItem = MakeItem;
-            _gatheredFoldersList.bindItem = BindItem;
-            _gatheredFoldersList.unbindItem = UnbindItem;
+            listViewTemplate = listViewAsset;
+            gatheredFoldersList.makeItem = MakeItem;
+            gatheredFoldersList.bindItem = BindItem;
+            gatheredFoldersList.unbindItem = UnbindItem;
         }
 
         /// <summary>
@@ -88,14 +88,18 @@ namespace AlchemicalFlux.Utilities.GitOperations
         private VisualElement MakeItem()
         {
             // Create and gather the UI entry and its children.
-            var newListEntry = _listViewTemplate.Instantiate();
+            var newListEntry = listViewTemplate.Instantiate();
+
+            var folderPathLabel = newListEntry.Q<Label>(GitConstants.FolderPathName);
+            var preCommitToggle = newListEntry.Q<Toggle>(GitConstants.PreCommitName);
+            var workflowsToggle = newListEntry.Q<Toggle>(GitConstants.SemanticReleaseName);
 
             // Initialize the controller that stores related handles and information.
             newListEntry.userData = new FolderDataController()
             {
-                FolderPathLabel = newListEntry.Q<Label>(GitConstants.FolderPathName),
-                IncludePreCommitsToggle = newListEntry.Q<Toggle>(GitConstants.PreCommitName),
-                IncludeSemanticReleaseToggle = newListEntry.Q<Toggle>(GitConstants.SemanticReleaseName),
+                FolderPathLabel = folderPathLabel,
+                IncludePreCommitsToggle = preCommitToggle,
+                IncludeSemanticReleaseToggle = workflowsToggle,
             };
 
             return newListEntry;
@@ -109,7 +113,7 @@ namespace AlchemicalFlux.Utilities.GitOperations
         private void BindItem(VisualElement elem, int index)
         {
             // Gather the associated UI references.
-            var data = _gatheredFoldersList.itemsSource[index] as FolderData;
+            var data = gatheredFoldersList.itemsSource[index] as FolderData;
 
             var controller = (elem.userData) as FolderDataController;
 
@@ -146,8 +150,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <param name="data">List of all Git folders and their associated data.</param>
         public void UpdateDirectories(List<FolderData> data)
         {
-            _gatheredFoldersList.itemsSource = data;
-            _gatheredFoldersList.Rebuild();
+            gatheredFoldersList.itemsSource = data;
+            gatheredFoldersList.Rebuild();
         }
 
         #endregion Methods

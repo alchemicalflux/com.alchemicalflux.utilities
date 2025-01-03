@@ -2,10 +2,10 @@
   File:           GeneratePackageEditorWindow.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Editor Window construction for handling Unity package generation.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-09-28 17:52:52 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -22,10 +22,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
 
         /// <summary>UI tree containing the appropriate interface elements.</summary>
         [SerializeField]
-        private VisualTreeAsset _tree;
+        private VisualTreeAsset tree;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private readonly GeneratePackageEditor _packageEditor = new();
+        private GeneratePackageEditor packageEditor = new();
 
         #endregion Members
 
@@ -46,10 +46,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         public void CreateGUI()
         {
-            _tree.CloneTree(rootVisualElement);
-            _packageEditor.InitUIComponents(rootVisualElement);
-            _packageEditor.OnPackageCreation += Close;
-            _packageEditor.OnPackageCreation += PostCreationProcessing;
+            tree.CloneTree(rootVisualElement);
+            packageEditor.InitUIComponents(rootVisualElement);
+            packageEditor.OnPackageCreation += Close;
+            packageEditor.OnPackageCreation += PostCreationProcessing;
         }
 
         /// <summary>
@@ -57,10 +57,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         public void OnDestroy()
         {
-            if(_packageEditor != null)
+            if(packageEditor != null)
             {
-                _packageEditor.OnPackageCreation -= Close;
-                _packageEditor.OnPackageCreation -= PostCreationProcessing;
+                packageEditor.OnPackageCreation -= Close;
+                packageEditor.OnPackageCreation -= PostCreationProcessing;
             }
         }
 

@@ -2,10 +2,10 @@
   File:           IOFileSystemService.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Contains System.IO implementation of IFileOperations.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+  Last commit at: 2023-11-01 15:59:50 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Handle to manipulator used to process string replacements.
         /// </summary>
-        private readonly IStringManipulator _stringManipulator;
+        private IStringManipulator _stringManipulator;
 
         #endregion
 
@@ -42,7 +42,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="stringManipulator">Handles all string replacements.</param>
         public IOFileSystemService(IStringManipulator stringManipulator)
         {
-            _stringManipulator = stringManipulator ?? throw new ArgumentNullException(nameof(stringManipulator));
+            if(stringManipulator == null)
+            {
+                throw new ArgumentNullException(nameof(stringManipulator));
+            }
+
+            _stringManipulator = stringManipulator;
         }
 
         #endregion Constructors
@@ -67,7 +72,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         public void DeleteDirectory(string targetPath)
         {
             var directoryInfo = new DirectoryInfo(targetPath);
-            if(directoryInfo.Exists)
+            if (directoryInfo.Exists)
             {
                 directoryInfo.Delete(true);
             }
@@ -77,12 +82,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         public void RemoveFoldersByName(string sourcePath, List<string> filters)
         {
             var directoryInfo = new DirectoryInfo(sourcePath);
-            foreach(var filter in filters)
+            foreach (var filter in filters)
             {
                 var directories =
                     directoryInfo.GetDirectories(filter, SearchOption.AllDirectories);
 
-                foreach(var directory in directories)
+                foreach (var directory in directories)
                 {
                     directory.Delete(true);
                 }
@@ -95,7 +100,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             var directoryInfo = new DirectoryInfo(sourcePath);
             var files = directoryInfo.GetFiles(filter, SearchOption.AllDirectories);
 
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 file.Delete();
             }
@@ -108,7 +113,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var directoryInfo = new DirectoryInfo(sourcePath);
             var files = directoryInfo.GetFiles("*", SearchOption.AllDirectories);
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 // If processFile is provided, use it for additional processing.
                 processFile?.Invoke(file.FullName);
@@ -143,7 +148,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             CreateFolderAndCopyFiles(source, target.FullName);
 
             var directories = source.GetDirectories("*", SearchOption.AllDirectories);
-            foreach(var directory in directories)
+            foreach (var directory in directories)
             {
                 // Calculate the relative path between source and current directory.
                 string relativePath = Path.GetRelativePath(source.FullName, directory.FullName);
@@ -164,7 +169,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private void CreateFolderAndCopyFiles(DirectoryInfo source, string targetPath)
         {
             Directory.CreateDirectory(targetPath);
-            foreach(var file in source.GetFiles())
+            foreach (var file in source.GetFiles())
             {
                 file.CopyTo(Path.Combine(targetPath, file.Name), true);
             }
