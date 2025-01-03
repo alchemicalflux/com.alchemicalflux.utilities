@@ -2,10 +2,10 @@
   File:           GitOperationsEditorWindow.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Editor Window construction for handling Git Operations.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 20:08:06 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -22,16 +22,16 @@ namespace AlchemicalFlux.Utilities.GitOperations
 
         /// <summary>UI tree containing the appropriate interface elements.</summary>
         [SerializeField]
-        private VisualTreeAsset tree;
+        private VisualTreeAsset _tree;
 
         /// <summary>UI tree containing the template for the gathered folder list view.</summary>
         [SerializeField]
-        private VisualTreeAsset listViewAsset;
+        private VisualTreeAsset _listViewAsset;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private GitOperationsEditor gitOperationsEditor = new();
+        private readonly GitOperationsEditor _gitOperationsEditor = new();
 
-        private GitOperationsEditorUI gitOperationsEditorUI;
+        private GitOperationsEditorUI _gitOperationsEditorUI;
 
         #endregion Members
 
@@ -52,11 +52,11 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void CreateGUI()
         {
-            tree.CloneTree(rootVisualElement);
+            _tree.CloneTree(rootVisualElement);
 
-            gitOperationsEditorUI = new GitOperationsEditorUI(rootVisualElement, listViewAsset);
-            gitOperationsEditor.GetDirectory = GetDirectory;
-            gitOperationsEditor.BindUIComponents(gitOperationsEditorUI);
+            _gitOperationsEditorUI = new GitOperationsEditorUI(rootVisualElement, _listViewAsset);
+            _gitOperationsEditor.GetDirectory = GetDirectory;
+            _gitOperationsEditor.BindUIComponents(_gitOperationsEditorUI);
         }
 
         /// <summary>

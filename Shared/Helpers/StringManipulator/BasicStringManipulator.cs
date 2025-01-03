@@ -2,10 +2,10 @@
   File:           BasicStringManipulator.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Contains string manipulators that handle basic string values.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 12:34:07 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </remarks>   
         public override string MultipleReplace(string originalText, Dictionary<string, string> replacements)
         {
-            if (AreParametersInvalid(originalText, replacements, nameof(originalText), nameof(replacements)))
+            if(AreParametersInvalid(originalText, replacements, nameof(originalText), nameof(replacements)))
             {
                 return originalText;
             }
@@ -38,17 +38,17 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Concatenates all keys to a searchable pattern.
             // Upon finding an entry to replace, it attempts to match with key / value in the replacements.
             return Regex.Replace(originalText,
-                "(" + string.Join("|", escapedKeys) + ")",
+                $"({string.Join("|", escapedKeys)})",
                 delegate (Match m)
                 {
-                // Use TryGetValue to avoid KeyNotFoundException
-                if (replacements.TryGetValue(m.Value, out string replacement))
-                    {
-                        return replacement;
-                    }
+                    // Use TryGetValue to avoid KeyNotFoundException
+                    if(replacements.TryGetValue(m.Value, out string replacement))
+                        {
+                            return replacement;
+                        }
 
-                // If the key is not found, return the original value (without replacement).
-                return m.Value;
+                    // If the key is not found, return the original value (without replacement).
+                    return m.Value;
                 }
             );
         }
