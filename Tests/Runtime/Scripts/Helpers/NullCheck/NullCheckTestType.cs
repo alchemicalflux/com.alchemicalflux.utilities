@@ -3,10 +3,10 @@
   Project:        AlchemicalFlux Utilities
   Description:    Contains enumeration used for GameObject accessing during 
                     NullCheck unit tests.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-02-15 04:50:47 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {

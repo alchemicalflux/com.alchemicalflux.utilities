@@ -5,10 +5,10 @@
                     functionality within the Unity Editor. It offers options to 
                     process all scenes in the project and search for null check
                     violations within the current scene and assets.
-  Copyright:      ©2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-11-29 20:46:10 
+  Last commit at: 2024-11-30 22:23:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
