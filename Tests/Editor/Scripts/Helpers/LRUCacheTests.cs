@@ -2,19 +2,27 @@
   File:           LRUCacheTests.cs 
   Project:        AlchemicalFlux Utilities
   Description:    Test cases fir the LRUCache class.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-31 08:57:22 
+  Last commit at: 2025-01-05 01:33:19 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
-using System.Reflection;
+
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
     public class LRUCacheTests
     {
-        private const int _maxCapacity = 1000;
+        #region Constants
+
+        private const int _maxCapacity = 100;
+
+        #endregion Constants
+
+        #region Methods
+
+        #region Constructor Tests
 
         [Test]
         public void Constructor_OnCreateNull_ThrowsArguementNullException()
@@ -47,7 +55,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Capacity_NoAlterations_MatchesInitilization()
+        public void Constructor_CapacityMax_MatchesInitilization()
         {
             // Arrange
             var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
@@ -57,15 +65,18 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Count_NoAlterations_MatchesInitilization()
+        public void Constructor_CountOnInitialization_IsZero()
         {
             // Arrange
             var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
 
             // Assert
-            Assert.AreEqual(cache.Count, 0);
+            Assert.Zero(cache.Count);
         }
 
+        #endregion Constructor Tests
+
+        #region Clear Tests
         [Test]
         public void Clear_RemoveAllItems_CountIsZero()
         {
@@ -84,25 +95,127 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Clear_RemoveAllItems_FutureGetsDoNotMatch()
+        public void Clear_RemoveAllItems_NextGetDoesNotMatch()
         {
             // Arrange
             var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
-            var tests = new object[_maxCapacity];
+            var value = cache.Get(0);
+
+            // Act
+            cache.Clear();
+
+            // Assert
+            Assert.AreNotEqual(value, cache.Get(0), $"Object 0 has not been replaced.");
+        }
+
+        #endregion Clear Tests
+
+        #region Get Tests
+
+        [Test]
+        public void Get_SingleItemAccess_ResultsMatch()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+            
+            // Act
+            var value = cache.Get(0);
+
+            // Assert
+            Assert.AreEqual(value, cache.Get(0));
+        }
+
+        [Test]
+        public void Get_FullCacheAccess_AllValuesMatch()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+            var values = new object[_maxCapacity];
 
             // Act
             for(var index = 0; index < _maxCapacity; ++index)
             {
-                tests[index] = cache.Get(index);
+                values[index] = cache.Get(index);
             }
-            cache.Clear();
 
             // Assert
+            for(var index = _maxCapacity - 1; index >= 0; --index)
+            {
+                Assert.AreEqual(values[index], cache.Get(index), $"Object {index} does not match.");
+            }
+
             for(var index = 0; index < _maxCapacity; ++index)
             {
-                Assert.AreNotEqual(tests[index], cache.Get(index), $"Object {index} has not been removed.");
+                Assert.AreEqual(values[index], cache.Get(index), $"Object {index} does not match.");
             }
         }
+
+        [Test]
+        public void Get_OverflowCacheAccess_AllValuesMatchExceptOldest()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+            var values = new object[_maxCapacity + 1];
+
+            // Act
+            for(var index = 0; index <= _maxCapacity; ++index)
+            {
+                values[index] = cache.Get(index);
+            }
+
+            // Assert
+            for(var index = _maxCapacity; index > 0; --index)
+            {
+                Assert.AreEqual(values[index], cache.Get(index), $"Object {index} does not match.");
+            }
+            Assert.AreNotEqual(values[0], cache.Get(0), "Object 0 has not been removed.");
+        }
+
+        [Test]
+        public void Get_MoveOldestToFront_AllValuesMatchExepctSecondOldest()
+        {
+            // Arrange
+            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
+            var values = new object[_maxCapacity + 1];
+
+            // Act
+            for(var index = 0; index < _maxCapacity; ++index)
+            {
+                values[index] = cache.Get(index);
+            }
+            values[0] = cache.Get(0);
+            values[_maxCapacity] = cache.Get(_maxCapacity);
+
+            // Assert
+            Assert.AreEqual(values[0], cache.Get(0));
+            for(var index = 2; index <= _maxCapacity; ++index)
+            {
+                Assert.AreEqual(values[index], cache.Get(index), $"Object {index} does not match.");
+            }
+            Assert.AreNotEqual(values[1], cache.Get(1), $"Object 1 has not been removed.");
+        }
+
+        [Test]
+        public void Get_LeastRecentlyUsedRemoved_OnDestroyInvokedForAllExceptLast()
+        {
+            // Arrange
+            var destroyed = 0;
+            var cache = new LRUCache<int, object>(create => new(),
+                destroy => { ++destroyed; }, 1);
+
+            // Act
+            for(var index = 0; index < _maxCapacity; ++index)
+            {
+                cache.Get(index);
+            }
+
+            // Assert
+            Assert.AreEqual(destroyed, _maxCapacity - 1);
+        }
+
+        #endregion Get Tests
+
+        #region Resize Tests
 
         [Test]
         public void Resize_SizeIsZero_ThrowsArguementOutOfRangeException()
@@ -209,104 +322,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Get_SingleItemAccess_ResultsMatch()
-        {
-            // Arrange
-            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
-            
-            // Act
-            var value = cache.Get(0);
-
-            // Assert
-            Assert.AreEqual(value, cache.Get(0));
-        }
-
-        [Test]
-        public void Get_FullCacheAccess_AllValuesMatch()
-        {
-            // Arrange
-            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
-            var tests = new object[_maxCapacity];
-
-            // Act
-            for(var index = 0; index < _maxCapacity; ++index)
-            {
-                tests[index] = cache.Get(index);
-            }
-
-            // Assert
-            for(var index = _maxCapacity - 1; index >= 0; --index)
-            {
-                Assert.AreEqual(tests[index], cache.Get(index), $"Object {index} does not match.");
-            }
-        }
-
-        [Test]
-        public void Get_OverflowCacheAccess_AllValuesMatchExceptOldest()
-        {
-            // Arrange
-            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
-            var tests = new object[_maxCapacity];
-
-            // Act
-            for(var index = 0; index < _maxCapacity; ++index)
-            {
-                tests[index] = cache.Get(index);
-            }
-            cache.Get(_maxCapacity);
-
-            // Assert
-            for(var index = _maxCapacity - 1; index > 0; --index)
-            {
-                Assert.AreEqual(tests[index], cache.Get(index), $"Object {index} does not match.");
-            }
-            Assert.AreNotEqual(tests[0], cache.Get(0), "Object 0 has not been removed.");
-        }
-
-        [Test]
-        public void Get_MoveOldestToFront_AllValuesMatchExepctSecondOldest()
-        {
-            // Arrange
-            var cache = new LRUCache<int, object>(create => new(), null, _maxCapacity);
-            var tests = new object[_maxCapacity + 1];
-
-            // Act
-            for(var index = 0; index < _maxCapacity; ++index)
-            {
-                tests[index] = cache.Get(index);
-            }
-            cache.Get(0);
-            cache.Get(_maxCapacity);
-
-            // Assert
-            Assert.AreEqual(tests[0], cache.Get(0));
-            for(var index = 2; index < _maxCapacity; ++index)
-            {
-                Assert.AreEqual(tests[index], cache.Get(index), $"Object {index} does not match.");
-            }
-            Assert.AreNotEqual(tests[1], cache.Get(1), $"Object 1 has not been removed.");
-        }
-
-        [Test]
-        public void Get_LeastRecentlyUsedRemoved_OnDestroyInvokedForAllExceptLast()
-        {
-            // Arrange
-            var destroyed = 0;
-            var cache = new LRUCache<int, object>(create => new(),
-                destroy => { ++destroyed; }, 1);
-
-            // Act
-            for(var index = 0; index < _maxCapacity; ++index)
-            {
-                cache.Get(index);
-            }
-
-            // Assert
-            Assert.AreEqual(destroyed, _maxCapacity - 1);
-        }
-
-
-        [Test]
         public void Resize_CapacitySetToZero_ThrowsArguementOutOfRangeException()
         {
             // Arrange
@@ -409,5 +424,9 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 Assert.AreNotEqual(tests[index], cache.Get(index), $"Object {index} has not been removed.");
             }
         }
+
+        #endregion Resize Tests
+
+        #endregion Methods
     }
 }
