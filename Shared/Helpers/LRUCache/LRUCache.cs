@@ -3,14 +3,13 @@
   Project:        AlchemicalFlux Utilities
   Description:    Implements a reference-based Least Recently Used (LRU) cache 
                     container.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-31 08:56:31 
+  Last commit at: 2025-01-05 01:32:55 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using static UnityEditor.Experimental.GraphView.Port;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
@@ -33,7 +32,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Classes
 
         /// <summary>Represents a cache node containing a key-value pair for tracking usage.</summary>
-        private struct CacheNode
+        private class CacheNode
         {
             public TKey Key;
             public TValue Value;
@@ -121,6 +120,11 @@ namespace AlchemicalFlux.Utilities.Helpers
             DestroyLastNodes(Count);
         }
 
+        /// <summary>
+        /// Adjusts the capacity of the cache, removing the least used values if necessary.
+        /// </summary>
+        /// <param name="newCapacity">Number of values the cache can now store.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if newCapacity is zero or less.</exception>
         public void Resize(int newCapacity)
         {
             if(newCapacity <= 0)
