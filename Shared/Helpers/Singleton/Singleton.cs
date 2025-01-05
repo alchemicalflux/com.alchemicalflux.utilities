@@ -3,10 +3,10 @@
   Project:        AlchemicalFlux Utilities
   Description:    Provides an implementation of the Singleton design pattern for
                   creating and managing singleton instances of generic types.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2024-12-16 20:17:12 
+  Last commit at: 2025-01-05 09:28:23 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// A generic Singleton base class that ensures there is only one instance of a type (TType).
     /// This implementation leverages lazy initialization and reflection to enforce singleton behavior.
     /// </summary>
-    public abstract class Singleton<TType>
+    public abstract class Singleton<TType> : ISingleton<TType>
     {
         #region Members
 

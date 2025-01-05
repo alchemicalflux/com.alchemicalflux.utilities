@@ -5,7 +5,7 @@
   Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
 
   Last commit by: alchemicalflux 
-  Last commit at: 2025-01-01 14:18:35 
+  Last commit at: 2025-01-05 09:28:23 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 
@@ -15,7 +15,9 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
     public class SingletonTests
     {
-        #region Test Cases
+        #region Methods
+
+        #region Constructor
 
         [Test]
         public void WrappedSingletonConstructor_LazyInitialization_ReturnsSameInstance()
@@ -167,7 +169,9 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 Throws.ArgumentException.With.Message.Contains(expectedResult));
         }
 
-        #endregion Test Cases
+        #endregion Constructor
+
+        #endregion Methods
 
         #region Test Types
 
