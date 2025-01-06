@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           MonoBehaviourTweenPlayer.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Implements the ITweenPlayer for MonoBehaviour coroutines.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       MonoBehaviourTweenPlayer.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-01 12:56:27 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;

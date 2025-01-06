@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           LRUValueCache.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Implements a value based Least Recently Used container.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       LRUValueCache.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Implements a value based Least Recently Used container.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-16 20:15:25 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;

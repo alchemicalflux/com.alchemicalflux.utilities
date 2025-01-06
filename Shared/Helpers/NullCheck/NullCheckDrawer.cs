@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckDrawer.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Property drawer that manages the display for fields marked
-                    with the NullCheck attribute.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckDrawer.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Property drawer that manages the display for fields marked with the 
+            NullCheck attribute.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 

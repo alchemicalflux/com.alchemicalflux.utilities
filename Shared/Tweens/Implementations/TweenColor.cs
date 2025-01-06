@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           TweenColor.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Implements a two point tween for the Color class.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       TweenColor.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Implements a two point tween for the Color class.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-10 22:22:29 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 

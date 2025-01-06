@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           Easings.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Contains easing functions that convert a range [0-1] into
-                    their associated curve.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       Easings.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Contains easing functions that convert a range [0-1] into their 
+            associated curve.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-10 22:49:10 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;

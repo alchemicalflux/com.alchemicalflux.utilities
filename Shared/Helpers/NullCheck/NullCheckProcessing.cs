@@ -1,16 +1,15 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckProcessing.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    This utility class provides functionality processing NullCheck
-                    violations in Unity scenes and assets. It offers methods to 
-                    process all scenes in a project and handle errors associated
-                    with NullCheck violations. The class is designed to be used
-                    within the Unity Editor environment to aid in debugging and
-                    ensuring code quality.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckProcessing.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   This utility class provides functionality processing NullCheck
+            violations in Unity scenes and assets. It offers methods to process
+            all scenes in a project and handle errors associated with NullCheck
+            violations. The class is designed to be used within the Unity Editor
+            environment to aid in debugging and ensuring code quality.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 

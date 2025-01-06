@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           ReflectionUtility.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Utility functions to help with the Reflection process.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       ReflectionUtility.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Utility functions to help with the Reflection process.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;

@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           LRUCache.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Implements a reference-based Least Recently Used (LRU) cache 
-                    container.
-  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
+File:       LRUCache.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Implements a reference-based Least Recently Used (LRU) cache 
+            container.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2025-01-05 01:32:55 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;

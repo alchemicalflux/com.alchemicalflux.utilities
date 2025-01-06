@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           PackageEditorUITests.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Unit tests for UI portion of Unity package generation.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       PackageEditorUITests.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Unit tests for UI portion of Unity package generation.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine.UIElements;

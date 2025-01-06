@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           FieldAssociation.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Defines a class representing a field assignment within a 
-                    MonoBehaviour.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       FieldAssociation.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Defines a class representing a field assignment within a 
+            MonoBehaviour.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;

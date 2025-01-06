@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           FolderDataController.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Controller associated with the Git operation list view.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       FolderDataController.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Controller associated with the Git operation list view.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 

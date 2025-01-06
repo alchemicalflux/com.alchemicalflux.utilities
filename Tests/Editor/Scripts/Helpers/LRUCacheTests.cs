@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           LRUCacheTests.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Test cases fir the LRUCache class.
-  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
+File:       LRUCacheTests.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Test cases fir the LRUCache class.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2025-01-05 01:33:19 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;

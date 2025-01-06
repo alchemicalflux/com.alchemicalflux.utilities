@@ -1,13 +1,13 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckTestSO.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Scriptable Object used for NullCheck unit testing. Contains
-                    references for GameObjecct prefabs that will be tested and
-                    a function the unit testing can use for access.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckTestSO.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Scriptable Object used for NullCheck unit testing. Contains
+            references for GameObjecct prefabs that will be tested and a 
+            function the unit testing can use for access.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 

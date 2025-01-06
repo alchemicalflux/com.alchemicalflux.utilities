@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           ITweenPlayer.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Interface for controlling ITween instances.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       ITweenPlayer.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Interface for controlling ITween instances.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-01 10:31:25 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 

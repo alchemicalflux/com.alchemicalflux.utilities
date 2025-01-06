@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckTestType.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Contains enumeration used for GameObject accessing during 
-                    NullCheck unit tests.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckTestType.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Contains enumeration used for GameObject accessing during NullCheck 
+            unit tests.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {

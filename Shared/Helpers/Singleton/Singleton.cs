@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           Singleton.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Provides an implementation of the Singleton design pattern for
-                  creating and managing singleton instances of generic types.
-  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
+File:       Singleton.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Provides an implementation of the Singleton design pattern for
+            creating and managing singleton instances of generic types.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2025-01-05 09:28:23 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Reflection;

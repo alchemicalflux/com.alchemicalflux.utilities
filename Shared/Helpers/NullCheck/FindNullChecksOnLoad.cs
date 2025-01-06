@@ -1,14 +1,14 @@
 /*------------------------------------------------------------------------------
-  File:           FindNullChecksOnLoad.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    This class initializes and executes a search for null check 
-                    violations  upon the launch of the Unity Editor. It performs
-                    a search for null check violations within scene objects and 
-                    assets upon the first launch of the editor.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       FindNullChecksOnLoad.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   This class initializes and executes a search for null check 
+            violations  upon the launch of the Unity Editor. It performs a 
+            search for null check violations within scene objects and assets 
+            upon the first launch of the editor.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 

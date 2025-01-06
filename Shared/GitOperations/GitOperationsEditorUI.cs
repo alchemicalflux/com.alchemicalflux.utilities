@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GitOperationsEditorUI.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    UI encapsulation for handling Git Operations.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       GitOperationsEditorUI.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   UI encapsulation for handling Git Operations.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;

@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GitOperationsEditorWindow.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Editor Window construction for handling Git Operations.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       GitOperationsEditorWindow.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Editor Window construction for handling Git Operations.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;

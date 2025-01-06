@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           SingletonTests.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Test cases for the generic abstract Singleton class.
-  Copyright:      2024-2025 AlchemicalFlux. All rights reserved.
+File:       SingletonTests.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Test cases for the generic abstract Singleton class.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2025-01-05 09:28:23 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 

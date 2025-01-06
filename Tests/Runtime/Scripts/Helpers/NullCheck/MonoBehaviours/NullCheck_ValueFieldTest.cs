@@ -1,12 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheck_ValueFieldTest.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    NullCheck unit test script for testing NullCheck on value 
-                    fields.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheck_ValueFieldTest.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   NullCheck unit test script for testing NullCheck on value fields.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;

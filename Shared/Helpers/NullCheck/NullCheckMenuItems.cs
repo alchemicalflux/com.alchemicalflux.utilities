@@ -1,14 +1,14 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckMenuItems.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    This static class provides menu items for the NullCheck 
-                    functionality within the Unity Editor. It offers options to 
-                    process all scenes in the project and search for null check
-                    violations within the current scene and assets.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckMenuItems.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   This static class provides menu items for the NullCheck 
+            functionality within the Unity Editor. It offers options to process
+            all scenes in the project and search for null check violations 
+            within the current scene and assets.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 

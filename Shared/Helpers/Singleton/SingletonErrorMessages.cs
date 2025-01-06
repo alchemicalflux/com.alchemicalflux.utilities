@@ -1,13 +1,13 @@
 /*------------------------------------------------------------------------------
-  File:           SingletonErrorMessages.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Contains message constructors for the generic abstract
-                    Singleton class. Helps ensure test cases can check for
-                    identical messaging contents.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       SingletonErrorMessages.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Contains message constructors for the generic abstract Singleton
+            class. Helps ensure test cases can check for identical messaging
+            contents.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-14 10:05:01 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers
 {

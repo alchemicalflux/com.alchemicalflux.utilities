@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           BasicStringManipulator.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Contains string manipulators that handle basic string values.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       BasicStringManipulator.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Contains string manipulators that handle basic string values.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Linq;
