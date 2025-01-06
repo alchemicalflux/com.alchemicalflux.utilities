@@ -7,7 +7,7 @@ Overview:   Scriptable Object used for NullCheck unit testing. Contains
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -54,13 +54,18 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
                 NullCheckTestType.NullCheck => NullCheckTest,
                 NullCheckTestType.PrefabNullCheck => PrefabNullCheckTest,
                 NullCheckTestType.LinkedNullCheck => LinkedNullCheckTest,
-                NullCheckTestType.LinkedPrefabNullCheck => LinkedPrefabNullCheckTest,
+                NullCheckTestType.LinkedPrefabNullCheck => 
+                    LinkedPrefabNullCheckTest,
                 NullCheckTestType.ChildNullCheck => ChildNullCheckTest,
-                NullCheckTestType.ChildPrefabNullCheck => ChildPrefabNullCheckTest,
-                NullCheckTestType.LinkedChildNullCheck => LinkedChildNullCheckTest,
-                NullCheckTestType.LinkedChildPrefabNullCheck => LinkedChildPrefabNullCheckTest,
+                NullCheckTestType.ChildPrefabNullCheck => 
+                    ChildPrefabNullCheckTest,
+                NullCheckTestType.LinkedChildNullCheck => 
+                    LinkedChildNullCheckTest,
+                NullCheckTestType.LinkedChildPrefabNullCheck => 
+                    LinkedChildPrefabNullCheckTest,
                 NullCheckTestType.MultiNullCheck => MultiNullCheckTest,
-                NullCheckTestType.LinkedMultiNullCheck => LinkedMultiNullCheckTest,
+                NullCheckTestType.LinkedMultiNullCheck => 
+                    LinkedMultiNullCheckTest,
                 _ => null,
             };
         }

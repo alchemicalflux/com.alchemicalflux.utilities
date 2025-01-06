@@ -2,11 +2,11 @@
 File:       SmartCoroutine.cs 
 Project:    AlchemicalFlux Utilities
 Overview:   Wrapper for MonoBehavior driven coroutines, providing simple
-                    function calls and event handles.
+            function calls and event handles.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;

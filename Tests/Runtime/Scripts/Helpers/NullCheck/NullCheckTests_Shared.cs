@@ -5,7 +5,7 @@ Overview:   Unit tests for the NullCheck attribute.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine;
@@ -16,7 +16,9 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
     {
         #region Members
 
-        /// <summary>Handle used to access GameObjects for testing purposes.</summary>
+        /// <summary>
+        /// Handle used to access GameObjects for testing purposes.
+        /// </summary>
         private NullCheckTestSO _testObjects;
 
         #endregion Members
@@ -27,7 +29,9 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void Setup()
         {
             // Arrange
-            _testObjects = Resources.Load<NullCheckTestSO>("Helpers/NullCheck/NullCheckTestSO");
+            _testObjects = 
+                Resources.Load<NullCheckTestSO>(
+                    "Helpers/NullCheck/NullCheckTestSO");
         }
 
         [TearDown]

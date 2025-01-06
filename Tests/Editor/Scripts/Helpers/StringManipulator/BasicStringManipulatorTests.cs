@@ -5,7 +5,7 @@ Overview:   Unit tests for BasicStringManipulator and its unique cases.
 Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
@@ -14,7 +14,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
     /// <see cref="BasicStringManipulator"/>. class that are not covered by the 
     /// <see cref="IStringManipulatorTests{}"/>.
     /// </summary>
-    public class BasicStringManipulatorTests : IStringManipulatorTests<BasicStringManipulator>
+    public class BasicStringManipulatorTests : 
+        IStringManipulatorTests<BasicStringManipulator>
     {
     }
 }

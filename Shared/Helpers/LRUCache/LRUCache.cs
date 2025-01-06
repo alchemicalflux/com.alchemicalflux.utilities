@@ -6,7 +6,7 @@ Overview:   Implements a reference-based Least Recently Used (LRU) cache
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -14,24 +14,35 @@ using System.Collections.Generic;
 namespace AlchemicalFlux.Utilities.Helpers
 {
     /// <summary>
-    /// Implements a Least Recently Used (LRU) cache to store <typeparamref name="TValue"/> items
-    /// associated with <typeparamref name="TKey"/> keys. The cache evicts the least recently used
-    /// key-value pair when the capacity is exceeded, allowing efficient reuse of stored values.
+    /// Implements a Least Recently Used (LRU) cache to store 
+    /// <typeparamref name="TValue"/> items associated with 
+    /// <typeparamref name="TKey"/> keys. The cache evicts the least recently 
+    /// used key-value pair when the capacity is exceeded, allowing efficient 
+    /// reuse of stored values.
     /// </summary>
-    /// <typeparam name="TKey">The type of the keys used to access cached values.</typeparam>
-    /// <typeparam name="TValue">The type of the values stored in the cache.</typeparam>
+    /// <typeparam name="TKey">
+    /// The type of the keys used to access cached values.
+    /// </typeparam>
+    /// <typeparam name="TValue">
+    /// The type of the values stored in the cache.
+    /// </typeparam>
     public sealed class LRUCache<TKey, TValue>
     {
         #region Constants
 
-        /// <summary>Default capacity for the cache if no specific value is provided.</summary>
+        /// <summary>
+        /// Default capacity for the cache if no specific value is provided.
+        /// </summary>
         private const int _initialCapacity = 500;
 
         #endregion Constants
 
         #region Classes
 
-        /// <summary>Represents a cache node containing a key-value pair for tracking usage.</summary>
+        /// <summary>
+        /// Represents a cache node containing a key-value pair for tracking 
+        /// usage.
+        /// </summary>
         private class CacheNode
         {
             public TKey Key;
@@ -56,7 +67,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary> Gets the current number of items in the cache.</summary>
         public int Count => _mapping.Count;
 
-        /// <summary>Gets the maximum number of items the cache can hold.</summary>
+        /// <summary>
+        /// Gets the maximum number of items the cache can hold.
+        /// </summary>
         public int Capacity => _capacity;
 
         #endregion Properties
@@ -64,35 +77,40 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Methods
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LRUCache{TKey, TValue}"/> class.
+        /// Initializes a new instance of the 
+        /// <see cref="LRUCache{TKey, TValue}"/> class.
         /// </summary>
         /// <param name="onCreateValue">
-        ///     A function to create <typeparamref name="TValue"/> objects based on <typeparamref name="TKey"/> values.
+        /// A function to create <typeparamref name="TValue"/> objects based on 
+        /// <typeparamref name="TKey"/> values.
         /// </param>
         /// <param name="capacity">
-        ///     The maximum capacity of the cache. Defaults to _initialCapacity. Must be greater than zero.
+        /// The maximum capacity of the cache. Defaults to _initialCapacity. 
+        /// Must be greater than zero.
         /// </param>
         /// <param name="onDestroyValue">
-        ///     A function called when the least recently used object is removed from cache.
-        ///     Will recieve the reference to the least recently used object.
-        ///     Can be null, in which case no actions will be taken.
+        /// A function called when the least recently used object is removed 
+        /// from cache. Will recieve the reference to the least recently used 
+        /// object. Can be null, in which case no actions will be taken.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     Thrown if <paramref name="onCreateValue"/> is null.
+        /// Thrown if <paramref name="onCreateValue"/> is null.
         /// </exception>
         /// <exception cref="ArgumentOutOfRangeException">
-        ///     Thrown if <paramref name="capacity"/> is less than or equal to zero.
+        /// Thrown if <paramref name="capacity"/> is less than or equal to zero.
         /// </exception>
-        public LRUCache(Func<TKey, TValue> onCreateValue, Action<TValue> onDestroyValue,
-            int capacity = _initialCapacity)
+        public LRUCache(Func<TKey, TValue> onCreateValue, 
+            Action<TValue> onDestroyValue, int capacity = _initialCapacity)
         {
             _onCreateValue = onCreateValue ?? 
-                throw new ArgumentNullException(nameof(onCreateValue), "Value creation function cannot be null.");
+                throw new ArgumentNullException(nameof(onCreateValue), 
+                "Value creation function cannot be null.");
             _onDestroyValue = onDestroyValue;
 
             if(capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(capacity), "Capacity must be greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(capacity), 
+                    "Capacity must be greater than zero.");
             }
 
             _capacity = capacity;
@@ -101,14 +119,17 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Retrieves the value associated with the specified key. If the key is not in the cache,
-        /// a new value is created and added to the cache.
+        /// Retrieves the value associated with the specified key. If the key is
+        /// not in the cache, a new value is created and added to the cache.
         /// </summary>
         /// <param name="key">The key associated with the desired value.</param>
         /// <returns>The value associated with the specified key.</returns>
         public TValue Get(TKey key)
         {
-            if(_mapping.TryGetValue(key, out var node)) { return MoveToFront(node); }
+            if(_mapping.TryGetValue(key, out var node)) 
+            { 
+                return MoveToFront(node); 
+            }
             return AssignNewValue(key);
         }
 
@@ -121,15 +142,21 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Adjusts the capacity of the cache, removing the least used values if necessary.
+        /// Adjusts the capacity of the cache, removing the least used values if
+        /// necessary.
         /// </summary>
-        /// <param name="newCapacity">Number of values the cache can now store.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if newCapacity is zero or less.</exception>
+        /// <param name="newCapacity">
+        /// Number of values the cache can now store.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if newCapacity is zero or less.
+        /// </exception>
         public void Resize(int newCapacity)
         {
             if(newCapacity <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(newCapacity), "Capacity must be greater than zero.");
+                throw new ArgumentOutOfRangeException(nameof(newCapacity), 
+                    "Capacity must be greater than zero.");
             }
 
             DestroyLastNodes(Capacity - newCapacity);
@@ -137,7 +164,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Moves the specified node to the front of the linked list to mark it as recently used.
+        /// Moves the specified node to the front of the linked list to mark it 
+        /// as recently used.
         /// </summary>
         /// <param name="toMove">The node to move to the front.</param>
         /// <returns>The value of the node that was moved.</returns>
@@ -152,7 +180,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Creates a new key-value pair in the cache, either by adding a new entry or overwriting the least recently 
+        /// Creates a new key-value pair in the cache, either by adding a new 
+        /// entry or overwriting the least recently 
         /// used one.
         /// </summary>
         /// <param name="key">The key for the new value.</param>
@@ -180,11 +209,17 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Removes the least recently used key-value pair from the cache, destroying its value.
+        /// Removes the least recently used key-value pair from the cache, 
+        /// destroying its value.
         /// </summary>
-        /// <param name="cacheNode">Outputs the removed cache node for reuse.</param>
-        /// <param name="node">Outputs the removed linked list node for reuse.</param>
-        private void RemoveLastNode(out CacheNode cacheNode, out LinkedListNode<CacheNode> node)
+        /// <param name="cacheNode">
+        /// Outputs the removed cache node for reuse.
+        /// </param>
+        /// <param name="node">
+        /// Outputs the removed linked list node for reuse.
+        /// </param>
+        private void RemoveLastNode(out CacheNode cacheNode, 
+            out LinkedListNode<CacheNode> node)
         {
             node = _nodes.Last;
             cacheNode = node.Value;
@@ -197,8 +232,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// Removes the last 'count' nodes from the the cache.
         /// </summary>
         /// <param name="count">
-        ///     Number of nodes to be removed.
-        ///     Must be less than or equal to current Count.
+        /// Number of nodes to be removed. Must be less than or equal to current
+        /// Count.
         /// </param>
         private void DestroyLastNodes(int count)
         {

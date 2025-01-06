@@ -5,16 +5,17 @@ Overview:   Implements a two point tween for the Color class.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// A specific implementation of a tween that interpolates between two `Color` values, smoothly transitioning the 
-    ///   color over time. This class overrides the `ApplyProgress` method to provide logic for tweening colors, 
-    ///   including hue, saturation, and value transitions.
+    /// A specific implementation of a tween that interpolates between two 
+    /// `Color` values, smoothly transitioning the color over time. This class 
+    /// overrides the `ApplyProgress` method to provide logic for tweening 
+    /// colors, including hue, saturation, and value transitions.
     /// </summary>
     [System.Serializable]
     public class TweenColor : BasicTween<Color>

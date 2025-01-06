@@ -6,7 +6,7 @@ Overview:   Property drawer that manages the display for fields marked with the
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -17,7 +17,8 @@ namespace AlchemicalFlux.Utilities.Helpers
 {
 
     /// <summary>
-    /// Custom property drawer for the NullCheck attribute, ensuring object reference fields are 
+    /// Custom property drawer for the NullCheck attribute, ensuring object 
+    /// reference fields are 
     ///   not null.
     /// </summary>
     [CustomPropertyDrawer(typeof(NullCheck))]
@@ -25,18 +26,27 @@ namespace AlchemicalFlux.Utilities.Helpers
     {
         #region Members
 
-        /// <summary>Warning message displayed by non-object reference fields marked with NullCheck.</summary>
+        /// <summary>
+        /// Warning message displayed by non-object reference fields marked with
+        /// NullCheck.
+        /// </summary>
         private const string _warningMessage =
             nameof(NullCheck) + " only valid on ObjectReference fields.";
 
-        /// <summary>Error message displayed when object reference field is null.</summary>
+        /// <summary>
+        /// Error message displayed when object reference field is null.
+        /// </summary>
         private const string _errorMessage =
             "Missing object reference for " + nameof(NullCheck) + " property.";
 
-        /// <summary>Height for the alert window to be displayed under the field.</summary>
+        /// <summary>
+        /// Height for the alert window to be displayed under the field.
+        /// </summary>
         private const int _alertHeight = 30;
 
-        /// <summary>Color applied to the field when it triggers an alert.</summary>
+        /// <summary>
+        /// Color applied to the field when it triggers an alert.
+        /// </summary>
         private static readonly Color _alertColor = new(1, 0.4f, 0.2f);
 
         #endregion Members
@@ -44,12 +54,14 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Methods
 
         /// <summary>
-        /// Determines the final height of the field based on if an alert message will be displayed.
+        /// Determines the final height of the field based on if an alert 
+        /// message will be displayed.
         /// </summary>
         /// <param name="property">Serialized property.</param>
         /// <param name="label">Label for the property.</param>
         /// <returns>Height of the final property display.</returns>
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        public override float GetPropertyHeight(SerializedProperty property, 
+            GUIContent label)
         {
             var calculatedHeight = base.GetPropertyHeight(property, label); ;
             if(IsNotObjectRef(property) || ObjectRefNotSet(property))
@@ -65,7 +77,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="position">Position of the property field.</param>
         /// <param name="property">Serialized property.</param>
         /// <param name="label">Label for the property.</param>
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property,
+            GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
 
@@ -73,7 +86,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             position.height = objectReferenceHeight;
             BuildField(position, property, label);
 
-            var warningRect = new Rect(position.x, position.y + objectReferenceHeight,
+            var warningRect = 
+                new Rect(position.x, position.y + objectReferenceHeight,
                 position.width, _alertHeight);
             BuildMessageBox(warningRect, property);
 
@@ -81,16 +95,19 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Builds the property field, handling null references and disabled state for prefabs.
+        /// Builds the property field, handling null references and disabled
+        /// state for prefabs.
         /// </summary>
         /// <param name="drawArea">Area to draw the field.</param>
         /// <param name="property">Serialized property.</param>
         /// <param name="label">Label for the property.</param>
-        private void BuildField(Rect drawArea, SerializedProperty property, GUIContent label)
+        private void BuildField(Rect drawArea, SerializedProperty property,
+            GUIContent label)
         {
             var prevColor = GUI.color; // Maintain previous GUI color.
 
-            if(IsNotObjectRef(property)) // Non-object fields should be rendered normally.
+            // Non-object fields should be rendered normally.
+            if(IsNotObjectRef(property)) 
             {
                 EditorGUI.PropertyField(drawArea, property, label);
                 return;
@@ -125,7 +142,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             if(IsNotObjectRef(property))
             {
-                EditorGUI.HelpBox(drawArea, _warningMessage, MessageType.Warning);
+                EditorGUI.HelpBox(drawArea, _warningMessage, 
+                    MessageType.Warning);
             }
             else if(ObjectRefNotSet(property))
             {
@@ -137,7 +155,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// Checks if the property is an object reference field  and is null.
         /// </summary>
         /// <param name="property">Serialized property.</param>
-        /// <returns>True if the object reference is null, false otherwise.</returns>
+        /// <returns>
+        /// True if the object reference is null, false otherwise.
+        /// </returns>
         private bool ObjectRefNotSet(SerializedProperty property)
         {
             return !IsPropertyNotNullInSceneAndPrefab(property) &&
@@ -145,33 +165,46 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Checks if the property is not null in both scene and prefab instances.
+        /// Checks if the property is not null in both scene and prefab 
+        /// instances.
         /// </summary>
         /// <param name="property">Serialized property.</param>
-        /// <returns>True if property is not null in scene and prefab instances, false otherwise.</returns>
-        private bool IsPropertyNotNullInSceneAndPrefab(SerializedProperty property)
+        /// <returns>
+        /// True if property is not null in scene and prefab instances, false
+        /// otherwise.
+        /// </returns>
+        private bool IsPropertyNotNullInSceneAndPrefab(
+            SerializedProperty property)
         {
-            return IsPropertyOnPrefab(property) && ((NullCheck)attribute).IgnorePrefab;
+            return IsPropertyOnPrefab(property) && 
+                ((NullCheck)attribute).IgnorePrefab;
         }
 
         /// <summary>
         /// Checks if the property belongs to a prefab instance.
         /// </summary>
         /// <param name="property">Serialized property.</param>
-        /// <returns>True if the property belongs to a prefab instance, false otherwise.</returns>
+        /// <returns>
+        /// True if the property belongs to a prefab instance, false otherwise.
+        /// </returns>
         private static bool IsPropertyOnPrefab(SerializedProperty property)
         {
-            return EditorUtility.IsPersistent(property.serializedObject.targetObject);
+            return EditorUtility.IsPersistent(
+                property.serializedObject.targetObject);
         }
 
         /// <summary>
         /// Checks if the property is not an object reference field.
         /// </summary>
         /// <param name="property">Serialized property.</param>
-        /// <returns>True if the property is not an object reference field, false otherwise.</returns>
+        /// <returns>
+        /// True if the property is not an object reference field, false
+        /// otherwise.
+        /// </returns>
         private static bool IsNotObjectRef(SerializedProperty property)
         {
-            return property.propertyType != SerializedPropertyType.ObjectReference;
+            return property.propertyType !=
+                SerializedPropertyType.ObjectReference;
         }
 
         #endregion Methods

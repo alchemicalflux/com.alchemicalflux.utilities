@@ -6,15 +6,17 @@ Overview:   An interface for generic singletons. Useful for mocking purposes
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers
 {
     /// <summary>
-    /// Interface for generic singleton.
-    /// Useful for mocking purposes when unit testing classes reliante on a singleton.
+    /// Interface for generic singleton. Useful for mocking purposes when unit 
+    /// testing classes reliante on a singleton.
     /// </summary>
-    /// <typeparam name="TType">Underlying type provided by the Singleton.</typeparam>
+    /// <typeparam name="TType">
+    /// Underlying type provided by the Singleton.
+    /// </typeparam>
     public interface ISingleton<TType>
     {
         /// <summary>Returns an unique instance to TType.</summary>

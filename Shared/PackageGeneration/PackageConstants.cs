@@ -5,7 +5,7 @@ Overview:   Centralized location for Unity package generation constants.
 Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {
@@ -19,11 +19,13 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public const string TemplateCompanyName = "alchemicalflux";
         public const string TemplateProjectName = "package-template";
         public const string TemplatePackageName =
-            TemplateDomainName + "." + TemplateCompanyName + "." + TemplateProjectName;
+            TemplateDomainName + "." + TemplateCompanyName + "." + 
+            TemplateProjectName;
 
         // Directory information
         public const string TempPath = "Temp/";
-        public const string PackagePath = "Packages/" + TemplatePackageName + "/Documents";
+        public const string PackagePath = 
+            "Packages/" + TemplatePackageName + "/Documents";
         public const string AssetsPath = "Assets/";
 
         // UI interface references
@@ -43,14 +45,16 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         public const string SaveButtonName = "SaveButton";
 
         // Values to replace in files from the Package template
-        public const string TemplateDisplayName = "AlchemicalFlux Package Template";
+        public const string TemplateDisplayName = 
+            "AlchemicalFlux Package Template";
         public const string TemplateCompanyNamespace = "AlchemicalFlux";
         public const string TemplateProjectNamespace = "PackageTemplate";
 
         public const string AuthorName = "Jeremy Miller";
         public const string Email = "alchemicalflux@gmail.com";
 
-        public const string DevPackageVersion = "\"version\": \"0.0.0-development\"";
+        public const string DevPackageVersion = 
+            "\"version\": \"0.0.0-development\"";
         public const string VersionRegEx = "\"version\": \".*\"";
 
         // File names that can be modified from the Package template

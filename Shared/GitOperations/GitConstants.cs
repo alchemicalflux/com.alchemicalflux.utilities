@@ -5,7 +5,7 @@ Overview:   Centralized location for Git operation constants.
 Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.GitOperations
 {
@@ -16,11 +16,13 @@ namespace AlchemicalFlux.Utilities.GitOperations
     {
         // Directory information
         public const string TempPath = "Temp/";
-        public const string PackagePath = "Packages/com.alchemicalflux.git-utilities/";
+        public const string PackagePath = 
+            "Packages/com.alchemicalflux.git-utilities/";
         public const string DocumentsPath = PackagePath + "Documents/";
         public const string PreCommitPath = DocumentsPath + "PreCommit/";
         public const string PreCommitTargetPath = "hooks";
-        public const string SemanticReleasePath = DocumentsPath + "SemanticRelease/";
+        public const string SemanticReleasePath = 
+            DocumentsPath + "SemanticRelease/";
 
         // UI interface references
         public const string ParentFolderFieldName = "ParentFolderField";

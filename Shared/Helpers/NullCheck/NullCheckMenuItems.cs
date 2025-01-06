@@ -8,7 +8,7 @@ Overview:   This static class provides menu items for the NullCheck
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -18,54 +18,66 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Helpers
 {
     /// <summary>
-    /// Provides menu items for the NullCheck functionality within the Unity Editor.
+    /// Provides menu items for the NullCheck functionality within the Unity 
+    /// Editor.
     /// </summary>
     public static class NullCheckMenuItems
     {
-        #region
+        #region Constants
 
-        private const string _noErrorsMessage = "No NullCheck violations found.";
+        private const string _noErrorsMessage =
+            "No NullCheck violations found.";
 
-        #endregion
+        private const string _menuPath =
+            "Tools/AlchemicalFlux Utilities/NullCheck/";
+
+        #endregion Constants
 
         #region Methods
 
         /// <summary>
-        /// Menu item to process assets and all scenes in the project, searching for null check violations.
+        /// Menu item to process assets and all scenes in the project, searching 
+        /// for null check violations.
         /// </summary>
-        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process All")]
+        [MenuItem(_menuPath + "Process All")]
         public static void ProcessAll()
         {
             var errorsFound = false;
-            errorsFound |= NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            errorsFound |= 
+                NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
             errorsFound |= NullCheckProcessing.ProcessGameObjectsInAllScenes();
             DisplayNoErrorMessage(errorsFound);
         }
 
         /// <summary>
-        /// Menu item to process assets in the project, searching for null check violations.
+        /// Menu item to process assets in the project, searching for null check
+        /// violations.
         /// </summary>
-        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process Asset Database")]
+        [MenuItem(_menuPath + "Process Asset Database")]
         public static void ProcessAssetDatabase()
         {
-            var errorsFound = NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
+            var errorsFound = 
+                NullCheckProcessing.ProcessGameObjectsInAssetDatabase();
             DisplayNoErrorMessage(errorsFound);
         }
 
         /// <summary>
-        /// Menu item to process all scenes in the project, searching for null check violations.
+        /// Menu item to process all scenes in the project, searching for null 
+        /// check violations.
         /// </summary>
-        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process All Scenes")]
+        [MenuItem(_menuPath + "Process All Scenes")]
         public static void ProcessAllScenes()
         {
-            var errorsFound = NullCheckProcessing.ProcessGameObjectsInAllScenes();
+            var errorsFound = 
+                NullCheckProcessing.ProcessGameObjectsInAllScenes();
             DisplayNoErrorMessage(errorsFound);
         }
 
         /// <summary>
-        /// Menu item to search for and report null check violations within the current scene and assets.
+        /// Menu item to search for and report null check violations within the 
+        /// current scene and assets.
         /// </summary>
-        [MenuItem("Tools/AlchemicalFlux Utilities/NullCheck/Process Current Scene")]
+        [MenuItem(_menuPath + "Process Current Scene")]
         public static void ProcessCurrentScene()
         {
             var errorsFound = NullCheckProcessing.ProcessGameObjectsInScene();
@@ -75,7 +87,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Displays a message indicating the absence of null check violations.
         /// </summary>
-        /// <param name="errorsFound">Flag indicating whether any errors were found.</param>
+        /// <param name="errorsFound">
+        /// Flag indicating whether any errors were found.
+        /// </param>
         private static void DisplayNoErrorMessage(bool errorsFound)
         {
             if(!errorsFound)

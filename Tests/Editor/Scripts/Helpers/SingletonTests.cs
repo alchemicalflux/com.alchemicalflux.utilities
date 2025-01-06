@@ -5,7 +5,7 @@ Overview:   Test cases for the generic abstract Singleton class.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 
@@ -50,7 +50,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
             // Assert
             Assert.That(() => Singleton<UnsealedSingleton>.Get,
-                Throws.InvalidOperationException.With.Message.Contains(expectedResult));
+                Throws.InvalidOperationException.With.Message
+                    .Contains(expectedResult));
         }
 
 
@@ -64,7 +65,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
             // Assert
             Assert.That(() => Singleton<SingletonWithMultipleConstructors>.Get,
-                Throws.InvalidOperationException.With.Message.Contains(expectedResult));
+                Throws.InvalidOperationException.With.Message
+                    .Contains(expectedResult));
         }
 
         [Test]
@@ -76,7 +78,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
             // Assert
             Assert.That(() => Singleton<SingletonWithParameteredConstuctor>.Get,
-                Throws.InvalidOperationException.With.Message.Contains(expectedResult));
+                Throws.InvalidOperationException.With.Message
+                    .Contains(expectedResult));
         }
 
         [Test]
@@ -88,7 +91,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
             // Assert
             Assert.That(() => Singleton<SingletonWithPublicConstructor>.Get,
-                Throws.InvalidOperationException.With.Message.Contains(expectedResult));
+                Throws.InvalidOperationException.With.Message
+                    .Contains(expectedResult));
         }
 
         [Test]
@@ -100,7 +104,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             var expectedResult = SEM.MethodReturnErrMsg(name, method);
 
             // Assert
-            Assert.That(() => Singleton<SingletonWithMethodReturningInstance>.Get,
+            Assert.That(() => 
+                Singleton<SingletonWithMethodReturningInstance>.Get,
                 Throws.ArgumentException.With.Message.Contains(expectedResult));
         }
 
@@ -113,7 +118,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             var expectedResult = SEM.MethodParameterErrMsg(name, method);
 
             // Assert
-            Assert.That(() => Singleton<SingletonWithMethodWithInstanceParameter>.Get,
+            Assert.That(() => 
+                Singleton<SingletonWithMethodWithInstanceParameter>.Get,
                 Throws.ArgumentException.With.Message.Contains(expectedResult));
         }
 
@@ -126,7 +132,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             var expectedResult = SEM.MethodReturnErrMsg(name, method);
 
             // Assert
-            Assert.That(() => Singleton<SingletonWithGetterInstanceProperty>.Get,
+            Assert.That(() => 
+                Singleton<SingletonWithGetterInstanceProperty>.Get,
                 Throws.ArgumentException.With.Message.Contains(expectedResult));
         }
 
@@ -139,7 +146,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             var expectedResult = SEM.MethodParameterErrMsg(name, method);
 
             // Assert
-            Assert.That(() => Singleton<SingletonWithSetterInstanceProperty>.Get,
+            Assert.That(() => 
+                Singleton<SingletonWithSetterInstanceProperty>.Get,
                 Throws.ArgumentException.With.Message.Contains(expectedResult));
         }
 
@@ -152,7 +160,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             var expectedResult = SEM.MethodReturnErrMsg(name, method);
 
             // Assert
-            Assert.That(() => Singleton<SingletonWithExpressionInstanceProperty>.Get,
+            Assert.That(() => 
+                Singleton<SingletonWithExpressionInstanceProperty>.Get,
                 Throws.ArgumentException.With.Message.Contains(expectedResult));
         }
         
@@ -218,21 +227,30 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public sealed class SingletonWithMethodWithInstanceParameter
         {
             private SingletonWithMethodWithInstanceParameter() { }
-            public void TestMethod(SingletonWithMethodWithInstanceParameter param) { }
+            public void TestMethod(
+                SingletonWithMethodWithInstanceParameter param) 
+            {
+            }
         }
 
         public sealed class SingletonWithGetterInstanceProperty
         {
             private SingletonWithGetterInstanceProperty _test;
             private SingletonWithGetterInstanceProperty() { }
-            private SingletonWithGetterInstanceProperty Test { get { return _test; } }
+            private SingletonWithGetterInstanceProperty Test 
+            { 
+                get { return _test; } 
+            }
         }
 
         public sealed class SingletonWithSetterInstanceProperty
         {
             private SingletonWithSetterInstanceProperty _test;
             private SingletonWithSetterInstanceProperty() { }
-            private SingletonWithSetterInstanceProperty Test { set { _test = value; } }
+            private SingletonWithSetterInstanceProperty Test 
+            { 
+                set { _test = value; } }
+
         }
 
         public sealed class SingletonWithExpressionInstanceProperty

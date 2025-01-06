@@ -7,7 +7,7 @@ Overview:   Contains message constructors for the generic abstract Singleton
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 16:56:47 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers
 {
@@ -22,7 +22,8 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public static string TooManyConstructorsErrMsg(string type, int length)
         {
-            return $"{type} has {length} constructors. It must have exactly one private parameterless constructor.";
+            return $"{type} has {length} constructors. " + 
+                "It must have exactly one private parameterless constructor.";
         }
 
         public static string TooManyParametersErrMsg(string type)
@@ -37,27 +38,35 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public static string MethodReturnErrMsg(string type, string method)
         {
-            return $"{type} has a method '{method}' that could provide a new instance of {type}. This violates the singleton pattern.";
+            return $"{type} has a method '{method}' that could provide a " +
+                " new instance of {type}. This violates the singleton pattern.";
         }
 
         public static string MethodParameterErrMsg(string type, string method)
         {
-            return $"{type} has a parameter for method {method} that could provide a new instance of {type}. This violates the singleton pattern.";
+            return $"{type} has a parameter for method {method} that could " + 
+                "provide a new instance of {type}. " + 
+                "This violates the singleton pattern.";
         }
 
         public static string GetterPropertyErrMsg(string type, string property)
         {
-            return $"{type} has a getter for property {property} that could return a new instance of {type}. This violates the singleton pattern.";
+            return $"{type} has a getter for property {property} that could " +
+                "return a new instance of {type}. " + 
+                "This violates the singleton pattern.";
         }
 
         public static string SetterPropertyErrMsg(string type, string property)
         {
-            return $"{type} has a setter for property {property} that could return a new instance of {type}. This violates the singleton pattern.";
+            return $"{type} has a setter for property {property} that could " + 
+                "return a new instance of {type}. " +
+                "This violates the singleton pattern.";
         }
 
         public static string FieldErrMsg(string type, string field)
         {
-            return $"{type} has a field {field} that could hold a new instance of {type}. This violates the singleton pattern.";
+            return $"{type} has a field {field} that could hold a new " + 
+                "instance of {type}. This violates the singleton pattern.";
         }
 
         #endregion Methods
