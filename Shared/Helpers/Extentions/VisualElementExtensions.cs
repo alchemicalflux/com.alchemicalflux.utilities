@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           VisualElementExtensions.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Helper functions to extend the VisualElement class.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+File:       VisualElementExtensions.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Helper functions to extend the VisualElement class.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2023-10-24 10:51:53 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 
@@ -21,11 +21,18 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Query extension that searches by the template inferred class type.
         /// </summary>
-        /// <typeparam name="TType">Class type that will be querried.</typeparam>
-        /// <param name="element">Element whose hierachy will be searched.</param>
-        /// <param name="target">Variable that will store the querried search.</param>
+        /// <typeparam name="TType">
+        /// Class type that will be querried.
+        /// </typeparam>
+        /// <param name="element">
+        /// Element whose hierachy will be searched.
+        /// </param>
+        /// <param name="target">
+        /// Variable that will store the querried search.
+        /// </param>
         /// <param name="name">Name of the item to be querried.</param>
-        public static void Q<TType>(this VisualElement element, ref TType target, string name)
+        public static void Q<TType>(this VisualElement element, 
+            ref TType target, string name)
             where TType : VisualElement
         {
             target = element.Q<TType>(name);

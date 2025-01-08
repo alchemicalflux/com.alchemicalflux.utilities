@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           IStringManipulator.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Contains interface for string manipulating functionality.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+File:       IStringManipulator.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Contains interface for string manipulating functionality.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2023-10-20 07:36:29 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 
@@ -17,12 +17,19 @@ namespace AlchemicalFlux.Utilities.Helpers
     public interface IStringManipulator
     {
         /// <summary>
-        /// Replaces all keys with their respective values within the supplied text.
-        /// Will attempt to match using the longest keys first.
+        /// Replaces all keys with their respective values within the supplied 
+        /// text. Will attempt to match using the longest keys first.
         /// </summary>
-        /// <param name="originalText">Entry to be parsed for replacement.</param>
-        /// <param name="replacements">Terms to be searched(keys) and replaced(values).</param>
-        /// <returns>Parsed output containing original text with replaced values.</returns>
-        string MultipleReplace(string originalText, Dictionary<string, string> replacements);
+        /// <param name="originalText">
+        /// Entry to be parsed for replacement.
+        /// </param>
+        /// <param name="replacements">
+        /// Terms to be searched(keys) and replaced(values).
+        /// </param>
+        /// <returns>
+        /// Parsed output containing original text with replaced values.
+        /// </returns>
+        string MultipleReplace(string originalText, 
+            Dictionary<string, string> replacements);
     }
 }

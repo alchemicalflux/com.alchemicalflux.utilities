@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GitOperationsEditorWindow.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Editor Window construction for handling Git Operations.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+File:       GitOperationsEditorWindow.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Editor Window construction for handling Git Operations.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 20:08:06 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -14,24 +14,29 @@ using UnityEngine.UIElements;
 namespace AlchemicalFlux.Utilities.GitOperations
 {
     /// <summary>
-    /// Editor window that handles various Git related functionality and file generation.
+    /// Editor window that handles various Git related functionality and file 
+    /// generation.
     /// </summary>
     public class GitOperationsEditorWindow : EditorWindow
     {
         #region Members
 
-        /// <summary>UI tree containing the appropriate interface elements.</summary>
+        /// <summary>
+        /// UI tree containing the appropriate interface elements.
+        /// </summary>
         [SerializeField]
-        private VisualTreeAsset tree;
+        private VisualTreeAsset _tree;
 
-        /// <summary>UI tree containing the template for the gathered folder list view.</summary>
+        /// <summary>
+        /// UI tree containing the template for the gathered folder list view.
+        /// </summary>
         [SerializeField]
-        private VisualTreeAsset listViewAsset;
+        private VisualTreeAsset _listViewAsset;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private GitOperationsEditor gitOperationsEditor = new();
+        private readonly GitOperationsEditor _gitOperationsEditor = new();
 
-        private GitOperationsEditorUI gitOperationsEditorUI;
+        private GitOperationsEditorUI _gitOperationsEditorUI;
 
         #endregion Members
 
@@ -43,7 +48,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         [MenuItem("Tools/AlchemicalFlux Utilities/Git Operations")]
         public static void ShowExample()
         {
-            GitOperationsEditorWindow wnd = GetWindow<GitOperationsEditorWindow>();
+            GitOperationsEditorWindow wnd = 
+                GetWindow<GitOperationsEditorWindow>();
             wnd.titleContent = new GUIContent("Git Operations");
         }
 
@@ -52,11 +58,12 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// </summary>
         public void CreateGUI()
         {
-            tree.CloneTree(rootVisualElement);
+            _tree.CloneTree(rootVisualElement);
 
-            gitOperationsEditorUI = new GitOperationsEditorUI(rootVisualElement, listViewAsset);
-            gitOperationsEditor.GetDirectory = GetDirectory;
-            gitOperationsEditor.BindUIComponents(gitOperationsEditorUI);
+            _gitOperationsEditorUI = 
+                new GitOperationsEditorUI(rootVisualElement, _listViewAsset);
+            _gitOperationsEditor.GetDirectory = GetDirectory;
+            _gitOperationsEditor.BindUIComponents(_gitOperationsEditorUI);
         }
 
         /// <summary>

@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GeneratePackageEditorWindow.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Editor Window construction for handling Unity package generation.
-  Copyright:      ©2023 AlchemicalFlux. All rights reserved.
+File:       GeneratePackageEditorWindow.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Editor Window construction for handling Unity package generation.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2023-09-28 17:52:52 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -14,18 +14,21 @@ using UnityEngine.UIElements;
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {
     /// <summary>
-    /// Editor window that handles the generation of a templatized package folder structure.
+    /// Editor window that handles the generation of a templatized package 
+    /// folder structure.
     /// </summary>
     public class GeneratePackageEditorWindow : EditorWindow
     {
         #region Members
 
-        /// <summary>UI tree containing the appropriate interface elements.</summary>
+        /// <summary>
+        /// UI tree containing the appropriate interface elements.
+        /// </summary>
         [SerializeField]
-        private VisualTreeAsset tree;
+        private VisualTreeAsset _tree;
 
         /// <summary>Handle to the editor logic is handled.</summary>
-        private GeneratePackageEditor packageEditor = new();
+        private readonly GeneratePackageEditor _packageEditor = new();
 
         #endregion Members
 
@@ -46,10 +49,10 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         public void CreateGUI()
         {
-            tree.CloneTree(rootVisualElement);
-            packageEditor.InitUIComponents(rootVisualElement);
-            packageEditor.OnPackageCreation += Close;
-            packageEditor.OnPackageCreation += PostCreationProcessing;
+            _tree.CloneTree(rootVisualElement);
+            _packageEditor.InitUIComponents(rootVisualElement);
+            _packageEditor.OnPackageCreation += Close;
+            _packageEditor.OnPackageCreation += PostCreationProcessing;
         }
 
         /// <summary>
@@ -57,15 +60,16 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         /// </summary>
         public void OnDestroy()
         {
-            if(packageEditor != null)
+            if(_packageEditor != null)
             {
-                packageEditor.OnPackageCreation -= Close;
-                packageEditor.OnPackageCreation -= PostCreationProcessing;
+                _packageEditor.OnPackageCreation -= Close;
+                _packageEditor.OnPackageCreation -= PostCreationProcessing;
             }
         }
 
         /// <summary>
-        /// Handles any remaining actions that are required after package creation.
+        /// Handles any remaining actions that are required after package 
+        /// creation.
         /// </summary>
         private void PostCreationProcessing()
         {
