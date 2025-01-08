@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GeneratePackageEditorWindow.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Editor Window construction for handling Unity package generation.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       GeneratePackageEditorWindow.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Editor Window construction for handling Unity package generation.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -14,13 +14,16 @@ using UnityEngine.UIElements;
 namespace AlchemicalFlux.Utilities.PackageGeneration
 {
     /// <summary>
-    /// Editor window that handles the generation of a templatized package folder structure.
+    /// Editor window that handles the generation of a templatized package 
+    /// folder structure.
     /// </summary>
     public class GeneratePackageEditorWindow : EditorWindow
     {
         #region Members
 
-        /// <summary>UI tree containing the appropriate interface elements.</summary>
+        /// <summary>
+        /// UI tree containing the appropriate interface elements.
+        /// </summary>
         [SerializeField]
         private VisualTreeAsset _tree;
 
@@ -65,7 +68,8 @@ namespace AlchemicalFlux.Utilities.PackageGeneration
         }
 
         /// <summary>
-        /// Handles any remaining actions that are required after package creation.
+        /// Handles any remaining actions that are required after package 
+        /// creation.
         /// </summary>
         private void PostCreationProcessing()
         {

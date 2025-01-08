@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GitOperationsEditor.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Logic for handling Git Operations.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       GitOperationsEditor.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Logic for handling Git Operations.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -17,7 +17,8 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.GitOperations
 {
     /// <summary>
-    /// Handles the logic of binding of UI elements and file manipulation for Got operations.
+    /// Handles the logic of binding of UI elements and file manipulation for 
+    /// Git operations.
     /// </summary>
     public class GitOperationsEditor
     {
@@ -29,7 +30,9 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <summary>Name of top level folders associated with Git.</summary>
         private const string _gitFolderName = ".git";
 
-        /// <summary>UI functionality that will be bound to file logic.</summary>
+        /// <summary>
+        /// UI functionality that will be bound to file logic.
+        /// </summary>
         private GitOperationsEditorUI _ui;
 
         public Func<string> GetDirectory;
@@ -55,7 +58,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         }
 
         /// <summary>
-        /// Opens a folder search and assigns the selected folder to the parent folder path.
+        /// Opens a folder search and assigns the selected folder to the parent
+        /// folder path.
         /// </summary>
         public void SelectParentFolder()
         {
@@ -64,22 +68,26 @@ namespace AlchemicalFlux.Utilities.GitOperations
         }
 
         /// <summary>
-        /// Gathers a list of all ".git" folders that exist under the parent folder.
+        /// Gathers a list of all ".git" folders that exist under the parent
+        /// folder.
         /// </summary>
         private void GatherFolders()
         {
             // Gather all of the child Git folders.
             var parentPathInfo = new DirectoryInfo(_ui.ParentFolderPath);
             var gitDirectories =
-                parentPathInfo.GetDirectories(_gitFolderName, SearchOption.AllDirectories);
+                parentPathInfo.GetDirectories(_gitFolderName, 
+                    SearchOption.AllDirectories);
 
-            // Create a list of folder data that will be bound to the UI elements of the list.
+            // Create a list of folder data that will be bound to the UI
+            // elements of the list.
             _directoryList = new List<FolderData>();
             foreach(var directory in gitDirectories)
             {
                 // Trim the folder names to reduce redundancy.
                 var data = ScriptableObject.CreateInstance<FolderData>();
-                data.FolderPath = directory.Parent.FullName.Replace(parentPathInfo.FullName, "");
+                data.FolderPath = directory.Parent.FullName.Replace(
+                    parentPathInfo.FullName, "");
                 _directoryList.Add(data);
             }
 
@@ -96,20 +104,25 @@ namespace AlchemicalFlux.Utilities.GitOperations
         }
 
         /// <summary>
-        /// Handles the processing of all folders installing the pre-commit files.
+        /// Handles the processing of all folders installing the pre-commit 
+        /// files.
         /// </summary>
         private void InstallPreCommits()
         {
-            var preCommitFolders = _directoryList.Where(data => data.IncludePreCommits)
-                .Select(data => data.FolderPath);
+            var preCommitFolders = 
+                _directoryList.Where(data => data.IncludePreCommits)
+                    .Select(data => data.FolderPath);
 
             if(preCommitFolders.Any())
             {
-                var fileOperations = new IOFileSystemService(new RegexStringManipulator());
+                var fileOperations = 
+                    new IOFileSystemService(new RegexStringManipulator());
 
                 // Copy the template to a temp location.
-                var tempPath = Path.Join(GitConstants.TempPath, GitConstants.PreCommitName);
-                fileOperations.CopyDirectory(GitConstants.PreCommitPath, tempPath);
+                var tempPath = Path.Join(GitConstants.TempPath, 
+                    GitConstants.PreCommitName);
+                fileOperations.CopyDirectory(GitConstants.PreCommitPath, 
+                    tempPath);
 
                 // Remove unwanted files.
                 fileOperations.RemoveFilesByName(tempPath, _metaFileExtension);
@@ -118,7 +131,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
                 foreach(var folder in preCommitFolders)
                 {
                     var targetPath = Path.Join(_ui.ParentFolderPath, folder); 
-                    targetPath = Path.Join(targetPath, _gitFolderName, GitConstants.PreCommitTargetPath);
+                    targetPath = Path.Join(targetPath, _gitFolderName, 
+                        GitConstants.PreCommitTargetPath);
                     fileOperations.CopyDirectory(tempPath, targetPath);
                 }
 
@@ -128,20 +142,25 @@ namespace AlchemicalFlux.Utilities.GitOperations
         }
 
         /// <summary>
-        /// Handles the processing of all folders installing the semantic release files.
+        /// Handles the processing of all folders installing the semantic 
+        /// release files.
         /// </summary>
         private void InstallSemanticRelease()
         {
-            var semanticReleaseFolders = _directoryList.Where(data => data.IncludeSemanticRelease)
+            var semanticReleaseFolders = 
+                _directoryList.Where(data => data.IncludeSemanticRelease)
                 .Select(data => data.FolderPath);
 
             if(semanticReleaseFolders.Any())
             {
-                var fileOperations = new IOFileSystemService(new RegexStringManipulator());
+                var fileOperations = 
+                    new IOFileSystemService(new RegexStringManipulator());
 
                 // Copy the template to a temp location.
-                var tempPath = Path.Join(GitConstants.TempPath, GitConstants.SemanticReleaseName);
-                fileOperations.CopyDirectory(GitConstants.SemanticReleasePath, tempPath);
+                var tempPath = Path.Join(GitConstants.TempPath, 
+                    GitConstants.SemanticReleaseName);
+                fileOperations.CopyDirectory(GitConstants.SemanticReleasePath, 
+                    tempPath);
 
                 // Remove unwanted files.
                 fileOperations.RemoveFilesByName(tempPath, _metaFileExtension);

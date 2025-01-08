@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           BasicTween.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Sets up a generic two point tween setup.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       BasicTween.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Sets up a generic two point tween setup.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-10 22:22:29 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;
@@ -13,15 +13,18 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Represents a base class for tweening operations, which interpolate values of type <typeparamref name="TType"/> 
-    ///   between a start and end value. This abstract class is intended to be extended by more specific tween 
-    ///   implementations that apply the tweening logic.
+    /// Represents a base class for tweening operations, which interpolate 
+    /// values of type <typeparamref name="TType"/> between a start and end 
+    /// value. This abstract class is intended to be extended by more specific
+    /// tween implementations that apply the tweening logic.
     /// </summary>
     /// <typeparam name="TType">
-    /// The type of value being tweened. It must implement <see cref="IEquatable{T}"/> to allow comparison between the
-    ///   start and end values.
+    /// The type of value being tweened. It must implement 
+    /// <see cref="IEquatable{T}"/> to allow comparison between the start and 
+    /// end values.
     /// </typeparam>
-    public abstract class BasicTween<TType> : ITween where TType : IEquatable<TType>
+    public abstract class BasicTween<TType> : ITween 
+        where TType : IEquatable<TType>
     {
         #region Members
 

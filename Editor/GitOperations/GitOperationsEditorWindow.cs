@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           GitOperationsEditorWindow.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Editor Window construction for handling Git Operations.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       GitOperationsEditorWindow.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Editor Window construction for handling Git Operations.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -14,17 +14,22 @@ using UnityEngine.UIElements;
 namespace AlchemicalFlux.Utilities.GitOperations
 {
     /// <summary>
-    /// Editor window that handles various Git related functionality and file generation.
+    /// Editor window that handles various Git related functionality and file 
+    /// generation.
     /// </summary>
     public class GitOperationsEditorWindow : EditorWindow
     {
         #region Members
 
-        /// <summary>UI tree containing the appropriate interface elements.</summary>
+        /// <summary>
+        /// UI tree containing the appropriate interface elements.
+        /// </summary>
         [SerializeField]
         private VisualTreeAsset _tree;
 
-        /// <summary>UI tree containing the template for the gathered folder list view.</summary>
+        /// <summary>
+        /// UI tree containing the template for the gathered folder list view.
+        /// </summary>
         [SerializeField]
         private VisualTreeAsset _listViewAsset;
 
@@ -43,7 +48,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         [MenuItem("Tools/AlchemicalFlux Utilities/Git Operations")]
         public static void ShowExample()
         {
-            GitOperationsEditorWindow wnd = GetWindow<GitOperationsEditorWindow>();
+            GitOperationsEditorWindow wnd = 
+                GetWindow<GitOperationsEditorWindow>();
             wnd.titleContent = new GUIContent("Git Operations");
         }
 
@@ -54,7 +60,8 @@ namespace AlchemicalFlux.Utilities.GitOperations
         {
             _tree.CloneTree(rootVisualElement);
 
-            _gitOperationsEditorUI = new GitOperationsEditorUI(rootVisualElement, _listViewAsset);
+            _gitOperationsEditorUI = 
+                new GitOperationsEditorUI(rootVisualElement, _listViewAsset);
             _gitOperationsEditor.GetDirectory = GetDirectory;
             _gitOperationsEditor.BindUIComponents(_gitOperationsEditorUI);
         }

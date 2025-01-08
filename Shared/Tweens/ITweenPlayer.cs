@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           ITweenPlayer.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Interface for controlling ITween instances.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       ITweenPlayer.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Interface for controlling ITween instances.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-01 10:31:25 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -16,15 +16,24 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// Begins a timed sequence for a tween using the supplied interpolator.
         /// </summary>
-        /// <param name="playTime">How long the tween will take to complete.</param>
-        /// <param name="easingInterpreter">Converts time progression into eased tween value.</param>
-        /// <param name="onComplete">Optional event handle for when tween completes.</param>
-        /// <param name="hideOnComplete">Optional flag for hiding structure on complete.</param>
+        /// <param name="playTime">
+        /// How long the tween will take to complete.
+        /// </param>
+        /// <param name="easingInterpreter">
+        /// Converts time progression into eased tween value.
+        /// </param>
+        /// <param name="onComplete">
+        /// Optional event handle for when tween completes.
+        /// </param>
+        /// <param name="hideOnComplete">
+        /// Optional flag for hiding structure on complete.
+        /// </param>
         void Play(float playTime, Func<float, float> easingInterpreter,
             Action onComplete = null, bool hideOnComplete = false);
 
         /// <summary>
-        /// Pauses the current tween while allowing for the possiblity to continue later.
+        /// Pauses the current tween while allowing for the possiblity to 
+        /// continue later.
         /// </summary>
         void Pause();
 

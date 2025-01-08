@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           MonoBehaviourTweenPlayer.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Implements the ITweenPlayer for MonoBehaviour coroutines.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       MonoBehaviourTweenPlayer.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-01 12:56:27 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -18,12 +18,19 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Members
 
-        /// <summary>Tracks the current amount of time the tween has run.</summary>
+        /// <summary>
+        /// Tracks the current amount of time the tween has run.
+        /// </summary>
         private float _curTime;
 
+        /// <summary>
+        /// Reference to the reusuable corountine handler.
+        /// </summary>
         private readonly SmartCoroutine _coroutine;
 
-        /// <summary>Reference to the list of actions to occur on tween completion.</summary>
+        /// <summary>
+        /// Reference to the list of actions to occur on tween completion.
+        /// </summary>
         private Action _onComplete;
 
         #endregion Members
@@ -33,16 +40,24 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>List of unique effects to be tweened.</summary>
         public HashSet<ITween> Tweens { get; private set; }
 
-        /// <summary>Length of uninterrupted time the tween should cover.</summary>
+        /// <summary>
+        /// Length of uninterrupted time the tween should cover.
+        /// </summary>
         public float PlayTime { get; private set; }
 
-        /// <summary>Function taking a range [0-1] and interpolating it for tween easing.</summary>
+        /// <summary>
+        /// Function taking a range [0-1] and interpolating it for tween easing.
+        /// </summary>
         public Func<float, float> EasingInterpreter { get; private set; }
 
-        /// <summary>Function determining length of time passed per coroutine cycle.</summary>
+        /// <summary>
+        /// Function determining length of time passed per coroutine cycle.
+        /// </summary>
         public Func<float> TimeIncrement { get; private set; }
 
-        /// <summary>Flag indicating if tweening items should be hiden on complete.</summary>
+        /// <summary>
+        /// Flag indicating if tweening items should be hiden on complete.
+        /// </summary>
         public bool HideOnComplete { get; private set; }
 
         #endregion Properties
@@ -122,7 +137,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             {
                 foreach(var tween in Tweens)
                 {
-                    tween.ApplyProgress(EasingInterpreter(Mathf.Clamp01(_curTime / PlayTime)));
+                    tween.ApplyProgress(EasingInterpreter(
+                        Mathf.Clamp01(_curTime / PlayTime)));
                 }
                 yield return null;
             }
@@ -136,7 +152,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// Default function for tween time advancement.
         /// </summary>
-        /// <returns>Amount of time that has passed for one cycle of the coroutine.</returns>
+        /// <returns>
+        /// Amount of time that has passed for one cycle of the coroutine.
+        /// </returns>
         private float TimeInc()
         {
             return Time.deltaTime;

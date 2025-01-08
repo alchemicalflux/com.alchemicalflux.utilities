@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheck_NullCheckTest.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    NullCheck unit test script for testing a typical NullCheck.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheck_NullCheckTest.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   NullCheck unit test script for testing a typical NullCheck.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 16:56:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
