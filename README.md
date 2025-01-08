@@ -10,14 +10,17 @@
 - Generate Package Unity Editor
 - Git Utilities
   * Precommits
-    + Header files
   * Semantic Release
 - Helpers
   * Extensions
   * File Operations
+  * LRUCache
   * NullCheck
   * Reflection Utilities
+  * Singleton
+  * SmartCoroutine
   * String Manipulator
+- Tweens
   
 # Installation Instructions
 
