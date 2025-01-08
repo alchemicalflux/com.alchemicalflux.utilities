@@ -1,18 +1,19 @@
 /*------------------------------------------------------------------------------
-  File:           LRUValueCache.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Implements a value based Least Recently Used container.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       LRUValueCache.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Implements a value based Least Recently Used container.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-12-16 20:15:25 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
-    public class LRUValueCache<TKey, TValue> where TKey : struct where TValue : struct
+    public class LRUValueCache<TKey, TValue> 
+        where TKey : struct where TValue : struct
     {
         #region Constants
 
@@ -62,7 +63,8 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Methods
 
-        public LRUValueCache(Func<TKey, TValue> onCreateValue, int capacity = _initialCapacity)
+        public LRUValueCache(Func<TKey, TValue> onCreateValue, 
+            int capacity = _initialCapacity)
         {
             if(_initialCapacity <= 0) 
             { 
@@ -81,7 +83,10 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public TValue Get(TKey key)
         {
-            if(_mapping.TryGetValue(key, out var node)) { return MoveToFront(node); }
+            if(_mapping.TryGetValue(key, out var node)) 
+            { 
+                return MoveToFront(node); 
+            }
             return AssignNewValue(key);
         }
 
@@ -160,12 +165,18 @@ namespace AlchemicalFlux.Utilities.Helpers
             else if(node == _head)
             {
                 _head = _storage[_head].Next;
-                if(_head != int.MinValue) { _storage[_head].Prev = int.MinValue; }
+                if(_head != int.MinValue) 
+                { 
+                    _storage[_head].Prev = int.MinValue; 
+                }
             }
             else if(node == _tail)
             {
                 _tail = _storage[_tail].Prev;
-                if(_tail != int.MinValue) { _storage[_tail].Next = int.MinValue; }
+                if(_tail != int.MinValue) 
+                { 
+                    _storage[_tail].Next = int.MinValue; 
+                }
             }
             else
             {

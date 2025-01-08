@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckFinder.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    This class contains method for the retrieval of failed
-                    NullCheck attributes.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckFinder.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   This class contains method for the retrieval of failed NullCheck 
+            attributes.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -22,20 +22,25 @@ namespace AlchemicalFlux.Utilities.Helpers
     {
         #region Members
 
-        /// <summary>Binding pattern to find fields that use NullCheck attribute.</summary>
+        /// <summary>
+        /// Binding pattern to find fields that use NullCheck attribute.
+        /// </summary>
         private const BindingFlags _defaultSearchFlags =
-            BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance;
+            BindingFlags.NonPublic | BindingFlags.Public |
+            BindingFlags.Instance;
 
         #endregion Members
 
         #region Members
 
         /// <summary>
-        /// Retrieves fields that fail the null check validation for a game object.
+        /// Retrieves fields that fail the null check validation for a game
+        /// object.
         /// </summary>
         /// <param name="gameObject">The game object to check.</param>
         /// <returns>List of null check violations.</returns>
-        public static List<FieldAssociation> RetrieveErrors(GameObject gameObject)
+        public static 
+            List<FieldAssociation> RetrieveErrors(GameObject gameObject)
         {
             var processing = new Stack<GameObject>();
             processing.Push(gameObject);
@@ -51,10 +56,12 @@ namespace AlchemicalFlux.Utilities.Helpers
 
             #region Local Helpers
 
-            // Helper method to collect NullCheck violations within the specified GameObject.
+            // Helper method to collect NullCheck violations within the
+            // specified GameObject.
             void CollectNullCheckViolations(GameObject obj)
             {
-                var results = AttributeFieldFinder.FindFieldsWithAttribute<NullCheck>(obj,
+                var results = 
+                    AttributeFieldFinder.FindFieldsWithAttribute<NullCheck>(obj,
                     _defaultSearchFlags, IsPrefab, NoViolation);
                 errorsOnGameObject.AddRange(results);
             }
@@ -62,7 +69,10 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Helper method to add a GameObject's children for processing.
             void AddChildrenForProcessing(GameObject obj)
             {
-                foreach(Transform child in obj.transform) { processing.Push(child.gameObject); }
+                foreach(Transform child in obj.transform) 
+                { 
+                    processing.Push(child.gameObject); 
+                }
             }
 
             #endregion Local Helpers
@@ -71,7 +81,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Checks if a field is attached to a prefab and should be ignored.
         /// </summary>
-        private static bool IsPrefab(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, NullCheck att)
+        private static bool IsPrefab(MonoBehaviour monoBehaviour, 
+            FieldInfo fieldInfo, NullCheck att)
         {
             // Value type fields should be processed.
             if(fieldInfo.FieldType.IsValueType) { return false; }
@@ -81,8 +92,10 @@ namespace AlchemicalFlux.Utilities.Helpers
             #if UNITY_EDITOR
 
             // Prefabs can be ignored if the flag is set.
-            var prefabType = PrefabUtility.GetPrefabAssetType(monoBehaviour.gameObject);
-            result = prefabType != PrefabAssetType.NotAPrefab && att.IgnorePrefab;
+            var prefabType = 
+                PrefabUtility.GetPrefabAssetType(monoBehaviour.gameObject);
+            result = prefabType != 
+                PrefabAssetType.NotAPrefab && att.IgnorePrefab;
 
             #endif
 
@@ -92,9 +105,11 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Checks if there is a null violation on a field.
         /// </summary>
-        private static bool NoViolation(FieldInfo fieldInfo, object obj, NullCheck att)
+        private static bool NoViolation(FieldInfo fieldInfo, object obj, 
+            NullCheck att)
         {
-            // Being attached to non-object references is considered a violation.
+            // Being attached to non-object references is considered a
+            // violation.
             if(fieldInfo.FieldType.IsValueType) { return false; }
 
             // Check that the object reference is not null.

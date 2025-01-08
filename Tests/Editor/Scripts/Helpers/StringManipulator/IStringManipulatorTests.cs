@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           IStringManipulatorTests.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Unit tests shared by implementors of IStringManipulator.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       IStringManipulatorTests.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Unit tests shared by implementors of IStringManipulator.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -13,7 +13,8 @@ using System.Collections.Generic;
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
     /// <summary>
-    /// Contains shared unit tests for implementors of <see cref="TStringManipulator"/>.
+    /// Contains shared unit tests for implementors of 
+    /// <see cref="TStringManipulator"/>.
     /// </summary>
     [TestFixture]
     public abstract class IStringManipulatorTests<TStringManipulator>
@@ -27,8 +28,10 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         protected const string DefaultText = "default text";
 
         // Standard Replacement values
-        protected const string StandardText = "Hello {FirstName}, you are from {Country}.";
-        protected static readonly Dictionary<string, string> StandardReplacements = new()
+        protected const string StandardText = 
+            "Hello {FirstName}, you are from {Country}.";
+        protected static readonly 
+            Dictionary<string, string> StandardReplacements = new()
         {
             { "{FirstName}", "John" },
             { "{Country}", "USA" },
@@ -38,15 +41,21 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         protected const string StandardResult = "Hello John, you are from USA.";
 
         // Case Sensitivty
-        protected const string LowerCaseText = "hello {firstname}, you are from {country}.";
-        protected const string LowerCaseResult = "hello {firstname}, you are from {country}.";
+        protected const string LowerCaseText = 
+            "hello {firstname}, you are from {country}.";
+        protected const string LowerCaseResult = 
+            "hello {firstname}, you are from {country}.";
 
-        protected const string UpperCaseText = "HELLO {FIRSTNAME}, YOU ARE FROM {COUNTRY}.";
-        protected const string UpperCaseResult = "HELLO {FIRSTNAME}, YOU ARE FROM {COUNTRY}.";
+        protected const string UpperCaseText = 
+            "HELLO {FIRSTNAME}, YOU ARE FROM {COUNTRY}.";
+        protected const string UpperCaseResult = 
+            "HELLO {FIRSTNAME}, YOU ARE FROM {COUNTRY}.";
 
         // Longest Key First values
-        protected const string LongestKeyFirstText = "The quick brown fox jumps over the lazy dog.";
-        protected static readonly Dictionary<string, string> LongestKeyFirstReplacements = new()
+        protected const string LongestKeyFirstText = 
+            "The quick brown fox jumps over the lazy dog.";
+        protected static readonly 
+            Dictionary<string, string> LongestKeyFirstReplacements = new()
         {
             { "the lazy", "the energetic" },
             { "the lazy ", "the scared " },
@@ -55,28 +64,35 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             { "fox jumps over", "squirrel scampers above"},
             { "jumps over", "hops across"},
         };
-        protected const string LongestKeyFirstResult = "The quick brown squirrel scampers above the scared dog.";
+        protected const string LongestKeyFirstResult = 
+            "The quick brown squirrel scampers above the scared dog.";
 
         // Escape Characters
-        protected const string EscapeCharactersText = "Replace newline: \\n, tab: \\t, and backslash: \\\\";
-        protected static readonly Dictionary<string, string> EscapeCharactersReplacements = new()
+        protected const string EscapeCharactersText = 
+            "Replace newline: \\n, tab: \\t, and backslash: \\\\";
+        protected static readonly 
+            Dictionary<string, string> EscapeCharactersReplacements = new()
         {
             { "\\n", "\n" },
             { "\\t", "\t" },
             { "\\\\", "\\" },
         };
-        protected const string EscapeCharactersResult = "Replace newline: \n, tab: \t, and backslash: \\";
+        protected const string EscapeCharactersResult = 
+            "Replace newline: \n, tab: \t, and backslash: \\";
 
         // Special Characters
-        protected const string SpecialCharactersText = "Replace ( { and } ) with special characters";
-        protected static readonly Dictionary<string, string> SpecialCharactersReplacements = new()
+        protected const string SpecialCharactersText = 
+            "Replace ( { and } ) with special characters";
+        protected static readonly 
+            Dictionary<string, string> SpecialCharactersReplacements = new()
         {
             { "(", "[1]" },
             { ")", "[2]" },
             { "{", "[3]" },
             { "}", "[4]" },
         };
-        protected const string SpecialCharactersResult = "Replace [1] [3] and [4] [2] with special characters";
+        protected const string SpecialCharactersResult = 
+            "Replace [1] [3] and [4] [2] with special characters";
 
         #endregion Test Values
 
@@ -84,10 +100,13 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         // Invalid Scenario Tests
 
-        protected const string InitialTextNullTestName = "InitialTextIsNull_ThrowArguementNullException";
-        protected const string ReplacementsIsNullTestName = "ReplacementsIsNull_ThrowArguementNullException";
+        protected const string InitialTextNullTestName = 
+            "InitialTextIsNull_ThrowArguementNullException";
+        protected const string ReplacementsIsNullTestName = 
+            "ReplacementsIsNull_ThrowArguementNullException";
 
-        protected static readonly Dictionary<string, TestCaseData> InvalidScenariosData = new()
+        protected static readonly 
+            Dictionary<string, TestCaseData> InvalidScenariosData = new()
         {
             {
                 InitialTextNullTestName,
@@ -101,16 +120,25 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         // Replacement Scenario Tests
 
-        protected const string EmptyInitialStringTestName = "EmptyInitialString_ReturnEmptyString";
-        protected const string EmptyReplacementsTestName = "EmptyReplacements_ReturnSameString";
-        protected const string SimpleReplacementsTestName = "SimpleReplacements_ReturnModifiedString";
-        protected const string LowerCaseSensitivityTestName = "LowerCaseSensitivity_ReturnSameString";
-        protected const string UpperCaseSensitivityTestName = "UpperCaseSensitivity_ReturnSameString";
-        protected const string OverlappingReplacementsTestName = "OverlappingReplacements_ReturnStringModifiedByLongestFirst";
-        protected const string EscapeCharacterReplacementTestName = "EscapeCharacterReplacements_ReturnModifiedString";
-        protected const string SpecialCharacterReplacementsTestName = "SpecialCharacterReplacements_ReturnModifiedString";
+        protected const string EmptyInitialStringTestName = 
+            "EmptyInitialString_ReturnEmptyString";
+        protected const string EmptyReplacementsTestName = 
+            "EmptyReplacements_ReturnSameString";
+        protected const string SimpleReplacementsTestName = 
+            "SimpleReplacements_ReturnModifiedString";
+        protected const string LowerCaseSensitivityTestName = 
+            "LowerCaseSensitivity_ReturnSameString";
+        protected const string UpperCaseSensitivityTestName = 
+            "UpperCaseSensitivity_ReturnSameString";
+        protected const string OverlappingReplacementsTestName = 
+            "OverlappingReplacements_ReturnStringModifiedByLongestFirst";
+        protected const string EscapeCharacterReplacementTestName = 
+            "EscapeCharacterReplacements_ReturnModifiedString";
+        protected const string SpecialCharacterReplacementsTestName = 
+            "SpecialCharacterReplacements_ReturnModifiedString";
 
-        protected static readonly Dictionary<string, TestCaseData> ReplacementScenariosData = new()
+        protected static readonly 
+            Dictionary<string, TestCaseData> ReplacementScenariosData = new()
         {
             {
                 EmptyInitialStringTestName,
@@ -139,18 +167,18 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             },
             {
                 OverlappingReplacementsTestName,
-                new(new TStringManipulator(), 
-                    LongestKeyFirstText, LongestKeyFirstReplacements, LongestKeyFirstResult)
+                new(new TStringManipulator(), LongestKeyFirstText, 
+                    LongestKeyFirstReplacements, LongestKeyFirstResult)
             },
             {
                 EscapeCharacterReplacementTestName,
-                new(new TStringManipulator(), 
-                    EscapeCharactersText, EscapeCharactersReplacements, EscapeCharactersResult)
+                new(new TStringManipulator(), EscapeCharactersText, 
+                    EscapeCharactersReplacements, EscapeCharactersResult)
             },
             {
                 SpecialCharacterReplacementsTestName,
-                new(new TStringManipulator(), 
-                    SpecialCharactersText, SpecialCharactersReplacements, SpecialCharactersResult)
+                new(new TStringManipulator(), SpecialCharactersText, 
+                    SpecialCharactersReplacements, SpecialCharactersResult)
             },
         };
 
@@ -184,24 +212,28 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [Test]
         [TestCaseSource(nameof(InvalidScenarios))]
-        public virtual void MultipleReplace_InvalidParameterTests(IStringManipulator stringManipulator,
+        public virtual void MultipleReplace_InvalidParameterTests(
+            IStringManipulator stringManipulator,
             string input,
             Dictionary<string, string> replacements)
         {
             // Assert
-            Assert.That(() => stringManipulator.MultipleReplace(input, replacements), 
+            Assert.That(() => stringManipulator
+                .MultipleReplace(input, replacements), 
                 Throws.ArgumentNullException);
         }
 
         [Test]
         [TestCaseSource(nameof(ReplacementScenarios))]
-        public virtual void MultipleReplace_StringReplacementTests(IStringManipulator stringManipulator,
+        public virtual void MultipleReplace_StringReplacementTests(
+            IStringManipulator stringManipulator,
             string input,
             Dictionary<string, string> replacements,
             string expectedResult)
         {
             // Act
-            string result = stringManipulator.MultipleReplace(input, replacements);
+            string result = stringManipulator
+                .MultipleReplace(input, replacements);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedResult));

@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           NullCheckTests.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Unit tests for the NullCheck attribute.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       NullCheckTests.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Unit tests for the NullCheck attribute.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -20,21 +20,35 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         #region Test Scenerios
 
         // Instantiate Scenario Tests
-        private const string _emptyGameObjectTestName = "EmptyObject_ReturnsNoErrors";
-        private const string _emptyScriptTestName = "EmptyScript_ReturnsNoErrors";
-        private const string _valueFieldsTestName = "ValueFields_ReturnsTwelveErrors";
-        private const string _nullCheckTestName = "NullCheck_ReturnsOneError";
-        private const string _prefabNullCheckTestName = "PrefabNullCheck_ReturnsOneError";
-        private const string _linkedNullCheckTestName = "LinkedNullCheck_ReturnsNoError";
-        private const string _linkedPrefabNullCheckTestName = "LinkedPrefabNullCheck_ReturnsNoErrors";
-        private const string _multiNullCheckTestName = "MultiNullCheck_ReturnsEightErrors";
-        private const string _linkedMultiNullCheckTestName = "LinkedMultiNullCheck_ReturnsNoErrors";
-        private const string _childNullCheckTestName = "ChildNullCheck_ReturnsOneError";
-        private const string _childPrefabNullCheckTestName = "ChildPrefabNullCheck_ReturnsNoErrors";
-        private const string _linkedChildNullCheckTestName = "LinkedChildNullCheck_ReturnsNoErrors";
-        private const string _linkedChildPrefabNullCheckTestName = "LinkedChildPrefabNullCheck_ReturnsNoErrors";
+        private const string _emptyGameObjectTestName = 
+            "EmptyObject_ReturnsNoErrors";
+        private const string _emptyScriptTestName = 
+            "EmptyScript_ReturnsNoErrors";
+        private const string _valueFieldsTestName = 
+            "ValueFields_ReturnsTwelveErrors";
+        private const string _nullCheckTestName = 
+            "NullCheck_ReturnsOneError";
+        private const string _prefabNullCheckTestName = 
+            "PrefabNullCheck_ReturnsOneError";
+        private const string _linkedNullCheckTestName = 
+            "LinkedNullCheck_ReturnsNoError";
+        private const string _linkedPrefabNullCheckTestName =
+            "LinkedPrefabNullCheck_ReturnsNoErrors";
+        private const string _multiNullCheckTestName = 
+            "MultiNullCheck_ReturnsEightErrors";
+        private const string _linkedMultiNullCheckTestName =
+            "LinkedMultiNullCheck_ReturnsNoErrors";
+        private const string _childNullCheckTestName = 
+            "ChildNullCheck_ReturnsOneError";
+        private const string _childPrefabNullCheckTestName = 
+            "ChildPrefabNullCheck_ReturnsNoErrors";
+        private const string _linkedChildNullCheckTestName =
+            "LinkedChildNullCheck_ReturnsNoErrors";
+        private const string _linkedChildPrefabNullCheckTestName = 
+            "LinkedChildPrefabNullCheck_ReturnsNoErrors";
 
-        private static readonly Dictionary<string, TestCaseData> _instantiatedScenarioData = new()
+        private static readonly 
+            Dictionary<string, TestCaseData> _instantiatedScenarioData = new()
         {
             {
                 _emptyGameObjectTestName,
@@ -110,7 +124,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         [Test]
         [TestCaseSource(nameof(InstantiateGameObjectTests))]
-        public void InstantiateGameObject(NullCheckTestType type, int expectedResult)
+        public void InstantiateGameObject(NullCheckTestType type, 
+            int expectedResult)
         {
             // Assemble
             var copy = Object.Instantiate(_testObjects.Get(type));

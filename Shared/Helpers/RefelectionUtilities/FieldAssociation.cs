@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-  File:           FieldAssociation.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Defines a class representing a field assignment within a 
-                    MonoBehaviour.
-  Copyright:      2024 AlchemicalFlux. All rights reserved.
+File:       FieldAssociation.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Defines a class representing a field assignment within a 
+            MonoBehaviour.
+Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;
@@ -22,16 +22,24 @@ namespace AlchemicalFlux.Utilities.Helpers
     {
         #region Properties
 
-        /// <summary>Gets or sets the FieldInfo object representing the field.</summary>
+        /// <summary>
+        /// Gets or sets the FieldInfo object representing the field.
+        /// </summary>
         public FieldInfo FieldInfo { get; set; }
 
-        /// <summary>Gets or sets the GameObject associated with the field.</summary>
+        /// <summary>
+        /// Gets or sets the GameObject associated with the field.
+        /// </summary>
         public GameObject GameObject { get; set; }
 
-        /// <summary>Gets or sets the MonoBehaviour associated with the field.</summary>
+        /// <summary>
+        /// Gets or sets the MonoBehaviour associated with the field.
+        /// </summary>
         public MonoBehaviour SourceMonoBehaviour { get; set; }
 
-        /// <summary>Used to build object heirarchy path, only if necessary.</summary>
+        /// <summary>
+        /// Used to build object heirarchy path, only if necessary.
+        /// </summary>
         private Stack<string> NameStack { get; set; }
 
         #endregion Properties
@@ -41,8 +49,12 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Initializes a new instance of the FieldAssociation class.
         /// </summary>
-        /// <param name="fieldInfo">The FieldInfo object representing the field.</param>
-        /// <param name="sourceMB">The MonoBehaviour associated with the field.</param>
+        /// <param name="fieldInfo">
+        /// The FieldInfo object representing the field.
+        /// </param>
+        /// <param name="sourceMB">
+        /// The MonoBehaviour associated with the field.
+        /// </param>
         public FieldAssociation(FieldInfo fieldInfo, MonoBehaviour sourceMB)
         {
             FieldInfo = fieldInfo;
@@ -59,7 +71,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 NameStack ??= new(); // Only initialize once.
                 var length = GameObject.name.Length;
-                for(var parent = GameObject.transform.parent; parent != null; parent = parent.transform.parent) 
+                for(var parent = GameObject.transform.parent; 
+                    parent != null; parent = parent.transform.parent) 
                 {
                     NameStack.Push(parent.name);
                     length += parent.name.Length;
@@ -67,8 +80,12 @@ namespace AlchemicalFlux.Utilities.Helpers
                 }
 
                 var builder = new StringBuilder(length + NameStack.Count);
-                for(; NameStack.Count > 0; ) { builder.Append(NameStack.Pop()).Append('/'); }
-                builder.Append(GameObject.name).Append('/').Append(SourceMonoBehaviour.GetType().Name);
+                for(; NameStack.Count > 0; ) 
+                { 
+                    builder.Append(NameStack.Pop()).Append('/'); 
+                }
+                builder.Append(GameObject.name).Append('/')
+                    .Append(SourceMonoBehaviour.GetType().Name);
                 return builder.ToString();
             }
         }
@@ -76,10 +93,14 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// Returns a string representation of the FieldAssociation object.
         /// </summary>
-        /// <returns>String containing the name of the field and its full GameObject hierarchy.</returns>
+        /// <returns>
+        /// String containing the name of the field and its full GameObject 
+        /// hierarchy.
+        /// </returns>
         public override string ToString()
         {
-            return $"[{nameof(FieldAssociation)}: Field = {FieldInfo.Name}, FullName = {FullName}]";
+            return $"[{nameof(FieldAssociation)}: Field = {FieldInfo.Name}, " +
+                $"FullName = {FullName}]";
         }
 
         #endregion Methods

@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           FolderDataController.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Controller associated with the Git operation list view.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       FolderDataController.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Controller associated with the Git operation list view.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using UnityEngine.UIElements;
 
@@ -24,10 +24,14 @@ namespace AlchemicalFlux.Utilities.GitOperations
         /// <summary>Handle to the UI element for the folder path.</summary>
         public Label FolderPathLabel;
 
-        /// <summary>Handle to the UI element for the pre-commit toggle.</summary>
+        /// <summary>
+        /// Handle to the UI element for the pre-commit toggle.
+        /// </summary>
         public Toggle IncludePreCommitsToggle;
 
-        /// <summary>Handle to the UI element for the semantic release toggle.</summary>
+        /// <summary>
+        /// Handle to the UI element for the semantic release toggle.
+        /// </summary>
         public Toggle IncludeSemanticReleaseToggle;
 
         #endregion Members

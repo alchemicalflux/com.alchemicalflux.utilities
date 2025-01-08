@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-  File:           DictionaryExtensionsTests.cs 
-  Project:        AlchemicalFlux Utilities
-  Description:    Unit tests for the DictionaryExtensions.
-  Copyright:      2023-2024 AlchemicalFlux. All rights reserved.
+File:       DictionaryExtensionsTests.cs 
+Project:    AlchemicalFlux Utilities
+Overview:   Unit tests for the DictionaryExtensions.
+Copyright:  2023-2025 AlchemicalFlux. All rights reserved.
 
-  Last commit by: alchemicalflux 
-  Last commit at: 2024-11-30 22:23:47 
+Last commit by: alchemicalflux 
+Last commit at: 2025-01-05 17:05:53 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -40,7 +40,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             { "B2", 2 },
         };
 
-        private static readonly Dictionary<string, int> _noConflictResult = new()
+        private static readonly 
+            Dictionary<string, int> _noConflictResult = new()
         {
             { "A1", 1 },
             { "A2", 2 },
@@ -68,7 +69,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             { "C", 1 },
         };
 
-        private static readonly Dictionary<string, int> _conflictReversedResult = new()
+        private static readonly 
+            Dictionary<string, int> _conflictReversedResult = new()
         {
             { "A", 1 },
             { "B", 2 },
@@ -81,10 +83,13 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         // Invalid Scenario Tests
 
-        private const string _selfIsNullTestName = "SelfIsNull_ThrowArgumentNullException";
-        private const string _otherIsNullTestName = "OtherIsNull_ThrowArgumentNullException";
+        private const string _selfIsNullTestName = 
+            "SelfIsNull_ThrowArgumentNullException";
+        private const string _otherIsNullTestName = 
+            "OtherIsNull_ThrowArgumentNullException";
 
-        private static readonly Dictionary<string, TestCaseData> _invalidScenariosData = new()
+        private static readonly 
+            Dictionary<string, TestCaseData> _invalidScenariosData = new()
         {
             {
                 _selfIsNullTestName,
@@ -97,13 +102,19 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         };
 
         // Merging Scenario Tests
-        private const string _selfIsEmptyTestName = "SelfIsEmpty_ResultMatchesOther";
-        private const string _otherIsEmptyTestName = "OtherIsEmpty_ResultMatchesSelf";
-        private const string _noConflictKeysTestName = "NoConflictKeys_ResultHasAllElements";
-        private const string _dictionariesWithConflictKeysTestName = "DictionariesWithConflictKeys_ResultContainsSelfKeys";
-        private const string _reverseDictionaryOrderTestName = "ReverseDictionaryOrder_ConflictKeyHasDifferentValue";
+        private const string _selfIsEmptyTestName = 
+            "SelfIsEmpty_ResultMatchesOther";
+        private const string _otherIsEmptyTestName = 
+            "OtherIsEmpty_ResultMatchesSelf";
+        private const string _noConflictKeysTestName = 
+            "NoConflictKeys_ResultHasAllElements";
+        private const string _dictionariesWithConflictKeysTestName = 
+            "DictionariesWithConflictKeys_ResultContainsSelfKeys";
+        private const string _reverseDictionaryOrderTestName = 
+            "ReverseDictionaryOrder_ConflictKeyHasDifferentValue";
 
-        private static readonly Dictionary<string, TestCaseData> _mergingScenariosData = new()
+        private static readonly 
+            Dictionary<string, TestCaseData> _mergingScenariosData = new()
         {
             {
                 _selfIsEmptyTestName,
@@ -160,14 +171,16 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void Merge_InvalidParameterTests(Dictionary<string, int> self,
             Dictionary<string, int> other)
         {
-            // Act and Assert - Functor must be called due to expected exception throw check.
+            // Act and Assert - Functor must be called due to expected exception
+            // throw check.
             Assert.That(() => self.Merge(other), Throws.ArgumentNullException);
         }
 
         [Test]
         [TestCaseSource(nameof(MergingScenarios))]
         public void Merge_MergingTests(Dictionary<string, int> self,
-            Dictionary<string, int> other, IEnumerable<KeyValuePair<string,int>> expectedResults)
+            Dictionary<string, int> other, 
+            IEnumerable<KeyValuePair<string,int>> expectedResults)
         {
             // Act
             var result = self.Merge(other);
