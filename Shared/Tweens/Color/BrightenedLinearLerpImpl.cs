@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 12:03:42 
+Last commit at: 2025-01-12 14:12:36 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -23,8 +23,9 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Constants
 
-        private const float Gamma = 0.43f;
-        private const float InverseGamma = 1 / Gamma;
+        private const float _gamma = 0.43f;
+        private const float _inverseGamma = 1 / _gamma;
+        private const float _threshold = 1e-6f;
 
         #endregion Constants
 
@@ -35,23 +36,30 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc/>
         public Color Lerp(in Color start, in Color end, float progress)
         {
-            var sLin = start.linear;
-            var eLin = end.linear;
-            var color = Color.Lerp(sLin, eLin, progress);
+            var sLinear = start.linear;
+            var eLinear = end.linear;
 
+            var sAproxLuminance = sLinear.r + sLinear.g + sLinear.b;
+            var eAproxLuminace = eLinear.r + eLinear.g + eLinear.b;
+
+            // Return early if both linear colors are black.
+            if(sAproxLuminance <= _threshold && 
+                eAproxLuminace <= _threshold) { return start; }
+
+            var color = Color.Lerp(sLinear, eLinear, progress);
             var sum = color.r + color.g + color.b;
-            if(sum != 0)
-            {
-                var bright1 = Mathf.Pow(sLin.r + sLin.g + sLin.b, Gamma);
-                var bright2 = Mathf.Pow(eLin.r + eLin.g + eLin.b, Gamma);
-                var brightness = Mathf.Lerp(bright1, bright2, progress);
-                var intensity = Mathf.Pow(brightness, InverseGamma);
 
-                var factor = intensity / sum;
-                color.r *= factor;
-                color.g *= factor;
-                color.b *= factor;
-            }
+            if(sum <= _threshold) { return color; } // Lerped to black.
+
+            var bright1 = Mathf.Pow(sAproxLuminance, _gamma);
+            var bright2 = Mathf.Pow(eAproxLuminace, _gamma);
+            var brightness = Mathf.Lerp(bright1, bright2, progress);
+            var intensity = Mathf.Pow(brightness, _inverseGamma);
+
+            var factor = intensity / sum;
+            color.r *= factor;
+            color.g *= factor;
+            color.b *= factor;
 
             return color.gamma;
         }
