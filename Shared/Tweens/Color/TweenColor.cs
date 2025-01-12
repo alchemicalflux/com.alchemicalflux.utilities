@@ -5,7 +5,7 @@ Overview:   Implements a two point tween for the Color class.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-01-12 13:37:27 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -17,29 +17,24 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// overrides the `ApplyProgress` method to provide logic for tweening 
     /// colors, including hue, saturation, and value transitions.
     /// </summary>
-    [System.Serializable]
-    public class TweenColor : BasicTween<Color>
+    public sealed class TweenColor : BasicTween<Color>
     {
+        public override Color Start { get; set; }
+        public override Color End { get; set; }
+
+        private ILerpImplementation<Color> LerpImplementation { get; set; }
+
+        public TweenColor(ILerpImplementation<Color> lerp)
+        {
+            LerpImplementation = lerp;
+        }
+
         /// <inheritdoc />
         public override bool ApplyProgress(float progress)
         {
             if(base.ApplyProgress(progress)) { return true; }
 
-            Color.RGBToHSV(Start, out float h1, out float s1, out float v1);
-            Color.RGBToHSV(End, out float h2, out float s2, out float v2);
-
-            // Slerp the hue (ensure the shortest path on the color wheel).
-            float h = Mathf.LerpAngle(h1 * 360f, h2 * 360f, progress);
-            h = Mathf.Repeat(h, 360f) / 360f;
-
-            // Transition the saturation and value consistently between colors.
-            s1 = Mathf.Lerp(s1, s2, progress);
-            v1 = Mathf.Lerp(v1, v2, progress);
-
-            var color = Color.HSVToRGB(h, s1, v1);
-            color.a = Mathf.Lerp(Start.a, End.a, progress);
-
-            OnUpdate?.Invoke(color);
+            OnUpdate?.Invoke(LerpImplementation.Lerp(Start, End, progress));
             return false;
         }
     }
