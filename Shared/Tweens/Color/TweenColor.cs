@@ -5,8 +5,9 @@ Overview:   Implements a two point tween for the Color class.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 13:37:27 
+Last commit at: 2025-01-12 18:44:55 
 ------------------------------------------------------------------------------*/
+using System;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
@@ -19,14 +20,30 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// </summary>
     public sealed class TweenColor : BasicTween<Color>
     {
+        #region Properties
+
         public override Color Start { get; set; }
         public override Color End { get; set; }
 
-        private ILerpImplementation<Color> LerpImplementation { get; set; }
+        private IInterpolation<Color> _interpolation { get; set; }
 
-        public TweenColor(ILerpImplementation<Color> lerp)
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Constructor for the TweenColor class.
+        /// </summary>
+        /// <param name="lerp">
+        /// Linear interpolation that will be traversed using a range of [0-1].
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when lerp arguement is null.
+        /// </exception>
+        public TweenColor(IInterpolation<Color> lerp)
         {
-            LerpImplementation = lerp;
+            if(lerp == null) { throw new ArgumentNullException(nameof(lerp)); }
+            _interpolation = lerp;
         }
 
         /// <inheritdoc />
@@ -34,8 +51,10 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             if(base.ApplyProgress(progress)) { return true; }
 
-            OnUpdate?.Invoke(LerpImplementation.Lerp(Start, End, progress));
+            OnUpdate?.Invoke(_interpolation.Interpolate(Start, End, progress));
             return false;
         }
+
+        #endregion Methods
     }
 }

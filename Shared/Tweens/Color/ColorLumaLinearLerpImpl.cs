@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------------
-File:       BrightenedLinearLerpImpl.cs 
+File:       ColorLumaLinearLerpImpl.cs 
 Project:    AlchemicalFlux Utilities
 Overview:   Implements a Color lerp using the linear color space and color
             intensity to improve from RGB Color transition.
@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 14:12:36 
+Last commit at: 2025-01-12 18:44:55 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// performing the lerp in linear color space and factoring in the intensity
     /// to create a smoother transition for light/dark transitions.
     /// </summary>
-    public class BrightenedLinearLerpImpl : ILerpImplementation<Color>
+    public class ColorLumaLinearLerpImpl : IInterpolation<Color>
     {
         #region Constants
 
@@ -31,10 +31,10 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Methods
 
-        #region ILerpImpementation Implemenation
+        #region IInterpolation Implemenation
 
         /// <inheritdoc/>
-        public Color Lerp(in Color start, in Color end, float progress)
+        public Color Interpolate(in Color start, in Color end, float progress)
         {
             var sLinear = start.linear;
             var eLinear = end.linear;
@@ -64,7 +64,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return color.gamma;
         }
 
-        #endregion ILerpImpementation Implemenation
+        #endregion IInterpolation Implemenation
 
         #endregion Methods
     }

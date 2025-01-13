@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-File:       HSVLerpImpl.cs 
+File:       ColorHSVLerpImpl.cs 
 Project:    AlchemicalFlux Utilities
 Overview:   Implements a Color lerp using the HSV color space to improve from
             RGB Color transition.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 12:03:42 
+Last commit at: 2025-01-12 18:44:55 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -16,14 +16,14 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Coler lerp class that implements a RGB to HSV to RGB conversion,
     /// performing the lerp in HSV color space.
     /// </summary>
-    public class HSVLerpImpl : ILerpImplementation<Color>
+    public class ColorHSVLerpImpl : IInterpolation<Color>
     {
         #region Methods
 
-        #region ILerpImpementation Implemenation
+        #region IInterpolation Implemenation
 
         /// <inheritdoc/>
-        public Color Lerp(in Color start, in Color end, float progress)
+        public Color Interpolate(in Color start, in Color end, float progress)
         {
             Color.RGBToHSV(start, out float h1, out float s1, out float v1);
             Color.RGBToHSV(end, out float h2, out float s2, out float v2);
@@ -41,7 +41,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return color;
         }
 
-        #endregion ILerpImpementation Implemenation
+        #endregion IInterpolation Implemenation
 
         #endregion Methods
     }
