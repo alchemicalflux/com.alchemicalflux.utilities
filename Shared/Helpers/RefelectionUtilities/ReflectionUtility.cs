@@ -5,7 +5,7 @@ Overview:   Utility functions to help with the Reflection process.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-01-20 21:48:56 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -88,8 +88,14 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Helper method to process enumerable fields
             void AddEnumerableChildrenForProcessing(object obj, FieldInfo field)
             {
-                var group = (IEnumerable)field.GetValue(obj);
-                foreach(var iter in group)
+                var group = field.GetValue(obj);
+                if(group == null || 
+                    (group is UnityEngine.Object unityObj && unityObj == null))
+                { 
+                    return;
+                }
+
+                foreach(var iter in (IEnumerable)group)
                 {
                     processing.Push(iter);
                 }
