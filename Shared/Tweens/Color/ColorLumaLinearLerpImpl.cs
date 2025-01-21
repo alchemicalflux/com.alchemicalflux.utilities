@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 18:44:55 
+Last commit at: 2025-01-20 16:48:58 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// performing the lerp in linear color space and factoring in the intensity
     /// to create a smoother transition for light/dark transitions.
     /// </summary>
-    public class ColorLumaLinearLerpImpl : IInterpolation<Color>
+    public class ColorLumaLinearLerpImpl : TwoPointInterpolator<Color>
     {
         #region Constants
 
@@ -29,22 +29,45 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #endregion Constants
 
+        #region Properties
+
+        /// <inheritdoc />
+        public override Color Start { get; set; }
+
+        /// <inheritdoc />
+        public override Color End { get; set; }
+
+        #endregion Properties
+
         #region Methods
+
+        /// <summary>
+        /// Initializes a new instance of the ColorLumaLinearLerpImpl class, 
+        /// which implements color interpolation using gamma-adjusted linear 
+        /// color space.
+        /// </summary>
+        /// <param name="start">The initial color for the interpolation.</param>
+        /// <param name="end">The final color for the interpolation.</param>
+        public ColorLumaLinearLerpImpl(Color start, Color end)
+        {
+            Start = start;
+            End = end;
+        }
 
         #region IInterpolation Implemenation
 
         /// <inheritdoc/>
-        public Color Interpolate(in Color start, in Color end, float progress)
+        public override Color Interpolate(float progress)
         {
-            var sLinear = start.linear;
-            var eLinear = end.linear;
+            var sLinear = Start.linear;
+            var eLinear = End.linear;
 
             var sAproxLuminance = sLinear.r + sLinear.g + sLinear.b;
             var eAproxLuminace = eLinear.r + eLinear.g + eLinear.b;
 
             // Return early if both linear colors are black.
             if(sAproxLuminance <= _threshold && 
-                eAproxLuminace <= _threshold) { return start; }
+                eAproxLuminace <= _threshold) { return Start; }
 
             var color = Color.Lerp(sLinear, eLinear, progress);
             var sum = color.r + color.g + color.b;

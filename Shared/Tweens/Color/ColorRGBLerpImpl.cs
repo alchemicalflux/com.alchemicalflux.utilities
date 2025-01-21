@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using an linear interpolation across all
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 18:44:55 
+Last commit at: 2025-01-20 16:48:58 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -14,21 +14,33 @@ namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
     /// Coler lerp class that implements the naive linear interpolation of all 
-    /// values in the Color struct.
+    /// RGB values in the Color struct.
     /// </summary>
-    public class ColorRGBLerpImpl : IInterpolation<Color>
+    public class ColorRGBLerpImpl : TwoPointInterpolator<Color>
     {
         #region Methods
 
-        #region IInterpolation Implemenation
-        
-        /// <inheritdoc/>
-        public Color Interpolate(in Color start, in Color end, float progress)
+        /// <summary>
+        /// Initializes a new instance of the ColorRGBLerpImpl class, which 
+        /// implements color interpolation using RGB (Red, Green, Blue) color 
+        /// space.
+        /// </summary>
+        /// <param name="start">The initial color for the interpolation.</param>
+        /// <param name="end">The final color for the interpolation.</param>
+        public ColorRGBLerpImpl(Color start, Color end) :
+            base(start, end)
         {
-            return Color.Lerp(start, end, progress);
         }
 
-        #endregion IInterpolation Implemenation
+        #region TwoPointInterpolator Implemenation
+
+        /// <inheritdoc/>
+        public override Color Interpolate(float progress)
+        {
+            return Color.Lerp(Start, End, progress);
+        }
+
+        #endregion TwoPointInterpolator Implemenation
 
         #endregion Methods
     }

@@ -5,7 +5,7 @@ Overview:   Interface for handling the tweening of inheriting structure.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-01-20 16:48:58 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -34,9 +34,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// 'Time' value indicating how far along the tween the structure needs 
         /// to be.
         /// </param>
-        /// <returns>
-        /// Flag indicating if start and end values are identical.
-        /// </returns>
-        bool ApplyProgress(float progress);
+        void ApplyProgress(float progress);
     }
 }
