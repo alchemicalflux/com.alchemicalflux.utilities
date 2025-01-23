@@ -5,7 +5,7 @@ Overview:   Test cases for the WaitManager class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-08 07:47:57 
+Last commit at: 2025-01-20 22:13:14 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;

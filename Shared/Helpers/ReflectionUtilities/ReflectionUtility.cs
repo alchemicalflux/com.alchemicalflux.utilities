@@ -5,7 +5,7 @@ Overview:   Utility functions to help with the Reflection process.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-01-22 21:32:59 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -38,8 +38,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// A list of tuples containing the fields and their corresponding 
         /// attribute instances
         /// </returns>
-        public static 
-            List<(FieldInfo field, T attribute)> GetFieldsWithAttribute<T>(
+        public static List<(FieldInfo field, T attribute)> 
+            GetFieldsWithAttribute<T>(
                 object source,
                 BindingFlags reflectionFlags = BindingFlags.Default,
                 Func<FieldInfo, object, T, bool> attributeIgnoreCheck = null)
@@ -75,21 +75,24 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Helper method to process a field
             void ProcessField(object obj, FieldInfo field)
             {
+                ProcessNonEnumerableField(obj, field);
                 if(enumerable.IsAssignableFrom(field.FieldType))
                 {
                     AddEnumerableChildrenForProcessing(obj, field);
-                }   
-                else
-                {
-                    ProcessNonEnumerableField(obj, field);
                 }
             }
 
             // Helper method to process enumerable fields
             void AddEnumerableChildrenForProcessing(object obj, FieldInfo field)
             {
-                var group = (IEnumerable)field.GetValue(obj);
-                foreach(var iter in group)
+                var group = field.GetValue(obj);
+                if(group == null ||
+                    (group is UnityEngine.Object unityObj && unityObj == null))
+                { 
+                    return;
+                }
+
+                foreach(var iter in (IEnumerable)group)
                 {
                     processing.Push(iter);
                 }
@@ -98,10 +101,18 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Helper method to process non-enumerable fields
             void ProcessNonEnumerableField(object obj, FieldInfo field)
             {
+                // Add non-primitive field values to process queue.
+                var fieldValue = field.GetValue(obj);
+                if(fieldValue != null && !field.FieldType.IsPrimitive &&
+                    field.FieldType != typeof(string))
+                {
+                    processing.Push(fieldValue);
+                }
+
+                // Add field to results if attribute found.
                 var attribute = (T)Attribute.GetCustomAttribute(field, typeOfT);
                 if(attribute == null || 
                     attributeIgnoreCheck(field, obj, attribute)) { return; }
-
                 fieldsWithAttributes.Add((field, attribute));
             }
 
@@ -121,7 +132,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </returns>
         private static FieldInfo[] GetFields(Type type, BindingFlags flags)
         {
-            return flags == 
+            return flags ==
                 BindingFlags.Default ? type.GetFields() : type.GetFields(flags);
         }
 
