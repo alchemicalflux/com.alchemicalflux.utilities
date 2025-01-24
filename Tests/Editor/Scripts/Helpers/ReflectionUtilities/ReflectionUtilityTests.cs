@@ -5,7 +5,7 @@ Overview:   Test cases for the ReflectionUtility class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-22 21:38:19 
+Last commit at: 2025-01-23 21:02:40 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -104,6 +104,92 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             Assert.That(result[0].field.Name, Is.EqualTo("_privateField"));
         }
 
+        [Test]
+        public void GetFieldsWithAttribute_SimpleNodeClass_ReturnsCorrectFields()
+        {
+            // Arrange
+            var testObject = new ClassWithNodeField();
+
+            // Act
+            var result = ReflectionUtility
+                .GetFieldsWithAttribute<StubAttribute>(testObject);
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result[0].field.Name, Is.EqualTo("NodeField"));
+        }
+
+        [Test]
+        public void GetFieldsWithAttribute_MuliNodeClass_ReturnsCorrectFields()
+        {
+            // Arrange
+            var testObject = new ClassWithNodeField()
+            {
+                NodeField = new ClassWithNodeField()
+                {
+                    NodeField = new ClassWithNodeField()
+                }
+            };
+
+            // Act
+            var result = ReflectionUtility
+                .GetFieldsWithAttribute<StubAttribute>(testObject);
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(3));
+            foreach(var value in result)
+            {
+                Assert.That(value.field.Name, Is.EqualTo("NodeField"));
+            }
+        }
+
+        [Test]
+        public void GetFieldsWithAttribute_SimpleMixedNodeClass_ReturnsCorrectFields()
+        {
+            // Arrange
+            var testObject = new ClassWithStructWithNodeField();
+
+            // Act
+            var result = ReflectionUtility
+                .GetFieldsWithAttribute<StubAttribute>(testObject);
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.Count(f => f.field.Name == "NodeField"),
+                Is.EqualTo(1));
+            Assert.That(result.Count(f => f.field.Name == "StructField"),
+                Is.EqualTo(1));
+        }
+
+        [Test]
+        public void GetFieldsWithAttribute_MuliMixedNodeClass_ReturnsCorrectFields()
+        {
+            // Arrange
+            var testObject = new ClassWithStructWithNodeField()
+            {
+                StructField = new StructWithNodeField()
+                {
+                    NodeField = new ClassWithStructWithNodeField()
+                    {
+                        StructField = new StructWithNodeField()
+                    }
+                }
+            };
+
+            // Act
+            var result = ReflectionUtility
+                .GetFieldsWithAttribute<StubAttribute>(testObject);
+
+            // Assert
+            Assert.That(result.Count, Is.EqualTo(4));
+            Assert.That(result.Count(f => f.field.Name == "NodeField"),
+                Is.EqualTo(2));
+            Assert.That(result.Count(f => f.field.Name == "StructField"),
+                Is.EqualTo(2));
+        }
+
+
+
         #endregion Methods
 
         #region Test Types
@@ -141,6 +227,24 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             [StubAttribute]
             private int _privateField;
+        }
+
+        public class ClassWithNodeField
+        {
+            [StubAttribute]
+            public ClassWithNodeField NodeField;
+        }
+
+        public class ClassWithStructWithNodeField
+        {
+            [StubAttribute]
+            public StructWithNodeField StructField;
+        }
+
+        public struct StructWithNodeField
+        {
+            [StubAttribute]
+            public ClassWithStructWithNodeField NodeField;
         }
 
         public sealed class StubAttribute : Attribute { }
