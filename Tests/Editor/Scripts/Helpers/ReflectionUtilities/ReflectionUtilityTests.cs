@@ -5,14 +5,13 @@ Overview:   Test cases for the ReflectionUtility class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-23 18:32:56 
+Last commit at: 2025-01-23 21:02:40 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using static AlchemicalFlux.Utilities.Helpers.Tests.ReflectionUtilityTests.ClassWithStructWithNodeField;
 
 namespace AlchemicalFlux.Utilities.Helpers.Tests
 {
@@ -238,14 +237,14 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
 
         public class ClassWithStructWithNodeField
         {
-            public struct StructWithNodeField
-            {
-                [StubAttribute]
-                public ClassWithStructWithNodeField NodeField;
-            }
-
             [StubAttribute]
             public StructWithNodeField StructField;
+        }
+
+        public struct StructWithNodeField
+        {
+            [StubAttribute]
+            public ClassWithStructWithNodeField NodeField;
         }
 
         public sealed class StubAttribute : Attribute { }
