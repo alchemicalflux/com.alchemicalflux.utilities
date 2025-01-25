@@ -5,7 +5,7 @@ Overview:   Implements the EnumFuncMap with inspector level manipulation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 14:48:23 
+Last commit at: 2025-01-25 01:42:32 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             }
         }
 
-        public TDelegate Func => _map.Func;
+        public TDelegate Func => _map?.Func ?? 
+            EnumFuncMap<TEnum, TDelegate>.DefaultDelegate;
 
         public void AssignFuncs(ICollection<TDelegate> delegates)
         {
