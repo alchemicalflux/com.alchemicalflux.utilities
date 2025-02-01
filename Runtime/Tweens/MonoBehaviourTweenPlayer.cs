@@ -5,7 +5,7 @@ Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-01-31 22:32:16 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -70,7 +70,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             _coroutine = new(this);
             Tweens = new();
-            TimeIncrement = TimeInc;
+            TimeIncrement = DefaultTimeInc;
         }
 
         #endregion Constructors
@@ -113,14 +113,20 @@ namespace AlchemicalFlux.Utilities.Tweens
         public void SnapToStart()
         {
             _coroutine.Stop();
-            foreach(var tween in Tweens) { tween.ApplyProgress(0); }
+            SnapToFrame(0);
         }
 
         /// <inheritdoc />
         public void SnapToEnd()
         {
             _coroutine.Stop();
-            foreach(var tween in Tweens) { tween.ApplyProgress(1); }
+            SnapToFrame(1);
+        }
+
+        public void SnapToTime(float time)
+        {
+            _coroutine.Stop();
+            SnapToFrame(time);
         }
 
         #endregion ITweenPlayer Implementation
@@ -142,6 +148,7 @@ namespace AlchemicalFlux.Utilities.Tweens
                 }
                 yield return null;
             }
+            SnapToFrame(1);
 
             if(HideOnComplete)
             {
@@ -155,9 +162,14 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <returns>
         /// Amount of time that has passed for one cycle of the coroutine.
         /// </returns>
-        private float TimeInc()
+        private float DefaultTimeInc()
         {
             return Time.deltaTime;
+        }
+
+        private void SnapToFrame(float time)
+        {
+            foreach(var tween in Tweens) { tween.ApplyProgress(time); }
         }
 
         #endregion Helpers
