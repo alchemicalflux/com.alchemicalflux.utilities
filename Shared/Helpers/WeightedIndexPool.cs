@@ -7,7 +7,7 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-01 00:17:08 
+Last commit at: 2025-02-03 06:29:19 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace AlchemicalFlux.Utilities.Helpers
     public class WeightedIndexPool
     {
         #region Constants
-        
+
         private static readonly Comparer<Data> _comparer =
             Comparer<Data>.Create((x, y) =>
                 x.WeightRange.CompareTo(y.WeightRange));
@@ -40,7 +40,6 @@ namespace AlchemicalFlux.Utilities.Helpers
         private int _length;
         private Data[] _data;
         private int[] _indexToData;
-        private Func<double> _randomizer;
         private int _offset = 0;
 
         #endregion Fields
@@ -48,6 +47,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Properties
 
         public Func<int, double> _indexToWeight { get; protected set; }
+        public Func<double> _randomizer { get; protected set; }
 
         #endregion Properties
 
@@ -56,6 +56,19 @@ namespace AlchemicalFlux.Utilities.Helpers
         public WeightedIndexPool(int count, Func<int, double> indexToWeight,
             Func<double> randomizer)
         {
+            if(count <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+            if(indexToWeight == null)
+            {
+                throw new ArgumentNullException(nameof(indexToWeight));
+            }
+            if(randomizer == null)
+            {
+                throw new ArgumentNullException(nameof(randomizer));
+            }
+
             _length = count;
             _data = new Data[_length];
             _indexToData = new int[_length];
@@ -75,10 +88,15 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public int PullIndex()
         {
-            var result = PullIndexWithReplacement();
-            //RemoveFromPool(result);
+            var dataIndex = PullIndexWithReplacement();
 
-            return 0;
+            _data[dataIndex].InUse = true;
+            ++_offset;
+            var lastIndex = _length - _offset;
+            Swap(dataIndex, lastIndex);
+
+            RebuildWeights(dataIndex, lastIndex);
+            return _data[lastIndex].RefIndex;
         }
 
         public int PullIndexWithReplacement()
@@ -95,20 +113,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             var dataIndex = Array.BinarySearch(_data, 0, _length - _offset,
                 searchItem, _comparer);
             if(dataIndex < 0) { dataIndex = ~dataIndex; }
-
-            _data[dataIndex].InUse = true;
-            ++_offset;
-            var lastIndex = _length - _offset;
-            Swap(dataIndex, lastIndex);
-
-            var prevValue = (dataIndex == 0) ? 0 : _data[dataIndex - 1].WeightRange;
-            for(var index = 0; index < lastIndex; ++index)
-            {
-                prevValue += _indexToWeight(_data[index].RefIndex);
-                _data[index].WeightRange = prevValue;
-            }
-
-            return _data[lastIndex].RefIndex;
+            return dataIndex;
         }
 
         public void DiscardIndex(int index)
@@ -146,6 +151,15 @@ namespace AlchemicalFlux.Utilities.Helpers
             (_data[index1], _data[index2]) = (_data[index2], _data[index1]);
         }
 
+        private void RebuildWeights(int first, int end)
+        {
+            var prevValue = (first == 0) ? 0 : _data[first - 1].WeightRange;
+            for(; first <= end; ++first)
+            {
+                prevValue += _indexToWeight(_data[first].RefIndex);
+                _data[first].WeightRange = prevValue;
+            }
+        }
         #endregion Methods
     }
 }
