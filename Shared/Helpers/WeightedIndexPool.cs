@@ -7,20 +7,19 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-03 06:29:19 
+Last commit at: 2025-02-04 23:05:08 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
-    public class WeightedIndexPool
+    public sealed class WeightedIndexPool
     {
         #region Constants
 
-        private static readonly Comparer<Data> _comparer =
-            Comparer<Data>.Create((x, y) =>
-                x.WeightRange.CompareTo(y.WeightRange));
+        private static readonly Comparer<Data> _comparer = Comparer<Data>
+            .Create((x, y) => x.WeightRange.CompareTo(y.WeightRange));
 
         #endregion Constants
 
@@ -37,7 +36,6 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Fields
 
-        private int _length;
         private Data[] _data;
         private int[] _indexToData;
         private int _offset = 0;
@@ -46,19 +44,23 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         #region Properties
 
-        public Func<int, double> _indexToWeight { get; protected set; }
-        public Func<double> _randomizer { get; protected set; }
+        public int Capacity { get; private set; }
+
+        public int Count { get; private set; }
+
+        public Func<int, double> IndexToWeight { get; private set; }
+        public Func<double> Randomizer { get; private set; }
 
         #endregion Properties
 
         #region Methods
 
-        public WeightedIndexPool(int count, Func<int, double> indexToWeight,
+        public WeightedIndexPool(int capacity, Func<int, double> indexToWeight,
             Func<double> randomizer)
         {
-            if(count <= 0)
+            if(capacity <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(count));
+                throw new ArgumentOutOfRangeException(nameof(capacity));
             }
             if(indexToWeight == null)
             {
@@ -69,11 +71,11 @@ namespace AlchemicalFlux.Utilities.Helpers
                 throw new ArgumentNullException(nameof(randomizer));
             }
 
-            _length = count;
-            _data = new Data[_length];
-            _indexToData = new int[_length];
-            _indexToWeight = indexToWeight;
-            _randomizer = randomizer;
+            Capacity = Count = capacity;
+            _data = new Data[Capacity];
+            _indexToData = new int[Capacity];
+            IndexToWeight = indexToWeight;
+            Randomizer = randomizer;
             Reset();
         }
 
@@ -92,7 +94,7 @@ namespace AlchemicalFlux.Utilities.Helpers
 
             _data[dataIndex].InUse = true;
             ++_offset;
-            var lastIndex = _length - _offset;
+            var lastIndex = Count - _offset;
             Swap(dataIndex, lastIndex);
 
             RebuildWeights(dataIndex, lastIndex);
@@ -101,16 +103,16 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public int PullIndexWithReplacement()
         {
-            if(_offset >= _length)
+            if(_offset >= Count)
             {
                 throw new InvalidOperationException("No pulls remain.");
             }
 
             var searchItem = new Data()
             {
-                WeightRange = _data[^(_offset + 1)].WeightRange * _randomizer()
+                WeightRange = _data[^(_offset + 1)].WeightRange * Randomizer()
             };
-            var dataIndex = Array.BinarySearch(_data, 0, _length - _offset,
+            var dataIndex = Array.BinarySearch(_data, 0, Count - _offset,
                 searchItem, _comparer);
             if(dataIndex < 0) { dataIndex = ~dataIndex; }
             return dataIndex;
@@ -128,13 +130,24 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
         }
 
+        public IList<int> AvailableIndices()
+        {
+            var available = Count - _offset;
+            var result = new List<int>(available);
+            for(var index = 0; index < available; ++index)
+            {
+                result.Add(_data[index].RefIndex);
+            }
+            return result;
+        }
+
         private void Reset()
         {
             _offset = 0;
             var totalWeight = 0.0;
-            for(var index = 0; index < _length; ++index)
+            for(var index = 0; index < Count; ++index)
             {
-                totalWeight += _indexToWeight(index);
+                totalWeight += IndexToWeight(index);
                 _data[index].RefIndex = index;
                 _data[index].WeightRange = totalWeight;
                 _indexToData[index] = index;
@@ -156,7 +169,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             var prevValue = (first == 0) ? 0 : _data[first - 1].WeightRange;
             for(; first <= end; ++first)
             {
-                prevValue += _indexToWeight(_data[first].RefIndex);
+                prevValue += IndexToWeight(_data[first].RefIndex);
                 _data[first].WeightRange = prevValue;
             }
         }
