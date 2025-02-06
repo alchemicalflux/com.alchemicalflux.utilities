@@ -7,10 +7,11 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-04 23:05:08 
+Last commit at: 2025-02-06 00:10:54 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
@@ -29,7 +30,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             public int RefIndex;
             public double WeightRange;
-            public bool InUse;
+            public bool IsLocked;
         }
 
         #endregion Definitions
@@ -92,7 +93,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             var dataIndex = PullIndexWithReplacement();
 
-            _data[dataIndex].InUse = true;
+            _data[dataIndex].IsLocked = true;
             ++_offset;
             var lastIndex = Count - _offset;
             Swap(dataIndex, lastIndex);
@@ -120,14 +121,37 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         public void DiscardIndex(int index)
         {
+            MarkAsUnlocked(index);
         }
 
         public void ReturnIndex(int index)
         {
+            var dataIndex = MarkAsUnlocked(index);
+            var last = Count - _offset;
+            Swap(dataIndex, last);
+            --_offset;
+
+            _data[last].WeightRange = IndexToWeight(_data[last].RefIndex) + 
+                PrevIndexWeight(last);
         }
 
         public void Shuffle()
         {
+            // Find first unlocked index from end of pool.
+            var right = Count - 1;
+            for(; right >= 0 && _data[right].IsLocked; --right) {}
+            if(right < 0) { return; } // No indices are unlocked for shuffle.
+
+            // Group remaining locked indices to the end of the pool.
+            for(var left = 0; left < right; )
+            {
+                for(; left < right && !_data[left].IsLocked; ++left) {}
+                for(; left < right && _data[right].IsLocked; --right) {}
+                if(left < right) { Swap(left, right); }
+            }
+            _offset = Count - ++right;
+
+            RebuildWeights(0, right);
         }
 
         public IList<int> AvailableIndices()
@@ -139,6 +163,21 @@ namespace AlchemicalFlux.Utilities.Helpers
                 result.Add(_data[index].RefIndex);
             }
             return result;
+        }
+
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            for(var index = 0; index < Capacity; ++index)
+            {
+                var val = _data[index];
+                builder.AppendLine(
+                    $"Index:  {index}, " +
+                    $"RefIdx: {val.RefIndex}, " +
+                    $"WgtRng: {val.WeightRange}, " +
+                    $"IsRem:  {val.IsLocked}");
+            }
+            return builder.ToString();
         }
 
         private void Reset()
@@ -166,13 +205,31 @@ namespace AlchemicalFlux.Utilities.Helpers
 
         private void RebuildWeights(int first, int end)
         {
-            var prevValue = (first == 0) ? 0 : _data[first - 1].WeightRange;
-            for(; first <= end; ++first)
+            var prevValue = PrevIndexWeight(first);
+            for(; first < end; ++first)
             {
                 prevValue += IndexToWeight(_data[first].RefIndex);
                 _data[first].WeightRange = prevValue;
             }
         }
+
+        private double PrevIndexWeight(int index)
+        {
+            return (index == 0) ? 0 : _data[index - 1].WeightRange;
+        }
+
+        private int MarkAsUnlocked(int index)
+        {
+            var dataIndex = _indexToData[index];
+            if(!_data[dataIndex].IsLocked)
+            {
+                throw new InvalidOperationException(
+                    $"Index {index} already marked as unlocked.");
+            }
+            _data[dataIndex].IsLocked = false;
+            return dataIndex;
+        }
+
         #endregion Methods
     }
 }
