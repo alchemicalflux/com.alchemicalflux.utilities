@@ -5,7 +5,7 @@ Overview:   Test cases for the WeightedIndexPool class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-04 23:05:59 
+Last commit at: 2025-02-09 09:49:40 
 ------------------------------------------------------------------------------*/
 
 using NUnit.Framework;
@@ -93,6 +93,32 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             // Assert
             Assert.AreEqual(pool.Count, _maxCapacity);
         }
+
+        [Test]
+        public void HasIndices_AccessingUnpulledPool_ReturnsTrue()
+        {
+            // Arrange
+            var pool =
+                new WeightedIndexPool(1, SingleWeight, DrawFirst);
+
+            // Assert
+            Assert.IsTrue(pool.HasIndices);
+        }
+
+        [Test]
+        public void HasIndices_AccessingFullyPulledPool_ReturnsFalse()
+        {
+            // Arrange
+            var pool =
+                new WeightedIndexPool(1, SingleWeight, DrawFirst);
+
+            // Act
+            pool.PullIndex();
+
+            // Assert
+            Assert.IsFalse(pool.HasIndices);
+        }
+
 
         #endregion Constructors Tests
 
