@@ -7,7 +7,7 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-06 00:10:54 
+Last commit at: 2025-02-09 09:49:13 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -48,6 +48,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         public int Capacity { get; private set; }
 
         public int Count { get; private set; }
+
+        public bool HasIndices => Count > _offset;
 
         public Func<int, double> IndexToWeight { get; private set; }
         public Func<double> Randomizer { get; private set; }
@@ -165,13 +167,40 @@ namespace AlchemicalFlux.Utilities.Helpers
             return result;
         }
 
+        public IList<int> PulledIndices()
+        {
+            var result = new List<int>();
+            for(var index = _offset; index > 0; --index)
+            {
+                if(_data[^index].IsLocked) 
+                { 
+                    result.Add(_data[^index].RefIndex); 
+                }
+            }
+            return result;
+        }
+
+        public IList<int> DiscardedIndices()
+        {
+            var result = new List<int>();
+            for(var index = _offset; index > 0; --index)
+            {
+                if(!_data[^index].IsLocked)
+                {
+                    result.Add(_data[^index].RefIndex);
+                }
+            }
+            return result;
+        }
+
         public override string ToString()
         {
             var builder = new StringBuilder();
+            builder.AppendLine($"Capacity: {Capacity}, Count: {Count}, Offset: {_offset}");
             for(var index = 0; index < Capacity; ++index)
             {
                 var val = _data[index];
-                builder.AppendLine(
+                builder.AppendLine($"  " +
                     $"Index:  {index}, " +
                     $"RefIdx: {val.RefIndex}, " +
                     $"WgtRng: {val.WeightRange}, " +
