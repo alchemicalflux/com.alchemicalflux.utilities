@@ -5,7 +5,7 @@ Overview:   Implements a Vector2 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 20:21:36 
+Last commit at: 2025-02-16 02:36:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -31,7 +31,7 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region TwoPointInterpolator Implemenation
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override Vector2 Interpolate(float progress)
         {
             return Vector2.Lerp(Start, End, progress);

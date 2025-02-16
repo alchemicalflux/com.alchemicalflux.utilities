@@ -5,7 +5,7 @@ Overview:   Implements a Vector3 spherical interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 20:21:36 
+Last commit at: 2025-02-16 02:36:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -26,12 +26,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         /// <param name="start">The initial vector for interpolation.</param>
         /// <param name="end">The final vector for interpolation.</param>
-        public Vector3SlerpImpl(Vector2 start, Vector2 end) :
+        public Vector3SlerpImpl(Vector3 start, Vector3 end) :
             base(start, end)
         {
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override Vector3 Interpolate(float progress)
         {
             return Vector3.Slerp(Start, End, progress);

@@ -5,7 +5,7 @@ Overview:   Implements an unclamped Vector3 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 20:21:36 
+Last commit at: 2025-02-16 02:36:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -31,7 +31,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override Vector3 Interpolate(float progress)
         {
             return Vector3.LerpUnclamped(Start, End, progress);
