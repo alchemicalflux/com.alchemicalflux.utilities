@@ -7,7 +7,7 @@ Overview:   Implements a singleton class for the generation and storage of
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-19 03:05:11 
+Last commit at: 2025-02-23 23:00:22 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -61,7 +61,7 @@ namespace AlchemicalFlux.Utilities.Math
         /// </summary>
         /// <param name="row">0-based row index to be returned.</param>
         /// <returns>The full row from Pascal's Triangle.</returns>
-        static public ReadOnlySpan<BigInteger> GetRow(int row)
+        static public IReadOnlyList<BigInteger> GetRow(int row)
         {
             return Get.GetRowImpl(row);
         }
@@ -107,7 +107,7 @@ namespace AlchemicalFlux.Utilities.Math
         /// </summary>
         /// <param name="row">0-based row index to be returned.</param>
         /// <returns>The full row from Pascal's Triangle.</returns>
-        private ReadOnlySpan<BigInteger> GetRowImpl(int row)
+        private IReadOnlyList<BigInteger> GetRowImpl(int row)
         {
             var curRow = GetHalfRow(row);
             var expanded = new BigInteger[row + 1];
