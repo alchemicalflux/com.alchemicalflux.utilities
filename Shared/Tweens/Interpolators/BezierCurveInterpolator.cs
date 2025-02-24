@@ -5,10 +5,9 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-24 00:51:59 
+Last commit at: 2025-02-24 02:00:04 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
-using System;
 using System.Collections.Generic;
 using System.Numerics;
 
