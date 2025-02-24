@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-23 23:00:22 
+Last commit at: 2025-02-23 23:22:42 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
@@ -35,7 +35,7 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Methods
 
-        protected BezierCurveInterpolator()
+        public BezierCurveInterpolator()
         {
         }
 
@@ -47,6 +47,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         public virtual TType Interpolate(float progress)
         {
             if(Nodes.Count != _nodeCount) { RebuildNodes(); }
+            if(_nodeCount == 0) { return default; }
 
             var invProg = 1 - progress;
             var mult = 1f;
@@ -74,16 +75,17 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         protected void RebuildNodes()
         {
-            var count = Nodes.Count;
-            if(_tempMults.Count < count)
+            _nodeCount = Nodes.Count;
+            if(_nodeCount == 0) { return; }
+
+            if(_tempMults.Count < _nodeCount)
             {
-                for(var iter = _tempMults.Count; iter < count; ++iter)
+                for(var iter = _tempMults.Count; iter < _nodeCount; ++iter)
                 {
                     _tempMults.Add(0);
                 }
             }
-            _pascalTriangleRow = PascalsTriangle.GetRow(count - 1);
-            _nodeCount = count;
+            _pascalTriangleRow = PascalsTriangle.GetRow(_nodeCount - 1);
         }
 
         #endregion Methods
