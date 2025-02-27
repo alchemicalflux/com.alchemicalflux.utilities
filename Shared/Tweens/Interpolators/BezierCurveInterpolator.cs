@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-24 02:00:04 
+Last commit at: 2025-02-27 13:02:05 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
@@ -26,6 +26,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         protected int _nodeCount = int.MinValue;
 
+        /// <summary>
+        /// Intermediary storage for the Nodes property.
+        /// </summary>
+        private IList<TType> _nodes = new List<TType>();
+
         #endregion Fields
 
         #region Properties
@@ -33,7 +38,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// List of nodes to be used to generate the Bezier curve.
         /// </summary>
-        public IList<TType> Nodes { get; set; }
+        public IList<TType> Nodes 
+        { 
+            get { return _nodes; }
+            set { _nodes = value; RebuildNodes(); }
+        }
 
         /// <summary>
         /// List of Pascal's Triangle values for a given row of the triangle.
@@ -43,7 +52,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// A permanent list for generating multipliers for interpolation.
         /// </summary>
-        protected List<float> TempMults { get; set; }
+        protected List<float> TempMults { get; set; } = new();
 
         #endregion Properties
 
@@ -54,7 +63,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         public BezierCurveInterpolator()
         {
-            TempMults = new();
         }
 
         /// <summary>
@@ -63,7 +71,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <param name="nodes">
         /// Reference to the list of nodes for generating the Bezier curve.
         /// </param>
-        public BezierCurveInterpolator(IList<TType> nodes) : base()
+        public BezierCurveInterpolator(IList<TType> nodes)
         {
             Nodes = nodes;
         }
@@ -124,7 +132,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Rebuilds TempMults and PascalTriangleRow to cover the current Nodes
         /// size for safe interpolation calculations.
         /// </summary>
-        protected void RebuildNodes()
+        protected virtual void RebuildNodes()
         {
             _nodeCount = Nodes.Count;
             if(_nodeCount == 0) { return; }
