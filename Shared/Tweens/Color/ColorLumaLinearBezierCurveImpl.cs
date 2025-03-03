@@ -6,29 +6,22 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-27 13:02:05 
+Last commit at: 2025-03-03 01:01:35 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
+    using Constants = Constants.ColorConstants;
+
     /// <summary>
     /// Class that implements a Bezier curve interpolation in the linear color 
     /// space while factoring in the intensity.
-    /// space.
     /// </summary>
     public sealed class ColorLumaLinearBezierCurveImpl
         : BezierCurveInterpolator<Color>
     {
-        #region Constants
-
-        private const float _gamma = 0.43f;
-        private const float _inverseGamma = 1 / _gamma;
-        private const float _threshold = 1e-6f;
-
-        #endregion Constants
-
         #region Fields
 
         private List<Color> _linearNodes = new();
@@ -67,6 +60,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             if(Nodes.Count != _nodeCount) { RebuildNodes(); }
             if(_nodeCount == 0) { return default; }
+            if(_nodeCount == 1) { return Nodes[0]; }
 
             GenerateInterpolationMultipliers(progress, 1 - progress);
 
@@ -74,14 +68,15 @@ namespace AlchemicalFlux.Utilities.Tweens
             var brightness = _brightnesses[0] * TempMults[0]; 
             for(var index = 1; index < _nodeCount; ++index)
             {
-                AddTo(ref color, MultiplyBy(_linearNodes[index], TempMults[index]));
+                AddTo(ref color, MultiplyBy(_linearNodes[index], 
+                    TempMults[index]));
                 brightness += _brightnesses[index] * TempMults[index];
             }
 
             var sum = color.r + color.g + color.b;
-            if(sum <= _threshold) { return color; } // Lerped to black.
+            if(sum <= Constants.Threshold) { return color; } // Lerped to black.
             
-            var intensity = Mathf.Pow(brightness, _inverseGamma);
+            var intensity = Mathf.Pow(brightness, Constants.InverseGamma);
             var factor = intensity / sum;
             color.r *= factor;
             color.g *= factor;
@@ -102,7 +97,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             for(var index = 0; index < _nodeCount; ++index)
             {
                 var node = _linearNodes[index] = Nodes[index].linear;
-                _brightnesses[index] = Mathf.Pow(node.r + node.g + node.b, _gamma);
+                _brightnesses[index] = Mathf.Pow(node.r + node.g + node.b, 
+                    Constants.Gamma);
             }
         }
 
