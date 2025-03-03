@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the HSV color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:48:58 
+Last commit at: 2025-03-02 22:50:48 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -18,6 +18,53 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// </summary>
     public class ColorHSVLerpImpl : TwoPointInterpolator<Color>
     {
+        #region Fields
+
+        /// <summary>Precalulated HSV values for Start color.</summary>
+        private float _hStart, _sStart, _vStart;
+
+        /// <summary>Precalulated HSV values for End color.</summary>
+        private float _hEnd, _sEnd, _vEnd;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <inheritdoc />
+        public override Color Start
+        {
+            get
+            {
+                return base.Start;
+            }
+            set
+            {
+                base.Start = value;
+                // Generate and store HSV precalculation variables.
+                Color.RGBToHSV(base.Start, out _hStart, out _sStart, 
+                    out _vStart);
+                _hStart *= 360f;
+            }
+        }
+
+        /// <inheritdoc />
+        public override Color End
+        {
+            get
+            {
+                return base.End;
+            }
+            set
+            {
+                base.End = value;
+                // Generate and store HSV precalculation variables.
+                Color.RGBToHSV(base.End, out _hEnd, out _sEnd, out _vEnd);
+                _hEnd *= 360f;
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
 
         /// <summary>
@@ -37,18 +84,15 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc/>
         public override Color Interpolate(float progress)
         {
-            Color.RGBToHSV(Start, out float h1, out float s1, out float v1);
-            Color.RGBToHSV(End, out float h2, out float s2, out float v2);
-
             // Slerp the hue (ensure the shortest path on the color wheel).
-            float h = Mathf.LerpAngle(h1 * 360f, h2 * 360f, progress);
+            var h = Mathf.LerpAngle(_hStart, _hEnd, progress);
             h = Mathf.Repeat(h, 360f) / 360f;
 
             // Transition the saturation and value consistently between colors.
-            s1 = Mathf.Lerp(s1, s2, progress);
-            v1 = Mathf.Lerp(v1, v2, progress);
+            var s = Mathf.Lerp(_sStart, _sEnd, progress);
+            var v = Mathf.Lerp(_vStart, _vEnd, progress);
 
-            var color = Color.HSVToRGB(h, s1, v1);
+            var color = Color.HSVToRGB(h, s, v);
             color.a = Mathf.Lerp(Start.a, End.a, progress);
             return color;
         }
