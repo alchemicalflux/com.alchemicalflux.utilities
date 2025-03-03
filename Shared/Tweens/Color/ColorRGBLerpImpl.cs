@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using an linear interpolation across all
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:48:58 
+Last commit at: 2025-03-03 01:59:43 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Coler lerp class that implements the naive linear interpolation of all 
     /// RGB values in the Color struct.
     /// </summary>
-    public class ColorRGBLerpImpl : TwoPointInterpolator<Color>
+    public sealed class ColorRGBLerpImpl : TwoPointInterpolator<Color>
     {
         #region Methods
 

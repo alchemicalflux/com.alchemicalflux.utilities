@@ -5,7 +5,7 @@ Overview:   Implements a Vector3 spherical interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-16 02:36:05 
+Last commit at: 2025-03-03 01:59:43 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Class that implements an unclamped Vector3 spherical interpolation.
     /// </summary>
-    public class Vector3SlerpImpl : TwoPointInterpolator<Vector3>
+    public sealed class Vector3SlerpImpl : TwoPointInterpolator<Vector3>
     {
         #region Methods
 

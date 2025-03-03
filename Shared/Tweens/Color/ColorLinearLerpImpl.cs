@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the linear color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:48:58 
+Last commit at: 2025-03-03 01:59:43 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -16,8 +16,44 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Coler lerp class that implements a RGB to linear to RGB conversion,
     /// performing the lerp in linear color space.
     /// </summary>
-    public class ColorLinearLerpImpl : TwoPointInterpolator<Color>
+    public sealed class ColorLinearLerpImpl : TwoPointInterpolator<Color>
     {
+        #region Fields
+
+        /// <summary>Precalulated linear space for Start color.</summary>
+        private Color _sLinear;
+
+        /// <summary>Precalulated linear space for End color.</summary>
+        private Color _eLinear;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <inheritdoc />
+        public override Color Start
+        {
+            get => base.Start;
+            set
+            {
+                base.Start = value;
+                _sLinear = base.Start.linear;
+            }
+        }
+
+        /// <inheritdoc />
+        public override Color End
+        {
+            get => base.End;
+            set
+            {
+                base.End = value;
+                _eLinear = base.End.linear;
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
 
         /// <summary>
@@ -36,7 +72,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc/>
         public override Color Interpolate(float progress)
         {
-            return Color.Lerp(Start, End, progress).gamma;
+            return Color.Lerp(_sLinear, _eLinear, progress).gamma;
         }
 
         #endregion TwoPointInterpolator Implemenation

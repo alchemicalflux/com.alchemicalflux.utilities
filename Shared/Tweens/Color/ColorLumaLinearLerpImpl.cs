@@ -8,34 +8,62 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:48:58 
+Last commit at: 2025-03-03 01:59:43 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
+    using Comsts = Constants.ColorConstants;
+
     /// <summary>
     /// Coler lerp class that implements a RGB to linear to RGB conversion,
     /// performing the lerp in linear color space and factoring in the intensity
     /// to create a smoother transition for light/dark transitions.
     /// </summary>
-    public class ColorLumaLinearLerpImpl : TwoPointInterpolator<Color>
+    public sealed class ColorLumaLinearLerpImpl : TwoPointInterpolator<Color>
     {
-        #region Constants
+        #region Fields
 
-        private const float _gamma = 0.43f;
-        private const float _inverseGamma = 1 / _gamma;
-        private const float _threshold = 1e-6f;
+        /// <summary>Precalulated linear space for Start color.</summary>
+        private Color _sLinear;
+        /// <summary>Precalulated luma values for Start color.</summary>
+        private float _sLumaApproximate, _sBrightness;
 
-        #endregion Constants
+        /// <summary>Precalulated linear space for End color.</summary>
+        private Color _eLinear;
+        /// <summary>Precalulated luma values for End color.</summary>
+        private float _eLumaApproximate, _eBrightness;
+
+        #endregion Fields
 
         #region Properties
 
         /// <inheritdoc />
-        public override Color Start { get; set; }
+        public override Color Start 
+        {
+            get => base.Start; 
+            set
+            {
+                base.Start = value;
+                _sLinear = base.Start.linear;
+                _sLumaApproximate = _sLinear.r + _sLinear.g + _sLinear.b;
+                _sBrightness = Mathf.Pow(_sLumaApproximate, Comsts.Gamma);
+            }
+        }
 
         /// <inheritdoc />
-        public override Color End { get; set; }
+        public override Color End
+        {
+            get => base.End;
+            set
+            {
+                base.End = value;
+                _eLinear = base.End.linear;
+                _eLumaApproximate = _eLinear.r + _eLinear.g + _eLinear.b;
+                _eBrightness = Mathf.Pow(_eLumaApproximate, Comsts.Gamma);
+            }
+        }
 
         #endregion Properties
 
@@ -48,10 +76,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         /// <param name="start">The initial color for the interpolation.</param>
         /// <param name="end">The final color for the interpolation.</param>
-        public ColorLumaLinearLerpImpl(Color start, Color end)
-        {
-            Start = start;
-            End = end;
+        public ColorLumaLinearLerpImpl(Color start, Color end) : 
+            base(start, end) 
+        { 
         }
 
         #region IInterpolation Implemenation
@@ -59,25 +86,17 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc/>
         public override Color Interpolate(float progress)
         {
-            var sLinear = Start.linear;
-            var eLinear = End.linear;
-
-            var sAproxLuminance = sLinear.r + sLinear.g + sLinear.b;
-            var eAproxLuminace = eLinear.r + eLinear.g + eLinear.b;
-
             // Return early if both linear colors are black.
-            if(sAproxLuminance <= _threshold && 
-                eAproxLuminace <= _threshold) { return Start; }
+            if(_sLumaApproximate <= Comsts.Threshold &&
+                _eLumaApproximate <= Comsts.Threshold) { return Start; }
 
-            var color = Color.Lerp(sLinear, eLinear, progress);
+            var color = Color.Lerp(_sLinear, _eLinear, progress);
             var sum = color.r + color.g + color.b;
 
-            if(sum <= _threshold) { return color; } // Lerped to black.
+            if(sum <= Comsts.Threshold) { return color; } // Lerped to black.
 
-            var bright1 = Mathf.Pow(sAproxLuminance, _gamma);
-            var bright2 = Mathf.Pow(eAproxLuminace, _gamma);
-            var brightness = Mathf.Lerp(bright1, bright2, progress);
-            var intensity = Mathf.Pow(brightness, _inverseGamma);
+            var brightness = Mathf.Lerp(_sBrightness, _eBrightness, progress);
+            var intensity = Mathf.Pow(brightness, Comsts.InverseGamma);
 
             var factor = intensity / sum;
             color.r *= factor;

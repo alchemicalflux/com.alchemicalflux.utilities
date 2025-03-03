@@ -5,7 +5,7 @@ Overview:   Implements a clamped Quaternion linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-16 02:37:27 
+Last commit at: 2025-03-03 01:59:43 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Class that implements a clamped Quaternion spherical interpolation.
     /// </summary>
-    public class QuaternionLerpImpl : TwoPointInterpolator<Quaternion>
+    public sealed class QuaternionLerpImpl : TwoPointInterpolator<Quaternion>
     {
         #region Methods
 

@@ -5,7 +5,7 @@ Overview:   Implements a Vector2 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-16 02:36:05 
+Last commit at: 2025-03-03 01:59:43 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Class that implements a clamped Vector2 linear interpolation.
     /// </summary>
-    public class Vector2LerpImpl : TwoPointInterpolator<Vector2>
+    public sealed class Vector2LerpImpl : TwoPointInterpolator<Vector2>
     {
         #region Methods
 
