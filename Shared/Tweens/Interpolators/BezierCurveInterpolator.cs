@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-27 13:02:05 
+Last commit at: 2025-03-05 20:03:39 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
@@ -22,26 +22,26 @@ namespace AlchemicalFlux.Utilities.Tweens
         #region Fields
 
         /// <summary>
-        /// Tracks the currently configured node count setting.
-        /// </summary>
-        protected int _nodeCount = int.MinValue;
-
-        /// <summary>
         /// Intermediary storage for the Nodes property.
         /// </summary>
-        private IList<TType> _nodes = new List<TType>();
+        private List<TType> _nodes;
 
         #endregion Fields
 
         #region Properties
 
         /// <summary>
+        /// Tracks the currently configured node count setting.
+        /// </summary>
+        public int NodeCount { get; protected set; } = int.MinValue;
+
+        /// <summary>
         /// List of nodes to be used to generate the Bezier curve.
         /// </summary>
         public IList<TType> Nodes 
         { 
-            get { return _nodes; }
-            set { _nodes = value; RebuildNodes(); }
+            get { return _nodes.AsReadOnly(); }
+            set { _nodes = new List<TType>(value); RebuildNodes(); }
         }
 
         /// <summary>
@@ -63,6 +63,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         public BezierCurveInterpolator()
         {
+            Nodes = new List<TType>();
         }
 
         /// <summary>
@@ -79,13 +80,13 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public virtual TType Interpolate(float progress)
         {
-            if(Nodes.Count != _nodeCount) { RebuildNodes(); }
-            if(_nodeCount == 0) { return default; }
+            if(Nodes.Count != NodeCount) { RebuildNodes(); }
+            if(NodeCount == 0) { return default; }
 
             GenerateInterpolationMultipliers(progress, 1 - progress);
 
             TType result = MultiplyBy(Nodes[0], TempMults[0]);
-            for(var index = 1; index < _nodeCount; ++index)
+            for(var index = 1; index < NodeCount; ++index)
             {
                 AddTo(ref result, MultiplyBy(Nodes[index], TempMults[index]));
             }
@@ -102,13 +103,13 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             TempMults[0] = (float)PascalTriangleRow[0];
             var mult = prog;
-            for(var index = 1; index < _nodeCount; ++index, mult *= prog)
+            for(var index = 1; index < NodeCount; ++index, mult *= prog)
             {
                 TempMults[index] = (float)PascalTriangleRow[index];
                 TempMults[index] *= mult;
             }
             mult = invProg;
-            for(var index = 2; index <= _nodeCount; ++index, mult *= invProg)
+            for(var index = 2; index <= NodeCount; ++index, mult *= invProg)
             {
                 TempMults[^index] *= mult;
             }
@@ -134,17 +135,17 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         protected virtual void RebuildNodes()
         {
-            _nodeCount = Nodes.Count;
-            if(_nodeCount == 0) { return; }
+            NodeCount = Nodes.Count;
+            if(NodeCount == 0) { return; }
 
-            if(TempMults.Count < _nodeCount)
+            if(TempMults.Count < NodeCount)
             {
-                for(var iter = TempMults.Count; iter < _nodeCount; ++iter)
+                for(var iter = TempMults.Count; iter < NodeCount; ++iter)
                 {
                     TempMults.Add(0);
                 }
             }
-            PascalTriangleRow = PascalsTriangle.GetRow(_nodeCount - 1);
+            PascalTriangleRow = PascalsTriangle.GetRow(NodeCount - 1);
         }
 
         #endregion Methods

@@ -6,7 +6,7 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:01:35 
+Last commit at: 2025-03-05 20:03:39 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,6 +43,10 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
+        #endregion Methods
+
+        #region BezierCurveInterpolator Implementation
+
         /// <inheritdoc />
         protected override void AddTo(ref Color result, Color node)
         {
@@ -58,15 +62,15 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
-            if(Nodes.Count != _nodeCount) { RebuildNodes(); }
-            if(_nodeCount == 0) { return default; }
-            if(_nodeCount == 1) { return Nodes[0]; }
+            if(Nodes.Count != NodeCount) { RebuildNodes(); }
+            if(NodeCount == 0) { return default; }
+            if(NodeCount == 1) { return Nodes[0]; }
 
             GenerateInterpolationMultipliers(progress, 1 - progress);
 
             var color = MultiplyBy(_linearNodes[0], TempMults[0]);
             var brightness = _brightnesses[0] * TempMults[0]; 
-            for(var index = 1; index < _nodeCount; ++index)
+            for(var index = 1; index < NodeCount; ++index)
             {
                 AddTo(ref color, MultiplyBy(_linearNodes[index], 
                     TempMults[index]));
@@ -88,13 +92,13 @@ namespace AlchemicalFlux.Utilities.Tweens
         protected override void RebuildNodes()
         {
             base.RebuildNodes();
-            while(_linearNodes.Count < _nodeCount)
+            while(_linearNodes.Count < NodeCount) // Ensure max size matches.
             {
                 _linearNodes.Add(default);
                 _brightnesses.Add(default);
             }
 
-            for(var index = 0; index < _nodeCount; ++index)
+            for(var index = 0; index < NodeCount; ++index)
             {
                 var node = _linearNodes[index] = Nodes[index].linear;
                 _brightnesses[index] = Mathf.Pow(node.r + node.g + node.b, 
@@ -102,6 +106,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             }
         }
 
-        #endregion Methods
+        #endregion BezierCurveInterpolator Implementation
     }
 }
