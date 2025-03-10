@@ -6,14 +6,20 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:48:58 
+Last commit at: 2025-03-10 00:28:19 
 ------------------------------------------------------------------------------*/
+using AlchemicalFlux.Utilities.Events;
 using System;
-using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
-    public class BaseTween<TType> : ITween where TType : IEquatable<TType>
+    /// <summary>
+    /// Implements a foundational component for performing tweens using
+    /// interpolator and easing components to generate a transitional value.
+    /// </summary>
+    /// <typeparam name="TType">The type of the value being tweened.</typeparam>
+    public class BaseTween<TType> : ITween, IOnUpdateEvent<TType>
+        where TType : IEquatable<TType>
     {
         #region Members
 
@@ -27,8 +33,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Handle allowing for updating of associated value.
         /// Required as referencing gets wonky, especially with value types.
         /// </summary>
-        [SerializeField]
-        public Action<TType> OnUpdate;
+        protected Action<TType> OnUpdate;
 
         #endregion Members
 
@@ -61,6 +66,20 @@ namespace AlchemicalFlux.Utilities.Tweens
         public void ApplyProgress(float progress)
         {
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
+        }
+
+        /// <summary>Adds an update listener.</summary>
+        /// <param name="action">The action to be called on update.</param>
+        public void AddOnUpdateListener(Action<TType> action)
+        {
+            OnUpdate += action;
+        }
+
+        /// <summary>Removes an update listener.</summary>
+        /// <param name="action">The action to be removed.</param>
+        public void RemoveOnUpdateListener(Action<TType> action)
+        {
+            OnUpdate -= action;
         }
 
         #endregion Methods
