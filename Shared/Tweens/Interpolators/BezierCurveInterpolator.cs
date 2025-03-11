@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-05 20:03:39 
+Last commit at: 2025-03-11 05:00:37 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
@@ -38,8 +38,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// List of nodes to be used to generate the Bezier curve.
         /// </summary>
-        public IList<TType> Nodes 
-        { 
+        public IList<TType> Nodes
+        {
             get { return _nodes.AsReadOnly(); }
             set { _nodes = new List<TType>(value); RebuildNodes(); }
         }
@@ -67,7 +67,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <summary>
-        /// Parametered constructor for the BezierCurveInterpolator class.
+        /// Parameterized constructor for the BezierCurveInterpolator class.
         /// </summary>
         /// <param name="nodes">
         /// Reference to the list of nodes for generating the Bezier curve.
@@ -98,7 +98,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         /// <param name="prog">Progress from 0.</param>
         /// <param name="invProg">The opposite progression from 1.</param>
-        protected virtual void GenerateInterpolationMultipliers(float prog, 
+        protected virtual void GenerateInterpolationMultipliers(float prog,
             float invProg)
         {
             TempMults[0] = (float)PascalTriangleRow[0];
@@ -125,8 +125,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// Required function that multiplies the result by a fractional value.
         /// </summary>
-        /// <param name="result">TType value to be multiplied.</param>
-        /// <param name="node">Value to be multiplied by.</param>
+        /// <param name="node">TType value to be multiplied.</param>
+        /// <param name="progress">Value to be multiplied by.</param>
         protected abstract TType MultiplyBy(TType node, float progress);
 
         /// <summary>

@@ -5,7 +5,7 @@ Overview:   Interface for generic interpolations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:05:46 
+Last commit at: 2025-03-11 05:00:37 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -22,7 +22,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Interpolation value, typically expected to be between [0-1] but not 
         /// guaranteed.
         /// </param>
-        /// <returns> A value generated based of the progress amount. </returns>
-        public TType Interpolate(float progress);
+        /// <returns> A value generated based on the progress amount. </returns>
+        TType Interpolate(float progress);
     }
 }
