@@ -6,7 +6,7 @@ Overview:   Contains easing functions that convert a range [0-1] into their
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-03-11 04:39:53 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;
@@ -51,9 +51,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// The power to which the progress is raised (determines the curve).
         /// </param>
         /// <returns>A function that applies the easing to a value.</returns>
-        public static Func<float, float> EaseIn(float power) 
+        public static Func<float, float> EaseIn(float power)
         {
-            return (value) => { return Mathf.Pow(value, power); };
+            return (value) => Mathf.Pow(value, power);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <returns>A function that applies the easing to a value.</returns>
         public static Func<float, float> EaseOut(float power)
         {
-            return (value) => { return 1 - Mathf.Pow(1 - value, power); };
+            return (value) => 1 - Mathf.Pow(1 - value, power);
         }
 
         /// <summary>
@@ -84,9 +84,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             return (value) =>
             {
-                if(value < .5) 
-                { 
-                    return Mathf.Pow(2, power - 1) * Mathf.Pow(value, power); 
+                if(value < .5f)
+                {
+                    return Mathf.Pow(2, power - 1) * Mathf.Pow(value, power);
                 }
                 return 1 - Mathf.Pow(-2 * value + 2, power) / 2;
             };
@@ -107,8 +107,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <returns>A function that applies the easing to a value.</returns>
         public static Func<float, float> EaseInExponential(float power)
         {
-            return (value) => 
-                { return Mathf.Pow(2, Mathf.Pow(value, power)) - 1; };
+            return (value) => Mathf.Pow(2, Mathf.Pow(value, power)) - 1;
         }
 
         /// <summary>
@@ -122,8 +121,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <returns>A function that applies the easing to a value.</returns>
         public static Func<float, float> EaseOutExponential(float power)
         {
-            return (value) => 
-                { return 2 - Mathf.Pow(2, Mathf.Pow(1 - value, power)); };
+            return (value) => 2 - Mathf.Pow(2, Mathf.Pow(1 - value, power));
         }
 
         /// <summary>
@@ -139,9 +137,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             return (value) =>
             {
-                if(value < .5) 
-                { 
-                    return (Mathf.Pow(2, Mathf.Pow(2 * value, power)) - 1) / 2; 
+                if(value < .5f)
+                {
+                    return (Mathf.Pow(2, Mathf.Pow(2 * value, power)) - 1) / 2;
                 }
                 return (3 - Mathf.Pow(2, Mathf.Pow(2 - 2 * value, power))) / 2;
             };
@@ -153,10 +151,10 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         /// <summary>
         /// EaseInSine applies a sine curve that starts slow and accelerates as
-        /// it progresses.This easing simulates a smooth start to an animation.
+        /// it progresses. This easing simulates a smooth start to an animation.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>A function that applies the easing to a value.</returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInSine(float value)
         {
             return 1 - Mathf.Cos(Mathf.PI * value / 2);
@@ -167,7 +165,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// toward the end. This easing simulates a smooth deceleration.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>A function that applies the easing to a value.</returns>
+        /// <returns>The eased value.</returns>
         public static float EaseOutSine(float value)
         {
             return Mathf.Sin(Mathf.PI * value / 2);
@@ -179,7 +177,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// end.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>A function that applies the easing to a value.</returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInOutSine(float value)
         {
             return (1 - Mathf.Cos(Mathf.PI * value)) / 2;
@@ -190,9 +188,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// the curve to start fast and decelerate.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>
-        /// A function that applies the inverted easing to a value.
-        /// </returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInSineInverted(float value)
         {
             return 2 * Mathf.Asin(value) / Mathf.PI;
@@ -203,9 +199,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// adjusts the curve to start slow and accelerate.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>
-        /// A function that applies the inverted easing to a value.
-        /// </returns>
+        /// <returns>The eased value.</returns>
         public static float EaseOutSineInverted(float value)
         {
             return 2 * Mathf.Acos(1 - value) / Mathf.PI;
@@ -216,9 +210,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// adjusts the curve to start fast, then slow down.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>
-        /// A function that applies the inverted easing to a value.
-        /// </returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInOutSineInverted(float value)
         {
             return Mathf.Acos(1 - 2 * value) / Mathf.PI;
@@ -233,7 +225,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// start. It starts slow and then accelerates towards the end.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>A function that applies the easing to a value.</returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInCircle(float value)
         {
             return 1 - Mathf.Sqrt(1 - Mathf.Pow(value, 2));
@@ -244,7 +236,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// end. It starts fast and then slows down as it approaches the end.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>A function that applies the easing to a value.</returns>
+        /// <returns>The eased value.</returns>
         public static float EaseOutCircle(float value)
         {
             return Mathf.Sqrt(1 - Mathf.Pow(value - 1, 2));
@@ -256,12 +248,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// the end.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>A function that applies the easing to a value.</returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInOutCircle(float value)
         {
-            if(value < .5f) 
-            { 
-                return (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * value, 2))) / 2; 
+            if(value < .5f)
+            {
+                return (1 - Mathf.Sqrt(1 - Mathf.Pow(2 * value, 2))) / 2;
             }
             return (1 + Mathf.Sqrt(1 - Mathf.Pow(2 * value - 2, 2))) / 2;
         }
@@ -271,13 +263,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// that adjusts the curve to start fast, decelerate, and end fast.
         /// </summary>
         /// <param name="value">The progress value in the range [0, 1].</param>
-        /// <returns>
-        /// A function that applies the inverted easing to a value.
-        /// </returns>
+        /// <returns>The eased value.</returns>
         public static float EaseInOutCircleInverted(float value)
         {
             if(value < .5f)
-            { 
+            {
                 return Mathf.Sqrt(1 - Mathf.Pow(2 * value - 1, 2)) / 2;
             }
             return (2 - Mathf.Sqrt(1 - Mathf.Pow(2 * value - 1, 2))) / 2;
