@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:59:43 
+Last commit at: 2025-03-11 04:53:41 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -17,7 +17,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     using Comsts = Constants.ColorConstants;
 
     /// <summary>
-    /// Coler lerp class that implements a RGB to linear to RGB conversion,
+    /// Color lerp class that implements a RGB to linear to RGB conversion,
     /// performing the lerp in linear color space and factoring in the intensity
     /// to create a smoother transition for light/dark transitions.
     /// </summary>
@@ -25,14 +25,14 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Fields
 
-        /// <summary>Precalulated linear space for Start color.</summary>
+        /// <summary>Precalculated linear space for Start color.</summary>
         private Color _sLinear;
-        /// <summary>Precalulated luma values for Start color.</summary>
+        /// <summary>Precalculated luma values for Start color.</summary>
         private float _sLumaApproximate, _sBrightness;
 
-        /// <summary>Precalulated linear space for End color.</summary>
+        /// <summary>Precalculated linear space for End color.</summary>
         private Color _eLinear;
-        /// <summary>Precalulated luma values for End color.</summary>
+        /// <summary>Precalculated luma values for End color.</summary>
         private float _eLumaApproximate, _eBrightness;
 
         #endregion Fields
@@ -40,9 +40,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         #region Properties
 
         /// <inheritdoc />
-        public override Color Start 
+        public override Color Start
         {
-            get => base.Start; 
+            get => base.Start;
             set
             {
                 base.Start = value;
@@ -76,12 +76,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         /// <param name="start">The initial color for the interpolation.</param>
         /// <param name="end">The final color for the interpolation.</param>
-        public ColorLumaLinearLerpImpl(Color start, Color end) : 
-            base(start, end) 
-        { 
+        public ColorLumaLinearLerpImpl(Color start, Color end) :
+            base(start, end)
+        {
         }
 
-        #region IInterpolation Implemenation
+        #region IInterpolation Implementation
 
         /// <inheritdoc/>
         public override Color Interpolate(float progress)
@@ -106,7 +106,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return color.gamma;
         }
 
-        #endregion IInterpolation Implemenation
+        #endregion IInterpolation Implementation
 
         #endregion Methods
     }

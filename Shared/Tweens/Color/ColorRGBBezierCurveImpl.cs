@@ -5,7 +5,7 @@ Overview:   Implements a Bezier curve interpolation in the RGB Color space.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-24 02:31:10 
+Last commit at: 2025-03-11 04:53:41 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Class that implements a Bezier curve interpolation in the RGB Color 
     /// space.
     /// </summary>
-    public sealed class ColorRGBBezierCurveImpl 
+    public sealed class ColorRGBBezierCurveImpl
         : BezierCurveInterpolator<Color>
     {
         #region Methods
@@ -29,8 +29,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Reference to the list of nodes for generating the Bezier curve.
         /// </param>
         public ColorRGBBezierCurveImpl(IList<Color> nodes)
+            : base(nodes)
         {
-            Nodes = nodes;
         }
 
         /// <inheritdoc />

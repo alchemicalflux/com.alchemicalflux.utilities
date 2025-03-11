@@ -6,7 +6,7 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-05 20:03:39 
+Last commit at: 2025-03-11 04:53:41 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,9 +32,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         #region Methods
 
         /// <summary>
-        /// Constructor for the ColorRGBBezierCurveImpl class, which implements 
-        /// a Bezier curve interpolation in the linear color space while 
-        /// factoring in the intensity.
+        /// Constructor for the ColorLumaLinearBezierCurveImpl class, which 
+        /// implements a Bezier curve interpolation in the linear color space 
+        /// while factoring in the intensity.
         /// </summary>
         /// <param name="nodes">
         /// Reference to the list of nodes for generating the Bezier curve.
@@ -69,17 +69,17 @@ namespace AlchemicalFlux.Utilities.Tweens
             GenerateInterpolationMultipliers(progress, 1 - progress);
 
             var color = MultiplyBy(_linearNodes[0], TempMults[0]);
-            var brightness = _brightnesses[0] * TempMults[0]; 
+            var brightness = _brightnesses[0] * TempMults[0];
             for(var index = 1; index < NodeCount; ++index)
             {
-                AddTo(ref color, MultiplyBy(_linearNodes[index], 
-                    TempMults[index]));
+                AddTo(ref color, 
+                    MultiplyBy(_linearNodes[index], TempMults[index]));
                 brightness += _brightnesses[index] * TempMults[index];
             }
 
             var sum = color.r + color.g + color.b;
             if(sum <= Constants.Threshold) { return color; } // Lerped to black.
-            
+
             var intensity = Mathf.Pow(brightness, Constants.InverseGamma);
             var factor = intensity / sum;
             color.r *= factor;
@@ -101,8 +101,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             for(var index = 0; index < NodeCount; ++index)
             {
                 var node = _linearNodes[index] = Nodes[index].linear;
-                _brightnesses[index] = Mathf.Pow(node.r + node.g + node.b, 
-                    Constants.Gamma);
+                _brightnesses[index] = 
+                    Mathf.Pow(node.r + node.g + node.b, Constants.Gamma);
             }
         }
 

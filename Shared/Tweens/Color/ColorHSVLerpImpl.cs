@@ -6,24 +6,24 @@ Overview:   Implements a Color lerp using the HSV color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:59:43 
+Last commit at: 2025-03-11 04:53:41 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Coler lerp class that implements a RGB to HSV to RGB conversion,
+    /// Color lerp class that implements a RGB to HSV to RGB conversion,
     /// performing the lerp in HSV color space.
     /// </summary>
     public sealed class ColorHSVLerpImpl : TwoPointInterpolator<Color>
     {
         #region Fields
 
-        /// <summary>Precalulated HSV values for Start color.</summary>
+        /// <summary>Precalculated HSV values for Start color.</summary>
         private float _hStart, _sStart, _vStart;
 
-        /// <summary>Precalulated HSV values for End color.</summary>
+        /// <summary>Precalculated HSV values for End color.</summary>
         private float _hEnd, _sEnd, _vEnd;
 
         #endregion Fields
@@ -38,7 +38,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             {
                 base.Start = value;
                 // Generate and store HSV precalculation variables.
-                Color.RGBToHSV(base.Start, out _hStart, out _sStart, 
+                Color.RGBToHSV(base.Start, out _hStart, out _sStart,
                     out _vStart);
                 _hStart *= 360f;
             }
@@ -73,7 +73,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region TwoPointInterpolator Implemenation
+        #region TwoPointInterpolator Implementation
 
         /// <inheritdoc/>
         public override Color Interpolate(float progress)
@@ -91,7 +91,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return color;
         }
 
-        #endregion TwoPointInterpolator Implemenation
+        #endregion TwoPointInterpolator Implementation
 
         #endregion Methods
     }
