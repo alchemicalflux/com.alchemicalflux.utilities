@@ -5,12 +5,15 @@ Overview:   Interface for controlling ITween instances.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-03-11 04:42:53 
 ------------------------------------------------------------------------------*/
 using System;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
+    /// <summary>
+    /// Interface for controlling ITween instances.
+    /// </summary>
     public interface ITweenPlayer
     {
         /// <summary>
@@ -32,13 +35,13 @@ namespace AlchemicalFlux.Utilities.Tweens
             Action onComplete = null, bool hideOnComplete = false);
 
         /// <summary>
-        /// Pauses the current tween while allowing for the possiblity to 
+        /// Pauses the current tween while allowing for the possibility to 
         /// continue later.
         /// </summary>
         void Pause();
 
         /// <summary>
-        /// Resumes the current tween from it's last point, if possible.
+        /// Resumes the current tween from its last point, if possible.
         /// </summary>
         /// <returns>Flag indicating if the tween was resumed.</returns>
         bool Resume();
@@ -54,3 +57,4 @@ namespace AlchemicalFlux.Utilities.Tweens
         void SnapToEnd();
     }
 }
+

@@ -6,7 +6,7 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-10 00:28:19 
+Last commit at: 2025-03-11 04:42:53 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Events;
 using System;
@@ -23,10 +23,14 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Members
 
-        /// <summary>Handle for interpolating portion of the tween.</summary>
+        /// <summary>
+        /// Handle for interpolating portion of the tween.
+        /// </summary>
         protected IInterpolator<TType> _interpolator;
 
-        /// <summary>Handle for the easing portion of the tween.</summary>
+        /// <summary>
+        /// Handle for the easing portion of the tween.
+        /// </summary>
         protected Func<float, float> _easing;
 
         /// <summary>
@@ -39,7 +43,9 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Methods
 
-        /// <summary>Constructor for the BaseTween class.</summary>
+        /// <summary>
+        /// Constructor for the BaseTween class.
+        /// </summary>
         /// <param name="interpolator">
         /// An object implementing IInterpolator<TType> that calculates 
         /// intermediate values during the tween.
@@ -68,14 +74,18 @@ namespace AlchemicalFlux.Utilities.Tweens
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
         }
 
-        /// <summary>Adds an update listener.</summary>
+        /// <summary>
+        /// Adds an update listener.
+        /// </summary>
         /// <param name="action">The action to be called on update.</param>
         public void AddOnUpdateListener(Action<TType> action)
         {
             OnUpdate += action;
         }
 
-        /// <summary>Removes an update listener.</summary>
+        /// <summary>
+        /// Removes an update listener.
+        /// </summary>
         /// <param name="action">The action to be removed.</param>
         public void RemoveOnUpdateListener(Action<TType> action)
         {

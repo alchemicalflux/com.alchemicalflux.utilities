@@ -5,7 +5,7 @@ Overview:   Builder pattern wrapper for the BaseTween class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-10 00:28:19 
+Last commit at: 2025-03-11 04:42:53 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System;
@@ -40,11 +40,15 @@ namespace AlchemicalFlux.Utilities.Tweens
             _updateActions = new List<Action<T>>(builder._updateActions);
         }
 
-        /// <summary>Creates a copy of the current builder.</summary>
+        /// <summary>
+        /// Creates a copy of the current builder.
+        /// </summary>
         /// <returns>A new <see cref="TweenBuilder{T}"/> instance.</returns>
         public TweenBuilder<T> Copy() => new(this);
 
-        /// <summary>Sets the interpolator for the tween.</summary>
+        /// <summary>
+        /// Sets the interpolator for the tween.
+        /// </summary>
         /// <param name="interpolator">The interpolator to use.</param>
         /// <returns>The current builder instance.</returns>
         public TweenBuilder<T> SetInterpolator(IInterpolator<T> interpolator)
@@ -54,7 +58,9 @@ namespace AlchemicalFlux.Utilities.Tweens
             return this;
         }
 
-        /// <summary>Sets the easing function for the tween.</summary>
+        /// <summary>
+        /// Sets the easing function for the tween.
+        /// </summary>
         /// <param name="easingFunction">The easing function to use.</param>
         /// <returns>The current builder instance.</returns>
         public TweenBuilder<T> SetEasing(Func<float, float> easingFunction)
@@ -79,7 +85,9 @@ namespace AlchemicalFlux.Utilities.Tweens
             return this;
         }
 
-        /// <summary>Builds the tween with the specified parameters.</summary>
+        /// <summary>
+        /// Builds the tween with the specified parameters.
+        /// </summary>
         /// <returns>A new <see cref="BaseTween{T}"/> instance.</returns>
         public BaseTween<T> Build()
         {
