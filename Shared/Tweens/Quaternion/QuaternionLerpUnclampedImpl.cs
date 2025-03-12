@@ -5,7 +5,7 @@ Overview:   Implements an unclamped Quaternion linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:59:43 
+Last commit at: 2025-03-11 22:59:16 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Class that implements an unclamped Quaternion linear interpolation.
     /// </summary>
-    public sealed class QuaternionLerpUnclampedImpl : 
+    public sealed class QuaternionLerpUnclampedImpl :
         TwoPointInterpolator<Quaternion>
     {
         #region Methods
@@ -32,7 +32,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region TwoPointInterpolator Implemenation
+        #endregion Methods
+
+        #region TwoPointInterpolator Implementation
 
         /// <inheritdoc />
         public override Quaternion Interpolate(float progress)
@@ -40,8 +42,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             return Quaternion.LerpUnclamped(Start, End, progress);
         }
 
-        #endregion TwoPointInterpolator Implemenation
-
-        #endregion Methods
+        #endregion TwoPointInterpolator Implementation
     }
 }

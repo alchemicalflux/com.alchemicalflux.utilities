@@ -5,7 +5,7 @@ Overview:   Implements a clamped Quaternion spherical interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:59:43 
+Last commit at: 2025-03-11 22:59:16 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -31,15 +31,16 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region TwoPointInterpolator Implemenation
+        #endregion Methods
 
+        #region TwoPointInterpolator Implementation
+
+        /// <inheritdoc />
         public override Quaternion Interpolate(float progress)
         {
             return Quaternion.Slerp(Start, End, progress);
         }
 
-        #endregion TwoPointInterpolator Implemenation
-
-        #endregion Methods
+        #endregion TwoPointInterpolator Implementation
     }
 }
