@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:53:41 
+Last commit at: 2025-03-11 23:04:35 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -83,7 +83,7 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region IInterpolation Implementation
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
             // Return early if both linear colors are black.

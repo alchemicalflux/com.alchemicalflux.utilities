@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the HSV color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:53:41 
+Last commit at: 2025-03-11 23:04:35 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -75,7 +75,7 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region TwoPointInterpolator Implementation
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
             // Slerp the hue (ensure the shortest path on the color wheel).
