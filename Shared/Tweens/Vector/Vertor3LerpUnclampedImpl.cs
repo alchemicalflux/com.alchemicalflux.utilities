@@ -5,7 +5,7 @@ Overview:   Implements an unclamped Vector3 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:59:43 
+Last commit at: 2025-03-11 22:41:08 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -18,7 +18,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Methods
 
-        #region TwoPointInterpolator Implemenation
+        #region TwoPointInterpolator Implementation
 
         /// <summary>
         /// Constructor for the Vector3LerpUnclampedImpl class, which implements
@@ -37,7 +37,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return Vector3.LerpUnclamped(Start, End, progress);
         }
 
-        #endregion TwoPointInterpolator Implemenation
+        #endregion TwoPointInterpolator Implementation
 
         #endregion Methods
     }

@@ -5,20 +5,20 @@ Overview:   Implements a Vector3 spherical interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-03 01:59:43 
+Last commit at: 2025-03-11 22:41:08 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Class that implements an unclamped Vector3 spherical interpolation.
+    /// Class that implements a Vector3 spherical interpolation.
     /// </summary>
     public sealed class Vector3SlerpImpl : TwoPointInterpolator<Vector3>
     {
         #region Methods
 
-        #region TwoPointInterpolator Implemenation
+        #region TwoPointInterpolator Implementation
 
         /// <summary>
         /// Constructor for the Vector3SlerpImpl class, which implements a
@@ -37,7 +37,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return Vector3.Slerp(Start, End, progress);
         }
 
-        #endregion TwoPointInterpolator Implemenation
+        #endregion TwoPointInterpolator Implementation
 
         #endregion Methods
     }

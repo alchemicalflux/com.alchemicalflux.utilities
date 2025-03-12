@@ -5,7 +5,7 @@ Overview:   Implements a Vector2 Bezier curve interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-24 00:51:59 
+Last commit at: 2025-03-11 22:41:08 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Class that implements a Vector2 Bezier curve interpolation.
     /// </summary>
-    public sealed class Vector2BezierCurveImpl 
+    public sealed class Vector2BezierCurveImpl
         : BezierCurveInterpolator<Vector2>
     {
         #region Methods
@@ -27,9 +27,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <param name="nodes">
         /// Reference to the list of nodes for generating the Bezier curve.
         /// </param>
-        public Vector2BezierCurveImpl(IList<Vector2> nodes)
+        public Vector2BezierCurveImpl(IList<Vector2> nodes) : base(nodes)
         {
-            Nodes = nodes;
         }
 
         /// <inheritdoc />
