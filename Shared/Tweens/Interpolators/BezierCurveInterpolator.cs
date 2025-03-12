@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 05:00:37 
+Last commit at: 2025-03-12 00:48:47 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
@@ -41,7 +41,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         public IList<TType> Nodes
         {
             get { return _nodes.AsReadOnly(); }
-            set { _nodes = new List<TType>(value); RebuildNodes(); }
+            set 
+            {
+                _nodes = new List<TType>(value);
+                RebuildNodes();
+            }
         }
 
         /// <summary>
@@ -77,22 +81,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             Nodes = nodes;
         }
 
-        /// <inheritdoc />
-        public virtual TType Interpolate(float progress)
-        {
-            if(Nodes.Count != NodeCount) { RebuildNodes(); }
-            if(NodeCount == 0) { return default; }
-
-            GenerateInterpolationMultipliers(progress, 1 - progress);
-
-            TType result = MultiplyBy(Nodes[0], TempMults[0]);
-            for(var index = 1; index < NodeCount; ++index)
-            {
-                AddTo(ref result, MultiplyBy(Nodes[index], TempMults[index]));
-            }
-            return result;
-        }
-
         /// <summary>
         /// Generates the multipliers for node interpolation.
         /// </summary>
@@ -116,20 +104,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <summary>
-        /// Required function that adds the node's value to the result.
-        /// </summary>
-        /// <param name="result">TType value to be adjusted.</param>
-        /// <param name="node">TType value to be added.</param>
-        protected abstract void AddTo(ref TType result, TType node);
-
-        /// <summary>
-        /// Required function that multiplies the result by a fractional value.
-        /// </summary>
-        /// <param name="node">TType value to be multiplied.</param>
-        /// <param name="progress">Value to be multiplied by.</param>
-        protected abstract TType MultiplyBy(TType node, float progress);
-
-        /// <summary>
         /// Rebuilds TempMults and PascalTriangleRow to cover the current Nodes
         /// size for safe interpolation calculations.
         /// </summary>
@@ -148,6 +122,40 @@ namespace AlchemicalFlux.Utilities.Tweens
             PascalTriangleRow = PascalsTriangle.GetRow(NodeCount - 1);
         }
 
+        /// <summary>
+        /// Required function that adds the node's value to the result.
+        /// </summary>
+        /// <param name="result">TType value to be adjusted.</param>
+        /// <param name="node">TType value to be added.</param>
+        protected abstract void AddTo(ref TType result, TType node);
+
+        /// <summary>
+        /// Required function that multiplies the result by a fractional value.
+        /// </summary>
+        /// <param name="node">TType value to be multiplied.</param>
+        /// <param name="progress">Value to be multiplied by.</param>
+        protected abstract TType MultiplyBy(TType node, float progress);
+
         #endregion Methods
+
+        #region IInterpolator Implementation
+
+        /// <inheritdoc />
+        public virtual TType Interpolate(float progress)
+        {
+            if(Nodes.Count != NodeCount) { RebuildNodes(); }
+            if(NodeCount == 0) { return default; }
+
+            GenerateInterpolationMultipliers(progress, 1 - progress);
+
+            TType result = MultiplyBy(Nodes[0], TempMults[0]);
+            for(var index = 1; index < NodeCount; ++index)
+            {
+                AddTo(ref result, MultiplyBy(Nodes[index], TempMults[index]));
+            }
+            return result;
+        }
+
+        #endregion IInterpolator Implementation
     }
 }

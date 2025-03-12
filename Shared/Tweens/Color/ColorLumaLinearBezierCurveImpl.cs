@@ -6,7 +6,7 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:53:41 
+Last commit at: 2025-03-12 00:48:47 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,10 +42,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         public ColorLumaLinearBezierCurveImpl(IList<Color> nodes) : base(nodes)
         {
         }
-
-        #endregion Methods
-
-        #region BezierCurveInterpolator Implementation
 
         /// <inheritdoc />
         protected override void AddTo(ref Color result, Color node)
@@ -106,6 +102,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             }
         }
 
-        #endregion BezierCurveInterpolator Implementation
+        #endregion Methods
     }
 }

@@ -6,7 +6,7 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:42:53 
+Last commit at: 2025-03-12 00:48:47 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Events;
 using System;
@@ -21,7 +21,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     public class BaseTween<TType> : ITween, IOnUpdateEvent<TType>
         where TType : IEquatable<TType>
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// Handle for interpolating portion of the tween.
@@ -39,7 +39,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         protected Action<TType> OnUpdate;
 
-        #endregion Members
+        #endregion Fields
 
         #region Methods
 
@@ -65,6 +65,10 @@ namespace AlchemicalFlux.Utilities.Tweens
             _easing = easing ?? throw new ArgumentNullException(nameof(easing));
         }
 
+        #endregion Methods
+
+        #region ITween Implementation
+
         /// <inheritdoc />
         public virtual void Show(bool show) { }
 
@@ -73,6 +77,10 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
         }
+
+        #endregion ITween Implementation
+
+        #region IOnUpdateEvent Implementation
 
         /// <summary>
         /// Adds an update listener.
@@ -92,6 +100,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             OnUpdate -= action;
         }
 
-        #endregion Methods
+        #endregion IOnUpdateEvent Implementation
     }
 }

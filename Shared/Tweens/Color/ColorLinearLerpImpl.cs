@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the linear color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 23:04:35 
+Last commit at: 2025-03-12 00:48:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -67,15 +67,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region TwoPointInterpolator Implementation
-
         /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
             return Color.Lerp(_sLinear, _eLinear, progress).gamma;
         }
-
-        #endregion TwoPointInterpolator Implementation
 
         #endregion Methods
     }

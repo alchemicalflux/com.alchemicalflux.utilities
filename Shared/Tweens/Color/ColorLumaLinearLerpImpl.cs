@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 23:04:35 
+Last commit at: 2025-03-12 00:48:47 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -81,8 +81,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region IInterpolation Implementation
-
         /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
@@ -105,8 +103,6 @@ namespace AlchemicalFlux.Utilities.Tweens
 
             return color.gamma;
         }
-
-        #endregion IInterpolation Implementation
 
         #endregion Methods
     }

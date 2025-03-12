@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations spanning only two values.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 16:05:46 
+Last commit at: 2025-03-12 00:48:47 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -45,9 +45,13 @@ namespace AlchemicalFlux.Utilities.Tweens
             End = end;
         }
 
+        #endregion Methods
+
+        #region IInterpolator Implementation
+
         /// <inheritdoc />
         public abstract TType Interpolate(float progress);
 
-        #endregion Methods
+        #endregion IInterpolator Implementation
     }
 }
