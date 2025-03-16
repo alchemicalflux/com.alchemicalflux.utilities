@@ -7,7 +7,7 @@ Overview:   Implements a singleton class for the generation and storage of
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-23 23:00:22 
+Last commit at: 2025-03-16 00:03:59 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -51,9 +51,9 @@ namespace AlchemicalFlux.Utilities.Math
         /// <param name="row">0-based row to be accessed.</param>
         /// <param name="col">0-based col to be accessed [0, row].</param>
         /// <returns>The appropriate value from Pascal's Triangle.</returns>
-        static public BigInteger GetValue(int row, int col) 
-        { 
-            return Get.GetValueImpl(row, col); 
+        public static BigInteger GetValue(int row, int col)
+        {
+            return Get.GetValueImpl(row, col);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace AlchemicalFlux.Utilities.Math
         /// </summary>
         /// <param name="row">0-based row index to be returned.</param>
         /// <returns>The full row from Pascal's Triangle.</returns>
-        static public IReadOnlyList<BigInteger> GetRow(int row)
+        public static IReadOnlyList<BigInteger> GetRow(int row)
         {
             return Get.GetRowImpl(row);
         }
@@ -71,7 +71,7 @@ namespace AlchemicalFlux.Utilities.Math
         /// </summary>
         /// <param name="row">0-based row index to be returned.</param>
         /// <returns>The left-portion of a row from Pascal's Triangle.</returns>
-        static public ReadOnlySpan<BigInteger> GetUniquesOnlyRow(int row)
+        public static ReadOnlySpan<BigInteger> GetUniquesOnlyRow(int row)
         {
             return Get.GetHalfRow(row);
         }
@@ -95,7 +95,7 @@ namespace AlchemicalFlux.Utilities.Math
             if(col < 0 || col > row)
             {
                 throw new ArgumentOutOfRangeException(
-                    $"Col({col}) must be between 0 and {row}");
+                    nameof(col), $"Col({col}) must be between 0 and {row}");
             }
             var curRow = GetHalfRow(row);
             if(col > (row >> 1)) { col = row - col; }
@@ -111,8 +111,8 @@ namespace AlchemicalFlux.Utilities.Math
         {
             var curRow = GetHalfRow(row);
             var expanded = new BigInteger[row + 1];
-            row >>= 1;
-            for(var index = 0; index <= row; ++index)
+            var halfRowLength = curRow.Length;
+            for(var index = 0; index < halfRowLength; ++index)
             {
                 expanded[^(index + 1)] = expanded[index] = curRow[index];
             }
@@ -132,7 +132,8 @@ namespace AlchemicalFlux.Utilities.Math
         {
             if(row < 0)
             {
-                throw new ArgumentException("Row index must be non-negative.");
+                throw new ArgumentOutOfRangeException(nameof(row), 
+                    "Row index must be non-negative.");
             }
             GenerateHalfRows(row);
             return _halfRows[row];
@@ -152,7 +153,7 @@ namespace AlchemicalFlux.Utilities.Math
             var prevRow = _halfRows[^1];
             var evenRow = (_halfRows.Count & 1) == 0;
             var length = prevRow.Length;
-            for(var row = _halfRows.Count; row <= requestedRow; 
+            for(var row = _halfRows.Count; row <= requestedRow;
                 ++row, evenRow = !evenRow, length = prevRow.Length)
             {
                 var curRow = new BigInteger[length + (evenRow ? 1 : 0)];
