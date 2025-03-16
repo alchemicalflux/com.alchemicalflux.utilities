@@ -6,7 +6,7 @@ Overview:   Contains easing functions that convert a range [0-1] into their
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:39:53 
+Last commit at: 2025-03-16 10:35:06 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;
@@ -86,7 +86,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             {
                 if(value < .5f)
                 {
-                    return Mathf.Pow(2, power - 1) * Mathf.Pow(value, power);
+                    return Mathf.Pow(2 * value, power) / 2;
                 }
                 return 1 - Mathf.Pow(-2 * value + 2, power) / 2;
             };
@@ -276,3 +276,4 @@ namespace AlchemicalFlux.Utilities.Tweens
         #endregion Circular Easings
     }
 }
+
