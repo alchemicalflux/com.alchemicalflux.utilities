@@ -5,7 +5,7 @@ Overview:   Builder pattern wrapper for the BaseTween class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:49:27 
+Last commit at: 2025-03-16 10:24:55 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System;
@@ -20,9 +20,9 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Fields
 
-        private readonly List<Action<T>> _updateActions = new();
+        private readonly List<Action<T>> _updateActions;
         private IInterpolator<T> _interpolator;
-        private Func<float, float> _easingFunction = Easings.Linear;
+        private Func<float, float> _easingFunction;
 
         #endregion Fields
 
@@ -32,7 +32,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Initializes a new instance of the <see cref="TweenBuilder{T}"/> 
         /// class.
         /// </summary>
-        public TweenBuilder() { }
+        public TweenBuilder()
+        {
+            _updateActions = new List<Action<T>>();
+            _easingFunction = Easings.Linear;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TweenBuilder{T}"/> 
