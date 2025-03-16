@@ -5,7 +5,7 @@ Overview:   Interface for controlling ITween instances.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:42:53 
+Last commit at: 2025-03-16 10:15:37 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -55,6 +55,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Snaps the tween to the end value.
         /// </summary>
         void SnapToEnd();
+
+        /// <summary>
+        /// Snaps the tween to a specific time value.
+        /// </summary>
+        /// <param name="time">The time value to snap to.</param>
+        public void SnapToTime(float time);
     }
 }
 
