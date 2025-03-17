@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-03-16 19:58:12 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -25,14 +25,24 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Fields
 
-        /// <summary>Precalculated linear space for Start color.</summary>
+        /// <summary>
+        /// Precalculated linear space for Start color.
+        /// </summary>
         private Color _sLinear;
-        /// <summary>Precalculated luma values for Start color.</summary>
+        
+        /// <summary>
+        /// Precalculated luma values for Start color.
+        /// </summary>
         private float _sLumaApproximate, _sBrightness;
 
-        /// <summary>Precalculated linear space for End color.</summary>
+        /// <summary>
+        /// Precalculated linear space for End color.
+        /// </summary>
         private Color _eLinear;
-        /// <summary>Precalculated luma values for End color.</summary>
+        
+        /// <summary>
+        /// Precalculated luma values for End color.
+        /// </summary>
         private float _eLumaApproximate, _eBrightness;
 
         #endregion Fields

@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the HSV color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-03-16 19:58:12 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -20,10 +20,14 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Fields
 
-        /// <summary>Precalculated HSV values for Start color.</summary>
+        /// <summary>
+        /// Precalculated HSV values for Start color.
+        /// </summary>
         private float _hStart, _sStart, _vStart;
 
-        /// <summary>Precalculated HSV values for End color.</summary>
+        /// <summary>
+        /// Precalculated HSV values for End color.
+        /// </summary>
         private float _hEnd, _sEnd, _vEnd;
 
         #endregion Fields
