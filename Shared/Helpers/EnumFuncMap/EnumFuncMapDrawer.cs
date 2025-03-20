@@ -6,17 +6,33 @@ Overview:   Custom drawer for classes that inherit the UnityEnumFuncMapBase
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 14:48:23 
+Last commit at: 2025-03-19 21:35:50 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
-    [CustomPropertyDrawer(typeof(UnityEnumFuncMapDrawerBase), true)]
+    /// <summary>
+    /// Custom property drawer for classes that inherit the UnityEnumFuncMapBase
+    /// class.
+    /// </summary>
+    [CustomPropertyDrawer(typeof(IUnityEnumFuncMapDrawerBase), true)]
     public class EnumFuncMapDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, SerializedProperty property, 
+        #region Methods
+
+        /// <summary>
+        /// Draws the property GUI.
+        /// </summary>
+        /// <param name="position">
+        /// Rectangle on the screen to use for the property GUI.
+        /// </param>
+        /// <param name="property">
+        /// The SerializedProperty to make the custom GUI for.
+        /// </param>
+        /// <param name="label">The label of this property.</param>
+        public override void OnGUI(Rect position, SerializedProperty property,
             GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -34,7 +50,15 @@ namespace AlchemicalFlux.Utilities.Helpers
             EditorGUI.EndProperty();
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, 
+        /// <summary>
+        /// Gets the height of the property.
+        /// </summary>
+        /// <param name="property">
+        /// The SerializedProperty to get the height of.
+        /// </param>
+        /// <param name="label">The label of this property.</param>
+        /// <returns>The height of the property.</returns>
+        public override float GetPropertyHeight(SerializedProperty property,
             GUIContent label)
         {
             var valueProperty = property.FindPropertyRelative("_curEnum");
@@ -44,5 +68,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             }
             return base.GetPropertyHeight(property, label);
         }
+
+        #endregion Methods
     }
 }
