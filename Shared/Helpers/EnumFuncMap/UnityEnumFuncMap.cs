@@ -5,7 +5,7 @@ Overview:   Implements the EnumFuncMap with inspector level manipulation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-22 14:41:15 
+Last commit at: 2025-03-22 15:02:30 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -68,6 +68,45 @@ namespace AlchemicalFlux.Utilities.Helpers
         static UnityEnumFuncMap()
         {
             DefaultDelegate = CreateDefaultDelegate();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="UnityEnumFuncMap{TEnum, TDelegate}"/> class.
+        /// </summary>
+        public UnityEnumFuncMap()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="UnityEnumFuncMap{TEnum, TDelegate}"/> class.
+        /// </summary>
+        /// <param name="delegates">
+        /// The collection of delegates to be mapped.
+        /// </param>
+        public UnityEnumFuncMap(ICollection<TDelegate> delegates) :
+            this(delegates, default)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="UnityEnumFuncMap{TEnum, TDelegate}"/> class.
+        /// </summary>
+        /// <param name="delegates">
+        /// The collection of delegates to be mapped.
+        /// </param>
+        /// <param name="startEnum">The initial enum value.</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when the delegates parameter is null.
+        /// </exception>
+        public UnityEnumFuncMap(
+            ICollection<TDelegate> delegates,
+            TEnum startEnum)
+        {
+            AssignFuncs(delegates);
+            Enum = startEnum;
         }
 
         /// <summary>
