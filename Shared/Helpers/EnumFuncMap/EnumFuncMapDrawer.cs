@@ -6,7 +6,7 @@ Overview:   Custom drawer for classes that inherit the UnityEnumFuncMapBase
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-19 21:35:50 
+Last commit at: 2025-03-22 15:52:42 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;
@@ -20,6 +20,12 @@ namespace AlchemicalFlux.Utilities.Helpers
     [CustomPropertyDrawer(typeof(IUnityEnumFuncMapDrawerBase), true)]
     public class EnumFuncMapDrawer : PropertyDrawer
     {
+        #region Fields
+
+        private SerializedProperty _valueProperty;
+
+        #endregion Fields
+
         #region Methods
 
         /// <summary>
@@ -37,7 +43,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            var valueProperty = property.FindPropertyRelative("_curEnum");
+            var valueProperty = GetValueProperty(property);
             if(valueProperty != null)
             {
                 EditorGUI.PropertyField(position, valueProperty, label, true);
@@ -61,12 +67,25 @@ namespace AlchemicalFlux.Utilities.Helpers
         public override float GetPropertyHeight(SerializedProperty property,
             GUIContent label)
         {
-            var valueProperty = property.FindPropertyRelative("_curEnum");
+            var valueProperty = GetValueProperty(property);
             if(valueProperty != null)
             {
                 return EditorGUI.GetPropertyHeight(valueProperty, label, true);
             }
             return base.GetPropertyHeight(property, label);
+        }
+
+        /// <summary>
+        /// Gets the cached SerializedProperty for the current enum value.
+        /// </summary>
+        private SerializedProperty GetValueProperty(SerializedProperty property)
+        {
+            if(_valueProperty == null || 
+                _valueProperty.serializedObject != property.serializedObject)
+            {
+                _valueProperty = property.FindPropertyRelative("_curEnum");
+            }
+            return _valueProperty;
         }
 
         #endregion Methods
