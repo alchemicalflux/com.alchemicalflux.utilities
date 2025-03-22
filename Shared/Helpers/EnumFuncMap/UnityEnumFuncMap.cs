@@ -5,10 +5,12 @@ Overview:   Implements the EnumFuncMap with inspector level manipulation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-19 21:35:50 
+Last commit at: 2025-03-22 14:41:15 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection.Emit;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
@@ -47,14 +49,26 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Gets the current delegate function.
+        /// Gets the current delegate function, falling back to default if null.
         /// </summary>
-        public TDelegate Func => _map?.Func ??
-            EnumFuncMap<TEnum, TDelegate>.DefaultDelegate;
+        public TDelegate Func => _map?.Func ?? DefaultDelegate;
+
+        /// <summary>
+        /// Gets the default delegate function.
+        /// </summary>
+        private static TDelegate DefaultDelegate { get; }
 
         #endregion Properties
 
         #region Methods
+
+        /// <summary>
+        /// Static constructor to initialize the default delegate.
+        /// </summary>
+        static UnityEnumFuncMap()
+        {
+            DefaultDelegate = CreateDefaultDelegate();
+        }
 
         /// <summary>
         /// Assigns the functions to the enum values.
@@ -65,6 +79,60 @@ namespace AlchemicalFlux.Utilities.Helpers
         public void AssignFuncs(ICollection<TDelegate> delegates)
         {
             _map = new(delegates, _curEnum);
+        }
+
+        /// <summary>
+        /// Creates a default delegate that logs a warning message and returns a
+        /// default value for the TDelegate type.
+        /// </summary>
+        /// <returns>The default delegate function.</returns>
+        /// <exception cref="InvalidOperationException">
+        /// Thrown when the delegate type is invalid.
+        /// </exception>
+        private static TDelegate CreateDefaultDelegate()
+        {
+            var delegateType = typeof(TDelegate);
+            var invokeMethod = delegateType.GetMethod("Invoke");
+
+            if(invokeMethod == null)
+            {
+                throw new InvalidOperationException("Invalid delegate type.");
+            }
+
+            var parameters = invokeMethod.GetParameters();
+            var returnType = invokeMethod.ReturnType;
+
+            var dynamicMethod = new DynamicMethod(
+                "DefaultDelegate",
+                returnType,
+                parameters.Select(p => p.ParameterType).ToArray(),
+                typeof(TDelegate).Module
+            );
+
+            var il = dynamicMethod.GetILGenerator();
+
+            il.Emit(OpCodes.Ldstr,
+                $"Accessing default function for {delegateType} EnumFuncMap");
+            il.EmitCall(OpCodes.Call, typeof(Debug).GetMethod("LogWarning",
+                new[] { typeof(string) }), null);
+
+            if(returnType != typeof(void))
+            {
+                if(returnType.IsValueType)
+                {
+                    il.DeclareLocal(returnType);
+                    il.Emit(OpCodes.Ldloca_S, 0);
+                    il.Emit(OpCodes.Initobj, returnType);
+                    il.Emit(OpCodes.Ldloc_0);
+                }
+                else
+                {
+                    il.Emit(OpCodes.Ldnull);
+                }
+            }
+            il.Emit(OpCodes.Ret);
+
+            return (TDelegate)dynamicMethod.CreateDelegate(delegateType);
         }
 
         #endregion Methods

@@ -5,13 +5,10 @@ Overview:   Implements a wrapper-style class for mapping enums to functions.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-19 21:35:50 
+Last commit at: 2025-03-22 14:41:15 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
 {
@@ -26,7 +23,7 @@ namespace AlchemicalFlux.Utilities.Helpers
     {
         #region Fields
 
-        private readonly Dictionary<TEnum, TDelegate> _map = new();
+        private readonly Dictionary<TEnum, TDelegate> _map;
         private TEnum _curEnum;
         private TDelegate _curDelegate;
 
@@ -40,31 +37,17 @@ namespace AlchemicalFlux.Utilities.Helpers
         public TEnum Enum
         {
             get => _curEnum;
-            set
-            {
-                if(_map.Count == 0) { _curEnum = value; }
-                else { _curDelegate = _map[_curEnum = value]; }
-            }
+            set { _curDelegate = _map[_curEnum = value]; }
         }
 
         /// <summary>
         /// Gets the current delegate function.
         /// </summary>
-        public TDelegate Func => _curDelegate ?? DefaultDelegate;
-
-        /// <summary>
-        /// Gets the default delegate function.
-        /// </summary>
-        public static TDelegate DefaultDelegate { get; }
+        public TDelegate Func => _curDelegate;
 
         #endregion Properties
 
         #region Methods
-
-        static EnumFuncMap()
-        {
-            DefaultDelegate = GetDefaultDelegate();
-        }
 
         /// <summary>
         /// Initializes a new instance of the 
@@ -95,6 +78,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 throw new ArgumentNullException(nameof(delegates));
             }
+            _map = new();
             AssignFuncs(delegates);
             Enum = startEnum;
         }
@@ -109,10 +93,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// Thrown when the number of delegates does not match the number of 
         /// enum values.
         /// </exception>
-        public void AssignFuncs(ICollection<TDelegate> delegates)
+        private void AssignFuncs(ICollection<TDelegate> delegates)
         {
             var enumValues = System.Enum.GetValues(typeof(TEnum));
-
             if(enumValues.Length != delegates.Count)
             {
                 throw new ArgumentException(
@@ -121,69 +104,17 @@ namespace AlchemicalFlux.Utilities.Helpers
                     nameof(delegates));
             }
 
-            _map.Clear();
-
             var enumIter = enumValues.GetEnumerator();
             var delegateIter = delegates.GetEnumerator();
-
             while(enumIter.MoveNext() && delegateIter.MoveNext())
             {
+                if(delegateIter.Current == null)
+                {
+                    throw new ArgumentNullException(
+                        $"Delegate for enum value {enumIter.Current} is null.");
+                }
                 _map.Add((TEnum)enumIter.Current, delegateIter.Current);
             }
-        }
-
-        /// <summary>
-        /// Creates a default delegate that logs a warning message and returns a
-        /// default value for for the TDelegate type.
-        /// </summary>
-        /// <returns>The default delegate function.</returns>
-        /// <exception cref="InvalidOperationException">
-        /// Thrown when the delegate type is invalid.
-        /// </exception>
-        private static TDelegate GetDefaultDelegate()
-        {
-            var delegateType = typeof(TDelegate);
-            var invokeMethod = delegateType.GetMethod("Invoke");
-
-            if(invokeMethod == null)
-            {
-                throw new InvalidOperationException("Invalid delegate type.");
-            }
-
-            var parameters = invokeMethod.GetParameters();
-            var returnType = invokeMethod.ReturnType;
-
-            var dynamicMethod = new DynamicMethod(
-                "DefaultDelegate",
-                returnType,
-                parameters.Select(p => p.ParameterType).ToArray(),
-                typeof(TDelegate).Module
-            );
-
-            var il = dynamicMethod.GetILGenerator();
-
-            il.Emit(OpCodes.Ldstr,
-                $"Accessing default function for {delegateType} EnumFuncMap");
-            il.EmitCall(OpCodes.Call, typeof(Debug).GetMethod("LogWarning",
-                new[] { typeof(string) }), null);
-
-            if(returnType != typeof(void))
-            {
-                if(returnType.IsValueType)
-                {
-                    il.DeclareLocal(returnType);
-                    il.Emit(OpCodes.Ldloca_S, 0);
-                    il.Emit(OpCodes.Initobj, returnType);
-                    il.Emit(OpCodes.Ldloc_0);
-                }
-                else
-                {
-                    il.Emit(OpCodes.Ldnull);
-                }
-            }
-            il.Emit(OpCodes.Ret);
-
-            return (TDelegate)dynamicMethod.CreateDelegate(delegateType);
         }
 
         #endregion Methods
