@@ -5,7 +5,7 @@ Overview:   Implements a wrapper-style class for mapping enums to functions.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-22 14:41:15 
+Last commit at: 2025-03-28 12:53:12 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace AlchemicalFlux.Utilities.Helpers
     /// </summary>
     /// <typeparam name="TEnum">The enum type to be mapped.</typeparam>
     /// <typeparam name="TDelegate">The delegate type to be mapped.</typeparam>
-    public class EnumFuncMap<TEnum, TDelegate>
+    public sealed class EnumFuncMap<TEnum, TDelegate>
         where TEnum : struct, Enum
         where TDelegate : Delegate
     {
