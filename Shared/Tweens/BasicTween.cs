@@ -5,7 +5,7 @@ Overview:   Sets up a generic two point tween setup.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-01-12 13:37:27 
 ------------------------------------------------------------------------------*/
 using System;
 using UnityEngine;
@@ -26,33 +26,10 @@ namespace AlchemicalFlux.Utilities.Tweens
     public abstract class BasicTween<TType> : ITween 
         where TType : IEquatable<TType>
     {
-        #region Members
-
-        /// <summary>Defines the start value for the current tween.</summary>
-        [SerializeField] 
-        private TType _start;
-
-        /// <summary>Defines the end value for the current tween.</summary>
-        [SerializeField] 
-        private TType _end;
-
-        #endregion Members
-
         #region Properties
 
-        /// <summary>Accessor for the private start value.</summary>
-        public TType Start 
-        {
-            get { return _start; }
-            set { _start = value; }
-        }
-
-        /// <summary>Accessor for the private end value.</summary>
-        public TType End
-        {
-            get { return _end; }
-            set { _end = value; }
-        }
+        public abstract TType Start { get; set; }
+        public abstract TType End { get; set; }
 
         /// <summary>
         /// Handle allowing for updating of associated value.
