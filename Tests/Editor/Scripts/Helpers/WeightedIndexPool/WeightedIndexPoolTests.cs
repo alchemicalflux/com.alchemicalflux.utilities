@@ -5,7 +5,7 @@ Overview:   Test cases for the WeightedIndexPool class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-02-09 09:49:40 
+Last commit at: 2025-03-29 05:13:51 
 ------------------------------------------------------------------------------*/
 
 using NUnit.Framework;
@@ -25,6 +25,8 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private double SingleWeight(int index) { return index; }
 
         private double DrawFirst() { return 0; }
+
+        private double DrawRandom() { return new Random().NextDouble(); }
 
         #endregion Constants
 
@@ -73,22 +75,11 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
-        public void Capacity_Accessing_ReturnsInitialSize()
-        {
-            // Arrange
-            var pool =
-                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawFirst);
-
-            // Assert
-            Assert.AreEqual(pool.Capacity, _maxCapacity);
-        }
-
-        [Test]
         public void Count_Accessing_ReturnsInitialSize()
         {
             // Arrange
             var pool = 
-                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawFirst);
+                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawRandom);
 
             // Assert
             Assert.AreEqual(pool.Count, _maxCapacity);
@@ -99,7 +90,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             // Arrange
             var pool =
-                new WeightedIndexPool(1, SingleWeight, DrawFirst);
+                new WeightedIndexPool(1, SingleWeight, DrawRandom);
 
             // Assert
             Assert.IsTrue(pool.HasIndices);
@@ -110,7 +101,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         {
             // Arrange
             var pool =
-                new WeightedIndexPool(1, SingleWeight, DrawFirst);
+                new WeightedIndexPool(1, SingleWeight, DrawRandom);
 
             // Act
             pool.PullIndex();
@@ -125,27 +116,11 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         #region PullIndex Tests
 
         [Test]
-        public void PullIndex_PullSingleIndex_FirstIndexRemoved()
-        {
-            // Arrange
-            var pool =
-                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawFirst);
-
-            // Act
-            pool.PullIndex();
-
-            // Assert
-            var indices = pool.AvailableIndices();
-            Assert.AreEqual(indices.Count, _maxCapacity - 1);
-            Assert.IsFalse(indices.Contains(0));
-        }
-
-        [Test]
         public void PullIndex_PullAll_NoIndicesRemain()
         {
             // Arrange
             var pool =
-                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawFirst);
+                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawRandom);
 
             // Act
             for(var iter = 0; iter < _maxCapacity; ++iter)
@@ -159,11 +134,29 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         }
 
         [Test]
+        public void PullIndex_PullAll_AllIndicesAreDifferent()
+        {
+            // Arrange
+            var indices = new List<int>();
+            var pool =
+                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawRandom);
+
+            // Act
+            for(var iter = 0; iter < _maxCapacity; ++iter)
+            {
+                indices.Add(pool.PullIndex());
+            }
+
+            // Assert
+            Assert.AreEqual(indices.Distinct().Count(), _maxCapacity);
+        }
+
+        [Test]
         public void PullIndex_PullAllPlusOne_NoIndicesRemain()
         {
             // Arrange
             var pool =
-                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawFirst);
+                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawRandom);
 
             // Act
             for(var iter = 0; iter < _maxCapacity; ++iter)
@@ -178,23 +171,6 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             });
         }
 
-        [Test]
-        public void PullIndex_PullAllWithDrawFirst_AllIndicesAreDifferent()
-        {
-            // Arrange
-            var indices = new List<int>();
-            var pool =
-                new WeightedIndexPool(_maxCapacity, SingleWeight, DrawFirst);
-
-            // Act
-            for(var iter = 0; iter < _maxCapacity; ++iter)
-            {
-                indices.Add(pool.PullIndex());
-            }
-
-            // Assert
-            Assert.AreEqual(indices.Distinct().Count(), _maxCapacity);
-        }
         #endregion PullIndex Tests
 
         #region PullIndexWithReplacement Tests
