@@ -7,7 +7,7 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-29 16:27:37 
+Last commit at: 2025-03-29 16:37:51 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -99,17 +99,17 @@ namespace AlchemicalFlux.Utilities.Helpers
         private Func<int, double> IndexToWeight { get; set; }
 
         /// <summary>
+        /// Gets the function to generate random values.
+        /// </summary>
+        private Func<double> Randomizer { get; set; }
+
+        /// <summary>
         /// Gets the weight of the previous index.
         /// </summary>
         /// <param name="index">The index to get the previous weight for.</param>
         /// <returns>The weight of the previous index.</returns>
         private double PrevIndexWeight(int index) =>
             (index == 0) ? 0 : _data[index - 1].WeightRange;
-
-        /// <summary>
-        /// Gets the function to generate random values.
-        /// </summary>
-        private Func<double> Randomizer { get; set; }
 
         #endregion Properties
 
@@ -131,6 +131,10 @@ namespace AlchemicalFlux.Utilities.Helpers
         public WeightedIndexPool(int count, Func<int, double> indexToWeight,
             Func<double> randomizer)
         {
+            if(count <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
             if(indexToWeight == null)
             {
                 throw new ArgumentNullException(nameof(indexToWeight));
@@ -368,4 +372,3 @@ namespace AlchemicalFlux.Utilities.Helpers
         #endregion Methods
     }
 }
-
