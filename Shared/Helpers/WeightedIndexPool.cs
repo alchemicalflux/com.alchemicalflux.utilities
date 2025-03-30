@@ -7,7 +7,7 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-29 16:37:51 
+Last commit at: 2025-03-29 20:47:59 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -133,15 +133,18 @@ namespace AlchemicalFlux.Utilities.Helpers
         {
             if(count <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(count));
+                throw new ArgumentOutOfRangeException(nameof(count),
+                    "Count must be greater than zero.");
             }
             if(indexToWeight == null)
             {
-                throw new ArgumentNullException(nameof(indexToWeight));
+                throw new ArgumentNullException(nameof(indexToWeight), 
+                    "Index to weight function cannot be null.");
             }
             if(randomizer == null)
             {
-                throw new ArgumentNullException(nameof(randomizer));
+                throw new ArgumentNullException(nameof(randomizer), 
+                    "Randomizer function cannot be null.");
             }
 
             Count = count;
