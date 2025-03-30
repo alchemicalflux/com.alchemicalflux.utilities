@@ -7,7 +7,7 @@ Overview:   Provides a container for randomly selecting weighted indices while
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-29 20:47:59 
+Last commit at: 2025-03-30 10:11:18 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
@@ -52,6 +52,47 @@ namespace AlchemicalFlux.Utilities.Helpers
             /// Locked indices are considered in use and cannot be shuffled.
             /// </summary>
             public bool IsLocked;
+
+            /// <summary>
+            /// Sets the data entry with the specified reference index 
+            /// and weight range.
+            /// </summary>
+            /// <param name="refIndex">The reference index.</param>
+            /// <param name="weightRange">The weight range.</param>
+            public void SetValues(int refIndex, double weightRange)
+            {
+                RefIndex = refIndex;
+                WeightRange = weightRange;
+            }
+
+            /// <summary>
+            /// Sets the weight while including the specified previous value.
+            /// </summary>
+            /// <param name="indexToWeight">
+            /// Function to determine the weight of an index.
+            /// </param>
+            /// <param name="prevValue">The previous value.</param>
+            public double SetWeightWithPrev(Func<int, double> indexToWeight,
+                double prevValue)
+            {
+                return WeightRange = indexToWeight(RefIndex) + prevValue;
+            }
+
+            /// <summary>
+            /// Unlocks the data entry.
+            /// </summary>
+            /// <exception cref="InvalidOperationException">
+            /// Thrown when the data entry is already unlocked.
+            /// </exception>
+            public void Unlock()
+            {
+                if(!IsLocked)
+                {
+                    throw new InvalidOperationException(
+                        "Data entry is already unlocked.");
+                }
+                IsLocked = false;
+            }
         }
 
         #endregion Definitions
@@ -83,7 +124,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         public int Count { get; private set; }
 
         /// <summary>
-        /// Gets the number of indices remaining in the pool.
+        /// Gets the number of indices in the available pool.
         /// </summary>
         public int IndicesRemaining => Count - _offset;
 
@@ -103,14 +144,6 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         private Func<double> Randomizer { get; set; }
 
-        /// <summary>
-        /// Gets the weight of the previous index.
-        /// </summary>
-        /// <param name="index">The index to get the previous weight for.</param>
-        /// <returns>The weight of the previous index.</returns>
-        private double PrevIndexWeight(int index) =>
-            (index == 0) ? 0 : _data[index - 1].WeightRange;
-
         #endregion Properties
 
         #region Methods
@@ -123,7 +156,9 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <param name="indexToWeight">
         /// Function to determine the weight of an index.
         /// </param>
-        /// <param name="randomizer">Function to generate random values.</param>
+        /// <param name="randomizer">
+        /// Function to generate random values.
+        /// </param>
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="indexToWeight"/> or <paramref 
         /// name="randomizer"/> is null.
@@ -138,12 +173,12 @@ namespace AlchemicalFlux.Utilities.Helpers
             }
             if(indexToWeight == null)
             {
-                throw new ArgumentNullException(nameof(indexToWeight), 
+                throw new ArgumentNullException(nameof(indexToWeight),
                     "Index to weight function cannot be null.");
             }
             if(randomizer == null)
             {
-                throw new ArgumentNullException(nameof(randomizer), 
+                throw new ArgumentNullException(nameof(randomizer),
                     "Randomizer function cannot be null.");
             }
 
@@ -158,7 +193,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         #region Operations
 
         /// <summary>
-        /// Pulls an index from the pool without replacement.
+        /// Pulls an index from the available pool without replacement.
         /// </summary>
         /// <returns>The pulled index.</returns>
         /// <exception cref="InvalidOperationException">
@@ -171,18 +206,18 @@ namespace AlchemicalFlux.Utilities.Helpers
             _data[dataIndex].IsLocked = true;
             ++_offset;
             var lastIndex = Count - _offset;
-            Swap(dataIndex, lastIndex);
+            SwapDataEntries(dataIndex, lastIndex);
 
             RebuildWeights(dataIndex, lastIndex);
             return _data[lastIndex].RefIndex;
         }
 
         /// <summary>
-        /// Pulls an index from the pool with replacement.
+        /// Pulls an index from the available pool with replacement.
         /// </summary>
         /// <returns>The pulled index.</returns>
         /// <exception cref="InvalidOperationException">
-        /// Thrown when no pulls remain.
+        /// Thrown when no available pulls remain.
         /// </exception>
         public int PullIndexWithReplacement()
         {
@@ -202,7 +237,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Discards an index from the pool.
+        /// Discards an index from the pool, preventing it from being repulled
+        /// until a shuffle occurs.
         /// </summary>
         /// <param name="index">The index to discard.</param>
         public void DiscardIndex(int index)
@@ -211,22 +247,22 @@ namespace AlchemicalFlux.Utilities.Helpers
         }
 
         /// <summary>
-        /// Returns an index to the pool.
+        /// Returns an index to the available pool.
         /// </summary>
         /// <param name="index">The index to return.</param>
         public void ReturnIndex(int index)
         {
             var dataIndex = MarkAsUnlocked(index);
             var last = Count - _offset;
-            Swap(dataIndex, last);
+            SwapDataEntries(dataIndex, last);
             --_offset;
 
-            _data[last].WeightRange = IndexToWeight(_data[last].RefIndex) +
-                PrevIndexWeight(last);
+            _data[last].SetWeightWithPrev(IndexToWeight,
+                PrevIndexWeight(last));
         }
 
         /// <summary>
-        /// Shuffles the pool.
+        /// Shuffles the available pool.
         /// </summary>
         public void Shuffle()
         {
@@ -240,7 +276,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             {
                 for(; left < right && !_data[left].IsLocked; ++left) { }
                 for(; left < right && _data[right].IsLocked; --right) { }
-                if(left < right) { Swap(left, right); }
+                if(left < right) { SwapDataEntries(left, right); }
             }
             _offset = Count - ++right;
 
@@ -275,10 +311,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             var result = new List<int>();
             for(var index = _offset; index > 0; --index)
             {
-                if(_data[^index].IsLocked)
-                {
-                    result.Add(_data[^index].RefIndex);
-                }
+                var curData = _data[^index];
+                if(curData.IsLocked) { result.Add(curData.RefIndex); }
             }
             return result;
         }
@@ -292,10 +326,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             var result = new List<int>();
             for(var index = _offset; index > 0; --index)
             {
-                if(!_data[^index].IsLocked)
-                {
-                    result.Add(_data[^index].RefIndex);
-                }
+                var curData = _data[^index];
+                if(!curData.IsLocked) { result.Add(curData.RefIndex); }
             }
             return result;
         }
@@ -303,6 +335,18 @@ namespace AlchemicalFlux.Utilities.Helpers
         #endregion Accessing
 
         #region Helpers
+
+        /// <summary>
+        /// Gets the weight of the previous index.
+        /// </summary>
+        /// <param name="index">
+        /// The index to get the previous weight for.
+        /// </param>
+        /// <returns>The weight of the previous index.</returns>
+        private double PrevIndexWeight(int index)
+        {
+            return (index == 0) ? 0 : _data[index - 1].WeightRange;
+        }
 
         /// <summary>
         /// Resets the pool to its initial state.
@@ -314,8 +358,7 @@ namespace AlchemicalFlux.Utilities.Helpers
             for(var index = 0; index < Count; ++index)
             {
                 totalWeight += IndexToWeight(index);
-                _data[index].RefIndex = index;
-                _data[index].WeightRange = totalWeight;
+                _data[index].SetValues(index, totalWeight);
                 _indexToData[index] = index;
             }
         }
@@ -325,14 +368,26 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// </summary>
         /// <param name="index1">The first index to swap.</param>
         /// <param name="index2">The second index to swap.</param>
-        private void Swap(int index1, int index2)
+        private void SwapDataEntries(int index1, int index2)
         {
             if(index1 == index2) { return; }
+            SwapDataEntries(ref _data[index1], ref _data[index2],
+                index1, index2);
+        }
 
-            _indexToData[_data[index1].RefIndex] = index2;
-            _indexToData[_data[index2].RefIndex] = index1;
-
-            (_data[index1], _data[index2]) = (_data[index2], _data[index1]);
+        /// <summary>
+        /// Swaps two data entries and updates their indices.
+        /// </summary>
+        /// <param name="data1">The first data entry.</param>
+        /// <param name="data2">The second data entry.</param>
+        /// <param name="idx1">The index of the first data entry.</param>
+        /// <param name="idx2">The index of the second data entry.</param>
+        private void SwapDataEntries(ref Data data1, ref Data data2,
+            int idx1, int idx2)
+        {
+            _indexToData[data1.RefIndex] = idx2;
+            _indexToData[data2.RefIndex] = idx1;
+            (data1, data2) = (data2, data1);
         }
 
         /// <summary>
@@ -345,8 +400,8 @@ namespace AlchemicalFlux.Utilities.Helpers
             var prevValue = PrevIndexWeight(first);
             for(; first < end; ++first)
             {
-                prevValue += IndexToWeight(_data[first].RefIndex);
-                _data[first].WeightRange = prevValue;
+                prevValue =
+                    _data[first].SetWeightWithPrev(IndexToWeight, prevValue);
             }
         }
 
@@ -361,12 +416,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         private int MarkAsUnlocked(int index)
         {
             var dataIndex = _indexToData[index];
-            if(!_data[dataIndex].IsLocked)
-            {
-                throw new InvalidOperationException(
-                    $"Index {index} already marked as unlocked.");
-            }
-            _data[dataIndex].IsLocked = false;
+            _data[dataIndex].Unlock();
             return dataIndex;
         }
 
