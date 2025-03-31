@@ -5,14 +5,14 @@ Overview:   Implements a clamped Quaternion linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-03-31 02:53:13 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Class that implements a clamped Quaternion spherical interpolation.
+    /// Class that implements a clamped Quaternion linear interpolation.
     /// </summary>
     public sealed class QuaternionLerpImpl : TwoPointInterpolator<Quaternion>
     {
