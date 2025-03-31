@@ -5,7 +5,7 @@ Overview:   Builder pattern wrapper for the BaseTween class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-16 10:24:55 
+Last commit at: 2025-03-31 02:49:32 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System;
@@ -113,13 +113,13 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <summary>
-        /// Builds the tween with the specified parameters.
+        /// Builds a BasicTween with the specified parameters.
         /// </summary>
-        /// <returns>A new <see cref="BaseTween{T}"/> instance.</returns>
+        /// <returns>A new <see cref="BasicTween{T}"/> instance.</returns>
         /// <exception cref="InvalidOperationException">
         /// Thrown when the interpolator or easing function is not set.
         /// </exception>
-        public BaseTween<T> Build()
+        public BasicTween<T> BuildBasicTween()
         {
             if(_interpolator == null)
             {
@@ -132,7 +132,7 @@ namespace AlchemicalFlux.Utilities.Tweens
                     "Easing function must be set before building the tween.");
             }
 
-            var tween = new BaseTween<T>(_interpolator, _easingFunction);
+            var tween = new BasicTween<T>(_interpolator, _easingFunction);
             foreach(var action in _updateActions)
             {
                 tween.AddOnUpdateListener(action);

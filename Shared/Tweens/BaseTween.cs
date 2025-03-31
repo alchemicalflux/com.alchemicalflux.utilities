@@ -6,7 +6,7 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-03-31 02:49:32 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Events;
 using System;
@@ -18,7 +18,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// interpolator and easing components to generate a transitional value.
     /// </summary>
     /// <typeparam name="TType">The type of the value being tweened.</typeparam>
-    public class BaseTween<TType> : ITween, IOnUpdateEvent<TType>
+    public abstract class BaseTween<TType> : ITween, IOnUpdateEvent<TType>
         where TType : IEquatable<TType>
     {
         #region Fields
@@ -73,7 +73,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         public virtual void Show(bool show) { }
 
         /// <inheritdoc />
-        public void ApplyProgress(float progress)
+        public virtual void ApplyProgress(float progress)
         {
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
         }
@@ -82,20 +82,14 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region IOnUpdateEvent Implementation
 
-        /// <summary>
-        /// Adds an update listener.
-        /// </summary>
-        /// <param name="action">The action to be called on update.</param>
-        public void AddOnUpdateListener(Action<TType> action)
+        /// <inheritdoc />
+        public virtual void AddOnUpdateListener(Action<TType> action)
         {
             OnUpdate += action;
         }
 
-        /// <summary>
-        /// Removes an update listener.
-        /// </summary>
-        /// <param name="action">The action to be removed.</param>
-        public void RemoveOnUpdateListener(Action<TType> action)
+        /// <inheritdoc />
+        public virtual void RemoveOnUpdateListener(Action<TType> action)
         {
             OnUpdate -= action;
         }
@@ -103,3 +97,4 @@ namespace AlchemicalFlux.Utilities.Tweens
         #endregion IOnUpdateEvent Implementation
     }
 }
+
