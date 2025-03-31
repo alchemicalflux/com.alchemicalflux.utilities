@@ -5,7 +5,7 @@ Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-16 10:15:37 
+Last commit at: 2025-03-31 00:52:30 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -107,7 +107,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             _coroutine.Stop();
 
             _coroutine.OnComplete -= _onComplete;
-            _onComplete = onComplete; 
+            _onComplete = onComplete;
             _coroutine.OnComplete += _onComplete;
 
             foreach(var tween in Tweens) { tween.Show(true); }
