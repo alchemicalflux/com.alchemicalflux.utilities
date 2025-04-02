@@ -5,7 +5,7 @@ Overview:   Interface for handling the tweening of inheriting structure.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 04:42:53 
+Last commit at: 2025-04-01 19:14:41 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {

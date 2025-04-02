@@ -6,7 +6,7 @@ Overview:   Implements a basic tween using interpolator and easing components
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-31 02:49:32 
+Last commit at: 2025-04-01 19:14:41 
 ------------------------------------------------------------------------------*/
 using System;
 
