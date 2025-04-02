@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-File:       Vector2BezierCurveImpl.cs 
+File:       Vector3BezierCurveImpl.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Implements a Vector2 Bezier curve interpolation.
+Overview:   Implements a Vector3 Bezier curve interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-11 22:41:08 
+Last commit at: 2025-04-01 19:18:22 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,32 +13,32 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Class that implements a Vector2 Bezier curve interpolation.
+    /// Class that implements a Vector3 Bezier curve interpolation.
     /// </summary>
-    public sealed class Vector2BezierCurveImpl
-        : BezierCurveInterpolator<Vector2>
+    public sealed class Vector3BezierCurveImpl
+        : BezierCurveInterpolator<Vector3>
     {
         #region Methods
 
         /// <summary>
-        /// Constructor for the Vector2BezierCurveImpl class, which implements a
-        /// Vector2 Bezier curve interpolation.
+        /// Constructor for the Vector3BezierCurveImpl class, which implements a
+        /// Vector3 Bezier curve interpolation.
         /// </summary>
         /// <param name="nodes">
         /// Reference to the list of nodes for generating the Bezier curve.
         /// </param>
-        public Vector2BezierCurveImpl(IList<Vector2> nodes) : base(nodes)
+        public Vector3BezierCurveImpl(IList<Vector3> nodes) : base(nodes)
         {
         }
 
         /// <inheritdoc />
-        protected override void AddTo(ref Vector2 result, Vector2 node)
+        protected override void AddTo(ref Vector3 result, Vector3 node)
         {
             result += node;
         }
 
         /// <inheritdoc />
-        protected override Vector2 MultiplyBy(Vector2 node, float progress)
+        protected override Vector3 MultiplyBy(Vector3 node, float progress)
         {
             return node * progress;
         }

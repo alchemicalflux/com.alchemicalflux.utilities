@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-16 19:58:12 
+Last commit at: 2025-04-01 19:18:22 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 

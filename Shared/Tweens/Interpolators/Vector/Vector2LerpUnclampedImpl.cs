@@ -1,30 +1,30 @@
 /*------------------------------------------------------------------------------
-File:       Vector2LerpImpl.cs 
+File:       Vector2LerpUnclampedImpl.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Implements a Vector2 linear interpolation.
+Overview:   Implements an unclamped Vector2 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-04-01 19:18:22 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Class that implements a clamped Vector2 linear interpolation.
+    /// Class that implements an unclamped Vector2 linear interpolation.
     /// </summary>
-    public sealed class Vector2LerpImpl : TwoPointInterpolator<Vector2>
+    public sealed class Vector2LerpUnclampedImpl : TwoPointInterpolator<Vector2>
     {
         #region Methods
 
         /// <summary>
-        /// Constructor for the Vector2LerpImpl class, which implements a linear
-        /// Vector2 interpolation.
+        /// Constructor for the Vector2LerpUnclampedImpl class, which implements 
+        /// an unclamped linear Vector2 interpolation.
         /// </summary>
         /// <param name="start">The initial vector for interpolation.</param>
         /// <param name="end">The final vector for interpolation.</param>
-        public Vector2LerpImpl(Vector2 start, Vector2 end) :
+        public Vector2LerpUnclampedImpl(Vector2 start, Vector2 end) :
             base(start, end)
         {
         }
@@ -32,7 +32,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Vector2 Interpolate(float progress)
         {
-            return Vector2.Lerp(Start, End, progress);
+            return Vector2.LerpUnclamped(Start, End, progress);
         }
 
         #endregion Methods

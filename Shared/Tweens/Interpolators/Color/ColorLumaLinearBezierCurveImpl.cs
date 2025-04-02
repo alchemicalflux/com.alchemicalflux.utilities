@@ -6,7 +6,7 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-04-01 19:18:22 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
