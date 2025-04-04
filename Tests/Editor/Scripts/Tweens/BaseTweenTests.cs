@@ -7,7 +7,7 @@ Overview:   Provides a base class for unit tests of tween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 19:59:24 
+Last commit at: 2025-04-03 21:17:25 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
@@ -120,19 +120,62 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
+        /// Tests that ApplyProgress invokes the OnUpdate event with the correct
+        /// interpolated value.
+        /// </summary>
+        [Test]
+        public virtual void ApplyProgress_ValidProgress_InvokesOnUpdateWithCorrectValue()
+        {
+            // Arrange
+            TType expectedValue = default;
+            _mockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
+                .Returns(expectedValue);
+            TType actualValue = default;
+            BaseTweenRef.AddOnUpdateListener(value => actualValue = value);
+
+            // Act
+            BaseTweenRef.ApplyProgress(0.5f);
+
+            // Assert
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        /// <summary>
+        /// Tests that multiple update listeners are called.
+        /// </summary>
+        [Test]
+        public virtual void ApplyProgress_MultipleListeners_AllListenersCalled()
+        {
+            // Arrange
+            bool listener1Called = false;
+            bool listener2Called = false;
+            BaseTweenRef.AddOnUpdateListener(value => listener1Called = true);
+            BaseTweenRef.AddOnUpdateListener(value => listener2Called = true);
+
+            // Act
+            BaseTweenRef.ApplyProgress(0.5f);
+
+            // Assert
+            Assert.IsTrue(listener1Called);
+            Assert.IsTrue(listener2Called);
+        }
+
+        /// <summary>
         /// Tests that a valid action can be added as an update listener.
         /// </summary>
         [Test]
         public virtual void AddOnUpdateListener_ValidAction_ActionAdded()
         {
             // Arrange
-            Action<TType> action = value => { };
-
-            // Act
+            bool onUpdateCalled = false;
+            Action<TType> action = value => onUpdateCalled = true;
             BaseTweenRef.AddOnUpdateListener(action);
 
+            // Act
+            BaseTweenRef.ApplyProgress(0.5f);
+
             // Assert
-            Assert.DoesNotThrow(() => BaseTweenRef.ApplyProgress(0.5f));
+            Assert.IsTrue(onUpdateCalled);
         }
 
         /// <summary>
