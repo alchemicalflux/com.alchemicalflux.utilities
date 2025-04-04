@@ -6,7 +6,7 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-01 19:14:41 
+Last commit at: 2025-04-03 20:02:04 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Events;
 using System;
@@ -75,6 +75,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public virtual void ApplyProgress(float progress)
         {
+            if(progress < 0.0f || progress > 1.0f)
+            {
+                throw new ArgumentOutOfRangeException(nameof(progress), 
+                    "Progress must be between 0 and 1.");
+            }
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
         }
 
