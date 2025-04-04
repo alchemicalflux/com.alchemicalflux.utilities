@@ -8,7 +8,7 @@ Overview:   Provides a base class for unit tests of ITween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 21:17:25 
+Last commit at: 2025-04-03 23:03:42 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;

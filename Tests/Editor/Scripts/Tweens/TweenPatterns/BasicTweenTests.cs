@@ -8,7 +8,7 @@ Overview:   Defines the base test class for tween tests, providing common
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 19:59:24 
+Last commit at: 2025-04-03 23:03:42 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
