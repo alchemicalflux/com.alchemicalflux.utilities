@@ -8,7 +8,7 @@ Overview:   Provides a base class for unit tests of ITween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 23:03:42 
+Last commit at: 2025-04-16 19:18:32 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -104,6 +104,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         [Test]
         public virtual void ApplyProgress_InvalidMinProgress_ThrowsArgumentOutOfRangeException()
         {
+            Assert.Greater(ITweenRef.MinProgress, float.MinValue);
+            Assert.Greater(ITweenRef.MinProgress, float.NegativeInfinity);
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 ITweenRef.ApplyProgress(ITweenRef.MinProgress - 0.1f));
         }
@@ -116,6 +118,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         [Test]
         public virtual void ApplyProgress_InvalidMaxProgress_ThrowsArgumentOutOfRangeException()
         {
+            Assert.Less(ITweenRef.MaxProgress, float.MaxValue);
+            Assert.Less(ITweenRef.MaxProgress, float.PositiveInfinity);
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 ITweenRef.ApplyProgress(ITweenRef.MaxProgress + 0.1f));
         }
