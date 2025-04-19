@@ -1,27 +1,24 @@
 /*------------------------------------------------------------------------------
 File:       TwoPointInterpolatorTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Provides a base class for unit tests of TwoPointInterpolator 
-            implementations. This class includes common setup and basic tests to
-            ensure that interpolator implementations can be tested for basic
-            functionality such as generating interpolated values based on 
-            progress.
+Overview:   Provides an abstract base class for unit tests of the 
+            TwoPointInterpolator<TType> class. This class defines common test 
+            cases for verifying the behavior of interpolators that span two 
+            values, including property validation and progress-based 
+            interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-16 19:18:32 
+Last commit at: 2025-04-18 18:44:06 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
-using Moq;
 using System;
 
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
     /// <summary>
-    /// Provides a base class for unit tests of TwoPointInterpolator implementations.
-    /// This class includes common setup and basic tests to ensure that 
-    /// interpolator implementations can be tested for basic functionality 
-    /// such as generating interpolated values based on progress.
+    /// Abstract base class for unit tests of
+    /// <see cref="TwoPointInterpolator{TType}"/>.
     /// </summary>
     /// <typeparam name="TType">
     /// The type of the value being interpolated.
@@ -32,37 +29,49 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     {
         #region Properties
 
-        protected abstract IInterpolator<TType> _interpolator { get; }
-
         /// <summary>
-        /// Mock TwoPointInterpolator used for testing.
+        /// Gets the instance of the <see cref="TwoPointInterpolator{TType}"/>
+        /// being tested.
         /// </summary>
-        protected TwoPointInterpolator<TType> TwoPointInterpolator { get; set; }
+        protected abstract
+            TwoPointInterpolator<TType> TwoPointInterpolator { get; set; }
 
         #endregion Properties
 
         #region IInterpolator
 
-        public abstract void InterpolatorTests_ValidProgress_ReturnsExpectedValue(float progress, TType expectedValue);
+        /// <inheritdoc />
+        [Test]
+        public abstract void InterpolatorTests_Progress_ReturnsExpectedValue(
+            float progress, TType expectedValue);
+
+        /// <inheritdoc />
+        [Test]
+        public abstract void InterpolatorTests_Progress_ReturnsArgumentOutOfRangeException(
+            float progress);
 
         #endregion IInterpolator
 
         #region Methods
 
+        /// <summary>
+        /// Sets up the test environment before each test is executed.
+        /// </summary>
         [SetUp]
         public abstract void Setup();
 
         /// <summary>
-        /// Tests that the Start property can be set and retrieved correctly.
+        /// Tests that the <see cref="TwoPointInterpolator{TType}.Start"/>
+        /// property can be set and retrieved correctly.
         /// </summary>
         [Test]
         public virtual void StartProperty_SetAndGet_ReturnsCorrectValue()
         {
             // Arrange
             TType startValue = default;
-            TwoPointInterpolator.Start = startValue;
 
             // Act
+            TwoPointInterpolator.Start = startValue;
             TType actualValue = TwoPointInterpolator.Start;
 
             // Assert
@@ -70,16 +79,17 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that the End property can be set and retrieved correctly.
+        /// Tests that the <see cref="TwoPointInterpolator{TType}.End"/> 
+        /// property can be set and retrieved correctly.
         /// </summary>
         [Test]
         public virtual void EndProperty_SetAndGet_ReturnsCorrectValue()
         {
             // Arrange
             TType endValue = default;
-            TwoPointInterpolator.End = endValue;
 
             // Act
+            TwoPointInterpolator.End = endValue;
             TType actualValue = TwoPointInterpolator.End;
 
             // Assert

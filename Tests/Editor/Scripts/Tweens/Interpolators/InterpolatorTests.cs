@@ -1,11 +1,14 @@
 /*------------------------------------------------------------------------------
 File:       InterpolatorTests.cs 
-Project:    YourProjectName  # Replace with project name
-Overview:   YourOverview  # Replace with overview
-Copyright:  2025 YourName/YourCompany. All rights reserved.  # Replace with copyright
+Project:    AlchemicalFlux Utilities
+Overview:   Provides a utility class for testing interpolator implementations.
+            This class includes methods for validating interpolator behavior
+            with both valid and invalid progress values, as well as generating
+            test cases for interpolation scenarios.
+Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-16 19:18:32 
+Last commit at: 2025-04-18 18:44:06 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -13,70 +16,165 @@ using System.Collections.Generic;
 
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
-    public sealed class InterpolatorTests<TType> : IInterpolatorTests<TType>
-        where TType : IEquatable<TType>
+    /// <summary>
+    /// Provides utility methods and test cases for testing implementations of
+    /// the <see cref="IInterpolator{TType}"/> interface.
+    /// </summary>
+    /// <typeparam name="TType">
+    /// The type of the value being interpolated.
+    /// </typeparam>
+    public sealed class InterpolatorTests<TType> where TType : IEquatable<TType>
     {
-        private readonly Dictionary<string, TestCaseData> _validTests = new()
-        {
-            { "ZeroCase", new(0.0f, default(TType)) },
-            { "HalfCase", new(0.5f, default(TType)) },
-            { "OneCase", new(1.0f, default(TType)) }
-        };
+        #region Fields
 
-        private readonly Dictionary<string, TestCaseData> _invalidTests = new()
-        {
-            { "NegativeProgress", new(-0.1f, default(TType)) },
-            { "ProgressGreaterThanOne", new(1.1f, default(TType)) },
-            { "NaNProgress", new(float.NaN, default(TType)) },
-            { "PositiveInfinityProgress", new(float.PositiveInfinity, default(TType)) },
-            { "NegativeInfinityProgress", new(float.NegativeInfinity, default(TType)) }
-        };
+        /// <summary>
+        /// Stores valid progress test cases for interpolation.
+        /// </summary>
+        private readonly Dictionary<string, TestCaseData>
+            _validProgressTests = CreateProgressTests(
+                default, default, default, default);
 
-        private readonly TestCaseSourceHelper _validTestHelper;
-        private readonly TestCaseSourceHelper _invalidTestHelper;
-        private readonly IInterpolator<TType> _interpolator;
+        /// <summary>
+        /// Helper for managing valid progress test cases.
+        /// </summary>
+        private readonly TestCaseSourceHelper _validProgressHelper;
 
+        /// <summary>
+        /// Helper for managing invalid progress test cases.
+        /// </summary>
+        private readonly TestCaseSourceHelper _invalidProgressHelper;
+
+        #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the collection of valid progress test cases.
+        /// </summary>
         public IEnumerable<TestCaseData> ValidProgressTestCases =>
-            _validTestHelper.GetTestCases();
-        public IEnumerable<TestCaseData> InvalidProgressTestCases =>
-            _invalidTestHelper.GetTestCases();
+            _validProgressHelper.GetTestCases();
 
+        /// <summary>
+        /// Gets the collection of invalid progress test cases.
+        /// </summary>
+        public IEnumerable<TestCaseData> InvalidProgressTestCases =>
+            _invalidProgressHelper.GetTestCases();
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Initializes a new instance of the 
+        /// <see cref="InterpolatorTests{TType}"/> class.
+        /// </summary>
         public InterpolatorTests()
         {
-            _validTestHelper = new(_validTests);
-            _invalidTestHelper = new(_invalidTests);
+            _validProgressHelper = new(_validProgressTests);
+            _invalidProgressHelper = new();
         }
 
-        public InterpolatorTests(IInterpolator<TType> interpolator)
+        /// <summary>
+        /// Adds or overwrites valid progress test cases.
+        /// </summary>
+        /// <param name="validTests">
+        /// The dictionary of valid test cases to add.
+        /// </param>
+        /// <returns>
+        /// The current instance of <see cref="InterpolatorTests{TType}"/>
+        /// .</returns>
+        public InterpolatorTests<TType> AddProgressTests(
+            Dictionary<string, TestCaseData> validTests)
         {
-            _interpolator = interpolator;
-            _validTestHelper = new(_validTests);
-            _invalidTestHelper = new(_invalidTests);
-        }
-
-        public InterpolatorTests<TType> AddValidTests(Dictionary<string, TestCaseData> validTests)
-        {
-            _validTestHelper.AddOverwrite(validTests);
+            _validProgressHelper.Overwrite(validTests);
             return this;
         }
-        public InterpolatorTests<TType> AddInvalidTests(Dictionary<string, TestCaseData> invalidTests)
-        {
-            _invalidTestHelper.AddOverwrite(invalidTests);
-            return this;
-        }
 
-        public void InterpolatorTests_ValidProgress_ReturnsExpectedValue(
+        /// <summary>
+        /// Validates that the interpolator returns the expected value for a 
+        /// given progress.
+        /// </summary>
+        /// <param name="interpolator">The interpolator to test.</param>
+        /// <param name="progress">The progress value to test.</param>
+        /// <param name="expectedValue">The expected interpolated value.</param>
+        public void ValidProgress(IInterpolator<TType> interpolator,
             float progress, TType expectedValue)
         {
-            Assert.IsTrue(expectedValue.Equals(default(TType)));
-            /*
-            var interpolator = _interpolator;
-
+            // Act
             var result = interpolator.Interpolate(progress);
 
+            // Assert
             Assert.AreEqual(expectedValue, result,
-                $"Expected {expectedValue} but got {result} for progress {progress}");
-            */
+                $"Expected {expectedValue} " +
+                $"but got {result} for progress {progress}");
         }
+
+        /// <summary>
+        /// Validates that the interpolator throws an exception for invalid 
+        /// progress values.
+        /// </summary>
+        /// <param name="interpolator">The interpolator to test.</param>
+        /// <param name="progress">The invalid progress value to test.</param>
+        public void InvalidProgress(IInterpolator<TType> interpolator,
+            float progress)
+        {
+            // Act
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
+                { var result = interpolator.Interpolate(progress); },
+                $"Expected ArgumentOutOfRangeException for progress {progress}"
+            );
+        }
+
+        /// <summary>
+        /// Creates a dictionary of test cases for various progress values.
+        /// </summary>
+        /// <param name="start">The starting value for interpolation.</param>
+        /// <param name="end">The ending value for interpolation.</param>
+        /// <param name="nanValue">
+        /// A value representing NaN for invalid cases.
+        /// </param>
+        /// <returns>A dictionary of test cases for interpolation.</returns>
+        public static Dictionary<string, TestCaseData> CreateProgressTests(
+            TType start, TType end, TType half, TType nanValue)
+        {
+            return new()
+            {
+                {
+                    TestCases.ProgressOfZero,
+                    new TestCaseData(0.0f, start)
+                },
+                {
+                    TestCases.ProgressOfHalf,
+                    new TestCaseData(0.5f, half)
+                },
+                {
+                    TestCases.ProgressOfOne,
+                    new TestCaseData(1.0f, end)
+                },
+                {
+                    TestCases.ProgressOfNegativeOne,
+                    new TestCaseData(-1.0f, start)
+                },
+                {
+                    TestCases.ProgressOfTwo,
+                    new TestCaseData(2.0f, end)
+                },
+                {
+                    TestCases.NaNProgress,
+                    new TestCaseData(float.NaN, nanValue)
+                },
+                {
+                    TestCases.PositiveInfinityProgress,
+                    new TestCaseData(float.PositiveInfinity, end)
+                },
+                {
+                    TestCases.NegativeInfinityProgress,
+                    new TestCaseData(float.NegativeInfinity, start)
+                }
+            };
+        }
+
+        #endregion Methods
     }
 }
+
