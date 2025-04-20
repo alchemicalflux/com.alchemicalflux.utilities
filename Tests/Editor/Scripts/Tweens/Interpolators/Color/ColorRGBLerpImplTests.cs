@@ -8,7 +8,7 @@ Overview:   Provides unit tests for the ColorRGBLerpImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-18 18:44:06 
+Last commit at: 2025-04-19 22:48:10 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
