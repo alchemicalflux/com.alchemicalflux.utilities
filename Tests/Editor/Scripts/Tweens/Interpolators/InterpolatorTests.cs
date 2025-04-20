@@ -8,7 +8,7 @@ Overview:   Provides a utility class for testing interpolator implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-18 18:44:06 
+Last commit at: 2025-04-20 06:05:04 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -31,8 +31,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// Stores valid progress test cases for interpolation.
         /// </summary>
         private readonly Dictionary<string, TestCaseData>
-            _validProgressTests = CreateProgressTests(
-                default, default, default, default);
+            _validProgressTests;
 
         /// <summary>
         /// Helper for managing valid progress test cases.
@@ -70,6 +69,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// </summary>
         public InterpolatorTests()
         {
+            // Initialize valid progress test cases with default values.
+            _validProgressTests = CreateProgressTests(
+                default, default, default, default);
+
+            // Initialize helpers with appropriate test cases.
             _validProgressHelper = new(_validProgressTests);
             _invalidProgressHelper = new();
         }
@@ -130,6 +134,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// </summary>
         /// <param name="start">The starting value for interpolation.</param>
         /// <param name="end">The ending value for interpolation.</param>
+        /// <param name="half">The value at 50% progress.</param>
         /// <param name="nanValue">
         /// A value representing NaN for invalid cases.
         /// </param>
@@ -177,4 +182,3 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         #endregion Methods
     }
 }
-

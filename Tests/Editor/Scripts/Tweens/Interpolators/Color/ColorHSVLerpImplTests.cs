@@ -1,10 +1,10 @@
 /*------------------------------------------------------------------------------
-File:       ColorRGBLerpImplTests.cs 
+File:       ColorHSVLerpImplTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Provides unit tests for the ColorRGBLerpImpl class, which performs
-            linear interpolation (lerp) between two Color values. This test
-            class validates the behavior of the interpolator for valid and
-            invalid progress values, as well as property correctness.
+Overview:   Provides unit tests for the ColorHSVLerpImpl class, which performs
+            linear interpolation (lerp) between two Color values in HSV space.
+            This test class validates the behavior of the interpolator for 
+            valid and invalid progress values, as well as property correctness.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
@@ -17,9 +17,9 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
     /// <summary>
-    /// Unit tests for the <see cref="ColorRGBLerpImpl"/> class.
+    /// Unit tests for the <see cref="ColorHSVLerpImpl"/> class.
     /// </summary>
-    public class ColorRGBLerpImplTests : TwoPointInterpolatorTests<Color>
+    public class ColorHSVLerpImplTests : TwoPointInterpolatorTests<Color>
     {
         #region Fields
 
@@ -39,10 +39,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// A color that is halfway between the start and end colors.
         /// </summary>
         private static readonly Color _halfColor =
-            new Color(0.5f, 0.0f, 0.5f, 1.0f);
+            new Color(1.0f, 0.0f, 1.0f, 1.0f);
 
         /// <summary>
-        /// A color with clear for NaN test case.
+        /// A color with clear for Nan test case.
         /// </summary>
         private static readonly Color _nanColor = Color.clear;
 
@@ -60,7 +60,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         /// <inheritdoc />
         protected override
-            TwoPointInterpolator<Color> TwoPointInterpolator { get; set; }
+            TwoPointInterpolator<Color> TwoPointInterpolator
+        { get; set; }
 
         /// <summary>
         /// Gets the valid progress test cases for interpolation.
@@ -81,10 +82,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// <summary>
         /// Static constructor to initialize test cases for the class.
         /// </summary>
-        static ColorRGBLerpImplTests()
+        static ColorHSVLerpImplTests()
         {
             var progressTests = InterpolatorTests<Color>.CreateProgressTests(
-                    _startColor, _endColor, _halfColor, _nanColor);
+                _startColor, _endColor, _halfColor, _nanColor);
             _interpolatorTests.AddProgressTests(progressTests);
         }
 
@@ -92,7 +93,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         [SetUp]
         public override void Setup()
         {
-            TwoPointInterpolator = new ColorRGBLerpImpl(_startColor, _endColor);
+            TwoPointInterpolator = new ColorHSVLerpImpl(_startColor, _endColor);
         }
 
         /// <inheritdoc />
@@ -100,7 +101,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public override void InterpolatorTests_Progress_ReturnsExpectedValue(
             float progress, Color expectedValue)
         {
-            var interpolator = new ColorRGBLerpImpl(_startColor, _endColor);
+            var interpolator = new ColorHSVLerpImpl(_startColor, _endColor);
             _interpolatorTests.ValidProgress(
                 interpolator, progress, expectedValue);
         }
@@ -110,8 +111,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public override void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress)
         {
-            var interpolator = new ColorRGBLerpImpl(_startColor, _endColor);
-            _interpolatorTests.InvalidProgress(interpolator, progress);
+            var interpolator = new ColorHSVLerpImpl(_startColor, _endColor);
+            _interpolatorTests.InvalidProgress(
+                interpolator, progress);
         }
 
         #endregion Methods

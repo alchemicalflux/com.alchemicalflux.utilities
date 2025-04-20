@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
 File:       ColorRGBLerpImpl.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Implements a Color lerp using an linear interpolation across all
+Overview:   Implements a Color lerp using a linear interpolation across all
             values of the Color class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-01 19:18:22 
+Last commit at: 2025-04-20 06:05:04 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -35,6 +35,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
+            // Handle NaN progress values by returning a default color.
+            if(float.IsNaN(progress)) { return Color.clear; }
             return Color.Lerp(Start, End, progress);
         }
 

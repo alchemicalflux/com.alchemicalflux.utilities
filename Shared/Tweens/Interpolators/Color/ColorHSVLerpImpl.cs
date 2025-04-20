@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the HSV color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-01 19:18:22 
+Last commit at: 2025-04-20 06:05:04 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -80,6 +80,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
+            if(float.IsNaN(progress)) { return Color.clear; }
+
             // Slerp the hue (ensure the shortest path on the color wheel).
             var h = Mathf.LerpAngle(_hStart, _hEnd, progress);
             h = Mathf.Repeat(h, 360f) / 360f;

@@ -9,7 +9,7 @@ Overview:   Provides an abstract base class for unit tests of the
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-18 18:44:06 
+Last commit at: 2025-04-20 06:05:04 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -34,7 +34,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// being tested.
         /// </summary>
         protected abstract
-            TwoPointInterpolator<TType> TwoPointInterpolator { get; set; }
+            TwoPointInterpolator<TType> TwoPointInterpolator
+        { get; set; }
 
         #endregion Properties
 
@@ -47,7 +48,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         /// <inheritdoc />
         [Test]
-        public abstract void InterpolatorTests_Progress_ReturnsArgumentOutOfRangeException(
+        public abstract void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress);
 
         #endregion IInterpolator
@@ -68,14 +69,15 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public virtual void StartProperty_SetAndGet_ReturnsCorrectValue()
         {
             // Arrange
-            TType startValue = default;
+            TType startValue = GetDefaultValue();
 
             // Act
             TwoPointInterpolator.Start = startValue;
             TType actualValue = TwoPointInterpolator.Start;
 
             // Assert
-            Assert.AreEqual(startValue, actualValue);
+            Assert.AreEqual(startValue, actualValue, 
+                "The Start property did not return the expected value.");
         }
 
         /// <summary>
@@ -86,14 +88,28 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public virtual void EndProperty_SetAndGet_ReturnsCorrectValue()
         {
             // Arrange
-            TType endValue = default;
+            TType endValue = GetDefaultValue();
 
             // Act
             TwoPointInterpolator.End = endValue;
             TType actualValue = TwoPointInterpolator.End;
 
             // Assert
-            Assert.AreEqual(endValue, actualValue);
+            Assert.AreEqual(endValue, actualValue, 
+                "The End property did not return the expected value.");
+        }
+
+        /// <summary>
+        /// Provides a default value for the type <typeparamref name="TType"/>.
+        /// Override this method in derived classes to provide meaningful test 
+        /// values.
+        /// </summary>
+        /// <returns>
+        /// A default value for the type <typeparamref name="TType"/>.
+        /// </returns>
+        protected virtual TType GetDefaultValue()
+        {
+            return default;
         }
 
         #endregion Methods

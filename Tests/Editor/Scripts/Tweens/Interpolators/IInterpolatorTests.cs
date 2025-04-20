@@ -6,7 +6,7 @@ Overview:   Defines an interface for testing interpolator implementations,
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-18 18:44:06 
+Last commit at: 2025-04-20 06:05:04 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
@@ -40,7 +40,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// The invalid progress value to test, such as values less than 0 or 
         /// greater than 1.
         /// </param>
-        void InterpolatorTests_Progress_ReturnsArgumentOutOfRangeException(
+        void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress);
     }
 }

@@ -7,12 +7,13 @@ Overview:   Provides a static class containing constant names for test cases
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-18 18:44:06 
+Last commit at: 2025-04-20 06:05:04 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
     /// <summary>
-    /// Contains constant names for test cases used in interpolation tests.
+    /// Provides constant names for test cases used in interpolation tests.
+    /// These constants are used to identify specific progress scenarios.
     /// </summary>
     public static class TestCases
     {
@@ -49,13 +50,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// <summary>
         /// Test case name for progress value of positive infinity.
         /// </summary>
-        public const string PositiveInfinityProgress = 
+        public const string PositiveInfinityProgress =
             "PositiveInfinityProgress";
 
         /// <summary>
         /// Test case name for progress value of negative infinity.
         /// </summary>
-        public const string NegativeInfinityProgress = 
+        public const string NegativeInfinityProgress =
             "NegativeInfinityProgress";
     }
 }
