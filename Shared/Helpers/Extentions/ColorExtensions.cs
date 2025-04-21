@@ -7,8 +7,9 @@ Overview:   Helper functions to extend the Color class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-12 14:35:05 
+Last commit at: 2025-04-20 23:55:24 
 ------------------------------------------------------------------------------*/
+using AlchemicalFlux.Utilities.Constants;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
@@ -28,8 +29,24 @@ namespace AlchemicalFlux.Utilities.Helpers
             // Rec. 709 luminance formula
             Color linearColor = color.linear;
             return 0.2126f * linearColor.r +
-                0.7152f * linearColor.g +
-                0.0722f * linearColor.b;
+                   0.7152f * linearColor.g +
+                   0.0722f * linearColor.b;
+        }
+
+        /// <summary>
+        /// Determines if two colors are approximately equal within a threshold.
+        /// </summary>
+        /// <param name="color">The base color.</param>
+        /// <param name="toTest">The color to compare against.</param>
+        /// <returns>
+        /// True if the colors are approximately equal; otherwise, false.
+        /// </returns>
+        public static bool IsApproximately(this Color color, Color toTest)
+        {
+            return Mathf.Abs(toTest.r - color.r) <= ColorConstants.Threshold &&
+                   Mathf.Abs(toTest.g - color.g) <= ColorConstants.Threshold &&
+                   Mathf.Abs(toTest.b - color.b) <= ColorConstants.Threshold &&
+                   Mathf.Abs(toTest.a - color.a) <= ColorConstants.Threshold;
         }
     }
 }
