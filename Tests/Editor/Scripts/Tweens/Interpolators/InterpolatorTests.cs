@@ -8,7 +8,7 @@ Overview:   Provides a utility class for testing interpolator implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-20 06:05:04 
+Last commit at: 2025-04-21 00:43:18 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -101,14 +101,35 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// <param name="interpolator">The interpolator to test.</param>
         /// <param name="progress">The progress value to test.</param>
         /// <param name="expectedValue">The expected interpolated value.</param>
-        public void ValidProgress(IInterpolator<TType> interpolator,
-            float progress, TType expectedValue)
+        public void ValidProgress(
+            IInterpolator<TType> interpolator,
+            float progress,
+            TType expectedValue)
+        {
+            ValidProgress(interpolator, progress, expectedValue, CheckIfEqual);
+        }
+
+        /// <summary>
+        /// Validates that the interpolator returns the expected value for a 
+        /// given progress using a custom equality function.
+        /// </summary>
+        /// <param name="interpolator">The interpolator to test.</param>
+        /// <param name="progress">The progress value to test.</param>
+        /// <param name="expectedValue">The expected interpolated value.</param>
+        /// <param name="checkEqualFunc">
+        /// A function to compare the expected and actual values.
+        /// </param>
+        public void ValidProgress(
+            IInterpolator<TType> interpolator,
+            float progress,
+            TType expectedValue,
+            Func<TType, TType, bool> checkEqualFunc)
         {
             // Act
             var result = interpolator.Interpolate(progress);
 
             // Assert
-            Assert.AreEqual(expectedValue, result,
+            Assert.IsTrue(checkEqualFunc(expectedValue, result),
                 $"Expected {expectedValue} " +
                 $"but got {result} for progress {progress}");
         }
@@ -122,9 +143,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public void InvalidProgress(IInterpolator<TType> interpolator,
             float progress)
         {
-            // Act
+            // Act & Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
-                { var result = interpolator.Interpolate(progress); },
+                interpolator.Interpolate(progress),
                 $"Expected ArgumentOutOfRangeException for progress {progress}"
             );
         }
@@ -177,6 +198,17 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                     new TestCaseData(float.NegativeInfinity, start)
                 }
             };
+        }
+        
+        /// <summary>
+        /// Default method to compare two objects of type TType for equality.
+        /// </summary>
+        /// <param name="expected">The expected value.</param>
+        /// <param name="actual">The actual value.</param>
+        /// <returns>True if the values are equal; otherwise, false.</returns>
+        private static bool CheckIfEqual(TType expected, TType actual)
+        {
+            return expected != null && expected.Equals(actual);
         }
 
         #endregion Methods

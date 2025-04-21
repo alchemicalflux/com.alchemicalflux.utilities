@@ -8,7 +8,7 @@ Overview:   Provides unit tests for the ColorHSVLerpImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-20 06:05:04 
+Last commit at: 2025-04-21 00:43:18 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// <summary>
     /// Unit tests for the <see cref="ColorHSVLerpImpl"/> class.
     /// </summary>
-    public class ColorHSVLerpImplTests : TwoPointInterpolatorTests<Color>
+    public class ColorHSVLerpImplTests : TwoPointColorInterpolatorTests
     {
         #region Fields
 
@@ -36,15 +36,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         private static readonly Color _endColor = Color.blue;
 
         /// <summary>
-        /// A color that is halfway between the start and end colors.
+        /// A color that is halfway between the start and end colors in HSV 
+        /// space.
         /// </summary>
         private static readonly Color _halfColor =
             new Color(1.0f, 0.0f, 1.0f, 1.0f);
-
-        /// <summary>
-        /// A color with clear for Nan test case.
-        /// </summary>
-        private static readonly Color _nanColor = Color.clear;
 
         #endregion Constants
 
@@ -85,7 +81,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         static ColorHSVLerpImplTests()
         {
             var progressTests = InterpolatorTests<Color>.CreateProgressTests(
-                _startColor, _endColor, _halfColor, _nanColor);
+                _startColor, _endColor, _halfColor, NanColor);
             _interpolatorTests.AddProgressTests(progressTests);
         }
 
@@ -103,7 +99,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         {
             var interpolator = new ColorHSVLerpImpl(_startColor, _endColor);
             _interpolatorTests.ValidProgress(
-                interpolator, progress, expectedValue);
+                interpolator, progress, expectedValue, IsApproximately);
         }
 
         /// <inheritdoc />
@@ -112,10 +108,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             float progress)
         {
             var interpolator = new ColorHSVLerpImpl(_startColor, _endColor);
-            _interpolatorTests.InvalidProgress(
-                interpolator, progress);
+            _interpolatorTests.InvalidProgress(interpolator, progress);
         }
 
         #endregion Methods
     }
 }
+

@@ -8,7 +8,7 @@ Overview:   Provides unit tests for the ColorRGBLerpImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-20 06:05:04 
+Last commit at: 2025-04-21 00:43:18 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// <summary>
     /// Unit tests for the <see cref="ColorRGBLerpImpl"/> class.
     /// </summary>
-    public class ColorRGBLerpImplTests : TwoPointInterpolatorTests<Color>
+    public class ColorRGBLerpImplTests : TwoPointColorInterpolatorTests
     {
         #region Fields
 
@@ -41,11 +41,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         private static readonly Color _halfColor =
             new Color(0.5f, 0.0f, 0.5f, 1.0f);
 
-        /// <summary>
-        /// A color with clear for NaN test case.
-        /// </summary>
-        private static readonly Color _nanColor = Color.clear;
-
         #endregion Constants
 
         /// <summary>
@@ -60,7 +55,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         /// <inheritdoc />
         protected override
-            TwoPointInterpolator<Color> TwoPointInterpolator { get; set; }
+            TwoPointInterpolator<Color> TwoPointInterpolator
+        { get; set; }
 
         /// <summary>
         /// Gets the valid progress test cases for interpolation.
@@ -84,7 +80,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         static ColorRGBLerpImplTests()
         {
             var progressTests = InterpolatorTests<Color>.CreateProgressTests(
-                    _startColor, _endColor, _halfColor, _nanColor);
+                    _startColor, _endColor, _halfColor, NanColor);
             _interpolatorTests.AddProgressTests(progressTests);
         }
 
@@ -102,7 +98,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         {
             var interpolator = new ColorRGBLerpImpl(_startColor, _endColor);
             _interpolatorTests.ValidProgress(
-                interpolator, progress, expectedValue);
+                interpolator, progress, expectedValue, IsApproximately);
         }
 
         /// <inheritdoc />
@@ -117,3 +113,4 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         #endregion Methods
     }
 }
+
