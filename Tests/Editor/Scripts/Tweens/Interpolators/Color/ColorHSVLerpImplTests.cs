@@ -8,13 +8,13 @@ Overview:   Provides unit tests for the ColorHSVLerpImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-21 00:43:18 
+Last commit at: 2025-04-21 19:14:07 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AlchemicalFlux.Utilities.Tweens.Tests
+namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
 {
     /// <summary>
     /// Unit tests for the <see cref="ColorHSVLerpImpl"/> class.
@@ -97,9 +97,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public override void InterpolatorTests_Progress_ReturnsExpectedValue(
             float progress, Color expectedValue)
         {
-            var interpolator = new ColorHSVLerpImpl(_startColor, _endColor);
             _interpolatorTests.ValidProgress(
-                interpolator, progress, expectedValue, IsApproximately);
+                TwoPointInterpolator, progress, expectedValue, IsApproximately);
         }
 
         /// <inheritdoc />
@@ -107,8 +106,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public override void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress)
         {
-            var interpolator = new ColorHSVLerpImpl(_startColor, _endColor);
-            _interpolatorTests.InvalidProgress(interpolator, progress);
+            _interpolatorTests.InvalidProgress(TwoPointInterpolator, progress);
         }
 
         #endregion Methods
