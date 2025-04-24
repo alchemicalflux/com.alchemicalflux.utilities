@@ -1,7 +1,8 @@
 /*------------------------------------------------------------------------------
-File:       TwoPointColorInterpolatorTests.cs 
+File:       BezierCurveColorInterpolatorTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Abstract base class for unit tests of two-point color interpolators.
+Overview:   Abstract base class for unit tests of bezier curve color 
+            interpolators.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
@@ -14,10 +15,12 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
     /// <summary>
-    /// Abstract base class for unit tests of two-point color interpolators.
+    /// Abstract base class for unit tests of bezier curve color interpolators.
+    /// Provides common functionality and utilities for testing color 
+    /// interpolation.
     /// </summary>
-    public abstract class TwoPointColorInterpolatorTests
-        : TwoPointInterpolatorTests<Color>
+    public abstract class BezierCurveColorInterpolatorTests
+        : BezierCurveInterpolatorTests<Color>
     {
         #region Fields
 
