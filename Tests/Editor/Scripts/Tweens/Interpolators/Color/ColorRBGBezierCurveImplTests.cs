@@ -1,21 +1,23 @@
 /*------------------------------------------------------------------------------
 File:       ColorRBGBezierCurveImplTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   
+Overview:   Unit tests for the ColorRBGBezierCurveImpl class, which performs
+            Bezier curve interpolation for colors. This test class validates
+            the behavior of the interpolator for valid and invalid progress
+            values, as well as property correctness.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-24 04:09:35 
+Last commit at: 2025-04-24 19:30:32 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
 {
     /// <summary>
-    /// Unit tests for the <see cref="ColorRGBLerpImpl"/> class.
+    /// Unit tests for the <see cref="ColorRGBBezierCurveImpl"/> class.
     /// </summary>
     public class ColorRBGBezierCurveImplTests
         : BezierCurveColorInterpolatorTests
@@ -52,7 +54,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
 
         #region Properties
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets or sets the instance of the
+        /// <see cref="BezierCurveInterpolator{TType}"/> being tested.
+        /// </summary>
         protected override
             BezierCurveInterpolator<Color> BezierCurveInterpolator
         { get; set; }
@@ -67,16 +72,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         /// Gets the invalid progress test cases for interpolation.
         /// </summary>
         private static IEnumerable<TestCaseData> InvalidProgressTests =>
-            _interpolatorTests.InvalidProgressTestCases.Any()
-                ? _interpolatorTests.InvalidProgressTestCases
-                : new List<TestCaseData>
-                {
-                    new TestCaseData(0f)
-                        .SetName("Placeholder_InvalidProgressTest")
-                        .SetDescription(
-                            "This is a placeholder test case because no " +
-                            "invalid progress cases are currently possible.")
-                };
+            _interpolatorTests.InvalidProgressTestCases;
 
         #endregion Properties
 
@@ -92,7 +88,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
             _interpolatorTests.AddProgressTests(progressTests);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Sets up the test environment before each test is executed.
+        /// </summary>
         [SetUp]
         public override void Setup()
         {
@@ -100,30 +98,36 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
             BezierCurveInterpolator = new ColorRGBBezierCurveImpl(list);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Tests that the interpolator returns the expected value for valid
+        /// progress values.
+        /// </summary>
+        /// <param name="progress">The progress value to test.</param>
+        /// <param name="expectedValue">
+        /// The expected interpolated color value.
+        /// </param>
         [TestCaseSource(nameof(ValidProgressTests))]
         public override void InterpolatorTests_Progress_ReturnsExpectedValue(
             float progress, Color expectedValue)
         {
             _interpolatorTests.ValidProgress(
-                BezierCurveInterpolator, 
-                progress, 
-                expectedValue, 
+                BezierCurveInterpolator,
+                progress,
+                expectedValue,
                 IsApproximately);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Tests that the interpolator throws an exception for invalid progress
+        /// values.
+        /// </summary>
+        /// <param name="progress">The invalid progress value to test.</param>
         [TestCaseSource(nameof(InvalidProgressTests))]
         public override void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress)
         {
-            if(!_interpolatorTests.InvalidProgressTestCases.Any())
-            {
-                Assert.Ignore("No invalid progress test cases available.");
-            }
-
             _interpolatorTests.InvalidProgress(
-                BezierCurveInterpolator, 
+                BezierCurveInterpolator,
                 progress);
         }
 

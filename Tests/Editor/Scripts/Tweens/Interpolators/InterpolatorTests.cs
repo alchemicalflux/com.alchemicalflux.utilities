@@ -8,7 +8,7 @@ Overview:   Provides a utility class for testing interpolator implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-21 00:43:18 
+Last commit at: 2025-04-24 19:30:32 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -125,6 +125,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             TType expectedValue,
             Func<TType, TType, bool> checkEqualFunc)
         {
+            // Arrange
+            _validProgressHelper.IgnoreIfNoTestCases();
+
             // Act
             var result = interpolator.Interpolate(progress);
 
@@ -143,7 +146,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public void InvalidProgress(IInterpolator<TType> interpolator,
             float progress)
         {
-            // Act & Assert
+            // Arrange
+            _invalidProgressHelper.IgnoreIfNoTestCases();
+
+            // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
                 interpolator.Interpolate(progress),
                 $"Expected ArgumentOutOfRangeException for progress {progress}"

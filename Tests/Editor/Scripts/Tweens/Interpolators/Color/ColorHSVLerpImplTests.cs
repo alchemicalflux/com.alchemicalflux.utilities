@@ -8,7 +8,7 @@ Overview:   Provides unit tests for the ColorHSVLerpImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-21 19:14:07 
+Last commit at: 2025-04-24 19:30:32 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -102,7 +102,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         }
 
         /// <inheritdoc />
-        //[TestCaseSource(nameof(InvalidProgressTests))]
+        [TestCaseSource(nameof(InvalidProgressTests))]
         public override void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress)
         {
