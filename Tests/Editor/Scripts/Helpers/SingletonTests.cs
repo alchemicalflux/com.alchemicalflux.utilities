@@ -5,7 +5,7 @@ Overview:   Test cases for the generic abstract Singleton class.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-04-24 19:25:07 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 
@@ -44,7 +44,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_ClassIsUnsealed_ThrowsInvalidOperationException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(UnsealedSingleton).Name;
             var expectedResult = SEM.SealedErrMsg(name);
 
@@ -58,7 +58,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_HasMultipleConstructors_ThrowsInvalidOperationException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithMultipleConstructors).Name;
             var length = 2;
             var expectedResult = SEM.TooManyConstructorsErrMsg(name, length);
@@ -72,7 +72,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_ConstructorHasParameters_ThrowsInvalidOperationException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithParameteredConstuctor).Name;
             var expectedResult = SEM.TooManyParametersErrMsg(name);
 
@@ -85,7 +85,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_ConstructorIsNotPrivate_ThrowInvalidOperationException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithPublicConstructor).Name;
             var expectedResult = SEM.PublicConstructorErrMsg(name);
 
@@ -98,7 +98,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_MethodReturnsSingleton_ThrowsArgumentException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithMethodReturningInstance).Name;
             var method = "TestMethod";
             var expectedResult = SEM.MethodReturnErrMsg(name, method);
@@ -112,7 +112,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_MethodHasSingletonParameter_ThrowsArgumentException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithMethodWithInstanceParameter).Name;
             var method = "TestMethod";
             var expectedResult = SEM.MethodParameterErrMsg(name, method);
@@ -126,7 +126,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_GetterIsSingletonInstance_ThrowsArgumentException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithGetterInstanceProperty).Name;
             var method = "get_Test";
             var expectedResult = SEM.MethodReturnErrMsg(name, method);
@@ -140,7 +140,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_SetterIsSingletonInstance_ThrowsArgumentException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithSetterInstanceProperty).Name;
             var method = "set_Test";
             var expectedResult = SEM.MethodParameterErrMsg(name, method);
@@ -154,7 +154,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_ExpressionIsSingletonInstance_ThrowsArgumentException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithExpressionInstanceProperty).Name;
             var method = "get_Test";
             var expectedResult = SEM.MethodReturnErrMsg(name, method);
@@ -168,7 +168,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         [Test]
         public void Constructor_FieldIsSingletonInstance_ThrowsArgumentException()
         {
-            // Assemble
+            // Arrange
             var name = typeof(SingletonWithFieldInstance).Name;
             var field = "Test";
             var expectedResult = SEM.FieldErrMsg(name, field);

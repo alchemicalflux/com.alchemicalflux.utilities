@@ -5,7 +5,7 @@ Overview:   Unit tests for the NullCheck attribute.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-04-24 19:25:07 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -127,7 +127,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void InstantiateGameObject(NullCheckTestType type, 
             int expectedResult)
         {
-            // Assemble
+            // Arrange
             var copy = Object.Instantiate(_testObjects.Get(type));
 
             // Act
