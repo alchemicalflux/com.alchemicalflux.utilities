@@ -6,7 +6,7 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-01 19:18:22 
+Last commit at: 2025-04-26 01:23:14 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -58,6 +58,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Color Interpolate(float progress)
         {
+            if(float.IsNaN(progress)) { return Color.clear; }
+            progress = Mathf.Clamp01(progress);
+
             if(Nodes.Count != NodeCount) { RebuildNodes(); }
             if(NodeCount == 0) { return default; }
             if(NodeCount == 1) { return Nodes[0]; }
