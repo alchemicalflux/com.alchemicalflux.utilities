@@ -8,7 +8,7 @@ Overview:   Provides a utility class for testing interpolator implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-24 19:30:32 
+Last commit at: 2025-04-27 05:33:48 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -71,7 +71,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         {
             // Initialize valid progress test cases with default values.
             _validProgressTests = CreateProgressTests(
-                default, default, default, default);
+                default, default, null, default);
 
             // Initialize helpers with appropriate test cases.
             _validProgressHelper = new(_validProgressTests);
@@ -167,17 +167,16 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// </param>
         /// <returns>A dictionary of test cases for interpolation.</returns>
         public static Dictionary<string, TestCaseData> CreateProgressTests(
-            TType start, TType end, TType half, TType nanValue)
+            TType start, 
+            TType end, 
+            IDictionary<float, TType> safeTests,
+            TType nanValue)
         {
-            return new()
+            var baseLineTests = new Dictionary<string, TestCaseData>()
             {
                 {
                     TestCases.ProgressOfZero,
                     new TestCaseData(0.0f, start)
-                },
-                {
-                    TestCases.ProgressOfHalf,
-                    new TestCaseData(0.5f, half)
                 },
                 {
                     TestCases.ProgressOfOne,
@@ -204,6 +203,16 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                     new TestCaseData(float.NegativeInfinity, start)
                 }
             };
+            
+            if(safeTests == null) { return baseLineTests; }
+
+            foreach(var pair in safeTests)
+            {
+                baseLineTests.Add($"Progress: {pair.Key}", new TestCaseData(
+                    pair.Key, pair.Value));
+            }
+
+            return baseLineTests;
         }
         
         /// <summary>

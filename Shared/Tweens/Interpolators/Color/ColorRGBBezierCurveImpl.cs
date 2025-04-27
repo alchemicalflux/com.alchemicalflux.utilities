@@ -5,7 +5,7 @@ Overview:   Implements a Bezier curve interpolation in the RGB Color space.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-26 01:23:14 
+Last commit at: 2025-04-27 05:33:48 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +33,14 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <inheritdoc />
+        public override Color Interpolate(float progress)
+        {
+            if(float.IsNaN(progress)) { return Color.clear; }
+            progress = Mathf.Clamp01(progress);
+            return base.Interpolate(progress);
+        }
+
+        /// <inheritdoc />
         protected override void AddTo(ref Color result, Color node)
         {
             result += node;
@@ -42,13 +50,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         protected override Color MultiplyBy(Color node, float progress)
         {
             return node * progress;
-        }
-
-        public override Color Interpolate(float progress)
-        {
-            if(float.IsNaN(progress)) { return Color.clear; }
-            progress = Mathf.Clamp01(progress);
-            return base.Interpolate(progress);
         }
 
         #endregion Methods

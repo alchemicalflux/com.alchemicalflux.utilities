@@ -8,7 +8,7 @@ Overview:   Unit tests for the ColorRBGBezierCurveImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-24 19:30:32 
+Last commit at: 2025-04-27 05:33:48 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -37,10 +37,17 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         private static readonly Color _endColor = Color.blue;
 
         /// <summary>
-        /// A color that is halfway between the start and end colors.
+        /// A dictionary of test cases mapping progress values to expected 
+        /// colors.
         /// </summary>
-        private static readonly Color _halfColor =
-            new Color(0.5f, 0.0f, 0.5f, 1.0f);
+        private static readonly Dictionary<float, Color> _testRange = new()
+        {
+            { 0.1f, new Color(0.9f, 0.0f, 0.1f, 1.0f) },
+            { 1.0f / 3.0f, new Color(2.0f / 3.0f, 0.0f, 1.0f / 3.0f, 1.0f) },
+            { 0.5f, new Color(0.5f, 0.0f, 0.5f, 1.0f) },
+            { 2.0f / 3.0f, new Color(1.0f / 3.0f, 0.0f, 2.0f / 3.0f, 1.0f) },
+            { 0.9f, new Color(0.1f, 0.0f, 0.9f, 1.0f) },
+        };
 
         #endregion Constants
 
@@ -84,7 +91,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         static ColorRBGBezierCurveImplTests()
         {
             var progressTests = InterpolatorTests<Color>.CreateProgressTests(
-                    _startColor, _endColor, _halfColor, NanColor);
+                _startColor, _endColor, _testRange, NanColor);
             _interpolatorTests.AddProgressTests(progressTests);
         }
 
