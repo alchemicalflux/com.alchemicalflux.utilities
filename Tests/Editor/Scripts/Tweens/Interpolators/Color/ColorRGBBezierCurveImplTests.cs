@@ -1,14 +1,14 @@
 /*------------------------------------------------------------------------------
-File:       ColorRBGBezierCurveImplTests.cs 
+File:       ColorRGBBezierCurveImplTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Unit tests for the ColorRBGBezierCurveImpl class, which performs
+Overview:   Unit tests for the ColorRGBBezierCurveImpl class, which performs
             Bezier curve interpolation for colors. This test class validates
             the behavior of the interpolator for valid and invalid progress
             values, as well as property correctness.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-27 05:33:48 
+Last commit at: 2025-04-27 21:45:11 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
     /// <summary>
     /// Unit tests for the <see cref="ColorRGBBezierCurveImpl"/> class.
     /// </summary>
-    public class ColorRBGBezierCurveImplTests
+    public class ColorRGBBezierCurveImplTests
         : BezierCurveColorInterpolatorTests
     {
         #region Fields
@@ -32,6 +32,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         private static readonly Color _startColor = Color.red;
 
         /// <summary>
+        /// The middle color for interpolation tests.
+        /// </summary>
+        private static readonly Color _midColor = Color.green;
+
+        /// <summary>
         /// The ending color for interpolation tests.
         /// </summary>
         private static readonly Color _endColor = Color.blue;
@@ -42,11 +47,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         /// </summary>
         private static readonly Dictionary<float, Color> _testRange = new()
         {
-            { 0.1f, new Color(0.9f, 0.0f, 0.1f, 1.0f) },
-            { 1.0f / 3.0f, new Color(2.0f / 3.0f, 0.0f, 1.0f / 3.0f, 1.0f) },
-            { 0.5f, new Color(0.5f, 0.0f, 0.5f, 1.0f) },
-            { 2.0f / 3.0f, new Color(1.0f / 3.0f, 0.0f, 2.0f / 3.0f, 1.0f) },
-            { 0.9f, new Color(0.1f, 0.0f, 0.9f, 1.0f) },
+            { 0.1f, new Color(0.8099999f, 0.18f, 0.01f) },
+            { 1.0f / 3.0f, new Color(0.4444444f, 0.4444444f, 0.1111111f) },
+            { 0.5f, new Color(0.25f, 0.5f, 0.25f) },
+            { 2.0f / 3.0f, new Color(0.1111111f, 0.4444444f, 0.4444444f) },
+            { 0.9f, new Color(0.01f, 0.18f, 0.8099999f) },
         };
 
         #endregion Constants
@@ -88,7 +93,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         /// <summary>
         /// Static constructor to initialize test cases for the class.
         /// </summary>
-        static ColorRBGBezierCurveImplTests()
+        static ColorRGBBezierCurveImplTests()
         {
             var progressTests = InterpolatorTests<Color>.CreateProgressTests(
                 _startColor, _endColor, _testRange, NanColor);
@@ -101,7 +106,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         [SetUp]
         public override void Setup()
         {
-            var list = new List<Color>() { Color.red, Color.blue };
+            var list = new List<Color>() { _startColor, _midColor, _endColor };
             BezierCurveInterpolator = new ColorRGBBezierCurveImpl(list);
         }
 

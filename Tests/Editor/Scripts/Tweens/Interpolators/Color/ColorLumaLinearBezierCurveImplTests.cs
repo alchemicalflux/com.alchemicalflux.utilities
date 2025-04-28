@@ -8,7 +8,7 @@ Overview:   Unit tests for the ColorLumaLinearBezierCurveImpl class, which
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-27 05:33:48 
+Last commit at: 2025-04-27 21:45:11 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -32,6 +32,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         private static readonly Color _startColor = Color.red;
 
         /// <summary>
+        /// The middle color for interpolation tests.
+        /// </summary>
+        private static readonly Color _midColor = Color.green;
+
+        /// <summary>
         /// The ending color for interpolation tests.
         /// </summary>
         private static readonly Color _endColor = Color.blue;
@@ -42,11 +47,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         /// </summary>
         private static readonly Dictionary<float, Color> _testRange = new()
         {
-            { 0.1f, new Color(0.9546871f, 0.0f, 0.3491901f, 1.0f) },
-            { 1.0f / 3.0f, new Color(0.8360069f, 0.0f, 0.612501f, 1.0f) },
-            { 0.5f, new Color(0.7353569f, 0.0f, 0.7353569f, 1.0f) },
-            { 2.0f / 3.0f, new Color(0.612501f, 0.0f, 0.8360069f, 1.0f) },
-            { 0.9f, new Color(0.3491901f, 0.0f, 0.9546871f, 1.0f) },
+            { 0.1f, new Color(0.9113204f, 0.461356f, 0.09985279f, 1.0f) },
+            { 1.0f / 3.0f, new Color(0.6975055f, 0.6975055f, 0.3673294f, 1.0f) },
+            { 0.5f, new Color(0.5370987f, 0.7353569f, 0.5370987f, 1.0f) },
+            { 2.0f / 3.0f, new Color(0.3673294f, 0.6975055f, 0.6975055f, 1.0f) },
+            { 0.9f, new Color(0.09985279f, 0.461356f, 0.9113204f, 1.0f) },
         };
 
         #endregion Constants
@@ -101,7 +106,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         [SetUp]
         public override void Setup()
         {
-            var list = new List<Color>() { Color.red, Color.blue };
+            var list = new List<Color>() { _startColor, _midColor, _endColor };
             BezierCurveInterpolator = new ColorLumaLinearBezierCurveImpl(list);
         }
 
