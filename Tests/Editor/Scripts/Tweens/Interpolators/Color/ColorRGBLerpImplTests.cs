@@ -8,7 +8,7 @@ Overview:   Provides unit tests for the ColorRGBLerpImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-27 05:33:48 
+Last commit at: 2025-04-29 00:00:03 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -40,9 +40,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         /// </summary>
         private static readonly Dictionary<float, Color> _testRange = new()
         {
-            { 0.5f, new Color(0.5f, 0.0f, 0.5f, 1.0f) },
-            { 1.0f / 3.0f, new Color(2.0f / 3.0f, 0.0f, 1.0f / 3.0f, 1.0f) },
             { 0.1f, new Color(0.9f, 0.0f, 0.1f, 1.0f) },
+            { 1.0f / 3.0f, new Color(2.0f / 3.0f, 0.0f, 1.0f / 3.0f, 1.0f) },
+            { 0.5f, new Color(0.5f, 0.0f, 0.5f, 1.0f) },
+            { 2.0f / 3.0f, new Color(1.0f / 3.0f, 0.0f, 2.0f / 3.0f, 1.0f) },
+            { 0.9f, new Color(0.1f, 0.0f, 0.9f, 1.0f) },
         };
 
         #endregion Constants
