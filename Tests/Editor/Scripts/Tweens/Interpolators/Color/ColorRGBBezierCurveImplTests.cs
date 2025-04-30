@@ -8,7 +8,7 @@ Overview:   Unit tests for the ColorRGBBezierCurveImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-29 19:55:02 
+Last commit at: 2025-04-29 20:23:27 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -42,8 +42,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         private static readonly Color _endColor = Color.blue;
 
         /// <summary>
-        /// A dictionary of test cases mapping progress values to expected 
-        /// colors.
+        /// A dictionary of progress values and their expected interpolated
+        /// results for valid test cases.
         /// </summary>
         private static readonly Dictionary<float, Color> _testRange = new()
         {
@@ -57,7 +57,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         #endregion Constants
 
         /// <summary>
-        /// A helper for managing valid and invalid progress test cases.
+        /// A helper for managing IInterpolator test cases.
         /// </summary>
         private static readonly
             InterpolatorTests<Color> _interpolatorTests = new();
