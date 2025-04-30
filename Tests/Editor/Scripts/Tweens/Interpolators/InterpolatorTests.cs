@@ -8,7 +8,7 @@ Overview:   Provides a utility class for testing interpolator implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-27 05:33:48 
+Last commit at: 2025-04-29 19:55:02 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -25,39 +25,17 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// </typeparam>
     public sealed class InterpolatorTests<TType> where TType : IEquatable<TType>
     {
-        #region Fields
-
-        /// <summary>
-        /// Stores valid progress test cases for interpolation.
-        /// </summary>
-        private readonly Dictionary<string, TestCaseData>
-            _validProgressTests;
-
-        /// <summary>
-        /// Helper for managing valid progress test cases.
-        /// </summary>
-        private readonly TestCaseSourceHelper _validProgressHelper;
-
-        /// <summary>
-        /// Helper for managing invalid progress test cases.
-        /// </summary>
-        private readonly TestCaseSourceHelper _invalidProgressHelper;
-
-        #endregion Fields
-
         #region Properties
 
         /// <summary>
-        /// Gets the collection of valid progress test cases.
+        /// Gets the helper for managing valid progress test cases.
         /// </summary>
-        public IEnumerable<TestCaseData> ValidProgressTestCases =>
-            _validProgressHelper.GetTestCases();
+        public TestCaseSourceHelper ValidProgressTests { get; private set; }
 
         /// <summary>
-        /// Gets the collection of invalid progress test cases.
+        /// Gets the helper for managing invalid progress test cases.
         /// </summary>
-        public IEnumerable<TestCaseData> InvalidProgressTestCases =>
-            _invalidProgressHelper.GetTestCases();
+        public TestCaseSourceHelper InvalidProgressTests { get; private set; }
 
         #endregion Properties
 
@@ -70,28 +48,12 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public InterpolatorTests()
         {
             // Initialize valid progress test cases with default values.
-            _validProgressTests = CreateProgressTests(
+            var validProgressTests = CreateProgressTests(
                 default, default, null, default);
 
             // Initialize helpers with appropriate test cases.
-            _validProgressHelper = new(_validProgressTests);
-            _invalidProgressHelper = new();
-        }
-
-        /// <summary>
-        /// Adds or overwrites valid progress test cases.
-        /// </summary>
-        /// <param name="validTests">
-        /// The dictionary of valid test cases to add.
-        /// </param>
-        /// <returns>
-        /// The current instance of <see cref="InterpolatorTests{TType}"/>
-        /// .</returns>
-        public InterpolatorTests<TType> AddProgressTests(
-            Dictionary<string, TestCaseData> validTests)
-        {
-            _validProgressHelper.Overwrite(validTests);
-            return this;
+            ValidProgressTests = new(validProgressTests);
+            InvalidProgressTests = new();
         }
 
         /// <summary>
@@ -126,7 +88,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             Func<TType, TType, bool> checkEqualFunc)
         {
             // Arrange
-            _validProgressHelper.IgnoreIfNoTestCases();
+            ValidProgressTests.IgnoreIfNoTestCases();
 
             // Act
             var result = interpolator.Interpolate(progress);
@@ -147,7 +109,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             float progress)
         {
             // Arrange
-            _invalidProgressHelper.IgnoreIfNoTestCases();
+            InvalidProgressTests.IgnoreIfNoTestCases();
 
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() =>
@@ -161,14 +123,16 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// </summary>
         /// <param name="start">The starting value for interpolation.</param>
         /// <param name="end">The ending value for interpolation.</param>
-        /// <param name="half">The value at 50% progress.</param>
+        /// <param name="safeTests">
+        /// A dictionary of safe progress values and their expected results.
+        /// </param>
         /// <param name="nanValue">
         /// A value representing NaN for invalid cases.
         /// </param>
         /// <returns>A dictionary of test cases for interpolation.</returns>
         public static Dictionary<string, TestCaseData> CreateProgressTests(
-            TType start, 
-            TType end, 
+            TType start,
+            TType end,
             IDictionary<float, TType> safeTests,
             TType nanValue)
         {
@@ -203,7 +167,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                     new TestCaseData(float.NegativeInfinity, start)
                 }
             };
-            
+
             if(safeTests == null) { return baseLineTests; }
 
             foreach(var pair in safeTests)
@@ -214,7 +178,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
             return baseLineTests;
         }
-        
+
         /// <summary>
         /// Default method to compare two objects of type TType for equality.
         /// </summary>

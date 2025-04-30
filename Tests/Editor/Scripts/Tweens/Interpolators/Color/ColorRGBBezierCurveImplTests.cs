@@ -8,7 +8,7 @@ Overview:   Unit tests for the ColorRGBBezierCurveImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-27 21:45:11 
+Last commit at: 2025-04-29 19:55:02 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -78,13 +78,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         /// Gets the valid progress test cases for interpolation.
         /// </summary>
         private static IEnumerable<TestCaseData> ValidProgressTests =>
-            _interpolatorTests.ValidProgressTestCases;
+            _interpolatorTests.ValidProgressTests.GetTestCases();
 
         /// <summary>
         /// Gets the invalid progress test cases for interpolation.
         /// </summary>
         private static IEnumerable<TestCaseData> InvalidProgressTests =>
-            _interpolatorTests.InvalidProgressTestCases;
+            _interpolatorTests.InvalidProgressTests.GetTestCases();
 
         #endregion Properties
 
@@ -97,7 +97,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         {
             var progressTests = InterpolatorTests<Color>.CreateProgressTests(
                 _startColor, _endColor, _testRange, NanColor);
-            _interpolatorTests.AddProgressTests(progressTests);
+            _interpolatorTests.ValidProgressTests.Overwrite(progressTests);
         }
 
         /// <summary>
