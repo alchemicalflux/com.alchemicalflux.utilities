@@ -1,8 +1,9 @@
 /*------------------------------------------------------------------------------
-File:       TwoPointVector2InterpolatorTests.cs 
+File:       BezierCurveVector2InterpolatorTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Abstract base class for unit tests of TwoPointInterpolator<Vector2>.
-            Provides a foundation for testing Vector2 interpolation logic.
+Overview:   Abstract base class for unit tests of 
+            BezierCurveInterpolator<Vector2>. Provides a foundation for testing
+            Vector2 interpolation logic using Bezier curves.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
@@ -16,11 +17,18 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
     /// <summary>
     /// Abstract base class for unit tests of 
-    /// <see cref="TwoPointInterpolator{TType}"/> with <see cref="Vector2"/>.
+    /// <see cref="BezierCurveInterpolator{TType}"/> with <see cref="Vector2"/>.
     /// </summary>
-    public abstract class TwoPointVector2InterpolatorTests
-        : TwoPointInterpolatorTests<Vector2>
+    public abstract class BezierCurveVector2InterpolatorTests
+        : BezierCurveInterpolatorTests<Vector2>
     {
+        /// <summary>
+        /// A <see cref="Vector2"/> value representing NaN (Not a Number) for
+        /// invalid test cases.
+        /// </summary>
+        protected static readonly Vector2 NanVector =
+            new Vector2(float.NaN, float.NaN);
+
         /// <summary>
         /// A lambda function for comparing two <see cref="Vector2"/> values
         /// approximately. This is useful for floating-point comparisons where
