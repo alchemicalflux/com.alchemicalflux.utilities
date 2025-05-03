@@ -5,7 +5,7 @@ Overview:   Implements a Vector2 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-29 20:16:53 
+Last commit at: 2025-05-03 04:28:56 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -35,8 +35,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             if(float.IsNaN(progress))
             {
                 throw new System.ArgumentOutOfRangeException(
-                    nameof(progress), $"The value '{progress}' is invalid."
-                );
+                    nameof(progress), "Progress cannot be NaN.");
             }
             return Vector2.Lerp(Start, End, progress);
         }

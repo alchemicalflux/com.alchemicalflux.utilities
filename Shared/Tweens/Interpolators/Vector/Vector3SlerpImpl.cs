@@ -5,7 +5,7 @@ Overview:   Implements a Vector3 spherical interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-01 19:18:22 
+Last commit at: 2025-05-03 04:28:56 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -32,6 +32,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Vector3 Interpolate(float progress)
         {
+            if(float.IsNaN(progress))
+            {
+                throw new System.ArgumentOutOfRangeException(
+                    nameof(progress), "Progress cannot be NaN.");
+            }
             return Vector3.Slerp(Start, End, progress);
         }
 
