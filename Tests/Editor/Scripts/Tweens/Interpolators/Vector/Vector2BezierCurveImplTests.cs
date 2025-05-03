@@ -1,8 +1,8 @@
 /*------------------------------------------------------------------------------
-File:       Vector2LerpUnclampedImplTests.cs 
+File:       Vector2BezierCurveImplTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Unit tests for the Vector2LerpUnclampedImpl class, which performs
-            unclamped linear interpolation for Vector2 values.
+Overview:   Unit tests for the Vector2BezierCurveImpl class, which performs
+            Bezier curve interpolation for Vector2 values.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
@@ -15,10 +15,11 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
 {
     /// <summary>
-    /// Unit tests for the <see cref="Vector2LerpUnclampedImpl"/> class.
+    /// Unit tests for the <see cref="Vector2BezierCurveImpl"/> class, which
+    /// performs Bezier curve interpolation for <see cref="Vector2"/> values.
     /// </summary>
-    public sealed class Vector2LerpUnclampedImplTests
-        : TwoPointVector2InterpolatorTests
+    public sealed class Vector2BezierCurveImplTests
+        : BezierCurveVector2InterpolatorTests
     {
         #region Fields
 
@@ -52,27 +53,23 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         /// default behavior.
         /// </summary>
         private static readonly
-            Dictionary<string, TestCaseData> _passOverrides = new()
+            Dictionary<string, TestCaseData> _validOverrides = new()
             {
                 {
                     TestCases.ProgressOfNegativeOne,
-                    new TestCaseData(-1.0f, new Vector2(-1.0f, -1.0f))
+                    new TestCaseData(-1.0f, -Vector2.one)
                 },
                 {
                     TestCases.ProgressOfTwo,
-                    new TestCaseData(2.0f, new Vector2(2.0f, 2.0f))
+                    new TestCaseData(2.0f, 2 * Vector2.one)
                 },
                 {
                     TestCases.PositiveInfinityProgress,
-                    new TestCaseData(float.PositiveInfinity,
-                        new Vector2(float.PositiveInfinity,
-                            float.PositiveInfinity))
+                    new TestCaseData(float.PositiveInfinity, NanVector)
                 },
                 {
                     TestCases.NegativeInfinityProgress,
-                    new TestCaseData(float.NegativeInfinity,
-                        new Vector2(float.NegativeInfinity,
-                            float.NegativeInfinity))
+                    new TestCaseData(float.NegativeInfinity, NanVector)
                 }
             };
 
@@ -81,7 +78,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         /// default behavior.
         /// </summary>
         private static readonly
-            Dictionary<string, TestCaseData> _failOverrides = new()
+            Dictionary<string, TestCaseData> _invalidOverrides = new()
             {
                 { TestCases.NaNProgress, new TestCaseData(float.NaN) },
             };
@@ -100,7 +97,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
 
         /// <inheritdoc />
         protected override
-            TwoPointInterpolator<Vector2> TwoPointInterpolator
+            BezierCurveInterpolator<Vector2> BezierCurveInterpolator
         { get; set; }
 
         /// <summary>
@@ -122,25 +119,25 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         /// <summary>
         /// Static constructor to initialize test cases for the class.
         /// </summary>
-        static Vector2LerpUnclampedImplTests()
+        static Vector2BezierCurveImplTests()
         {
             var progressTests = InterpolatorTests<Vector2>.CreateProgressTests(
                 _startVector, _endVector, _testRange, default);
             _interpolatorTests.ValidProgressTests
                 .Overwrite(progressTests)
-                .Overwrite(_passOverrides)
-                .Remove(_failOverrides.Keys);
+                .Overwrite(_validOverrides)
+                .Remove(_invalidOverrides.Keys);
 
             _interpolatorTests.InvalidProgressTests
-                .Overwrite(_failOverrides);
+                .Overwrite(_invalidOverrides);
         }
 
         /// <inheritdoc />
         [SetUp]
         public override void Setup()
         {
-            TwoPointInterpolator =
-                new Vector2LerpUnclampedImpl(_startVector, _endVector);
+            BezierCurveInterpolator =
+                new Vector2BezierCurveImpl(new List<Vector2>() { _startVector, _endVector });
         }
 
         /// <inheritdoc />
@@ -149,7 +146,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             float progress, Vector2 expectedValue)
         {
             _interpolatorTests.ValidProgress(
-                TwoPointInterpolator, progress, expectedValue, IsApproximately);
+                BezierCurveInterpolator, progress, expectedValue, IsApproximately);
         }
 
         /// <inheritdoc />
@@ -157,7 +154,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         public override void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress)
         {
-            _interpolatorTests.InvalidProgress(TwoPointInterpolator, progress);
+            _interpolatorTests.InvalidProgress(
+                BezierCurveInterpolator,
+                progress);
         }
 
         #endregion Methods
