@@ -5,8 +5,9 @@ Overview:   Helper functions to extend the float type.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-02 19:42:56 
+Last commit at: 2025-05-04 05:46:42 
 ------------------------------------------------------------------------------*/
+using NUnit.Framework;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Helpers
@@ -21,7 +22,7 @@ namespace AlchemicalFlux.Utilities.Helpers
         /// <summary>
         /// The epsilon value used for approximate comparisons.
         /// </summary>
-        public const float Epsilon = 0.00001f;
+        public const float Epsilon = 0.000001f;
 
         #endregion Constants
 
@@ -44,8 +45,17 @@ namespace AlchemicalFlux.Utilities.Helpers
             if(a == b) { return true; }
             if(Mathf.Approximately(a, b)) { return true; }
 
-            // Custom threshold for approximate comparison
-            return Mathf.Abs(a - b) < Epsilon;
+            #if DEBUG
+            if(TestContext.CurrentTestExecutionContext != null)
+            {
+                // In unit tests, we want to use a custom threshold for
+                // approximate comparison.
+                Debug.Log($"Using custom threshold for comparison: {a} vs {b}");
+                return Mathf.Abs(a - b) < Epsilon;
+            }
+            #endif
+
+            return false;
         }
 
         #endregion Methods
