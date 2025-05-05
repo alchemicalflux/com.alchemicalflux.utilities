@@ -5,7 +5,7 @@ Overview:   Implements an unclamped Quaternion linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-01 19:18:22 
+Last commit at: 2025-05-05 02:39:45 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -35,6 +35,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public override Quaternion Interpolate(float progress)
         {
+            if(float.IsNaN(progress))
+            {
+                throw new System.ArgumentOutOfRangeException(
+                    nameof(progress), "Progress cannot be NaN.");
+            }
             return Quaternion.LerpUnclamped(Start, End, progress);
         }
 
