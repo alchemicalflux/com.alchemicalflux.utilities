@@ -5,7 +5,7 @@ Overview:
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-03 06:23:38 
+Last commit at: 2025-05-04 23:50:44 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -26,6 +26,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         private static readonly Vector3 _startVector = Vector3.zero;
 
         /// <summary>
+        /// The middle vector for interpolation tests.
+        /// </summary>
+        private static readonly Vector3 _midVector = -Vector3.one;
+
+        /// <summary>
         /// The ending vector for interpolation tests.
         /// </summary>
         private static readonly Vector3 _endVector = Vector3.one;
@@ -36,11 +41,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         /// </summary>
         private static readonly Dictionary<float, Vector3> _testRange = new()
         {
-            { 0.1f, new Vector3(0.1f, 0.1f, 0.1f) },
-            { 1.0f / 3.0f, new Vector3(1.0f / 3.0f, 1.0f / 3.0f, 1.0f / 3.0f) },
-            { 0.5f, new Vector3(0.5f, 0.5f, 0.5f) },
-            { 2.0f / 3.0f, new Vector3(2.0f / 3.0f, 2.0f / 3.0f, 2.0f / 3.0f) },
-            { 0.9f, new Vector3(0.9f, 0.9f, 0.9f) },
+            { 0.1f, new Vector3(-0.17f, -0.17f, -0.17f) },
+            { 1.0f / 3.0f, new Vector3(-1.0f / 3.0f, -1.0f / 3.0f, -1.0f / 3.0f) },
+            { 0.5f, new Vector3(-0.25f, -0.25f, -0.25f) },
+            { 2.0f / 3.0f, new Vector3(0.0f, 0.0f, 0.0f) },
+            { 0.9f, new Vector3(0.6299999f, 0.6299999f, 0.6299999f) },
         };
 
         /// <summary>
@@ -52,19 +57,19 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             {
                 {
                     TestCases.ProgressOfNegativeOne,
-                    new TestCaseData(-1.0f, -Vector3.one)
+                    new TestCaseData(-1.0f, _startVector)
                 },
                 {
                     TestCases.ProgressOfTwo,
-                    new TestCaseData(2.0f, 2 * Vector3.one)
+                    new TestCaseData(2.0f, _endVector)
                 },
                 {
                     TestCases.PositiveInfinityProgress,
-                    new TestCaseData(float.PositiveInfinity, NanVector)
+                    new TestCaseData(float.PositiveInfinity, _endVector)
                 },
                 {
                     TestCases.NegativeInfinityProgress,
-                    new TestCaseData(float.NegativeInfinity, NanVector)
+                    new TestCaseData(float.NegativeInfinity, _startVector)
                 }
             };
 
@@ -131,8 +136,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         [SetUp]
         public override void Setup()
         {
-            BezierCurveInterpolator =
-                new Vector3BezierCurveImpl(new List<Vector3>() { _startVector, _endVector });
+            var list = 
+                new List<Vector3>() { _startVector, _midVector, _endVector };
+            BezierCurveInterpolator = new Vector3BezierCurveImpl(list);
         }
 
         /// <inheritdoc />
