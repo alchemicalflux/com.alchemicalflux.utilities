@@ -5,7 +5,7 @@ Overview:   Implements a Vector3 Bezier curve interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-03 04:28:56 
+Last commit at: 2025-05-04 23:45:19 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -40,11 +40,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         protected override Vector3 MultiplyBy(Vector3 node, float progress)
         {
-            if(float.IsNaN(progress))
-            {
-                throw new System.ArgumentOutOfRangeException(
-                    nameof(progress), "Progress cannot be NaN.");
-            }
             return node * progress;
         }
 

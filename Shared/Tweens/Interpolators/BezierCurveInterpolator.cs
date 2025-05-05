@@ -5,11 +5,12 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-12 00:48:47 
+Last commit at: 2025-05-04 23:45:19 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
 using System.Numerics;
+using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -143,9 +144,16 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public virtual TType Interpolate(float progress)
         {
-            if(Nodes.Count != NodeCount) { RebuildNodes(); }
-            if(NodeCount == 0) { return default; }
+            if(float.IsNaN(progress))
+            {
+                throw new System.ArgumentOutOfRangeException(
+                    nameof(progress), "Progress cannot be NaN.");
+            }
 
+            if(NodeCount == 0) { return default; }
+            if(Nodes.Count != NodeCount) { RebuildNodes(); }
+ 
+            progress = Mathf.Clamp01(progress);
             GenerateInterpolationMultipliers(progress, 1 - progress);
 
             TType result = MultiplyBy(Nodes[0], TempMults[0]);
