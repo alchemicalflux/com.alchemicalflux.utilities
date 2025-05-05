@@ -6,7 +6,7 @@ Overview:   Unit tests for the Vector2LerpImpl class, which performs linear
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-29 20:16:53 
+Last commit at: 2025-05-05 02:50:49 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -46,31 +46,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             { 2.0f / 3.0f, new Vector2(2.0f / 3.0f, 2.0f / 3.0f) },
             { 0.9f, new Vector2(0.9f, 0.9f) },
         };
-
-        /// <summary>
-        /// Overrides for valid progress test cases that deviate from the
-        /// default behavior.
-        /// </summary>
-        private static readonly
-            Dictionary<string, TestCaseData> _validOverrides = new()
-            {
-                {
-                    TestCases.ProgressOfNegativeOne,
-                    new TestCaseData(-1.0f, _startVector)
-                },
-                {
-                    TestCases.ProgressOfTwo,
-                    new TestCaseData(2.0f, _endVector)
-                },
-                {
-                    TestCases.PositiveInfinityProgress,
-                    new TestCaseData(float.PositiveInfinity, _endVector)
-                },
-                {
-                    TestCases.NegativeInfinityProgress,
-                    new TestCaseData(float.NegativeInfinity, _startVector)
-                }
-            };
 
         /// <summary>
         /// Overrides for invalid progress test cases that deviate from the
@@ -124,7 +99,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
                 _startVector, _endVector, _testRange, default);
             _interpolatorTests.ValidProgressTests
                 .Overwrite(progressTests)
-                .Overwrite(_validOverrides)
                 .Remove(_invalidOverrides.Keys);
 
             _interpolatorTests.InvalidProgressTests
