@@ -5,7 +5,8 @@
         "UnityEditor.TestRunner",
         "UnityEngine.TestRunner",
         "AlchemicalFlux.Utilities.Editor",
-        "AlchemicalFlux.Utilities.Shared"
+        "AlchemicalFlux.Utilities.Shared",
+        "AlchemicalFlux.Utilities.Runtime"
     ],
     "includePlatforms": [
         "Editor"
