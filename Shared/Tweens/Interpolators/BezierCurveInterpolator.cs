@@ -5,25 +5,26 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-04 23:45:19 
+Last commit at: 2025-05-19 01:27:00 
 ------------------------------------------------------------------------------*/
-using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Abstract base for interpolations using the Bezier Curve.
+    /// Abstract base class for interpolations using a Bezier curve.
+    /// Provides the structure for interpolating between a set of nodes
+    /// of type <typeparamref name="TType"/> using a Bezier curve algorithm.
     /// </summary>
     /// <typeparam name="TType">Type to be interpolated.</typeparam>
-    public abstract class BezierCurveInterpolator<TType> : IInterpolator<TType>
+    public abstract class BezierCurveInterpolator<TType>
+        : IInterpolator<TType>
     {
         #region Fields
 
         /// <summary>
-        /// Intermediary storage for the Nodes property.
+        /// Intermediary storage for the <see cref="Nodes"/> property.
         /// </summary>
         private List<TType> _nodes;
 
@@ -32,39 +33,28 @@ namespace AlchemicalFlux.Utilities.Tweens
         #region Properties
 
         /// <summary>
-        /// Tracks the currently configured node count setting.
-        /// </summary>
-        public int NodeCount { get; protected set; } = int.MinValue;
-
-        /// <summary>
-        /// List of nodes to be used to generate the Bezier curve.
+        /// Gets or sets the list of nodes to be used to generate the Bezier
+        /// curve. Setting this property will rebuild the internal node
+        /// structure.
         /// </summary>
         public IList<TType> Nodes
         {
             get { return _nodes.AsReadOnly(); }
-            set 
+            set
             {
                 _nodes = new List<TType>(value);
                 RebuildNodes();
             }
         }
 
-        /// <summary>
-        /// List of Pascal's Triangle values for a given row of the triangle.
-        /// </summary>
-        protected IReadOnlyList<BigInteger> PascalTriangleRow { get; set; }
-
-        /// <summary>
-        /// A permanent list for generating multipliers for interpolation.
-        /// </summary>
-        protected List<float> TempMults { get; set; } = new();
-
         #endregion Properties
 
         #region Methods
 
         /// <summary>
-        /// Parameterless constructor for the BezierCurveInterpolator class.
+        /// Initializes a new instance of the
+        /// <see cref="BezierCurveInterpolator{TType}"/> class with an empty
+        /// node list.
         /// </summary>
         public BezierCurveInterpolator()
         {
@@ -72,7 +62,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <summary>
-        /// Parameterized constructor for the BezierCurveInterpolator class.
+        /// Initializes a new instance of the
+        /// <see cref="BezierCurveInterpolator{TType}"/> class with the
+        /// specified list of nodes.
         /// </summary>
         /// <param name="nodes">
         /// Reference to the list of nodes for generating the Bezier curve.
@@ -82,88 +74,102 @@ namespace AlchemicalFlux.Utilities.Tweens
             Nodes = nodes;
         }
 
-        /// <summary>
-        /// Generates the multipliers for node interpolation.
-        /// </summary>
-        /// <param name="prog">Progress from 0.</param>
-        /// <param name="invProg">The opposite progression from 1.</param>
-        protected virtual void GenerateInterpolationMultipliers(float prog,
-            float invProg)
-        {
-            TempMults[0] = (float)PascalTriangleRow[0];
-            var mult = prog;
-            for(var index = 1; index < NodeCount; ++index, mult *= prog)
-            {
-                TempMults[index] = (float)PascalTriangleRow[index];
-                TempMults[index] *= mult;
-            }
-            mult = invProg;
-            for(var index = 2; index <= NodeCount; ++index, mult *= invProg)
-            {
-                TempMults[^index] *= mult;
-            }
-        }
+        #region IInterpolator Implementation
 
         /// <summary>
-        /// Rebuilds TempMults and PascalTriangleRow to cover the current Nodes
-        /// size for safe interpolation calculations.
+        /// Generates an interpolated value based on the given progress amount.
+        /// </summary>
+        /// <param name="progress">
+        /// Interpolation value, typically expected to be between [0-1] but not
+        /// guaranteed.
+        /// </param>
+        /// <returns>
+        /// A value generated based on the progress amount.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="progress"/> is NaN.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// Thrown if the node count is zero.
+        /// </exception>
+        public TType Interpolate(float progress)
+        {
+            if(CheckAndLimitProgress(ref progress, out var failValue))
+            {
+                return failValue;
+            }
+            return ProcessInterpolation(progress);
+        }
+
+        #endregion IInterpolator Implementation
+
+        /// <summary>
+        /// Rebuilds internal data structures to match the current
+        /// <see cref="Nodes"/> size.
         /// </summary>
         protected virtual void RebuildNodes()
         {
-            NodeCount = Nodes.Count;
-            if(NodeCount == 0) { return; }
-
-            if(TempMults.Count < NodeCount)
-            {
-                for(var iter = TempMults.Count; iter < NodeCount; ++iter)
-                {
-                    TempMults.Add(0);
-                }
-            }
-            PascalTriangleRow = PascalsTriangle.GetRow(NodeCount - 1);
         }
 
         /// <summary>
-        /// Required function that adds the node's value to the result.
+        /// Checks and limits the progress value to the [0,1] range.
+        /// Handles special cases for NaN progress and invalid node counts.
         /// </summary>
-        /// <param name="result">TType value to be adjusted.</param>
-        /// <param name="node">TType value to be added.</param>
-        protected abstract void AddTo(ref TType result, TType node);
-
-        /// <summary>
-        /// Required function that multiplies the result by a fractional value.
-        /// </summary>
-        /// <param name="node">TType value to be multiplied.</param>
-        /// <param name="progress">Value to be multiplied by.</param>
-        protected abstract TType MultiplyBy(TType node, float progress);
-
-        #endregion Methods
-
-        #region IInterpolator Implementation
-
-        /// <inheritdoc />
-        public virtual TType Interpolate(float progress)
+        /// <param name="progress">
+        /// Reference to the progress value to check and clamp.
+        /// </param>
+        /// <param name="failValue">
+        /// Output value to use if interpolation cannot proceed (e.g., only one
+        /// node).
+        /// </param>
+        /// <returns>
+        /// True if interpolation should return <paramref name="failValue"/>
+        /// immediately; otherwise, false.
+        /// </returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="progress"/> is NaN.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// Thrown if the node count is zero.
+        /// </exception>
+        protected virtual bool CheckAndLimitProgress(
+            ref float progress,
+            out TType failValue)
         {
             if(float.IsNaN(progress))
             {
                 throw new System.ArgumentOutOfRangeException(
                     nameof(progress), "Progress cannot be NaN.");
             }
-
-            if(NodeCount == 0) { return default; }
-            if(Nodes.Count != NodeCount) { RebuildNodes(); }
- 
-            progress = Mathf.Clamp01(progress);
-            GenerateInterpolationMultipliers(progress, 1 - progress);
-
-            TType result = MultiplyBy(Nodes[0], TempMults[0]);
-            for(var index = 1; index < NodeCount; ++index)
+            else if(Nodes.Count == 0)
             {
-                AddTo(ref result, MultiplyBy(Nodes[index], TempMults[index]));
+                throw new System.InvalidOperationException(
+                    $"{nameof(Nodes.Count)} cannot be zero.");
             }
-            return result;
+            else if(Nodes.Count == 1)
+            {
+                failValue = Nodes[0];
+                return true;
+            }
+
+            progress = Mathf.Clamp01(progress);
+            failValue = default;
+            return false;
         }
 
-        #endregion IInterpolator Implementation
+        /// <summary>
+        /// When implemented in a derived class, generates an interpolated value
+        /// based on the given progress amount.
+        /// </summary>
+        /// <param name="progress">
+        /// Interpolation value, typically expected to be between [0-1] but not
+        /// guaranteed.
+        /// </param>
+        /// <returns>
+        /// A value generated based on the progress amount.
+        /// </returns>
+        protected abstract TType ProcessInterpolation(float progress);
+
+        #endregion Methods
     }
 }

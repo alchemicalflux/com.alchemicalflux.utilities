@@ -6,7 +6,7 @@ Overview:   Abstract base class for unit tests of BezierCurveInterpolator.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-24 04:01:05 
+Last commit at: 2025-05-19 01:27:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -17,6 +17,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// <summary>
     /// Abstract base class for unit tests of
     /// <see cref="BezierCurveInterpolator{TType}"/>.
+    /// Provides common test cases and utilities for derived test classes.
     /// </summary>
     /// <typeparam name="TType">
     /// The type of the value being interpolated.
@@ -35,9 +36,26 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             BezierCurveInterpolator<TType> BezierCurveInterpolator
         { get; set; }
 
+        /// <summary>
+        /// Gets or sets the instance of the <see cref="IInterpolator{TType}"/>
+        /// being tested.
+        /// </summary>
+        /// <remarks>
+        /// This property is used to provide a generic interface for the
+        /// interpolator under test, allowing for polymorphic test code.
+        /// </remarks>
+        protected IInterpolator<TType> IInterpolator
+        {
+            get => BezierCurveInterpolator;
+            set => BezierCurveInterpolator =
+                (BezierCurveInterpolator<TType>)value;
+        }
+
         #endregion Properties
 
-        #region IInterpolator
+        #region Methods
+
+        #region IInterpolatorTests Implementation
 
         /// <summary>
         /// Tests that the interpolator returns the expected value for valid
@@ -51,7 +69,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// </param>
         [Test]
         public abstract void InterpolatorTests_Progress_ReturnsExpectedValue(
-            float progress, TType expectedValue);
+            float progress,
+            TType expectedValue);
 
         /// <summary>
         /// Tests that the interpolator throws an 
@@ -66,12 +85,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public abstract void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress);
 
-        #endregion IInterpolator
-
-        #region Methods
+        #endregion IInterpolatorTests Implementation
 
         /// <summary>
         /// Sets up the test environment before each test is executed.
+        /// Override this method in derived classes to perform custom setup.
         /// </summary>
         [SetUp]
         public abstract void Setup();
@@ -100,7 +118,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         /// <summary>
         /// Tests that the 
-        /// <see cref="BezierCurveInterpolator{TType}.NodeCount"/> property
+        /// <see cref="BezierCurveInterpolator{TType}.Nodes"/> property
         /// correctly returns the number of nodes.
         /// </summary>
         [Test]
@@ -114,7 +132,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             BezierCurveInterpolator.Nodes = nodes;
 
             // Act
-            var nodeCount = BezierCurveInterpolator.NodeCount;
+            var nodeCount = BezierCurveInterpolator.Nodes.Count;
 
             // Assert
             Assert.AreEqual(nodes.Count, nodeCount,
@@ -137,3 +155,4 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         #endregion Methods
     }
 }
+

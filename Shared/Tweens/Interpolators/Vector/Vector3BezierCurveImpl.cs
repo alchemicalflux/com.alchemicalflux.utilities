@@ -5,7 +5,7 @@ Overview:   Implements a Vector3 Bezier curve interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-04 23:45:19 
+Last commit at: 2025-05-19 01:27:00 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Class that implements a Vector3 Bezier curve interpolation.
     /// </summary>
     public sealed class Vector3BezierCurveImpl
-        : BezierCurveInterpolator<Vector3>
+        : PolynomialBezierCurveInterpolator<Vector3>
     {
         #region Methods
 

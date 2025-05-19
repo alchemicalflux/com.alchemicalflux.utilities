@@ -1,11 +1,12 @@
 /*------------------------------------------------------------------------------
 File:       Vector3BezierCurveImplTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   
+Overview:   Unit tests for the Vector3BezierCurveImpl class, which performs
+            Bezier curve interpolation for Vector3 values.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-05 02:50:49 
+Last commit at: 2025-05-19 01:27:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -13,11 +14,13 @@ using UnityEngine;
 
 namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Vector3BezierCurveImpl"/> class, which
+    /// performs Bezier curve interpolation for <see cref="Vector3"/> values.
+    /// </summary>
     public sealed class Vector3BezierCurveImplTests
         : BezierCurveVector3InterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -42,7 +45,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         private static readonly Dictionary<float, Vector3> _testRange = new()
         {
             { 0.1f, new Vector3(-0.17f, -0.17f, -0.17f) },
-            { 1.0f / 3.0f, new Vector3(-1.0f / 3.0f, -1.0f / 3.0f, -1.0f / 3.0f) },
+            {
+                1.0f / 3.0f,
+                new Vector3(-1.0f / 3.0f, -1.0f / 3.0f, -1.0f / 3.0f) 
+            },
             { 0.5f, new Vector3(-0.25f, -0.25f, -0.25f) },
             { 2.0f / 3.0f, new Vector3(0.0f, 0.0f, 0.0f) },
             { 0.9f, new Vector3(0.6299999f, 0.6299999f, 0.6299999f) },
@@ -58,22 +64,35 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
                 { TestCases.NaNProgress, new TestCaseData(float.NaN) },
             };
 
+        #endregion Constants
+
+        #region Fields
+
         /// <summary>
         /// A helper for managing IInterpolator test cases.
         /// </summary>
         private static readonly
             InterpolatorTests<Vector3> _interpolatorTests = new();
 
-        #endregion Constants
-
         #endregion Fields
 
         #region Properties
 
-        /// <inheritdoc />
-        protected override
-            BezierCurveInterpolator<Vector3> BezierCurveInterpolator
+        /// <summary>
+        /// Gets or sets the <see cref="Vector3BezierCurveImpl"/> instance under
+        /// test.
+        /// </summary>
+        private Vector3BezierCurveImpl Vector3BezierCurveInterpolator
         { get; set; }
+
+        /// <inheritdoc />
+        protected override PolynomialBezierCurveInterpolator<Vector3>
+            PolynomialBezierCurveInterpolator
+        {
+            get => Vector3BezierCurveInterpolator;
+            set => Vector3BezierCurveInterpolator =
+                (Vector3BezierCurveImpl)value;
+        }
 
         /// <summary>
         /// Gets the valid progress test cases for interpolation.
@@ -110,18 +129,22 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         [SetUp]
         public override void Setup()
         {
-            var list = 
+            var list =
                 new List<Vector3>() { _startVector, _midVector, _endVector };
-            BezierCurveInterpolator = new Vector3BezierCurveImpl(list);
+            Vector3BezierCurveInterpolator = new Vector3BezierCurveImpl(list);
         }
 
         /// <inheritdoc />
         [TestCaseSource(nameof(ValidProgressTests))]
         public override void InterpolatorTests_Progress_ReturnsExpectedValue(
-            float progress, Vector3 expectedValue)
+            float progress,
+            Vector3 expectedValue)
         {
             _interpolatorTests.ValidProgress(
-                BezierCurveInterpolator, progress, expectedValue, IsApproximately);
+                Vector3BezierCurveInterpolator,
+                progress,
+                expectedValue,
+                IsApproximately);
         }
 
         /// <inheritdoc />
@@ -130,7 +153,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             float progress)
         {
             _interpolatorTests.InvalidProgress(
-                BezierCurveInterpolator,
+                Vector3BezierCurveInterpolator,
                 progress);
         }
 

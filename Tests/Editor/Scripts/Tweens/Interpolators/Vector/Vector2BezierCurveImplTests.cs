@@ -6,7 +6,7 @@ Overview:   Unit tests for the Vector2BezierCurveImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-05 02:50:49 
+Last commit at: 2025-05-19 01:27:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -21,8 +21,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
     public sealed class Vector2BezierCurveImplTests
         : BezierCurveVector2InterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -63,22 +61,35 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
                 { TestCases.NaNProgress, new TestCaseData(float.NaN) },
             };
 
+        #endregion Constants
+
+        #region Fields
+
         /// <summary>
         /// A helper for managing IInterpolator test cases.
         /// </summary>
         private static readonly
             InterpolatorTests<Vector2> _interpolatorTests = new();
 
-        #endregion Constants
-
         #endregion Fields
 
         #region Properties
 
-        /// <inheritdoc />
-        protected override
-            BezierCurveInterpolator<Vector2> BezierCurveInterpolator
+        /// <summary>
+        /// Gets or sets the <see cref="Vector2BezierCurveImpl"/> instance under
+        /// test.
+        /// </summary>
+        private Vector2BezierCurveImpl Vector2BezierCurveInterpolator
         { get; set; }
+
+        /// <inheritdoc />
+        protected override PolynomialBezierCurveInterpolator<Vector2>
+            PolynomialBezierCurveInterpolator
+        {
+            get => Vector2BezierCurveInterpolator;
+            set => Vector2BezierCurveInterpolator =
+                (Vector2BezierCurveImpl)value;
+        }
 
         /// <summary>
         /// Gets the valid progress test cases for interpolation.
@@ -117,7 +128,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
         {
             var list =
                 new List<Vector2>() { _startVector, _midVector, _endVector };
-            BezierCurveInterpolator = new Vector2BezierCurveImpl(list);
+            Vector2BezierCurveInterpolator = new Vector2BezierCurveImpl(list);
         }
 
         /// <inheritdoc />
@@ -126,7 +137,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             float progress, Vector2 expectedValue)
         {
             _interpolatorTests.ValidProgress(
-                BezierCurveInterpolator, progress, expectedValue, IsApproximately);
+                Vector2BezierCurveInterpolator,
+                progress,
+                expectedValue,
+                IsApproximately);
         }
 
         /// <inheritdoc />
@@ -135,7 +149,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             float progress)
         {
             _interpolatorTests.InvalidProgress(
-                BezierCurveInterpolator,
+                Vector2BezierCurveInterpolator,
                 progress);
         }
 

@@ -1,14 +1,13 @@
 /*------------------------------------------------------------------------------
 File:       ColorRGBBezierCurveImplTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Unit tests for the ColorRGBBezierCurveImpl class, which performs
-            Bezier curve interpolation for colors. This test class validates
-            the behavior of the interpolator for valid and invalid progress
-            values, as well as property correctness.
+Overview:   Unit tests for the ColorRGBBezierCurveImplTests class. Validates
+            correct interpolation results, exception handling for invalid
+            progress values, and property correctness for the interpolator.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-29 20:23:27 
+Last commit at: 2025-05-19 01:27:00 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -18,12 +17,12 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
 {
     /// <summary>
     /// Unit tests for the <see cref="ColorRGBBezierCurveImpl"/> class.
+    /// Validates correct interpolation results, exception handling for invalid
+    /// progress values, and property correctness for the interpolator.
     /// </summary>
-    public class ColorRGBBezierCurveImplTests
+    public sealed class ColorRGBBezierCurveImplTests
         : BezierCurveColorInterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -56,8 +55,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
 
         #endregion Constants
 
+        #region Fields
+
         /// <summary>
-        /// A helper for managing IInterpolator test cases.
+        /// A helper for managing <see cref="IInterpolator{Color}"/> test cases.
         /// </summary>
         private static readonly
             InterpolatorTests<Color> _interpolatorTests = new();
@@ -67,12 +68,20 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         #region Properties
 
         /// <summary>
-        /// Gets or sets the instance of the
-        /// <see cref="BezierCurveInterpolator{TType}"/> being tested.
+        /// Gets or sets the instance of <see cref="ColorRGBBezierCurveImpl"/>
+        /// being tested.
         /// </summary>
-        protected override
-            BezierCurveInterpolator<Color> BezierCurveInterpolator
+        private ColorRGBBezierCurveImpl ColorRGBBezierCurveInterpolator
         { get; set; }
+
+        /// <inheritdoc/>
+        protected override PolynomialBezierCurveInterpolator<Color>
+            PolynomialBezierCurveInterpolator
+        {
+            get => ColorRGBBezierCurveInterpolator;
+            set => ColorRGBBezierCurveInterpolator =
+                (ColorRGBBezierCurveImpl)value;
+        }
 
         /// <summary>
         /// Gets the valid progress test cases for interpolation.
@@ -100,46 +109,33 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
             _interpolatorTests.ValidProgressTests.Overwrite(progressTests);
         }
 
-        /// <summary>
-        /// Sets up the test environment before each test is executed.
-        /// </summary>
+        /// <inheritdoc />
         [SetUp]
         public override void Setup()
         {
             var list = new List<Color>() { _startColor, _midColor, _endColor };
-            BezierCurveInterpolator = new ColorRGBBezierCurveImpl(list);
+            PolynomialBezierCurveInterpolator = new ColorRGBBezierCurveImpl(list);
         }
 
-        /// <summary>
-        /// Tests that the interpolator returns the expected value for valid
-        /// progress values.
-        /// </summary>
-        /// <param name="progress">The progress value to test.</param>
-        /// <param name="expectedValue">
-        /// The expected interpolated color value.
-        /// </param>
+        /// <inheritdoc />
         [TestCaseSource(nameof(ValidProgressTests))]
         public override void InterpolatorTests_Progress_ReturnsExpectedValue(
             float progress, Color expectedValue)
         {
             _interpolatorTests.ValidProgress(
-                BezierCurveInterpolator,
+                ColorRGBBezierCurveInterpolator,
                 progress,
                 expectedValue,
                 IsApproximately);
         }
 
-        /// <summary>
-        /// Tests that the interpolator throws an exception for invalid progress
-        /// values.
-        /// </summary>
-        /// <param name="progress">The invalid progress value to test.</param>
+        /// <inheritdoc />
         [TestCaseSource(nameof(InvalidProgressTests))]
         public override void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress)
         {
             _interpolatorTests.InvalidProgress(
-                BezierCurveInterpolator,
+                ColorRGBBezierCurveInterpolator,
                 progress);
         }
 
