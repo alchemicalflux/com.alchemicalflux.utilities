@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:44:50 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -49,6 +49,8 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Properties
 
+        #region Overrides
+
         /// <inheritdoc />
         public override Color Start
         {
@@ -75,6 +77,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             }
         }
 
+        #endregion Overrides
+
         #endregion Properties
 
         #region Methods
@@ -90,6 +94,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             base(start, end)
         {
         }
+
+        #region Overrides
 
         /// <inheritdoc />
         protected override Color ProcessInterpolation(float progress)
@@ -113,6 +119,8 @@ namespace AlchemicalFlux.Utilities.Tweens
 
             return color.gamma;
         }
+
+        #endregion Overrides
 
         #endregion Methods
     }

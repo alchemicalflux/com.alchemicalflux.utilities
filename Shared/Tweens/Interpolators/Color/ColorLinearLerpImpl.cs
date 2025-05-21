@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the linear color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:44:50 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -34,6 +34,8 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Properties
 
+        #region Overrides
+
         /// <inheritdoc />
         public override Color Start
         {
@@ -56,6 +58,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             }
         }
 
+        #endregion Overrides
+
         #endregion Properties
 
         #region Methods
@@ -71,11 +75,15 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
+        #region Overrides
+
         /// <inheritdoc />
         protected override Color ProcessInterpolation(float progress)
         {
             return Color.Lerp(_sLinear, _eLinear, progress).gamma;
         }
+
+        #endregion Overrides
 
         #endregion Methods
     }

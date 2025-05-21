@@ -6,7 +6,7 @@ Overview:   Abstract base class for two-point vector2 interpolators. Provides a
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:35:42 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -18,6 +18,8 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// </summary>
     public abstract class Vector2TwoPointImpl : TwoPointInterpolator<Vector2>
     {
+        #region Methods
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Vector2TwoPointImpl"/>
         /// class with the specified start and end <see cref="Vector2"/> values.
@@ -32,5 +34,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             : base(start, end)
         {
         }
+
+        #endregion Methods
     }
 }

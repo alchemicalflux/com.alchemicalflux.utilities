@@ -5,7 +5,7 @@ Overview:   Interface for handling the tweening of inheriting structure.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 21:17:25 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -17,6 +17,22 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// </summary>
     public interface ITween
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets the minimum valid progress value.
+        /// </summary>
+        float MinProgress { get; }
+
+        /// <summary>
+        /// Gets the maximum valid progress value.
+        /// </summary>
+        float MaxProgress { get; }
+
+        #endregion Properties
+
+        #region Methods
+
         /// <summary>
         /// Toggle the display of the associated structure. May not always be 
         /// needed.
@@ -39,14 +55,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </exception>
         void ApplyProgress(float progress);
 
-        /// <summary>
-        /// Gets the minimum valid progress value.
-        /// </summary>
-        float MinProgress { get; }
-
-        /// <summary>
-        /// Gets the maximum valid progress value.
-        /// </summary>
-        float MaxProgress { get; }
+        #endregion Methods
     }
 }

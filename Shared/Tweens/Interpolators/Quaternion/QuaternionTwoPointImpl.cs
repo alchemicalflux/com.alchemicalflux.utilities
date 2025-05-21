@@ -6,7 +6,7 @@ Overview:   Abstract base class for two-point quaternion interpolators. Provides
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:35:42 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -20,6 +20,8 @@ namespace AlchemicalFlux.Utilities.Tweens
     public abstract class QuaternionTwoPointImpl
         : TwoPointInterpolator<Quaternion>
     {
+        #region Methods
+
         /// <summary>
         /// Initializes a new instance of the
         /// <see cref="QuaternionTwoPointImpl"/> class with the specified start
@@ -35,5 +37,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             : base(start, end)
         {
         }
+
+        #endregion Methods
     }
 }

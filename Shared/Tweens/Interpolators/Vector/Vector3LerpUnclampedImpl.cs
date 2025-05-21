@@ -1,11 +1,11 @@
 /*------------------------------------------------------------------------------
-File:       Vertor3LerpUnclampedImpl.cs 
+File:       Vector3LerpUnclampedImpl.cs 
 Project:    AlchemicalFlux Utilities
 Overview:   Implements an unclamped Vector3 linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:44:50 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -18,8 +18,6 @@ namespace AlchemicalFlux.Utilities.Tweens
     {
         #region Methods
 
-        #region TwoPointInterpolator Implementation
-
         /// <summary>
         /// Constructor for the Vector3LerpUnclampedImpl class, which implements
         /// an unclamped linear Vector3 interpolation.
@@ -31,18 +29,15 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
+        #region Overrides
+
         /// <inheritdoc />
         protected override Vector3 ProcessInterpolation(float progress)
         {
-            if(float.IsNaN(progress))
-            {
-                throw new System.ArgumentOutOfRangeException(
-                    nameof(progress), "Progress cannot be NaN.");
-            }
             return Vector3.LerpUnclamped(Start, End, progress);
         }
 
-        #endregion TwoPointInterpolator Implementation
+        #endregion Overrides
 
         #endregion Methods
     }

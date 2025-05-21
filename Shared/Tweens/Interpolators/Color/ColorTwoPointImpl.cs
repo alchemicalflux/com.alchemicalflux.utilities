@@ -6,7 +6,7 @@ Overview:   Abstract base class for two-point color interpolators. Provides
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:44:50 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -30,24 +30,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region TwoPointInterpolator Implementaion
+        #region Overrides
 
-        /// <summary>
-        /// Checks and optionally limits the progress value before
-        /// interpolation. If the progress value is not a number (NaN), sets the
-        /// failure value to <see cref="Color.clear"/> and returns <c>false</c>
-        /// to indicate invalid progress.
-        /// </summary>
-        /// <param name="progress">
-        /// The progress value to check and possibly limit.
-        /// </param>
-        /// <param name="failValue">
-        /// Reference to the value to return if progress is invalid.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if progress is valid and interpolation should proceed;
-        /// otherwise, <c>false</c>.
-        /// </returns>
+        /// <inheritdoc />
         protected override bool CheckAndLimitProgress(
             ref float progress,
             ref Color failValue)
@@ -60,6 +45,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             return true;
         }
 
-        #endregion TwoPointInterpolator Implementaion
+        #endregion Overrides
     }
 }

@@ -6,7 +6,7 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 21:17:25 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Events;
 using System;
@@ -43,12 +43,16 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Properties
 
+        #region ITween Implementation
+
         /// <inheritdoc />
         public virtual float MinProgress => 0.0f;
 
         /// <inheritdoc />
         public virtual float MaxProgress => 1.0f;
 
+        #endregion ITween Implementation
+        
         #endregion Properties
 
         #region Methods

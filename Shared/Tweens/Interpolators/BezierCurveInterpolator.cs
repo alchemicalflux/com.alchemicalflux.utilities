@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-20 18:44:50 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -74,13 +74,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             Nodes = nodes;
         }
 
-        /// <summary>
-        /// Rebuilds internal data structures to match the current
-        /// <see cref="Nodes"/> size.
-        /// </summary>
-        protected virtual void RebuildNodes()
-        {
-        }
+        #region Overrides
 
         /// <inheritdoc />
         protected override bool CheckAndLimitProgress(
@@ -103,6 +97,16 @@ namespace AlchemicalFlux.Utilities.Tweens
             progress = Mathf.Clamp01(progress);
             failValue = GetDefault();
             return true;
+        }
+
+        #endregion Overrides
+
+        /// <summary>
+        /// Rebuilds internal data structures to match the current
+        /// <see cref="Nodes"/> size.
+        /// </summary>
+        protected virtual void RebuildNodes()
+        {
         }
 
         #endregion Methods

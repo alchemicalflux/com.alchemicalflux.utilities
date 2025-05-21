@@ -5,7 +5,7 @@ Overview:   Implements a Vector3 Bezier curve interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-19 01:27:00 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +31,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
+        #region Overrides
+
         /// <inheritdoc />
         protected override void AddTo(ref Vector3 result, Vector3 node)
         {
@@ -42,6 +44,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             return node * progress;
         }
+
+        #endregion Overrides
 
         #endregion Methods
     }

@@ -10,7 +10,7 @@ Overview:   Implements a Bezier curve interpolation in the linear color space
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-19 01:27:00 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +59,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region BezierCurveInterpolator Implementation
+        #region Overrides
 
         /// <inheritdoc />
         protected override void RebuildNodes()
@@ -104,7 +104,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return color.gamma;
         }
 
-        #endregion BezierCurveInterpolator Implementation
+        #endregion Overrides
 
         #endregion Methods
     }

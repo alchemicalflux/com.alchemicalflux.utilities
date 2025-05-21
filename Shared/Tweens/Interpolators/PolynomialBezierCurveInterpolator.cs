@@ -8,7 +8,7 @@ Overview:   Abstract base class for Bezier curve interpolators using the
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-19 01:27:00 
+Last commit at: 2025-05-21 08:02:05 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using System.Collections.Generic;
@@ -67,7 +67,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        #region BezierCurveInterpolator Implementation
+        #region Overrides
 
         /// <inheritdoc />
         protected override void RebuildNodes()
@@ -95,7 +95,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             return result;
         }
 
-        #endregion BezierCurveInterpolator Implementation
+        #endregion Overrides
 
         /// <summary>
         /// Generates the multipliers for node interpolation using the Bernstein
