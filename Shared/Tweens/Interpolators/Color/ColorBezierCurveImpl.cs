@@ -7,7 +7,7 @@ Overview:   Abstract base class for Bezier curve interpolators that operate on
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-19 01:27:00 
+Last commit at: 2025-05-20 18:44:50 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -41,12 +41,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         protected override bool CheckAndLimitProgress(
             ref float progress,
-            out Color failValue)
+            ref Color failValue)
         {
             if(float.IsNaN(progress))
             {
                 failValue = Color.clear;
-                return true;
+                return false;
             }
             else if(Nodes.Count == 0)
             {
@@ -56,12 +56,11 @@ namespace AlchemicalFlux.Utilities.Tweens
             else if(Nodes.Count == 1)
             {
                 failValue = Nodes[0];
-                return true;
+                return false;
             }
 
             progress = Mathf.Clamp01(progress);
-            failValue = Color.clear;
-            return false;
+            return true;
         }
 
         #endregion BezierCurveInterpolator Implementaion

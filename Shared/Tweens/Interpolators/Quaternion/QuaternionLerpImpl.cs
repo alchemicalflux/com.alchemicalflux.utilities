@@ -5,7 +5,7 @@ Overview:   Implements a clamped Quaternion linear interpolation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-05 02:39:45 
+Last commit at: 2025-05-20 18:44:50 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -14,7 +14,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Class that implements a clamped Quaternion linear interpolation.
     /// </summary>
-    public sealed class QuaternionLerpImpl : TwoPointInterpolator<Quaternion>
+    public sealed class QuaternionLerpImpl : QuaternionTwoPointImpl
     {
         #region Methods
 
@@ -32,13 +32,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <inheritdoc />
-        public override Quaternion Interpolate(float progress)
+        protected override Quaternion ProcessInterpolation(float progress)
         {
-            if(float.IsNaN(progress))
-            {
-                throw new System.ArgumentOutOfRangeException(
-                    nameof(progress), "Progress cannot be NaN.");
-            }
             return Quaternion.Lerp(Start, End, progress);
         }
 

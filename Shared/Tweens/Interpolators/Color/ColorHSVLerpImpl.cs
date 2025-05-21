@@ -6,7 +6,7 @@ Overview:   Implements a Color lerp using the HSV color space to improve from
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-20 06:05:04 
+Last commit at: 2025-05-20 18:44:50 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Color lerp class that implements a RGB to HSV to RGB conversion,
     /// performing the lerp in HSV color space.
     /// </summary>
-    public sealed class ColorHSVLerpImpl : TwoPointInterpolator<Color>
+    public sealed class ColorHSVLerpImpl : ColorTwoPointImpl
     {
         #region Fields
 
@@ -78,10 +78,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <inheritdoc />
-        public override Color Interpolate(float progress)
+        protected override Color ProcessInterpolation(float progress)
         {
-            if(float.IsNaN(progress)) { return Color.clear; }
-
             // Slerp the hue (ensure the shortest path on the color wheel).
             var h = Mathf.LerpAngle(_hStart, _hEnd, progress);
             h = Mathf.Repeat(h, 360f) / 360f;

@@ -5,7 +5,7 @@ Overview:   Abstract base class for interpolations using a Bezier Curve.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-19 01:27:00 
+Last commit at: 2025-05-20 18:44:50 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// </summary>
     /// <typeparam name="TType">Type to be interpolated.</typeparam>
     public abstract class BezierCurveInterpolator<TType>
-        : IInterpolator<TType>
+        : InterpolatorBase<TType>
     {
         #region Fields
 
@@ -74,35 +74,6 @@ namespace AlchemicalFlux.Utilities.Tweens
             Nodes = nodes;
         }
 
-        #region IInterpolator Implementation
-
-        /// <summary>
-        /// Generates an interpolated value based on the given progress amount.
-        /// </summary>
-        /// <param name="progress">
-        /// Interpolation value, typically expected to be between [0-1] but not
-        /// guaranteed.
-        /// </param>
-        /// <returns>
-        /// A value generated based on the progress amount.
-        /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="progress"/> is NaN.
-        /// </exception>
-        /// <exception cref="System.InvalidOperationException">
-        /// Thrown if the node count is zero.
-        /// </exception>
-        public TType Interpolate(float progress)
-        {
-            if(CheckAndLimitProgress(ref progress, out var failValue))
-            {
-                return failValue;
-            }
-            return ProcessInterpolation(progress);
-        }
-
-        #endregion IInterpolator Implementation
-
         /// <summary>
         /// Rebuilds internal data structures to match the current
         /// <see cref="Nodes"/> size.
@@ -111,37 +82,14 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
         }
 
-        /// <summary>
-        /// Checks and limits the progress value to the [0,1] range.
-        /// Handles special cases for NaN progress and invalid node counts.
-        /// </summary>
-        /// <param name="progress">
-        /// Reference to the progress value to check and clamp.
-        /// </param>
-        /// <param name="failValue">
-        /// Output value to use if interpolation cannot proceed (e.g., only one
-        /// node).
-        /// </param>
-        /// <returns>
-        /// True if interpolation should return <paramref name="failValue"/>
-        /// immediately; otherwise, false.
-        /// </returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown if <paramref name="progress"/> is NaN.
-        /// </exception>
-        /// <exception cref="System.InvalidOperationException">
-        /// Thrown if the node count is zero.
-        /// </exception>
-        protected virtual bool CheckAndLimitProgress(
+        /// <inheritdoc />
+        protected override bool CheckAndLimitProgress(
             ref float progress,
-            out TType failValue)
+            ref TType failValue)
         {
-            if(float.IsNaN(progress))
-            {
-                throw new System.ArgumentOutOfRangeException(
-                    nameof(progress), "Progress cannot be NaN.");
-            }
-            else if(Nodes.Count == 0)
+            base.CheckAndLimitProgress(ref progress, ref failValue);
+
+            if(Nodes.Count == 0)
             {
                 throw new System.InvalidOperationException(
                     $"{nameof(Nodes.Count)} cannot be zero.");
@@ -149,26 +97,13 @@ namespace AlchemicalFlux.Utilities.Tweens
             else if(Nodes.Count == 1)
             {
                 failValue = Nodes[0];
-                return true;
+                return false;
             }
 
             progress = Mathf.Clamp01(progress);
-            failValue = default;
-            return false;
+            failValue = GetDefault();
+            return true;
         }
-
-        /// <summary>
-        /// When implemented in a derived class, generates an interpolated value
-        /// based on the given progress amount.
-        /// </summary>
-        /// <param name="progress">
-        /// Interpolation value, typically expected to be between [0-1] but not
-        /// guaranteed.
-        /// </param>
-        /// <returns>
-        /// A value generated based on the progress amount.
-        /// </returns>
-        protected abstract TType ProcessInterpolation(float progress);
 
         #endregion Methods
     }

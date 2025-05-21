@@ -8,7 +8,7 @@ Overview:   Implements a Color lerp using the linear color space and color
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-21 19:32:53 
+Last commit at: 2025-05-20 18:44:50 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -21,7 +21,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// performing the lerp in linear color space and factoring in the intensity
     /// to create a smoother transition for light/dark transitions.
     /// </summary>
-    public sealed class ColorLumaLinearLerpImpl : TwoPointInterpolator<Color>
+    public sealed class ColorLumaLinearLerpImpl : ColorTwoPointImpl
     {
         #region Fields
 
@@ -92,9 +92,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <inheritdoc />
-        public override Color Interpolate(float progress)
+        protected override Color ProcessInterpolation(float progress)
         {
-            if(float.IsNaN(progress)) { return Color.clear; }
             // Return early if both linear colors are black.
             if(_sLumaApproximate <= Comsts.Threshold &&
                 _eLumaApproximate <= Comsts.Threshold) { return Start; }
