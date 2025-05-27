@@ -5,7 +5,7 @@ Overview:   Helper functions to extend the float type.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-04 05:46:42 
+Last commit at: 2025-05-26 22:08:50 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using UnityEngine;
@@ -41,8 +41,8 @@ namespace AlchemicalFlux.Utilities.Helpers
         public static bool Approximately(this float a, float b)
         {
             // Handle special cases for NaN
-            if(float.IsNaN(a) && float.IsNaN(b)) { return true; }
             if(a == b) { return true; }
+            if(float.IsNaN(a) && float.IsNaN(b)) { return true; }
             if(Mathf.Approximately(a, b)) { return true; }
 
             #if DEBUG
