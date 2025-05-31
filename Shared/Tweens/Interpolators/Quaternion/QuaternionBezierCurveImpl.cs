@@ -1,14 +1,14 @@
 /*------------------------------------------------------------------------------
 File:       QuaternionBezierCurveImpl.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Implements a Bezier curve interpolation for Quaternion values. This
-            class provides smooth interpolation between multiple quaternion
-            nodes using spherical linear interpolation (Slerp) at each recursive
-            level.
+Overview:   Implements a Bezier curve interpolation for Quaternion values using
+            De Casteljau's algorithm. This class provides smooth interpolation
+            between multiple quaternion control points by recursively blending
+            them with spherical linear interpolation (Slerp).
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-21 08:03:35 
+Last commit at: 2025-05-31 13:30:37 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,22 +17,22 @@ namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
     /// Implements a Bezier curve interpolation for <see cref="Quaternion"/>
-    /// values. This class provides smooth interpolation between multiple
-    /// quaternion nodes using spherical linear interpolation (Slerp) at each
-    /// recursive level.
+    /// values using De Casteljau's algorithm. This class provides smooth
+    /// interpolation between multiple quaternion control points by recursively
+    /// blending them with spherical linear interpolation (Slerp).
     /// </summary>
     public sealed class QuaternionBezierCurveImpl
-        : BezierCurveInterpolator<Quaternion>
+        : DeCasteljauBezierCurveInterpolator<Quaternion>
     {
         #region Methods
 
         /// <summary>
-        /// Initializes a new instance of the 
+        /// Initializes a new instance of the
         /// <see cref="QuaternionBezierCurveImpl"/> class with the specified
-        /// list of quaternion nodes.
+        /// list of quaternion control points.
         /// </summary>
         /// <param name="nodes">
-        /// Reference to the list of <see cref="Quaternion"/> nodes for
+        /// The list of <see cref="Quaternion"/> control points to use for
         /// generating the Bezier curve.
         /// </param>
         public QuaternionBezierCurveImpl(IList<Quaternion> nodes) : base(nodes)
@@ -42,40 +42,15 @@ namespace AlchemicalFlux.Utilities.Tweens
         #region Overrides
 
         /// <inheritdoc />
-        protected override Quaternion ProcessInterpolation(float progress)
+        protected override Quaternion BlendPair(
+            Quaternion pointA,
+            Quaternion pointB,
+            float t)
         {
-            return BezierSlerp(Nodes, progress);
+            return Quaternion.Slerp(pointA, pointB, t);
         }
 
         #endregion Overrides
-
-        /// <summary>
-        /// Recursively computes the Bezier interpolation of a list of
-        /// <see cref="Quaternion"/> points using spherical linear interpolation
-        /// (Slerp).
-        /// </summary>
-        /// <param name="points">
-        /// The list of <see cref="Quaternion"/> control points.
-        /// </param>
-        /// <param name="t">
-        /// The interpolation parameter, typically in the range [0, 1].
-        /// </param>
-        /// <returns>
-        /// The interpolated <see cref="Quaternion"/> at the specified parameter
-        /// <paramref name="t"/>.
-        /// </returns>
-        private Quaternion BezierSlerp(IList<Quaternion> points, float t)
-        {
-            if(points.Count == 1) { return points[0]; }
-
-            // Store and rebuild the temp lists.
-            var nextLevel = new List<Quaternion>(points.Count - 1);
-            for(int i = 0; i < points.Count - 1; i++)
-            {
-                nextLevel.Add(Quaternion.Slerp(points[i], points[i + 1], t));
-            }
-            return BezierSlerp(nextLevel, t);
-        }
 
         #endregion Methods
     }
