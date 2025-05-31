@@ -8,7 +8,7 @@ Overview:   Provides an abstract base for Bezier curve interpolation using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-31 12:00:08 
+Last commit at: 2025-05-31 13:56:16 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 
@@ -27,6 +27,17 @@ namespace AlchemicalFlux.Utilities.Tweens
     public abstract class DeCasteljauBezierCurveInterpolator<TType>
         : BezierCurveInterpolator<TType>
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the intermediary storage for each level of blended
+        /// control points during De Casteljau's algorithm evaluation.
+        /// Each inner list represents a level of the algorithm.
+        /// </summary>
+        protected List<List<TType>> BlendLevels { get; set; } = new();
+
+        #endregion Properties
+
         #region Methods
 
         /// <summary>
@@ -56,12 +67,16 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         protected override void RebuildNodes()
         {
+            for(var iter = BlendLevels.Count; iter < Nodes.Count - 1; ++iter)
+            {
+                BlendLevels.Add(new());
+            }
         }
 
         /// <inheritdoc />
         protected override TType ProcessInterpolation(float progress)
         {
-            return EvaluateRecursive(Nodes, progress);
+            return EvaluateAt(Nodes, progress);
         }
 
         #endregion Overrides
@@ -83,11 +98,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         protected abstract TType BlendPair(TType pointA, TType pointB, float t);
 
         /// <summary>
-        /// Recursively evaluates the Bezier curve at the specified parameter
+        /// Iteratively evaluates the Bezier curve at the specified parameter
         /// using De Casteljau's algorithm.
         /// </summary>
         /// <param name="points">
-        /// The list of control points for the current recursion level.
+        /// The list of control points for the current evaluation.
         /// </param>
         /// <param name="t">
         /// The interpolation parameter, typically in the range [0, 1].
@@ -95,17 +110,23 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <returns>
         /// The interpolated value at the given parameter.
         /// </returns>
-        protected virtual TType EvaluateRecursive(IList<TType> points, float t)
+        protected virtual TType EvaluateAt(IList<TType> points, float t)
         {
             if(points.Count == 1) { return points[0]; }
 
-            // Store and rebuild the temp lists.
-            var nextLevel = new List<TType>(points.Count - 1);
-            for(int i = 0; i < points.Count - 1; i++)
+            var requiredLevels = points.Count - 1;
+            var prev = points;
+            for(int iter = 0; iter < requiredLevels; ++iter)
             {
-                nextLevel.Add(BlendPair(points[i], points[i + 1], t));
+                var current = BlendLevels[iter];
+                current.Clear();
+                for(int index = 0; index < prev.Count - 1; ++index)
+                {
+                    current.Add(BlendPair(prev[index], prev[index + 1], t));
+                }
+                prev = current;
             }
-            return EvaluateRecursive(nextLevel, t);
+            return BlendLevels[requiredLevels - 1][0];
         }
 
         #endregion Methods
