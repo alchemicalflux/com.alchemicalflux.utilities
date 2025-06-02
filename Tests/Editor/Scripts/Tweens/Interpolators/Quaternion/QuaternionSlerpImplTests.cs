@@ -6,7 +6,7 @@ Overview:   Unit tests for the QuaternionSlerpImpl class, which performs linear
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-05 02:52:38 
+Last commit at: 2025-06-01 20:14:04 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -20,8 +20,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Quaternions
     public sealed class QuaternionSlerpImplTests
         : TwoPointQuaternionInterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -59,13 +57,15 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Quaternions
                 { TestCases.NaNProgress, new TestCaseData(float.NaN) },
             };
 
+        #endregion Constants
+
+        #region Fields
+
         /// <summary>
         /// A helper for managing IInterpolator test cases.
         /// </summary>
         private static readonly
             InterpolatorTests<Quaternion> _interpolatorTests = new();
-
-        #endregion Constants
 
         #endregion Fields
 
