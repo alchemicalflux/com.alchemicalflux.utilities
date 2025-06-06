@@ -5,7 +5,7 @@ Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-31 00:52:30 
+Last commit at: 2025-06-05 18:42:38 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -17,7 +17,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Implements the ITweenPlayer for MonoBehaviour coroutines.
     /// </summary>
-    public class MonoBehaviourTweenPlayer : MonoBehaviour, ITweenPlayer
+    public class MonoBehaviourTweenPlayer : MonoBehaviour, IPlaybackController
     {
         #region Members
 
@@ -51,7 +51,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// Function taking a range [0-1] and interpolating it for tween easing.
         /// </summary>
-        public Func<float, float> EasingInterpreter { get; private set; }
+        public Func<float, float> EasingInterpreter { get; private set; } = Easings.Linear;
 
         /// <summary>
         /// Function determining length of time passed per coroutine cycle.
@@ -82,7 +82,7 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #endregion Constructors
 
-        #region ITweenPlayer Implementation
+        #region IPlaybackController Implementation
 
         /// <inheritdoc />
         public void Play(float playTime, Func<float, float> easingInterpreter,
@@ -104,14 +104,22 @@ namespace AlchemicalFlux.Utilities.Tweens
             EasingInterpreter = easingInterpreter;
             HideOnComplete = hideOnComplete;
 
-            _coroutine.Stop();
+            var playOptions = new TweenPlayOptions();
+            playOptions.OnComplete = onComplete;
+
+            Play(playOptions);
+        }
+
+        /// <inheritdoc />
+        public void Play(IPlaybackOptions options)
+        {
+            SnapToStart();
 
             _coroutine.OnComplete -= _onComplete;
-            _onComplete = onComplete;
+            _onComplete = options.OnComplete;
             _coroutine.OnComplete += _onComplete;
 
             foreach(var tween in Tweens) { tween.Show(true); }
-            _curTime = 0;
             Resume();
         }
 
@@ -130,16 +138,23 @@ namespace AlchemicalFlux.Utilities.Tweens
         }
 
         /// <inheritdoc />
+        public void Restart()
+        {
+            SnapToStart();
+            Resume();
+        }
+
+        /// <inheritdoc />
         public void SnapToStart()
         {
-            _coroutine.Stop();
+            Pause();
             SnapToFrame(0);
         }
 
         /// <inheritdoc />
         public void SnapToEnd()
         {
-            _coroutine.Stop();
+            Pause();
             SnapToFrame(1);
         }
 
@@ -152,7 +167,7 @@ namespace AlchemicalFlux.Utilities.Tweens
                     "Time must be within the range of the play time.");
             }
 
-            _coroutine.Stop();
+            Pause();
             SnapToFrame(time / PlayTime);
         }
 
@@ -198,6 +213,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <param name="time">The time value to snap to.</param>
         private void SnapToFrame(float time)
         {
+            _curTime = time * PlayTime;
             foreach(var tween in Tweens) { tween.ApplyProgress(time); }
         }
 
