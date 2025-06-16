@@ -5,7 +5,7 @@ Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-06-05 18:42:38 
+Last commit at: 2025-06-16 00:45:05 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -17,9 +17,10 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// <summary>
     /// Implements the ITweenPlayer for MonoBehaviour coroutines.
     /// </summary>
-    public class MonoBehaviourTweenPlayer : MonoBehaviour, IPlaybackController
+    public class MonoBehaviourTweenPlayer : MonoBehaviour,
+        IBasicPlaybackController
     {
-        #region Members
+        #region Fields
 
         /// <summary>
         /// Tracks the current amount of time the tween has run.
@@ -36,7 +37,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </summary>
         private Action _onComplete;
 
-        #endregion Members
+        private TweenPlayOptions _options = new TweenPlayOptions();
+
+        #endregion Fields
 
         #region Properties
 
@@ -51,7 +54,8 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// Function taking a range [0-1] and interpolating it for tween easing.
         /// </summary>
-        public Func<float, float> EasingInterpreter { get; private set; } = Easings.Linear;
+        public Func<float, float> EasingInterpreter { get; private set; }
+            = Easings.Linear;
 
         /// <summary>
         /// Function determining length of time passed per coroutine cycle.
@@ -107,16 +111,16 @@ namespace AlchemicalFlux.Utilities.Tweens
             var playOptions = new TweenPlayOptions();
             playOptions.OnComplete = onComplete;
 
-            Play(playOptions);
+            Play();
         }
 
         /// <inheritdoc />
-        public void Play(IPlaybackOptions options)
+        public void Play()
         {
             SnapToStart();
 
             _coroutine.OnComplete -= _onComplete;
-            _onComplete = options.OnComplete;
+            _onComplete = _options.OnComplete;
             _coroutine.OnComplete += _onComplete;
 
             foreach(var tween in Tweens) { tween.Show(true); }
