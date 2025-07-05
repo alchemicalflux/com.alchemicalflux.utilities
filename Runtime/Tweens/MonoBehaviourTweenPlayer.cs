@@ -5,7 +5,7 @@ Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-06-16 00:45:05 
+Last commit at: 2025-07-04 22:39:36 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -18,7 +18,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Implements the ITweenPlayer for MonoBehaviour coroutines.
     /// </summary>
     public class MonoBehaviourTweenPlayer : MonoBehaviour,
-        IBasicPlaybackController
+        IBasicPlaybackControls
     {
         #region Fields
 

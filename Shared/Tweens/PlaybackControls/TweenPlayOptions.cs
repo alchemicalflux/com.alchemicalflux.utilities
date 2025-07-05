@@ -6,7 +6,7 @@ Overview:   Represents a set of playback options and callbacks for controlling a
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-06-16 00:45:05 
+Last commit at: 2025-07-04 22:39:36 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -16,7 +16,8 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Represents a set of playback options and callbacks for controlling a
     /// sequence.
     /// </summary>
-    public class TweenPlayOptions : IBasicPlaybackOptions
+    public class TweenPlayOptions : IBasicPlaybackOptions, 
+        IStateBasedPlaybackOptions
     {
         /// <inheritdoc />
         public Action OnPlay { get; set; }
@@ -34,10 +35,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         public Action OnResume { get; set; }
 
         /// <inheritdoc />
-        public Action OnRestart { get; set; }
-
-        /// <inheritdoc />
-        public Action<float> OnSnap { get; set; }
+        public Action OnStop { get; set; }
 
         /// <inheritdoc />
         public Action OnComplete { get; set; }

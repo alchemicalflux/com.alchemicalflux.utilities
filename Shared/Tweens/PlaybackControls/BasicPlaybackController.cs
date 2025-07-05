@@ -7,7 +7,7 @@ Overview:   Provides a base implementation for playback controllers, handling
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-06-16 00:45:05 
+Last commit at: 2025-07-04 22:39:36 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -15,43 +15,35 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Provides a base implementation for playback controllers, handling common
     /// playback operations and delegating core behavior to derived classes.
     /// </summary>
-    public abstract class BasicPlaybackController : IBasicPlaybackController
+    public abstract class BasicPlaybackController : IBasicPlaybackControls
     {
         /// <summary>
         /// Gets or sets the current playback options and callbacks.
         /// </summary>
         protected IBasicPlaybackOptions Options { get; set; }
 
-        /// <summary>
-        /// Starts playback.
-        /// </summary>
+        /// <inheritdoc />
         public void Play()
         {
             PlayCore();
             Options?.OnPlay?.Invoke();
         }
 
-        /// <summary>
-        /// Pauses the current playback.
-        /// </summary>
+        /// <inheritdoc />
         public void Pause()
         {
             PauseCore();
             Options?.OnPause?.Invoke();
         }
 
-        /// <summary>
-        /// Instantly moves the playback position to the start.
-        /// </summary>
+        /// <inheritdoc />
         public void SnapToStart()
         {
             SnapToStartCore();
             Options?.OnSnapStart?.Invoke();
         }
 
-        /// <summary>
-        /// Instantly moves the playback position to the end.
-        /// </summary>
+        /// <inheritdoc />
         public void SnapToEnd()
         {
             SnapToEndCore();
