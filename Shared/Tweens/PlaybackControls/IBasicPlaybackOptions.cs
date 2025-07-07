@@ -6,7 +6,7 @@ Overview:   Represents a set of playback options and callbacks for controlling a
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-06-16 00:45:05 
+Last commit at: 2025-07-07 06:01:47 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -24,9 +24,9 @@ namespace AlchemicalFlux.Utilities.Tweens
         Action OnPlay { get; }
 
         /// <summary>
-        /// Gets the callback invoked when playback is paused.
+        /// Gets the callback invoked when playback is stopped.
         /// </summary>
-        Action OnPause { get; }
+        Action OnStop { get; }
 
         /// <summary>
         /// Gets the callback invoked when playback position is snapped to the

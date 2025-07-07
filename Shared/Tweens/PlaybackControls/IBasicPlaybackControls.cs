@@ -5,7 +5,7 @@ Overview:   Defines playback control operations for a sequence.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-04 22:39:36 
+Last commit at: 2025-07-07 06:01:47 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -20,9 +20,13 @@ namespace AlchemicalFlux.Utilities.Tweens
         void Play();
 
         /// <summary>
-        /// Pauses the current playback.
+        /// Attempts to stop playback and reset the sequence to a defined state.
         /// </summary>
-        void Pause();
+        /// <returns>
+        /// <c>true</c> if playback was successfully stopped;
+        /// otherwise, <c>false</c>.
+        /// </returns>
+        bool Stop();
 
         /// <summary>
         /// Instantly moves the playback position to the start.

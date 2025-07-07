@@ -1,9 +1,9 @@
 /*------------------------------------------------------------------------------
-File:       StateBasedPlaybackController.cs 
+File:       MBStateBasedPlaybackController.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Provides a base implementation for state-based playback controllers,
-            extending <see cref="BasicPlaybackController"/> with state
-            transition operations and associated callbacks.
+Overview:   Provides a base MonoBehaviour implementation for state-based
+            playback controllers, handling state-based playback operations and
+            delegating core behavior to derived classes.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
@@ -12,13 +12,12 @@ Last commit at: 2025-07-07 06:01:47
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Provides a base implementation for state-based playback controllers,
-    /// extending <see cref="BasicPlaybackController"/> with state transition
-    /// operations and associated callbacks.
+    /// Provides a base MonoBehaviour implementation for state-based playback
+    /// controllers, handling state-based playback operations and delegating
+    /// core behavior to derived classes.
     /// </summary>
-    public abstract class StateBasedPlaybackController
-        : BasicPlaybackController,
-        IStateBasedPlaybackControls
+    public abstract class MBStateBasedlaybackController : 
+        MBBasicPlaybackController, IStateBasedPlaybackControls
     {
         #region Properties
 

@@ -1,21 +1,25 @@
 /*------------------------------------------------------------------------------
-File:       BasicPlaybackController.cs 
+File:       MBBasicPlaybackController.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Provides a base implementation for playback controllers, handling
-            common playback operations and delegating core behavior to derived
-            classes.
+Overview:   Provides a base MonoBehaviour implementation for playback
+            controllers, handling common playback operations and delegating core
+            behavior to derived classes.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
 Last commit at: 2025-07-07 06:01:47 
 ------------------------------------------------------------------------------*/
+using UnityEngine;
+
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Provides a base implementation for playback controllers, handling common
-    /// playback operations and delegating core behavior to derived classes.
+    /// Provides a base MonoBehaviour implementation for playback controllers,
+    /// handling common playback operations and delegating core behavior to
+    /// derived classes.
     /// </summary>
-    public abstract class BasicPlaybackController : IBasicPlaybackControls
+    public abstract class MBBasicPlaybackController : MonoBehaviour,
+        IBasicPlaybackControls
     {
         #region Properties
 

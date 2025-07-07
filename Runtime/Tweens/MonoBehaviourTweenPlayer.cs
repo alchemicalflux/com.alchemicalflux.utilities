@@ -1,11 +1,13 @@
 /*------------------------------------------------------------------------------
 File:       MonoBehaviourTweenPlayer.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Implements the ITweenPlayer for MonoBehaviour coroutines.
+Overview:   Provides a MonoBehaviour-based tween player that manages a
+            collection of <see cref="ITween"/>s and controls their playback
+            using coroutines. Supports state-based and basic playback options.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-04 22:39:36 
+Last commit at: 2025-07-07 06:01:47 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -15,29 +17,18 @@ using UnityEngine;
 namespace AlchemicalFlux.Utilities.Tweens
 {
     /// <summary>
-    /// Implements the ITweenPlayer for MonoBehaviour coroutines.
+    /// Provides a MonoBehaviour-based tween player that manages a collection of
+    /// <see cref="ITween"/>s and controls their playback using coroutines.
+    /// Supports state-based and basic playback options.
     /// </summary>
-    public class MonoBehaviourTweenPlayer : MonoBehaviour,
-        IBasicPlaybackControls
+    public class MonoBehaviourTweenPlayer : MBStateBasedlaybackController
     {
         #region Fields
-
-        /// <summary>
-        /// Tracks the current amount of time the tween has run.
-        /// </summary>
-        private float _curTime;
 
         /// <summary>
         /// Reference to the reusable coroutine handler.
         /// </summary>
         private readonly SmartCoroutine _coroutine;
-
-        /// <summary>
-        /// Reference to the list of actions to occur on tween completion.
-        /// </summary>
-        private Action _onComplete;
-
-        private TweenPlayOptions _options = new TweenPlayOptions();
 
         #endregion Fields
 
@@ -50,6 +41,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Length of uninterrupted time the tween should cover.
         /// </summary>
         public float PlayTime { get; private set; }
+
+        /// <summary>
+        /// Tracks the current amount of time the tween has run.
+        /// </summary>
+        public float CurrentTime { get; private set; }
 
         /// <summary>
         /// Function taking a range [0-1] and interpolating it for tween easing.
@@ -66,6 +62,11 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Flag indicating if tweening items should be hidden on complete.
         /// </summary>
         public bool HideOnComplete { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the callback invoked when SnapToTime is called.
+        /// </summary>
+        public Action OnSnapToTime{ get; set; }
 
         #endregion Properties
 
@@ -86,16 +87,39 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #endregion Constructors
 
-        #region IPlaybackController Implementation
+        #region Exposed Methods
 
-        /// <inheritdoc />
-        public void Play(float playTime, Func<float, float> easingInterpreter,
-            Action onComplete = null, bool hideOnComplete = false)
+        /// <summary>
+        /// Starts playback with the specified options.
+        /// </summary>
+        /// <param name="playTime">
+        /// The total duration of the tween playback.
+        /// </param>
+        /// <param name="easingInterpreter">
+        /// The easing function to use for interpolation.
+        /// </param>
+        /// <param name="options">
+        /// The playback options and callbacks to use.
+        /// </param>
+        /// <param name="hideOnComplete">
+        /// Whether to hide tweened items on completion.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="playTime"/> is not greater than zero.
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="easingInterpreter"/> is null.
+        /// </exception>
+        public void Play(
+            float playTime,
+            Func<float, float> easingInterpreter,
+            TweenPlayOptions options = null,
+            bool hideOnComplete = false)
         {
-            if(playTime <= 0)
+            if(playTime <= 0 || float.IsNaN(playTime))
             {
                 throw new ArgumentOutOfRangeException(nameof(playTime),
-                    "Play time must be greater than zero.");
+                    $"Play time must be a positive value ({playTime}).");
             }
 
             if(easingInterpreter == null)
@@ -108,61 +132,21 @@ namespace AlchemicalFlux.Utilities.Tweens
             EasingInterpreter = easingInterpreter;
             HideOnComplete = hideOnComplete;
 
-            var playOptions = new TweenPlayOptions();
-            playOptions.OnComplete = onComplete;
+            _coroutine.OnComplete -= StateOptions?.OnComplete;
+            Options = options;
+            StateOptions = options;
+            _coroutine.OnComplete += StateOptions?.OnComplete;
 
             Play();
         }
 
-        /// <inheritdoc />
-        public void Play()
-        {
-            SnapToStart();
-
-            _coroutine.OnComplete -= _onComplete;
-            _onComplete = _options.OnComplete;
-            _coroutine.OnComplete += _onComplete;
-
-            foreach(var tween in Tweens) { tween.Show(true); }
-            Resume();
-        }
-
-        /// <inheritdoc />
-        public void Pause()
-        {
-            _coroutine.Stop();
-        }
-
-        /// <inheritdoc />
-        public bool Resume()
-        {
-            if(_curTime >= PlayTime) { return false; }
-            _coroutine.Start(Process());
-            return true;
-        }
-
-        /// <inheritdoc />
-        public void Restart()
-        {
-            SnapToStart();
-            Resume();
-        }
-
-        /// <inheritdoc />
-        public void SnapToStart()
-        {
-            Pause();
-            SnapToFrame(0);
-        }
-
-        /// <inheritdoc />
-        public void SnapToEnd()
-        {
-            Pause();
-            SnapToFrame(1);
-        }
-
-        /// <inheritdoc />
+        /// <summary>
+        /// Instantly moves the playback position to a specific time.
+        /// </summary>
+        /// <param name="time">The time value to snap to, in seconds.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Thrown if <paramref name="time"/> is outside the valid range.
+        /// </exception>
         public void SnapToTime(float time)
         {
             if(time < 0 || time > PlayTime)
@@ -171,13 +155,15 @@ namespace AlchemicalFlux.Utilities.Tweens
                     "Time must be within the range of the play time.");
             }
 
-            Pause();
-            SnapToFrame(time / PlayTime);
+            PauseCore();
+            CurrentTime = time / PlayTime;
+            foreach(var tween in Tweens) { tween.ApplyProgress(time); }
+            OnSnapToTime?.Invoke();
         }
 
-        #endregion ITweenPlayer Implementation
+        #endregion Exposed Methods
 
-        #region Helpers
+        #region Interface Methods
 
         /// <summary>
         /// Handles the application of the easing function to all tweens.
@@ -185,14 +171,14 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <returns>IEnumerator for coroutine processing.</returns>
         private IEnumerator Process()
         {
-            for(; _curTime < PlayTime; _curTime += TimeIncrement())
+            for(; CurrentTime < PlayTime; CurrentTime += TimeIncrement())
             {
                 var easedTime =
-                    EasingInterpreter(Mathf.Clamp01(_curTime / PlayTime));
+                    EasingInterpreter(Mathf.Clamp01(CurrentTime / PlayTime));
                 foreach(var tween in Tweens) { tween.ApplyProgress(easedTime); }
                 yield return null;
             }
-            SnapToFrame(1);
+            SnapToEndCore();
 
             if(HideOnComplete)
             {
@@ -211,17 +197,55 @@ namespace AlchemicalFlux.Utilities.Tweens
             return Time.deltaTime;
         }
 
-        /// <summary>
-        /// Snaps the tween to a specific frame.
-        /// </summary>
-        /// <param name="time">The time value to snap to.</param>
-        private void SnapToFrame(float time)
+        #endregion Interface Methods
+
+        #region Overrides
+
+        /// <inheritdoc />
+        protected override void PlayCore()
         {
-            _curTime = time * PlayTime;
-            foreach(var tween in Tweens) { tween.ApplyProgress(time); }
+            SnapToStartCore();
+            foreach(var tween in Tweens) { tween.Show(true); }
+            ResumeCore();
         }
 
-        #endregion Helpers
+        /// <inheritdoc />
+        protected override bool StopCore()
+        {
+            if(!_coroutine.IsRunning) { return false; }
+            _coroutine.Stop();
+            return true;
+        }
+
+        /// <inheritdoc />
+        protected override void SnapToStartCore()
+        {
+            SnapToTime(0);
+        }
+
+        /// <inheritdoc />
+        protected override void SnapToEndCore()
+        {
+            SnapToTime(PlayTime);
+        }
+
+        /// <inheritdoc />
+        protected override bool PauseCore()
+        {
+            if(!_coroutine.IsRunning) { return false; }
+            _coroutine.Stop();
+            return true;
+        }
+
+        /// <inheritdoc />
+        protected override bool ResumeCore()
+        {
+            if(_coroutine.IsRunning || CurrentTime >= PlayTime) { return false; }
+            _coroutine.Start(Process());
+            return true;
+        }
+
+        #endregion Overrides
 
         #endregion Methods
     }

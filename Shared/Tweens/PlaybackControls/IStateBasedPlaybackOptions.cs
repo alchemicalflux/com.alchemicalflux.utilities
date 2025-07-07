@@ -5,7 +5,7 @@ Overview:
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-04 22:39:36 
+Last commit at: 2025-07-07 06:01:47 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -18,14 +18,14 @@ namespace AlchemicalFlux.Utilities.Tweens
     public interface IStateBasedPlaybackOptions
     {
         /// <summary>
+        /// Gets the callback invoked when playback is paused.
+        /// </summary>
+        Action OnPause { get; }
+
+        /// <summary>
         /// Gets the callback invoked when playback is resumed.
         /// </summary>
         Action OnResume { get; }
-
-        /// <summary>
-        /// Gets the callback invoked when playback is stopped.
-        /// </summary>
-        Action OnStop { get; }
 
         /// <summary>
         /// Gets the callback invoked when playback completes naturally.
