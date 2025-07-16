@@ -1,12 +1,12 @@
 /*------------------------------------------------------------------------------
-File:       TweenPlayOptions.cs 
+File:       TweenPlaybackOptions.cs 
 Project:    AlchemicalFlux Utilities
 Overview:   Represents a set of playback options and callbacks for controlling a
             sequence.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-04 22:39:36 
+Last commit at: 2025-07-15 23:34:06 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -16,8 +16,7 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// Represents a set of playback options and callbacks for controlling a
     /// sequence.
     /// </summary>
-    public class TweenPlayOptions : IBasicPlaybackOptions, 
-        IStateBasedPlaybackOptions
+    public class TweenPlaybackOptions : ITweenPlaybackOptions
     {
         /// <inheritdoc />
         public Action OnPlay { get; set; }
@@ -39,6 +38,5 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         /// <inheritdoc />
         public Action OnComplete { get; set; }
-
     }
 }

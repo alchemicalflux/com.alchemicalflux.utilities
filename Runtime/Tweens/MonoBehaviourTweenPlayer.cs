@@ -7,7 +7,7 @@ Overview:   Provides a MonoBehaviour-based tween player that manages a
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-07 06:01:47 
+Last commit at: 2025-07-15 23:34:06 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -40,12 +40,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <summary>
         /// Length of uninterrupted time the tween should cover.
         /// </summary>
-        public float PlayTime { get; private set; }
+        public float PlayTime { get; private set; } = 1;
 
         /// <summary>
         /// Tracks the current amount of time the tween has run.
         /// </summary>
-        public float CurrentTime { get; private set; }
+        public float CurrentTime { get; private set; } = 0;
 
         /// <summary>
         /// Function taking a range [0-1] and interpolating it for tween easing.
@@ -113,7 +113,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         public void Play(
             float playTime,
             Func<float, float> easingInterpreter,
-            TweenPlayOptions options = null,
+            ITweenPlaybackOptions options = null,
             bool hideOnComplete = false)
         {
             if(playTime <= 0 || float.IsNaN(playTime))
@@ -149,6 +149,12 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// </exception>
         public void SnapToTime(float time)
         {
+            if(PlayTime <= 0 || float.IsNaN(PlayTime))
+            {
+                throw new ArgumentOutOfRangeException(nameof(PlayTime),
+                    $"Play time must be a positive value ({PlayTime}).");
+            }
+
             if(time < 0 || time > PlayTime)
             {
                 throw new ArgumentOutOfRangeException(nameof(time),
@@ -156,8 +162,11 @@ namespace AlchemicalFlux.Utilities.Tweens
             }
 
             PauseCore();
-            CurrentTime = time / PlayTime;
-            foreach(var tween in Tweens) { tween.ApplyProgress(time); }
+            CurrentTime = time;
+            foreach(var tween in Tweens) 
+            {
+                tween.ApplyProgress(time / PlayTime);
+            }
             OnSnapToTime?.Invoke();
         }
 
@@ -204,7 +213,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         protected override void PlayCore()
         {
-            SnapToStartCore();
+            StopCore();
             foreach(var tween in Tweens) { tween.Show(true); }
             ResumeCore();
         }
@@ -214,6 +223,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         {
             if(!_coroutine.IsRunning) { return false; }
             _coroutine.Stop();
+            CurrentTime = 0;
             return true;
         }
 
