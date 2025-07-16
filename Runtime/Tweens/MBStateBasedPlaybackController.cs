@@ -7,7 +7,7 @@ Overview:   Provides a base MonoBehaviour implementation for state-based
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-07 06:01:47 
+Last commit at: 2025-07-15 23:23:33 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -44,14 +44,14 @@ namespace AlchemicalFlux.Utilities.Tweens
         public bool Resume()
         {
             var result = ResumeCore();
-            StateOptions.OnResume?.Invoke();
+            StateOptions?.OnResume?.Invoke();
             return result;
         }
 
         /// <inheritdoc />
         public virtual bool OnComplete()
         {
-            StateOptions.OnComplete?.Invoke();
+            StateOptions?.OnComplete?.Invoke();
             return true;
         }
 

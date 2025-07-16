@@ -7,7 +7,7 @@ Overview:   Provides a base MonoBehaviour implementation for playback
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-07 06:01:47 
+Last commit at: 2025-07-15 23:23:33 
 ------------------------------------------------------------------------------*/
 using UnityEngine;
 
@@ -45,7 +45,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         public bool Stop()
         {
             var result = StopCore();
-            Options.OnStop?.Invoke();
+            Options?.OnStop?.Invoke();
             return result;
         }
 
