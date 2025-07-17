@@ -5,13 +5,14 @@ Overview:   Unit tests for MonoBehaviourTweenPlayer in Play Mode.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-08 00:34:36 
+Last commit at: 2025-07-16 22:55:50 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
 using UnityEngine;
 using UnityEngine.TestTools;
 using System.Collections;
+using AlchemicalFlux.Utilities.Helpers;
 
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
@@ -46,28 +47,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Play"/> with 
-        /// the hideOnComplete flag set to true hides all tweens after
-        /// completion.
-        /// </summary>
-        [UnityTest]
-        public IEnumerator Play_WithHideOnComplete_CallsShowFalseOnCompletion()
-        {
-            // Arrange
-            var mockTween = new Mock<ITween>();
-            _tweenPlayer.Tweens.Add(mockTween.Object);
-
-            // Act
-            _tweenPlayer.Play(0.1f, progress => progress, hideOnComplete: true);
-
-            // Wait for the tween to complete
-            yield return new WaitForSeconds(0.2f);
-
-            // Assert
-            mockTween.Verify(t => t.Show(false), Times.Once);
-        }
-
-        /// <summary>
         /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Pause"/>
         /// stops the coroutine and prevents further progress.
         /// </summary>
@@ -83,11 +62,18 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
             // Wait for a short duration and then pause
             yield return new WaitForSeconds(0.05f);
+            float timeAtPause = _tweenPlayer.CurrentTime;
             _tweenPlayer.Pause();
+            mockTween.Verify(t => t.ApplyProgress(It.IsAny<float>()), Times.AtLeastOnce());
+
             yield return new WaitForSeconds(0.1f);
 
             // Assert
-            mockTween.Verify(t => t.Show(false), Times.Never);
+            Assert.IsTrue(timeAtPause.Approximately(_tweenPlayer.CurrentTime),
+                "CurrentTime should not advance after pausing.");
+            // Optionally verify that no further ApplyProgress calls are made
+            // after pause
+            mockTween.VerifyNoOtherCalls();
         }
     }
 }

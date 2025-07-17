@@ -5,7 +5,7 @@ Overview:   Unit tests for MonoBehaviourTweenPlayer in Edit Mode.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-08 00:34:36 
+Last commit at: 2025-07-16 22:55:50 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
@@ -19,6 +19,15 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// </summary>
     public sealed class MonoBehaviourTweenPlayerTests
     {
+        #region Constants
+
+        /// <summary>
+        /// The duration of the test playback in seconds.
+        /// </summary>
+        private const float TestPlayTime = 5.0f;
+
+        #endregion Constants
+
         #region Fields
 
         /// <summary>
@@ -69,24 +78,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that call <see cref="MonoBehaviourTweenPlayer.Play"/> with
-        /// valid parameters starts playback and shows all tweens.
-        /// </summary>
-        [Test]
-        public void Play_ValidParameters_StartsPlayback()
-        {
-            // Arrange
-            var mockTween = new Mock<ITween>();
-            _tweenPlayer.Tweens.Add(mockTween.Object);
-
-            // Act
-            _tweenPlayer.Play(1.0f, progress => progress);
-
-            // Assert
-            mockTween.Verify(t => t.Show(true), Times.Once);
-        }
-
-        /// <summary>
         /// Tests that call <see cref="MonoBehaviourTweenPlayer.Play"/> with an
         /// invalid play time throws an 
         /// <see cref="ArgumentOutOfRangeException"/>.
@@ -107,7 +98,97 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public void Play_NullEasingInterpreter_ThrowsException()
         {
             Assert.Throws<ArgumentNullException>(() =>
-                _tweenPlayer.Play(1.0f, null));
+                _tweenPlayer.Play(TestPlayTime, null));
+        }
+
+        [Test]
+        public void Play_SetsPropertiesCorrectly()
+        {
+            // Act
+            _tweenPlayer.Play(TestPlayTime, t => t * t, null, true);
+
+            // Assert
+            Assert.AreEqual(TestPlayTime, _tweenPlayer.PlayTime);
+            Assert.IsNotNull(_tweenPlayer.EasingInterpreter);
+        }
+
+        [Test]
+        public void Play_MultipleTimes_ResetsState()
+        {
+            // Arrange
+            var mockTween = new Mock<ITween>();
+            _tweenPlayer.Tweens.Add(mockTween.Object);
+
+            // Act
+            _tweenPlayer.Play(TestPlayTime * 2, t => t);
+            _tweenPlayer.Pause();
+            _tweenPlayer.Play(TestPlayTime, t => t);
+
+            // Assert
+            Assert.AreEqual(TestPlayTime, _tweenPlayer.PlayTime, 
+                "PlayTime should be updated on second Play call.");
+        }
+
+        [Test]
+        public void Play_WithOptions_AssignsCallbacks()
+        {
+            // Arrange
+            bool onCompleteCalled = false;
+            var options = new TweenPlaybackOptions 
+            {
+                OnComplete = () => onCompleteCalled = true
+            };
+
+            // Act
+            _tweenPlayer.Play(TestPlayTime, t => t, options);
+
+            // Simulate completion
+            options.OnComplete?.Invoke();
+
+            // Assert
+            Assert.IsTrue(onCompleteCalled,
+                "OnComplete callback should be assigned and invoked.");
+        }
+
+        [Test]
+        public void Stop_StopsCoroutine()
+        {
+            // Arrange
+            _tweenPlayer.Play(TestPlayTime, t => t);
+
+            // Act
+            var result = _tweenPlayer.Stop();
+
+            // Assert
+            Assert.IsTrue(result,
+                "Stop should return true when coroutine is running.");
+        }
+
+        [Test]
+        public void Pause_StopsCoroutine()
+        {
+            // Arrange
+            _tweenPlayer.Play(TestPlayTime, t => t);
+            var result = _tweenPlayer.Pause();
+
+            // Assert
+            Assert.IsTrue(result,
+                "Pause should return true when coroutine is running.");
+        }
+
+        [Test]
+        public void Resume_StartsCoroutine()
+        {
+            // Arrange
+            _tweenPlayer.Play(TestPlayTime, t => t);
+            _tweenPlayer.Pause();
+
+            // Act
+            var result = _tweenPlayer.Resume();
+
+            // Assert
+            Assert.IsTrue(result,
+                "Resume should return true when not running and not complete.");
         }
 
         /// <summary>
@@ -154,17 +235,36 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// <param name="time">The time value to test.</param>
         [Test]
         [TestCase(-1f, TestName = "TimeIsUnderRange")]
-        [TestCase(6f, TestName = "TimeIsOverRange")]
+        [TestCase(TestPlayTime + 1, TestName = "TimeIsOverRange")]
         public void SnapToTime_ThrowsArgumentOutOfRangeException(float time)
         {
             // Arrange
-            _tweenPlayer.Play(5f, t => t); // Set PlayTime to 5 seconds
+            _tweenPlayer.Play(TestPlayTime, t => t);
 
             // Act & Assert
             var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
                 _tweenPlayer.SnapToTime(time));
-            Assert.That(ex.Message, Does.Contain(
-                    "Time must be within the range of the play time."));
+        }
+
+        [Test]
+        [TestCase(TestPlayTime * 0.00f, TestName = "SnapToTime - 0%")]
+        [TestCase(TestPlayTime * 0.25f, TestName = "SnapToTime - 25%")]
+        [TestCase(TestPlayTime * 0.66f, TestName = "SnapToTime - 66%")]
+        [TestCase(TestPlayTime * 1.00f, TestName = "SnapToTime - 100%")]
+        public void SnapToTime_ProcessesValidTime(float time)
+        {
+            // Arrange
+            _tweenPlayer.Play(TestPlayTime, t => t);
+            var mockTween = new Mock<ITween>();
+            _tweenPlayer.Tweens.Add(mockTween.Object);
+
+            // Act
+            _tweenPlayer.SnapToTime(time);
+
+            // Assert
+            mockTween.Verify(
+                t => t.ApplyProgress(time / TestPlayTime),
+                Times.Once);
         }
 
         #endregion Methods

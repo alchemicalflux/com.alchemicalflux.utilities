@@ -7,7 +7,7 @@ Overview:   Provides a MonoBehaviour-based tween player that manages a
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-15 23:34:06 
+Last commit at: 2025-07-16 22:55:50 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -57,11 +57,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Function determining length of time passed per coroutine cycle.
         /// </summary>
         public Func<float> TimeIncrement { get; private set; }
-
-        /// <summary>
-        /// Flag indicating if tweening items should be hidden on complete.
-        /// </summary>
-        public bool HideOnComplete { get; private set; }
 
         /// <summary>
         /// Gets or sets the callback invoked when SnapToTime is called.
@@ -130,7 +125,6 @@ namespace AlchemicalFlux.Utilities.Tweens
 
             PlayTime = playTime;
             EasingInterpreter = easingInterpreter;
-            HideOnComplete = hideOnComplete;
 
             _coroutine.OnComplete -= StateOptions?.OnComplete;
             Options = options;
@@ -158,7 +152,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             if(time < 0 || time > PlayTime)
             {
                 throw new ArgumentOutOfRangeException(nameof(time),
-                    "Time must be within the range of the play time.");
+                    $"Time ({time}) must be within the range of the " +
+                    $"play time ({PlayTime}).");
             }
 
             PauseCore();
@@ -188,11 +183,6 @@ namespace AlchemicalFlux.Utilities.Tweens
                 yield return null;
             }
             SnapToEndCore();
-
-            if(HideOnComplete)
-            {
-                foreach(var tween in Tweens) { tween.Show(false); }
-            }
         }
 
         /// <summary>
@@ -214,7 +204,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         protected override void PlayCore()
         {
             StopCore();
-            foreach(var tween in Tweens) { tween.Show(true); }
             ResumeCore();
         }
 
@@ -250,7 +239,10 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         protected override bool ResumeCore()
         {
-            if(_coroutine.IsRunning || CurrentTime >= PlayTime) { return false; }
+            if(_coroutine.IsRunning || CurrentTime >= PlayTime) 
+            { 
+                return false; 
+            }
             _coroutine.Start(Process());
             return true;
         }

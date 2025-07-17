@@ -8,7 +8,7 @@ Overview:   Provides a base class for unit tests of ITween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-16 19:18:32 
+Last commit at: 2025-07-16 22:55:50 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -40,26 +40,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// </summary>
         [SetUp]
         public abstract void Setup();
-
-        /// <summary>
-        /// Tests that calling Show on the ITween instance does not throw an
-        /// exception.
-        /// </summary>
-        [Test]
-        public virtual void Show_TrueCalled_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() => ITweenRef.Show(true));
-        }
-
-        /// <summary>
-        /// Tests that calling Show with false on the ITween instance does not 
-        /// throw an exception.
-        /// </summary>
-        [Test]
-        public virtual void Show_FalseCalled_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() => ITweenRef.Show(false));
-        }
 
         /// <summary>
         /// Tests that calling ApplyProgress with the minimum progress value on 

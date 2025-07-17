@@ -5,7 +5,7 @@ Overview:   Interface for handling the tweening of inheriting structure.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-21 08:02:05 
+Last commit at: 2025-07-16 22:55:50 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens
 {
@@ -32,15 +32,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         #endregion Properties
 
         #region Methods
-
-        /// <summary>
-        /// Toggle the display of the associated structure. May not always be 
-        /// needed.
-        /// </summary>
-        /// <param name="show">
-        /// Flag indicating if the structure should be displayed.
-        /// </param>
-        void Show(bool show);
 
         /// <summary>
         /// Expects the inheriting structure to tween its relevant data based on 
