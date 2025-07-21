@@ -1,109 +1,39 @@
 /*------------------------------------------------------------------------------
 File:       ITweenTests.cs 
 Project:    AlchemicalFlux Utilities
-Overview:   Provides a base class for unit tests of ITween implementations. 
-            This class includes common setup and basic tests to ensure that 
-            tween implementations can be tested for basic functionality such 
-            as showing the tween and applying progress.
+Overview:   Defines a contract for testing tween progress application logic.
+            Implementations should verify correct behavior for valid and invalid
+            progress values.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-16 22:55:50 
+Last commit at: 2025-07-20 22:54:35 
 ------------------------------------------------------------------------------*/
-using NUnit.Framework;
-using System;
-
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
     /// <summary>
-    /// Provides a base class for unit tests of ITween implementations.
-    /// This class includes common setup and basic tests to ensure that 
-    /// tween implementations can be tested for basic functionality such 
-    /// as showing the tween and applying progress.
+    /// Defines a contract for testing tween progress application logic.
+    /// Implementations should verify correct behavior for valid and invalid
+    /// progress values.
     /// </summary>
-    public abstract class IITweenTests
+    public interface ITweenTests
     {
-        #region Properties
+        /// <summary>
+        /// Applies a valid progress value to the tween and verifies that no
+        /// exception is thrown.
+        /// </summary>
+        /// <param name="progress">
+        /// A valid progress value, typically in the range [0, 1].
+        /// </param>
+        void ApplyProgress_ValidProgress_DoesNotThrowException(float progress);
 
         /// <summary>
-        /// Gets or sets the ITween instance being tested.
+        /// Applies an invalid progress value to the tween and verifies that an
+        /// <see cref="System.ArgumentOutOfRangeException"/> is thrown.
         /// </summary>
-        public ITween ITweenRef { get; set; }
-
-        #endregion Properties
-
-        #region Methods
-
-        /// <summary>
-        /// Sets up the test environment before each test. Requires the setting
-        /// of the ITweenRef property to the instance being tested.
-        /// </summary>
-        [SetUp]
-        public abstract void Setup();
-
-        /// <summary>
-        /// Tests that calling ApplyProgress with the minimum progress value on 
-        /// the ITween instance does not throw an exception.
-        /// </summary>
-        [Test]
-        public virtual void ApplyProgress_MinProgress_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() =>
-                ITweenRef.ApplyProgress(ITweenRef.MinProgress));
-        }
-
-        /// <summary>
-        /// Tests that calling ApplyProgress with the maximum progress value on 
-        /// the ITween instance does not throw an exception.
-        /// </summary>
-        [Test]
-        public virtual void ApplyProgress_MaxProgress_DoesNotThrow()
-        {
-            Assert.DoesNotThrow(() =>
-                ITweenRef.ApplyProgress(ITweenRef.MaxProgress));
-        }
-
-        /// <summary>
-        /// Tests that calling ApplyProgress with a middle progress value on 
-        /// the ITween instance does not throw an exception.
-        /// </summary>
-        [Test]
-        public virtual void ApplyProgress_MiddleValue_DoesNotThrow()
-        {
-            var middleValue = ITweenRef.MinProgress + 
-                (ITweenRef.MaxProgress - ITweenRef.MinProgress) / 2;
-            Assert.DoesNotThrow(() =>
-                ITweenRef.ApplyProgress(middleValue));
-        }
-
-        /// <summary>
-        /// Tests that calling ApplyProgress with a value less than the minimum 
-        /// progress value on the ITween instance throws an 
-        /// ArgumentOutOfRangeException.
-        /// </summary>
-        [Test]
-        public virtual void ApplyProgress_InvalidMinProgress_ThrowsArgumentOutOfRangeException()
-        {
-            Assert.Greater(ITweenRef.MinProgress, float.MinValue);
-            Assert.Greater(ITweenRef.MinProgress, float.NegativeInfinity);
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-                ITweenRef.ApplyProgress(ITweenRef.MinProgress - 0.1f));
-        }
-
-        /// <summary>
-        /// Tests that calling ApplyProgress with a value greater than the 
-        /// maximum progress value on the ITween instance throws an 
-        /// ArgumentOutOfRangeException.
-        /// </summary>
-        [Test]
-        public virtual void ApplyProgress_InvalidMaxProgress_ThrowsArgumentOutOfRangeException()
-        {
-            Assert.Less(ITweenRef.MaxProgress, float.MaxValue);
-            Assert.Less(ITweenRef.MaxProgress, float.PositiveInfinity);
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-                ITweenRef.ApplyProgress(ITweenRef.MaxProgress + 0.1f));
-        }
-
-        #endregion Methods
+        /// <param name="progress">
+        /// An invalid progress value, typically outside the range [0, 1].
+        /// </param>
+        void ApplyProgress_InvalidProgress_ThrowsArgumentOutOfRangeException(float progress);
     }
 }

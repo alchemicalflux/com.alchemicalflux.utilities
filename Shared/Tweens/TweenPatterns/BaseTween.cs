@@ -6,7 +6,7 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-21 08:02:05 
+Last commit at: 2025-07-20 22:54:35 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Events;
 using System;
@@ -43,7 +43,7 @@ namespace AlchemicalFlux.Utilities.Tweens
 
         #region Properties
 
-        #region ITween Implementation
+        #region Overrides
 
         /// <inheritdoc />
         public virtual float MinProgress => 0.0f;
@@ -51,11 +51,13 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// <inheritdoc />
         public virtual float MaxProgress => 1.0f;
 
-        #endregion ITween Implementation
-        
+        #endregion Overrides
+
         #endregion Properties
 
         #region Methods
+
+        #region Constructors
 
         /// <summary>
         /// Constructor for the BaseTween class.
@@ -79,27 +81,22 @@ namespace AlchemicalFlux.Utilities.Tweens
             _easing = easing ?? throw new ArgumentNullException(nameof(easing));
         }
 
-        #endregion Methods
+        #endregion Constructors
 
-        #region ITween Implementation
-
-        /// <inheritdoc />
-        public virtual void Show(bool show) { }
+        #region Overrides
 
         /// <inheritdoc />
         public virtual void ApplyProgress(float progress)
         {
-            if(progress < MinProgress || progress > MaxProgress)
+            if(progress < MinProgress ||
+                progress > MaxProgress ||
+                float.IsNaN(progress))
             {
                 throw new ArgumentOutOfRangeException(nameof(progress),
                 $"Progress must be between {MinProgress} and {MaxProgress}.");
             }
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
         }
-
-        #endregion ITween Implementation
-
-        #region IOnUpdateEvent Implementation
 
         /// <inheritdoc />
         public virtual void AddOnUpdateListener(Action<TType> action)
@@ -113,6 +110,8 @@ namespace AlchemicalFlux.Utilities.Tweens
             OnUpdate -= action;
         }
 
-        #endregion IOnUpdateEvent Implementation
+        #endregion Overrides
+
+        #endregion Methods
     }
 }

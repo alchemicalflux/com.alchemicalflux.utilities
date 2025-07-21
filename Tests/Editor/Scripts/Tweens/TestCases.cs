@@ -7,7 +7,7 @@ Overview:   Provides a static class containing constant names for test cases
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-20 06:05:04 
+Last commit at: 2025-07-20 22:54:35 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Tweens.Tests
 {
@@ -17,6 +17,28 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// </summary>
     public static class TestCases
     {
+        /// <summary>
+        /// Test case name for minimum progress value.
+        /// </summary>
+        public const string MinProgress = "MinProgress";
+
+        /// <summary>
+        /// Test case name for maximum progress value.
+        /// </summary>
+        public const string MaxProgress = "MaxProgress";
+
+        /// <summary>
+        /// Test case name for the next representable value less than the
+        /// minimum progress.
+        /// </summary>
+        public const string MinProgressNextDown = "MinProgressNextDown";
+
+        /// <summary>
+        /// Test case name for the next representable value greater than the
+        /// maximum progress.
+        /// </summary>
+        public const string MaxProgressNextUp = "MaxProgressNextUp";
+
         /// <summary>
         /// Test case name for progress value of 0.
         /// </summary>

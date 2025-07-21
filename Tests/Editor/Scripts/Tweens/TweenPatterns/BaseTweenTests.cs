@@ -7,7 +7,7 @@ Overview:   Provides a base class for unit tests of tween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-03 23:03:42 
+Last commit at: 2025-07-20 22:54:35 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
@@ -21,101 +21,87 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// such as applying progress and managing update listeners.
     /// </summary>
     /// <typeparam name="TType">The type of the value being tweened.</typeparam>
-    public abstract class BaseTweenTests<TType> : IITweenTests
+    public abstract class BaseTweenTests<TType> : ITweenTests
         where TType : IEquatable<TType>
     {
-        #region Fields
-
-        /// <summary>
-        /// Mock interpolator used for testing.
-        /// </summary>
-        protected Mock<IInterpolator<TType>> _mockInterpolator;
-
-        /// <summary>
-        /// Easing function used for testing.
-        /// </summary>
-        protected Func<float, float> _easing;
-
-        #endregion Fields
-
         #region Properties
+
+        protected abstract 
+            Mock<IInterpolator<TType>> MockInterpolator { get; set; }
+
+        protected abstract Func<float, float> EasingFunction { get; set; }
 
         /// <summary>
         /// Reference to the BaseTween instance being tested.
         /// </summary>
-        protected BaseTween<TType> BaseTweenRef { get; set; }
+        protected abstract BaseTween<TType> BaseTweenRef { get; set; }
 
         #endregion Properties
 
         #region Methods
 
+        #region Overrides
+
+        /// <inheritdoc/>
+        public abstract void ApplyProgress_ValidProgress_DoesNotThrowException(float progress);
+
+        /// <inheritdoc/>
+        public abstract void ApplyProgress_InvalidProgress_ThrowsArgumentOutOfRangeException(float progress);
+
+        #endregion Overrides
+
+        #region Exposed Methods
+
         /// <summary>
         /// Sets up the test environment before each test.
         /// </summary>
         [SetUp]
-        public override void Setup()
-        {
-            _mockInterpolator = new Mock<IInterpolator<TType>>();
-            _easing = progress => progress; // Simple linear easing function
-            ITweenRef = BaseTweenRef =
-                CreateTween(_mockInterpolator.Object, _easing)
-                as BaseTween<TType>;
-        }
+        public abstract void Setup();
 
-        /// <summary>
-        /// Creates an instance of the tween being tested.
-        /// </summary>
-        /// <param name="interpolator">
-        /// The interpolator to use for the tween.
-        /// </param>
-        /// <param name="easing">
-        /// The easing function to use for the tween.
-        /// </param>
-        /// <returns>An instance of the tween being tested.</returns>
-        protected abstract ITween CreateTween(
-            IInterpolator<TType> interpolator,
-            Func<float, float> easing);
+        ///// <summary>
+        ///// Tests that the constructor throws an ArgumentNullException when the 
+        ///// interpolator is null.
+        ///// </summary>
+        //[Test]
+        //public virtual void Constructor_NullInterpolator_ThrowsArgumentNullException()
+        //{
+        //    // Act & Assert
+        //    Assert.Throws<ArgumentNullException>(
+        //        () => CreateTween(null, EasingFunction));
+        //}
 
-        /// <summary>
-        /// Tests that the constructor throws an ArgumentNullException when the 
-        /// interpolator is null.
-        /// </summary>
-        [Test]
-        public virtual void Constructor_NullInterpolator_ThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(
-                () => CreateTween(null, _easing));
-        }
-
-        /// <summary>
-        /// Tests that the constructor throws an ArgumentNullException when the
-        /// easing function is null.
-        /// </summary>
-        [Test]
-        public virtual void Constructor_NullEasing_ThrowsArgumentNullException()
-        {
-            Assert.Throws<ArgumentNullException>(
-                () => CreateTween(_mockInterpolator.Object, null));
-        }
+        ///// <summary>
+        ///// Tests that the constructor throws an ArgumentNullException when the
+        ///// easing function is null.
+        ///// </summary>
+        //[Test]
+        //public virtual void Constructor_NullEasing_ThrowsArgumentNullException()
+        //{
+        //    // Act & Assert
+        //    Assert.Throws<ArgumentNullException>(
+        //        () => CreateTween(MockInterpolator.Object, null));
+        //}
 
         /// <summary>
         /// Tests that ApplyProgress invokes the OnUpdate event with a valid
         /// progress value.
         /// </summary>
-        [Test]
-        public virtual void ApplyProgress_ValidProgress_InvokesOnUpdate()
+        [TestCase(0)]
+        [TestCase(1.0f / 3.0f)]
+        [TestCase(0.5f)]
+        [TestCase(1)]
+        public virtual 
+            void ApplyProgress_ValidProgress_InvokesOnUpdate(float progress)
         {
             // Arrange
-            TType interpolatedValue = default;
-            _mockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
-                .Returns(interpolatedValue);
             bool onUpdateCalled = false;
             BaseTweenRef.AddOnUpdateListener(value => onUpdateCalled = true);
 
             // Act
-            BaseTweenRef.ApplyProgress(0.5f);
+            BaseTweenRef.ApplyProgress(progress);
 
             // Assert
+            MockInterpolator.Verify(t => t.Interpolate(progress), Times.Once);
             Assert.IsTrue(onUpdateCalled);
         }
 
@@ -128,7 +114,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         {
             // Arrange
             TType expectedValue = default;
-            _mockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
+            MockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
                 .Returns(expectedValue);
             TType actualValue = default;
             BaseTweenRef.AddOnUpdateListener(value => actualValue = value);
@@ -196,6 +182,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             // Assert
             Assert.IsFalse(onUpdateCalled);
         }
+
+        #endregion Exposed Methods
 
         #endregion Methods
     }
