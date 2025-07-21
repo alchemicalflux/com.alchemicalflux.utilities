@@ -5,7 +5,7 @@ Overview:   Abstract base class for unit tests of two-point color interpolators.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-24 04:08:04 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Helpers;
 using System;
@@ -19,7 +19,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     public abstract class TwoPointColorInterpolatorTests
         : TwoPointInterpolatorTests<Color>
     {
-        #region Fields
+        #region Constants
 
         /// <summary>
         /// A color representing NaN (Not a Number) for invalid test cases.
@@ -34,6 +34,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         protected static readonly Func<Color, Color, bool> IsApproximately =
             (expected, actual) => expected.IsApproximately(actual);
 
-        #endregion Fields
+        #endregion Constants
     }
 }

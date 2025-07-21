@@ -6,7 +6,7 @@ Overview:   Unit tests for the Vector2LerpImpl class, which performs linear
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-05 02:50:49 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -20,8 +20,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
     public sealed class Vector2LerpImplTests
         : TwoPointVector2InterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -64,8 +62,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             InterpolatorTests<Vector2> _interpolatorTests = new();
 
         #endregion Constants
-
-        #endregion Fields
 
         #region Properties
 

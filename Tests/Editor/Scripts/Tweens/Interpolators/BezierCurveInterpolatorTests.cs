@@ -6,7 +6,7 @@ Overview:   Abstract base class for unit tests of BezierCurveInterpolator.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-19 01:27:00 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -55,7 +55,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         #region Methods
 
-        #region IInterpolatorTests Implementation
+        #region Overrides
 
         /// <summary>
         /// Tests that the interpolator returns the expected value for valid
@@ -85,7 +85,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public abstract void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress);
 
-        #endregion IInterpolatorTests Implementation
+        #endregion Overrides
 
         /// <summary>
         /// Sets up the test environment before each test is executed.

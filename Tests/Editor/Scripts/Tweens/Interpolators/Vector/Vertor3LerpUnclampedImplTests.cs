@@ -6,7 +6,7 @@ Overview:   Unit tests for the Vector3LerpUnclampedImpl class, which performs
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-03 06:23:38 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -20,8 +20,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
     public sealed class Vector3LerpUnclampedImplTests
         : TwoPointVector3InterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -95,8 +93,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Vectors
             InterpolatorTests<Vector3> _interpolatorTests = new();
 
         #endregion Constants
-
-        #endregion Fields
 
         #region Properties
 

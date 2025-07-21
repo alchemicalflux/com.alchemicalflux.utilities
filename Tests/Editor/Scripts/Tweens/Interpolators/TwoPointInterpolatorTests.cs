@@ -9,7 +9,7 @@ Overview:   Provides an abstract base class for unit tests of the
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-20 06:05:04 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -33,13 +33,14 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// Gets the instance of the <see cref="TwoPointInterpolator{TType}"/>
         /// being tested.
         /// </summary>
-        protected abstract
-            TwoPointInterpolator<TType> TwoPointInterpolator
-        { get; set; }
+        protected abstract TwoPointInterpolator<TType> TwoPointInterpolator
+            { get; set; }
 
         #endregion Properties
 
-        #region IInterpolator
+        #region Methods
+
+        #region Overrides
 
         /// <inheritdoc />
         [Test]
@@ -51,9 +52,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public abstract void InterpolatorTests_Progress_ThrowsArgumentOutOfRangeException(
             float progress);
 
-        #endregion IInterpolator
+        #endregion Overrides
 
-        #region Methods
+        #region Exposed Methods
 
         /// <summary>
         /// Sets up the test environment before each test is executed.
@@ -111,6 +112,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         {
             return default;
         }
+
+        #endregion Exposed Methods
 
         #endregion Methods
     }

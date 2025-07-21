@@ -6,7 +6,7 @@ Overview:   Unit tests for the QuaternionLerpImpl class, which performs linear
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-06-01 20:14:04 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -73,8 +73,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Quaternions
 
         /// <inheritdoc />
         protected override
-            TwoPointInterpolator<Quaternion> TwoPointInterpolator
-        { get; set; }
+            TwoPointInterpolator<Quaternion> TwoPointInterpolator { get; set; }
 
         /// <summary>
         /// Gets the valid progress test cases for interpolation.
@@ -97,8 +96,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Quaternions
         /// </summary>
         static QuaternionLerpImplTests()
         {
-            var progressTests = InterpolatorTests<Quaternion>.CreateProgressTests(
-                _startQuaternion, _endQuaternion, _testRange, default);
+            var progressTests = InterpolatorTests<Quaternion>
+                .CreateProgressTests(
+                    _startQuaternion,
+                    _endQuaternion,
+                    _testRange,
+                    default);
+            
             _interpolatorTests.ValidProgressTests
                 .Overwrite(progressTests)
                 .Remove(_invalidOverrides.Keys);

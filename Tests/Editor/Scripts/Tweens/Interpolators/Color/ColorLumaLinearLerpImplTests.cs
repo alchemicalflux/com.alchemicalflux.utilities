@@ -10,7 +10,7 @@ Overview:   Provides unit tests for the ColorLumaLinearLerpImpl class, which
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-29 20:23:27 
+Last commit at: 2025-07-20 22:43:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -23,8 +23,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
     /// </summary>
     public class ColorLumaLinearLerpImplTests : TwoPointColorInterpolatorTests
     {
-        #region Fields
-
         #region Constants
 
         /// <summary>
@@ -51,6 +49,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests.Colors
         };
 
         #endregion Constants
+
+        #region Fields
 
         /// <summary>
         /// A helper for managing IInterpolator test cases.
