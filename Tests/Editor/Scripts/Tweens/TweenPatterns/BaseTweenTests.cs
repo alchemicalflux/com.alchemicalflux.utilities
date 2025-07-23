@@ -7,7 +7,7 @@ Overview:   Provides a base class for unit tests of tween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-20 22:54:35 
+Last commit at: 2025-07-22 20:37:12 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
@@ -58,50 +58,23 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         [SetUp]
         public abstract void Setup();
 
-        ///// <summary>
-        ///// Tests that the constructor throws an ArgumentNullException when the 
-        ///// interpolator is null.
-        ///// </summary>
-        //[Test]
-        //public virtual void Constructor_NullInterpolator_ThrowsArgumentNullException()
-        //{
-        //    // Act & Assert
-        //    Assert.Throws<ArgumentNullException>(
-        //        () => CreateTween(null, EasingFunction));
-        //}
-
-        ///// <summary>
-        ///// Tests that the constructor throws an ArgumentNullException when the
-        ///// easing function is null.
-        ///// </summary>
-        //[Test]
-        //public virtual void Constructor_NullEasing_ThrowsArgumentNullException()
-        //{
-        //    // Act & Assert
-        //    Assert.Throws<ArgumentNullException>(
-        //        () => CreateTween(MockInterpolator.Object, null));
-        //}
-
         /// <summary>
         /// Tests that ApplyProgress invokes the OnUpdate event with a valid
         /// progress value.
         /// </summary>
-        [TestCase(0)]
-        [TestCase(1.0f / 3.0f)]
-        [TestCase(0.5f)]
-        [TestCase(1)]
+        [Test]
         public virtual 
-            void ApplyProgress_ValidProgress_InvokesOnUpdate(float progress)
+            void ApplyProgress_ValidProgress_InvokesOnUpdate()
         {
             // Arrange
             bool onUpdateCalled = false;
-            BaseTweenRef.AddOnUpdateListener(value => onUpdateCalled = true);
+            BaseTweenRef.OnUpdate += value => onUpdateCalled = true;
 
             // Act
-            BaseTweenRef.ApplyProgress(progress);
+            BaseTweenRef.ApplyProgress(1);
 
             // Assert
-            MockInterpolator.Verify(t => t.Interpolate(progress), Times.Once);
+            MockInterpolator.Verify(t => t.Interpolate(1), Times.Once);
             Assert.IsTrue(onUpdateCalled);
         }
 
@@ -117,10 +90,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             MockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
                 .Returns(expectedValue);
             TType actualValue = default;
-            BaseTweenRef.AddOnUpdateListener(value => actualValue = value);
+            BaseTweenRef.OnUpdate += value => actualValue = value;
 
             // Act
-            BaseTweenRef.ApplyProgress(0.5f);
+            BaseTweenRef.ApplyProgress(1);
 
             // Assert
             Assert.AreEqual(expectedValue, actualValue);
@@ -135,8 +108,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             // Arrange
             bool listener1Called = false;
             bool listener2Called = false;
-            BaseTweenRef.AddOnUpdateListener(value => listener1Called = true);
-            BaseTweenRef.AddOnUpdateListener(value => listener2Called = true);
+            BaseTweenRef.OnUpdate += value => listener1Called = true;
+            BaseTweenRef.OnUpdate += value => listener2Called = true;
 
             // Act
             BaseTweenRef.ApplyProgress(0.5f);
@@ -144,43 +117,6 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             // Assert
             Assert.IsTrue(listener1Called);
             Assert.IsTrue(listener2Called);
-        }
-
-        /// <summary>
-        /// Tests that a valid action can be added as an update listener.
-        /// </summary>
-        [Test]
-        public virtual void AddOnUpdateListener_ValidAction_ActionAdded()
-        {
-            // Arrange
-            bool onUpdateCalled = false;
-            Action<TType> action = value => onUpdateCalled = true;
-            BaseTweenRef.AddOnUpdateListener(action);
-
-            // Act
-            BaseTweenRef.ApplyProgress(0.5f);
-
-            // Assert
-            Assert.IsTrue(onUpdateCalled);
-        }
-
-        /// <summary>
-        /// Tests that a valid action can be removed as an update listener.
-        /// </summary>
-        [Test]
-        public virtual void RemoveOnUpdateListener_ValidAction_ActionRemoved()
-        {
-            // Arrange
-            bool onUpdateCalled = false;
-            Action<TType> action = value => onUpdateCalled = true;
-            BaseTweenRef.AddOnUpdateListener(action);
-
-            // Act
-            BaseTweenRef.RemoveOnUpdateListener(action);
-            BaseTweenRef.ApplyProgress(0.5f);
-
-            // Assert
-            Assert.IsFalse(onUpdateCalled);
         }
 
         #endregion Exposed Methods

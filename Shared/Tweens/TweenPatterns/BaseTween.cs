@@ -6,9 +6,8 @@ Overview:   Implements a foundational component for performing tweens using
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-20 22:54:35 
+Last commit at: 2025-07-22 20:37:12 
 ------------------------------------------------------------------------------*/
-using AlchemicalFlux.Utilities.Events;
 using System;
 
 namespace AlchemicalFlux.Utilities.Tweens
@@ -18,10 +17,16 @@ namespace AlchemicalFlux.Utilities.Tweens
     /// interpolator and easing components to generate a transitional value.
     /// </summary>
     /// <typeparam name="TType">The type of the value being tweened.</typeparam>
-    public abstract class BaseTween<TType> : ITween, IOnUpdateEvent<TType>
+    public abstract class BaseTween<TType> : ITween
         where TType : IEquatable<TType>
     {
         #region Fields
+
+        /// <summary>
+        /// Handle allowing for updating of associated value.
+        /// Required as referencing gets wonky, especially with value types.
+        /// </summary>
+        public Action<TType> OnUpdate;
 
         /// <summary>
         /// Handle for interpolating portion of the tween.
@@ -32,12 +37,6 @@ namespace AlchemicalFlux.Utilities.Tweens
         /// Handle for the easing portion of the tween.
         /// </summary>
         protected Func<float, float> _easing;
-
-        /// <summary>
-        /// Handle allowing for updating of associated value.
-        /// Required as referencing gets wonky, especially with value types.
-        /// </summary>
-        protected Action<TType> OnUpdate;
 
         #endregion Fields
 
@@ -96,18 +95,6 @@ namespace AlchemicalFlux.Utilities.Tweens
                 $"Progress must be between {MinProgress} and {MaxProgress}.");
             }
             OnUpdate?.Invoke(_interpolator.Interpolate(_easing(progress)));
-        }
-
-        /// <inheritdoc />
-        public virtual void AddOnUpdateListener(Action<TType> action)
-        {
-            OnUpdate += action;
-        }
-
-        /// <inheritdoc />
-        public virtual void RemoveOnUpdateListener(Action<TType> action)
-        {
-            OnUpdate -= action;
         }
 
         #endregion Overrides

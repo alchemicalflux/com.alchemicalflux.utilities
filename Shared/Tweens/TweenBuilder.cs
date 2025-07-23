@@ -5,7 +5,7 @@ Overview:   Builder pattern wrapper for the BaseTween class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-05-13 19:47:30 
+Last commit at: 2025-07-22 20:37:12 
 ------------------------------------------------------------------------------*/
 using System;
 
@@ -155,7 +155,7 @@ namespace AlchemicalFlux.Utilities.Tweens
             var tween = new BasicTween<T>(_interpolator, _easingFunction);
             if(_updateAction != null)
             {
-                tween.AddOnUpdateListener(_updateAction);
+                tween.OnUpdate += _updateAction;
             }
             return tween;
         }
