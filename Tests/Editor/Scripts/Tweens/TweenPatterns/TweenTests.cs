@@ -6,7 +6,7 @@ Overview:   Provides utility methods and test cases for testing implementations
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-20 22:54:35 
+Last commit at: 2025-07-23 21:12:05 
 ------------------------------------------------------------------------------*/
 using AlchemicalFlux.Utilities.Math;
 using NUnit.Framework;
@@ -26,12 +26,12 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         /// <summary>
         /// The minimum progress value for tween tests.
         /// </summary>
-        private static readonly float _minimumProgress = 0;
+        private const float _minimumProgress = 0;
 
         /// <summary>
         /// The maximum progress value for tween tests.
         /// </summary>
-        private static readonly float _maximumProgress = 1;
+        private const float _maximumProgress = 1;
 
         #endregion Constants
 
@@ -138,12 +138,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 },
             };
 
-            if(safeTests == null) { return baseLineTests; }
-
-            foreach(var value in safeTests)
+            if(safeTests?.Count > 0)
             {
-                baseLineTests.Add($"Progress: {value}",
-                    new TestCaseData(value));
+                foreach(var value in safeTests)
+                {
+                    baseLineTests.Add($"Progress: {value:0.###}",
+                        new TestCaseData(value));
+                }
             }
 
             return baseLineTests;
@@ -191,12 +192,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 }
             };
 
-            if(failTests == null) { return baseLineTests; }
-
-            foreach(var value in failTests)
+            if(failTests?.Count > 0)
             {
-                baseLineTests.Add($"Progress: {value}",
-                    new TestCaseData(value));
+                foreach(var value in failTests)
+                {
+                    baseLineTests.Add($"Progress: {value:0.###}",
+                        new TestCaseData(value));
+                }
             }
 
             return baseLineTests;

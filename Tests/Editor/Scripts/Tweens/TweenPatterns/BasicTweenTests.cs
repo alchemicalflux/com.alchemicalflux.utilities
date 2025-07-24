@@ -8,7 +8,7 @@ Overview:   Defines the base test class for tween tests, providing common
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-20 22:54:35 
+Last commit at: 2025-07-23 21:12:05 
 ------------------------------------------------------------------------------*/
 using Moq;
 using NUnit.Framework;
@@ -20,7 +20,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     /// <summary>
     /// Unit tests for the BasicTween class.
     /// </summary>
-    public class BasicTweenTests : BaseTweenTests<int>
+    public class BasicTweenTests : BaseTweenTests<float>
     {
         #region Fields
 
@@ -37,13 +37,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         /// <inheritdoc />
         protected override
-            Mock<IInterpolator<int>> MockInterpolator { get; set; }
+            Mock<IInterpolator<float>> MockInterpolator { get; set; }
 
         /// <inheritdoc />
         protected override Func<float, float> EasingFunction { get; set; }
 
         /// <inheritdoc />
-        protected override BaseTween<int> BaseTweenRef { get; set; }
+        protected override BaseTween<float> BaseTweenRef { get; set; }
 
         #endregion Overrides
 
@@ -85,9 +85,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         [SetUp]
         public override void Setup()
         {
-            MockInterpolator = new Mock<IInterpolator<int>>();
+            MockInterpolator = new Mock<IInterpolator<float>>();
             EasingFunction = x => x; // Default to linear easing for tests
-            BaseTweenRef = new BasicTween<int>(
+            BaseTweenRef = new BasicTween<float>(
                 MockInterpolator.Object,
                 EasingFunction);
         }
@@ -108,7 +108,45 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             _tweenTests.ValidProgress(BaseTweenRef, progress);
         }
 
+        /// <inheritdoc/>
+        protected override float GetMinExpectedValue()
+        {
+            return BaseTweenRef.MinProgress;
+        }
+
+        /// <inheritdoc/>
+        protected override float GetMaxExpectedValue()
+        {
+            return BaseTweenRef.MaxProgress;
+        }
+
         #endregion Overrides
+
+        #region Exposed Methods
+
+        /// <summary>
+        /// Tests that constructing a <see cref="BasicTween{TType}"/> with a
+        /// null interpolator throws an <see cref="ArgumentNullException"/>.
+        /// </summary>
+        [Test]
+        public void Constructor_NullInterpolator_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new BasicTween<float>(null, EasingFunction));
+        }
+
+        /// <summary>
+        /// Tests that constructing a <see cref="BasicTween{TType}"/> with a
+        /// null easing function throws an <see cref="ArgumentNullException"/>.
+        /// </summary>
+        [Test]
+        public void Constructor_NullEasing_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() =>
+                new BasicTween<float>(MockInterpolator.Object, null));
+        }
+
+        #endregion Exposed Methods
 
         #endregion Methods
     }

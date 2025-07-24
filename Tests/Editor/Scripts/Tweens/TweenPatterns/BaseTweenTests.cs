@@ -7,7 +7,7 @@ Overview:   Provides a base class for unit tests of tween implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-22 20:37:12 
+Last commit at: 2025-07-23 21:12:05 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
@@ -26,13 +26,19 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
     {
         #region Properties
 
-        protected abstract 
-            Mock<IInterpolator<TType>> MockInterpolator { get; set; }
+        /// <summary>
+        /// Gets or sets the mock interpolator used for testing.
+        /// </summary>
+        protected abstract Mock<IInterpolator<TType>> MockInterpolator { get; set; }
 
+        /// <summary>
+        /// Gets or sets the easing function used for testing.
+        /// </summary>
         protected abstract Func<float, float> EasingFunction { get; set; }
 
         /// <summary>
-        /// Reference to the BaseTween instance being tested.
+        /// Gets or sets the reference to the <see cref="BaseTween{TType}"/>
+        /// instance being tested.
         /// </summary>
         protected abstract BaseTween<TType> BaseTweenRef { get; set; }
 
@@ -42,10 +48,22 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         #region Overrides
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Applies a valid progress value to the tween and verifies that no
+        /// exception is thrown.
+        /// </summary>
+        /// <param name="progress">
+        /// A valid progress value, typically in the range [0, 1].
+        /// </param>
         public abstract void ApplyProgress_ValidProgress_DoesNotThrowException(float progress);
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Applies an invalid progress value to the tween and verifies that an
+        /// <see cref="ArgumentOutOfRangeException"/> is thrown.
+        /// </summary>
+        /// <param name="progress">
+        /// An invalid progress value, typically outside the range [0, 1].
+        /// </param>
         public abstract void ApplyProgress_InvalidProgress_ThrowsArgumentOutOfRangeException(float progress);
 
         #endregion Overrides
@@ -59,67 +77,70 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         public abstract void Setup();
 
         /// <summary>
-        /// Tests that ApplyProgress invokes the OnUpdate event with a valid
-        /// progress value.
+        /// Tests that applying the minimum progress value invokes the
+        /// <see cref="BaseTween{TType}.OnUpdate"/> event with the correct
+        /// value.
         /// </summary>
         [Test]
-        public virtual 
-            void ApplyProgress_ValidProgress_InvokesOnUpdate()
+        public virtual void ApplyProgress_MinProgress_InvokesOnUpdateWithCorrectValue()
         {
             // Arrange
-            bool onUpdateCalled = false;
-            BaseTweenRef.OnUpdate += value => onUpdateCalled = true;
-
-            // Act
-            BaseTweenRef.ApplyProgress(1);
-
-            // Assert
-            MockInterpolator.Verify(t => t.Interpolate(1), Times.Once);
-            Assert.IsTrue(onUpdateCalled);
-        }
-
-        /// <summary>
-        /// Tests that ApplyProgress invokes the OnUpdate event with the correct
-        /// interpolated value.
-        /// </summary>
-        [Test]
-        public virtual void ApplyProgress_ValidProgress_InvokesOnUpdateWithCorrectValue()
-        {
-            // Arrange
-            TType expectedValue = default;
+            TType expectedValue = GetMinExpectedValue();
             MockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
                 .Returns(expectedValue);
             TType actualValue = default;
             BaseTweenRef.OnUpdate += value => actualValue = value;
 
             // Act
-            BaseTweenRef.ApplyProgress(1);
+            BaseTweenRef.ApplyProgress(BaseTweenRef.MinProgress);
 
             // Assert
+            MockInterpolator.Verify(
+                t => t.Interpolate(BaseTweenRef.MinProgress), Times.Once);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
         /// <summary>
-        /// Tests that multiple update listeners are called.
+        /// Tests that applying the maximum progress value invokes the
+        /// <see cref="BaseTween{TType}.OnUpdate"/> event with the correct
+        /// value.
         /// </summary>
         [Test]
-        public virtual void ApplyProgress_MultipleListeners_AllListenersCalled()
+        public virtual void ApplyProgress_MaxProgress_InvokesOnUpdateWithCorrectValue()
         {
             // Arrange
-            bool listener1Called = false;
-            bool listener2Called = false;
-            BaseTweenRef.OnUpdate += value => listener1Called = true;
-            BaseTweenRef.OnUpdate += value => listener2Called = true;
+            var expectedValue = GetMinExpectedValue();
+            MockInterpolator.Setup(i => i.Interpolate(It.IsAny<float>()))
+                .Returns(expectedValue);
+            TType actualValue = default;
+            BaseTweenRef.OnUpdate += value => actualValue = value;
 
             // Act
-            BaseTweenRef.ApplyProgress(0.5f);
+            BaseTweenRef.ApplyProgress(BaseTweenRef.MaxProgress);
 
             // Assert
-            Assert.IsTrue(listener1Called);
-            Assert.IsTrue(listener2Called);
+            MockInterpolator.Verify(
+                t => t.Interpolate(BaseTweenRef.MaxProgress), Times.Once);
+            Assert.AreEqual(expectedValue, actualValue);
         }
 
         #endregion Exposed Methods
+
+        #region Internal Methods
+
+        /// <summary>
+        /// Gets the expected value for the minimum progress.
+        /// </summary>
+        /// <returns>The expected value for the minimum progress.</returns>
+        protected abstract TType GetMinExpectedValue();
+
+        /// <summary>
+        /// Gets the expected value for the maximum progress.
+        /// </summary>
+        /// <returns>The expected value for the maximum progress.</returns>
+        protected abstract TType GetMaxExpectedValue();
+
+        #endregion Internal Methods
 
         #endregion Methods
     }

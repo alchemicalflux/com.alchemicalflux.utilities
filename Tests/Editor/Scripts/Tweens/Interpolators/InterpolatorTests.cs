@@ -8,7 +8,7 @@ Overview:   Provides a utility class for testing interpolator implementations.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-29 19:55:02 
+Last commit at: 2025-07-23 21:12:05 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;
@@ -168,12 +168,13 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 }
             };
 
-            if(safeTests == null) { return baseLineTests; }
-
-            foreach(var pair in safeTests)
+            if(safeTests?.Count > 0)
             {
-                baseLineTests.Add($"Progress: {pair.Key}", new TestCaseData(
-                    pair.Key, pair.Value));
+                foreach(var pair in safeTests)
+                {
+                    baseLineTests.Add($"Progress: {pair.Key:0.###}",
+                        new TestCaseData(pair.Key, pair.Value));
+                }
             }
 
             return baseLineTests;
