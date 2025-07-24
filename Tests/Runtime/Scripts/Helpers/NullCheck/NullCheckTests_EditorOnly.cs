@@ -5,7 +5,7 @@ Overview:   Unit tests for the NullCheck attribute.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 #if UNITY_EDITOR
 
@@ -26,7 +26,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _emptyScriptPrefabTestName = 
             "EmptyScript_ReturnsNoErrors";
         private const string _valueFieldsPrefabTestName = 
-            "ValueFields_ReturnsTwelveErrors";
+            "ValueFields_ReturnsSixteenErrors";
         private const string _nullCheckPrefabTestName = 
             "NullCheck_ReturnsOneError";
         private const string _prefabNullCheckPrefabTestName = 
@@ -36,7 +36,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _linkedPrefabNullCheckPrefabTestName = 
             "LinkedPrefabNullCheck_ReturnsNoErrors";
         private const string _multiNullCheckPrefabTestName = 
-            "MultiNullCheck_ReturnsFourErrors";
+            "MultiNullCheck_ReturnsSixErrors";
         private const string _linkedMultiNullCheckPrefabTestName = 
             "LinkedMultiNullCheck_ReturnsNoErrors";
         private const string _childNullCheckPrefabTestName = 
@@ -62,7 +62,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             },
             {
                 _valueFieldsPrefabTestName,
-                new(NullCheckTestType.ValueFields, 12)
+                new(NullCheckTestType.ValueFields, 16)
             },
             {
                 _nullCheckPrefabTestName,
@@ -82,7 +82,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             },
             {
                 _multiNullCheckPrefabTestName,
-                new(NullCheckTestType.MultiNullCheck, 4)
+                new(NullCheckTestType.MultiNullCheck, 6)
             },
             {
                 _linkedMultiNullCheckPrefabTestName,

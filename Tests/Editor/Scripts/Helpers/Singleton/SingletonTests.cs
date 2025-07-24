@@ -5,7 +5,7 @@ Overview:   Test cases for the generic abstract Singleton class.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-04-24 19:25:07 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 
