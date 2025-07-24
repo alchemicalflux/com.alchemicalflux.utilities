@@ -5,7 +5,7 @@ Overview:   Unit tests for the NullCheck attribute.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-05 17:05:53 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System.Collections.Generic;
@@ -25,7 +25,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _emptyScriptTestName = 
             "EmptyScript_ReturnsNoErrors";
         private const string _valueFieldsTestName = 
-            "ValueFields_ReturnsTwelveErrors";
+            "ValueFields_ReturnsSixteenErrors";
         private const string _nullCheckTestName = 
             "NullCheck_ReturnsOneError";
         private const string _prefabNullCheckTestName = 
@@ -35,7 +35,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         private const string _linkedPrefabNullCheckTestName =
             "LinkedPrefabNullCheck_ReturnsNoErrors";
         private const string _multiNullCheckTestName = 
-            "MultiNullCheck_ReturnsEightErrors";
+            "MultiNullCheck_ReturnsTwelveErrors";
         private const string _linkedMultiNullCheckTestName =
             "LinkedMultiNullCheck_ReturnsNoErrors";
         private const string _childNullCheckTestName = 
@@ -60,7 +60,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             },
             {
                 _valueFieldsTestName,
-                new(NullCheckTestType.ValueFields, 12)
+                new(NullCheckTestType.ValueFields, 16)
             },
             {
                 _nullCheckTestName,
@@ -80,7 +80,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
             },
             {
                 _multiNullCheckTestName,
-                new(NullCheckTestType.MultiNullCheck, 8)
+                new(NullCheckTestType.MultiNullCheck, 12)
             },
             {
                 _linkedMultiNullCheckTestName,
@@ -127,7 +127,7 @@ namespace AlchemicalFlux.Utilities.Helpers.Tests
         public void InstantiateGameObject(NullCheckTestType type, 
             int expectedResult)
         {
-            // Assemble
+            // Arrange
             var copy = Object.Instantiate(_testObjects.Get(type));
 
             // Act
