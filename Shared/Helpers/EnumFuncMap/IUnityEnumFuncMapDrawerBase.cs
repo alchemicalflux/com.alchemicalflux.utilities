@@ -6,7 +6,7 @@ Overview:   Interface needed for custom property drawers to work on the generic
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-19 21:35:50 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 namespace AlchemicalFlux.Utilities.Helpers
 {

@@ -5,7 +5,7 @@ Overview:   Implements the EnumFuncMap with inspector level manipulation.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-28 12:53:12 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;

@@ -5,7 +5,7 @@ Overview:   Utility functions to help with the Reflection process.
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-22 21:32:59 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;

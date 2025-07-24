@@ -5,7 +5,7 @@ Overview:   Unit tests shared by implementors of EnumFuncMap.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-22 15:04:31 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;

@@ -6,7 +6,7 @@ Overview:   Defines a class representing a field assignment within a
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 22:13:48 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Reflection;

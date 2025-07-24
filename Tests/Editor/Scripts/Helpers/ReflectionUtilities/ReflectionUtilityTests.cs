@@ -5,7 +5,7 @@ Overview:   Test cases for the ReflectionUtility class.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-23 21:02:40 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using System;

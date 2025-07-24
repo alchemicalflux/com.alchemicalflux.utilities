@@ -6,7 +6,7 @@ Overview:   Custom drawer for classes that inherit the UnityEnumFuncMapBase
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-03-22 15:52:42 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using UnityEditor;
 using UnityEngine;

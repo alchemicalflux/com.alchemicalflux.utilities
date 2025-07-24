@@ -6,7 +6,7 @@ Overview:   Provides methods to find fields with a specified attribute within
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-01-20 22:13:48 
+Last commit at: 2025-07-23 21:43:22 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
