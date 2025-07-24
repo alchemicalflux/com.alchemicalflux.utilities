@@ -5,7 +5,7 @@ Overview:   Unit tests for MonoBehaviourTweenPlayer in Play Mode.
 Copyright:  2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-22 20:37:12 
+Last commit at: 2025-07-23 21:10:14 
 ------------------------------------------------------------------------------*/
 using NUnit.Framework;
 using Moq;
@@ -70,18 +70,27 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
 
         /// <summary>
         /// Tests that the <see cref="MonoBehaviourTweenPlayer.Tweens"/> 
+        /// property is initialized.
+        /// </summary>
+        [Test]
+        public void Tweens_InitializedNotNull()
+        {
+            Assert.IsNotNull(_tweenPlayer.Tweens);
+        }
+
+        /// <summary>
+        /// Tests that the <see cref="MonoBehaviourTweenPlayer.Tweens"/> 
         /// property is initialized as an empty <see cref="HashSet{T}"/>.
         /// </summary>
         [Test]
         public void Tweens_InitializedAsEmptyHashSet()
         {
-            Assert.IsNotNull(_tweenPlayer.Tweens);
             Assert.IsEmpty(_tweenPlayer.Tweens);
         }
 
         /// <summary>
-        /// Tests that call <see cref="MonoBehaviourTweenPlayer.Play"/> with an
-        /// invalid play time throws an 
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Play"/> with
+        /// an invalid play time throws an
         /// <see cref="ArgumentOutOfRangeException"/>.
         /// </summary>
         [Test]
@@ -92,8 +101,8 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that call <see cref="MonoBehaviourTweenPlayer.Play"/> with a
-        /// null easing interpreter throws an 
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Play"/> with
+        /// a null easing interpreter throws an
         /// <see cref="ArgumentNullException"/>.
         /// </summary>
         [Test]
@@ -103,17 +112,27 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 _tweenPlayer.Play(TestPlayTime, null));
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Play"/> sets
+        /// the <see cref="MonoBehaviourTweenPlayer.PlayTime"/> and
+        /// <see cref="MonoBehaviourTweenPlayer.EasingInterpreter"/> properties
+        /// correctly.
+        /// </summary>
         [Test]
         public void Play_SetsPropertiesCorrectly()
         {
             // Act
-            _tweenPlayer.Play(TestPlayTime, t => t * t, null, true);
+            _tweenPlayer.Play(TestPlayTime, t => t * t, null);
 
             // Assert
             Assert.AreEqual(TestPlayTime, _tweenPlayer.PlayTime);
             Assert.IsNotNull(_tweenPlayer.EasingInterpreter);
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Play"/>
+        /// multiple times resets the state and updates the play time.
+        /// </summary>
         [Test]
         public void Play_MultipleTimes_ResetsState()
         {
@@ -127,29 +146,38 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
             _tweenPlayer.Play(TestPlayTime, t => t);
 
             // Assert
-            Assert.AreEqual(TestPlayTime, _tweenPlayer.PlayTime, 
+            Assert.AreEqual(TestPlayTime, _tweenPlayer.PlayTime,
                 "PlayTime should be updated on second Play call.");
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Play"/> with
+        /// playback options assigns and invokes the OnComplete callback.
+        /// </summary>
+        /// <returns>An enumerator for UnityTest.</returns>
         [UnityTest]
         public IEnumerator Play_WithOptions_AssignsCallbacks()
         {
             // Arrange
             bool onCompleteCalled = false;
-            var options = new TweenPlaybackOptions 
+            var options = new TweenPlaybackOptions
             {
                 OnComplete = () => onCompleteCalled = true
             };
 
             // Act
             _tweenPlayer.Play(TestPlayTime, t => t, options);
-            yield return new WaitForSeconds(TestPlayTime + 0.1f);
+            yield return new WaitForSeconds(TestPlayTime + 0.001f);
 
             // Assert
             Assert.IsTrue(onCompleteCalled,
                 "OnComplete callback should be assigned and invoked.");
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Stop"/> stops
+        /// the coroutine and returns true.
+        /// </summary>
         [Test]
         public void Stop_StopsCoroutine()
         {
@@ -162,6 +190,10 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 "Stop should return true when coroutine is running.");
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Pause"/>
+        /// stops the coroutine and returns true.
+        /// </summary>
         [Test]
         public void Pause_StopsCoroutine()
         {
@@ -174,6 +206,11 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 "Pause should return true when coroutine is running.");
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.Resume"/>
+        /// starts the coroutine and returns true when not running and not
+        /// complete.
+        /// </summary>
         [Test]
         public void Resume_StartsCoroutine()
         {
@@ -190,8 +227,9 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that call <see cref="MonoBehaviourTweenPlayer.SnapToStart"/> 
-        /// sets the progress of all tweens to zero.
+        /// Tests that calling
+        /// <see cref="MonoBehaviourTweenPlayer.SnapToStart"/> sets the progress
+        /// of all tweens to zero.
         /// </summary>
         [Test]
         public void SnapToStart_SetsProgressToZero()
@@ -208,7 +246,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that call <see cref="MonoBehaviourTweenPlayer.SnapToEnd"/>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.SnapToEnd"/>
         /// sets the progress of all tweens to one.
         /// </summary>
         [Test]
@@ -226,7 +264,7 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
         }
 
         /// <summary>
-        /// Tests that call <see cref="MonoBehaviourTweenPlayer.SnapToTime"/>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.SnapToTime"/>
         /// with a time value outside the valid range throws an
         /// <see cref="ArgumentOutOfRangeException"/>.
         /// </summary>
@@ -244,6 +282,12 @@ namespace AlchemicalFlux.Utilities.Tweens.Tests
                 _tweenPlayer.SnapToTime(time));
         }
 
+        /// <summary>
+        /// Tests that calling <see cref="MonoBehaviourTweenPlayer.SnapToTime"/>
+        /// with a valid time value processes the correct progress for all
+        /// tweens.
+        /// </summary>
+        /// <param name="time">The time value to test.</param>
         [Test]
         [TestCase(TestPlayTime * 0.00f, TestName = "SnapToTime - 0%")]
         [TestCase(TestPlayTime * 0.25f, TestName = "SnapToTime - 25%")]

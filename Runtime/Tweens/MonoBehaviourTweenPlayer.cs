@@ -7,7 +7,7 @@ Overview:   Provides a MonoBehaviour-based tween player that manages a
 Copyright:  2024-2025 AlchemicalFlux. All rights reserved.
 
 Last commit by: alchemicalflux 
-Last commit at: 2025-07-16 22:55:50 
+Last commit at: 2025-07-23 21:10:14 
 ------------------------------------------------------------------------------*/
 using System;
 using System.Collections;
@@ -108,8 +108,7 @@ namespace AlchemicalFlux.Utilities.Tweens
         public void Play(
             float playTime,
             Func<float, float> easingInterpreter,
-            ITweenPlaybackOptions options = null,
-            bool hideOnComplete = false)
+            ITweenPlaybackOptions options = null)
         {
             if(playTime <= 0 || float.IsNaN(playTime))
             {
@@ -156,7 +155,6 @@ namespace AlchemicalFlux.Utilities.Tweens
                     $"play time ({PlayTime}).");
             }
 
-            PauseCore();
             CurrentTime = time;
             foreach(var tween in Tweens) 
             {
